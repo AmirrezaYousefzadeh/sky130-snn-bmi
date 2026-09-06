@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Copy the raw reports behind every number into results/raw/ (small text files only).
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"; OUT="$ROOT/results/raw"; rm -rf "$OUT"; mkdir -p "$OUT"
+for D in bmi_snn_top bmi_snn_scmem bmi_snn_hw bmi_snn_min bmi_snn_min32 bmi_snn_min16; do
+  R="$ROOT/synthesis/$D/runs/$D"; [ -d "$R" ] || continue
+  mkdir -p "$OUT/$D/pnr" && cp "$R/synthesis_results.txt" "$R/final/metrics.json" "$OUT/$D/pnr/" 2>/dev/null || true
+  for c in nom_tt_025C_1v80 max_ss_100C_1v60; do mkdir -p "$OUT/$D/pnr/$c"; cp "$R"/50-openroad-stapostpnr/$c/{max.rpt,min.rpt} "$OUT/$D/pnr/$c/" 2>/dev/null || true; done
+done
+for t in gls_md0_full gls_md1_full gls_idle2_full gls_md0 gls_md1 $(cd "$ROOT/sim" && ls -d build_bmi_snn_* 2>/dev/null | sed 's/^build_//'); do
+  [ -d "$ROOT/sim/build_$t" ] || continue
+  mkdir -p "$OUT/runs/$t" && cp "$ROOT/sim/build_$t"/{vvp.log,stats.txt} "$OUT/runs/$t/" 2>/dev/null || true
+  [ -d "$ROOT/power/out_vcd_$t" ] && cp "$ROOT/power/out_vcd_$t"/*.rpt "$OUT/runs/$t/" 2>/dev/null || true
+  [ -d "$ROOT/power/out_$t" ] && cp "$ROOT/power/out_$t"/*.{txt,rpt,json} "$OUT/runs/$t/" 2>/dev/null || true
+done
+mkdir -p "$OUT/riscv" && cp "$ROOT/sim/build_riscv_gls/vvp.log" "$OUT/riscv/" 2>/dev/null || true
+cp "$ROOT/power/out_riscv"/*.{txt,rpt,json} "$OUT/riscv/" 2>/dev/null || true; cp "$ROOT/results/riscv_cycles.json" "$OUT/riscv/" 2>/dev/null || true
+mkdir -p "$OUT/models" && for d in "$ROOT"/results/models/*_drop; do b=$(basename "$d"); mkdir -p "$OUT/models/$b"; cp "$d"/{train.json,eval_int.json} "$OUT/models/$b/" 2>/dev/null || true; done
+cp "$ROOT/results/results.json" "$ROOT/results/designs.json" "$ROOT/results/DESIGNS.md" "$OUT/" 2>/dev/null || true
+du -sh "$OUT"; find "$OUT" -type f | wc -l

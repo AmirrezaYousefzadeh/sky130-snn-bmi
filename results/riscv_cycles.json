@@ -1,0 +1,38 @@
+{
+ "vcd": "sim/build_riscv_gls/riscv_gls.vcd",
+ "n_bins": 16,
+ "total_cycles": 165328,
+ "awake_cycles": 145318,
+ "decode_cycles": 144488,
+ "cycles_per_bin": 9030.5,
+ "wakes_at_cycles": [
+  64,
+  10782,
+  165273
+ ],
+ "gpio_done_at": [
+  155270
+ ],
+ "awake_segments": [
+  [
+   0,
+   64,
+   64
+  ],
+  [
+   67,
+   782,
+   715
+  ],
+  [
+   10785,
+   155273,
+   144488
+  ],
+  [
+   165276,
+   165327,
+   51
+  ]
+ ]
+}

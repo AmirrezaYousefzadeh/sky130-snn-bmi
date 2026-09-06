@@ -1,0 +1,29 @@
+# OpenLane 2 config for bmi_snn_scmem: parallel core with weights in a standard-cell register file.
+DESIGN_NAME: bmi_snn_scmem
+VERILOG_FILES:
+  - dir::../../rtl/gen/bmi_snn_scmem.v
+VERILOG_INCLUDE_DIRS:
+  - dir::../../rtl
+CLOCK_PORT: clk
+CLOCK_PERIOD: 20
+IO_DELAY_CONSTRAINT: 30
+PNR_SDC_FILE: dir::bmi_snn_scmem.sdc
+SIGNOFF_SDC_FILE: dir::bmi_snn_scmem.sdc
+STD_CELL_LIBRARY: sky130_fd_sc_hd
+FP_SIZING: relative
+FP_CORE_UTIL: 40
+PL_TARGET_DENSITY_PCT: 50
+GRT_ALLOW_CONGESTION: true
+ERROR_ON_SYNTH_CHECKS: false
+RUN_LINTER: false
+PRIMARY_GDSII_STREAMOUT_TOOL: klayout
+RUN_MAGIC_STREAMOUT: false
+RUN_MAGIC_WRITE_LEF: false
+RUN_MAGIC_DRC: false
+RUN_KLAYOUT_XOR: false
+RUN_LVS: false
+RUN_IRDROP_REPORT: false
+RUN_ANTENNA_REPAIR: false
+RUN_HEURISTIC_DIODE_INSERTION: true
+PL_RESIZER_HOLD_SLACK_MARGIN: 0.5
+GRT_RESIZER_HOLD_SLACK_MARGIN: 0.5

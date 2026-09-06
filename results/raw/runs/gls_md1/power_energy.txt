@@ -1,0 +1,29 @@
+Activity-based power / energy summary
+vcd                 : /home/yousefzadeha/workspace/BCI_paper/sim/build_gls_md1/gls_md1.vcd
+cycles              : 341018
+vcd_sim_clock       : 100 MHz (10 ns TB period)
+design_clock        : 50 MHz (20 ns)
+activity_median     : 0.001323 / cycle  (data path; clock uses create_clock)
+  ev_valid          : act=0.003701  duty=0.007401
+  mode_dense        : act=0.000000  duty=1.000000
+  reset             : act=0.000000  duty=0.000059
+  tick              : act=0.000586  duty=0.001173
+  out_valid         : act=0.000586  duty=0.000586
+  sram_clk_en       : act=0.004290  duty=0.958731
+
+power_total         : 7.677675 mW  (7.677675e-03 W)  [blended: duty*P_awake+(1-duty)*P_sleep]
+core_clk_en_duty    : 0.958731
+power_awake         : 8.006575 mW  (core ICG GATE=1)
+power_sleep         : 0.036946 mW  (core ICG GATE=0)
+  sequential        : 2.947505 mW  (38.4%)
+  combinational     : 0.269072 mW  (3.5%)
+  clock             : 3.777604 mW  (49.2%)
+  macro             : 0.683553 mW  (8.9%)
+  pad               : 0.000000 mW  (0.0%)
+runtime_one_infer   : 6.820360 ms
+energy_one_infer    : 52.364509 µJ  (5.236451e-05 J)
+
+Note: energy ≈ P_avg × (cycles × design_period).
+Clock tree: OpenSTA Clock group from create_clock + set_propagated_clock + SPEF (not VCD median).
+Sleep: core ICG GATE case-analyzed; average is duty-weighted blend of awake/sleep reports (set_power_activity on GATE is ignored).
+Liberty / period should match the hardened run (TT 1.8 V).

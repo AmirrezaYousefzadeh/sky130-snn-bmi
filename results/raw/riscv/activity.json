@@ -1,0 +1,196 @@
+{
+  "vcd": "/home/yousefzadeha/workspace/BCI_paper/sim/build_riscv_gls/riscv_gls.vcd",
+  "scope": "tb_fw_mnist.u_soc",
+  "timescale_note": "VCD timestamps; TB used 10 ns period (100 MHz)",
+  "sim_period_ns": 10.0,
+  "end_time": 3306550,
+  "clock_rises": 165328,
+  "cycles": 165328,
+  "n_signals": 17709,
+  "global_activity_mean": 0.07082076370063752,
+  "global_activity_median": 0.03268048969321591,
+  "interesting": {
+    "reset": {
+      "activity": 0.0,
+      "duty": 0.0003871104323237211,
+      "rises": 0
+    },
+    "sram_clk_en": {
+      "activity": 2.419432884931772e-05,
+      "duty": 0.8789708306240643,
+      "rises": 4
+    },
+    "imem_ce": {
+      "activity": 0.4392903803348495,
+      "duty": 0.4355155675855499,
+      "rises": 72627
+    },
+    "halted": {
+      "activity": 6.04858221232943e-06,
+      "duty": 5.443740454552328e-06,
+      "rises": 1
+    },
+    "dmem_we": {
+      "activity": 0.03725321784573696,
+      "duty": 0.033834359075168983,
+      "rises": 6159
+    },
+    "dmem_ce": {
+      "activity": 0.10565663408497049,
+      "duty": 0.09820417051004823,
+      "rises": 17468
+    }
+  },
+  "top_active": [
+    {
+      "short": "clk",
+      "activity": 1.0,
+      "width": 1
+    },
+    {
+      "short": "clknet_1_1__leaf_clk",
+      "activity": 0.9999939514177877,
+      "width": 1
+    },
+    {
+      "short": "clknet_1_0__leaf_clk",
+      "activity": 0.9999939514177877,
+      "width": 1
+    },
+    {
+      "short": "clknet_0_clk",
+      "activity": 0.9999939514177877,
+      "width": 1
+    },
+    {
+      "short": "core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_9_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_99_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_98_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_97_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_96_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_95_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_94_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_93_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_92_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_91_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_90_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_8_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_89_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_88_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_87_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_86_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_85_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_84_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_83_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_82_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_81_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_80_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_7_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_79_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    },
+    {
+      "short": "clknet_leaf_78_core_clk",
+      "activity": 0.8789678699312881,
+      "width": 1
+    }
+  ]
+}

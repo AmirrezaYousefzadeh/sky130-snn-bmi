@@ -1,0 +1,30 @@
+VCD info: dumpfile /home/yousefzadeha/workspace/BCI_paper/sim/build_gls_md1/gls_md1.vcd opened for output.
+WAVEFORM: dumping to /home/yousefzadeha/workspace/BCI_paper/sim/build_gls_md1/gls_md1.vcd
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:136: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vec_indy_20160630_01/stream.hex): Not enough words in the file for the requested range [0:3999999].
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:137: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vec_indy_20160630_01/expect.hex): Too many words in the file for the requested range [0:399].
+TB: mode_dense=1 n_bins=200 idle_gap=64 clk=20 ns
+GLS_PROGRESS cycle=20000 max=200000000
+GLS_PROGRESS cycle=40000 max=200000000
+GLS_PROGRESS cycle=60000 max=200000000
+GLS_PROGRESS cycle=80000 max=200000000
+GLS_PROGRESS cycle=100000 max=200000000
+GLS_PROGRESS cycle=120000 max=200000000
+GLS_PROGRESS cycle=140000 max=200000000
+GLS_PROGRESS cycle=160000 max=200000000
+GLS_PROGRESS cycle=180000 max=200000000
+GLS_PROGRESS cycle=200000 max=200000000
+GLS_PROGRESS cycle=220000 max=200000000
+GLS_PROGRESS cycle=240000 max=200000000
+GLS_PROGRESS cycle=260000 max=200000000
+GLS_PROGRESS cycle=280000 max=200000000
+GLS_PROGRESS cycle=300000 max=200000000
+GLS_PROGRESS cycle=320000 max=200000000
+GLS_PROGRESS cycle=340000 max=200000000
+SUMMARY: bins=200 events=1262 errors=0 cycles=341018 active_cycles=326944 avg_latency_cyc=1619 max_latency_cyc=1620
+MEASURED: cycles_from_dump_start=340994
+PASS: 200 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:199: $finish called at 6820350000 (1ps)
+
+real	9m24.225s
+user	7m32.391s
+sys	0m4.048s
