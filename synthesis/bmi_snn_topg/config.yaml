@@ -1,0 +1,75 @@
+# OpenLane 2 config for bmi_snn_topg (membrane-group clock gating) (sky130A, sky130_fd_sc_hd, one SRAM22 2048x32 weight macro).
+DESIGN_NAME: bmi_snn_topg
+VERILOG_FILES:
+  - dir::../../rtl/gen/bmi_snn_topg.v
+CLOCK_PORT: clk
+CLOCK_PERIOD: 20
+PNR_SDC_FILE: dir::../bmi_snn_top/bmi_snn_top.sdc
+SIGNOFF_SDC_FILE: dir::../bmi_snn_top/bmi_snn_top.sdc
+STD_CELL_LIBRARY: sky130_fd_sc_hd
+
+FP_SIZING: absolute
+DIE_AREA: [0, 0, 1150, 900]
+CORE_AREA: [20, 20, 1130, 880]
+
+FP_PDN_MULTILAYER: true
+VDD_NETS: [VPWR]
+GND_NETS: [VGND]
+PDN_MACRO_CONNECTIONS:
+  - u_wmem VPWR VGND vdd vss
+ERROR_ON_PDN_VIOLATIONS: false
+FP_PDN_CFG: dir::../bmi_snn_top/pdn_cfg_sram22.tcl
+RUN_IRDROP_REPORT: false
+FP_PDN_VPITCH: 80
+FP_PDN_HPITCH: 80
+FP_PDN_VSPACING: 15
+FP_PDN_HSPACING: 15
+
+PL_TARGET_DENSITY_PCT: 45
+GPL_CELL_PADDING: 2
+DPL_CELL_PADDING: 2
+RT_MAX_LAYER: met5
+GRT_ALLOW_CONGESTION: true
+ERROR_ON_SYNTH_CHECKS: false
+RUN_LINTER: false
+
+PRIMARY_GDSII_STREAMOUT_TOOL: klayout
+RUN_MAGIC_STREAMOUT: false
+RUN_MAGIC_WRITE_LEF: false
+RUN_MAGIC_DRC: false
+RUN_KLAYOUT_XOR: false
+RUN_LVS: false
+MAGIC_CAPTURE_ERRORS: false
+ERROR_ON_ILLEGAL_OVERLAPS: false
+MAGIC_MACRO_STD_CELL_SOURCE: macro
+RUN_ANTENNA_REPAIR: false
+RUN_HEURISTIC_DIODE_INSERTION: true
+PL_RESIZER_HOLD_SLACK_MARGIN: 0.6
+GRT_RESIZER_HOLD_SLACK_MARGIN: 0.6
+
+MACROS:
+  sram22_2048x32m8w8:
+    instances:
+      u_wmem:
+        location: [50, 50]
+        orientation: N
+    gds:
+      - dir::../bmi_snn_top/macros/sram22_2048x32m8w8.gds
+    lef:
+      - dir::../bmi_snn_top/macros/sram22_2048x32m8w8.lef
+    vh:
+      - dir::../bmi_snn_top/macros/sram22_2048x32m8w8.bb.v
+    lib:
+      "*_tt_025C_1v80":
+        - dir::../bmi_snn_top/macros/sram22_2048x32m8w8_tt_025C_1v80.lib
+      "*_ss_100C_1v60":
+        - dir::../bmi_snn_top/macros/sram22_2048x32m8w8_ss_100C_1v60.lib
+      "*_ff_n40C_1v95":
+        - dir::../bmi_snn_top/macros/sram22_2048x32m8w8_ff_n40C_1v95.lib
+    nl: []
+    pnl: []
+    spice: []
+    spef: {}
+    sdf: {}
+PL_RESIZER_HOLD_MAX_BUFFER_PCT: 100
+GRT_RESIZER_HOLD_MAX_BUFFER_PCT: 100

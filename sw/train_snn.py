@@ -51,9 +51,20 @@ class QSNN(nn.Module):
         self.g = nn.Parameter(torch.ones(2))
         self.b = nn.Parameter(torch.zeros(2))
         self.drop = nn.Dropout(drop) if drop > 0 else nn.Identity()
+        self.register_buffer("mask1", torch.ones(N_IN + 1, H))          # magnitude-pruning mask of W1 (1 = kept)
 
     def qweights(self):
-        return RoundSTE.apply(self.w1.clamp(-self.wmax, self.wmax)), RoundSTE.apply(self.w2.clamp(-self.wmax, self.wmax))
+        return RoundSTE.apply(self.w1.clamp(-self.wmax, self.wmax)) * self.mask1, RoundSTE.apply(self.w2.clamp(-self.wmax, self.wmax))
+
+    def prune_to(self, density):
+        """Keep the `density` fraction of largest-magnitude W1 synapses (rows 0..95; the bias row is never pruned)."""
+        with torch.no_grad():
+            w = (self.w1[:N_IN].abs() * self.mask1[:N_IN]).flatten()
+            k = int(round(density * w.numel()))
+            thr = torch.topk(w, k).values.min() if k > 0 else w.max() + 1
+            self.mask1[:N_IN] = ((self.w1[:N_IN].abs() >= thr) & (self.mask1[:N_IN] > 0)).float()
+            self.w1[:N_IN] *= self.mask1[:N_IN]
+            return float(self.mask1[:N_IN].mean())
 
     def forward(self, x):
         """x: (B, T, 96) float {0,1}. Returns yhat (B,T,2) in normalised velocity units, hidden spikes (B,T,H)."""
@@ -127,6 +138,10 @@ def main():
     ap.add_argument("--w_init", type=float, default=40.0)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--wbits", type=int, default=8)
+    ap.add_argument("--prune", type=float, default=1.0, help="final density of W1 (fraction of non-zero synapses)")
+    ap.add_argument("--prune_start", type=float, default=0.2, help="fraction of steps before pruning starts")
+    ap.add_argument("--prune_end", type=float, default=0.6, help="fraction of steps at which the final density is reached")
+    ap.add_argument("--prune_every", type=int, default=50)
     ap.add_argument("--out", type=Path, default=None)
     ap.add_argument("--tag", default="")
     a = ap.parse_args()
@@ -167,12 +182,22 @@ def main():
         yhat, s, _ = model(xb)
         loss = ((yhat[:, a.warm:] - yb[:, a.warm:]) ** 2).mean()
         opt.zero_grad(); loss.backward(); opt.step(); sched.step()
+        if a.prune < 1.0 and step % a.prune_every == 0:
+            s0, s1 = int(a.prune_start * steps), int(a.prune_end * steps)
+            if s0 <= step <= s1:
+                frac = (step - s0) / max(1, s1 - s0)
+                target = 1.0 - (1.0 - a.prune) * (1.0 - (1.0 - frac) ** 3)
+                dens = model.prune_to(target)
+                if step % (a.prune_every * 4) == 0: print(f"step {step:5d} pruned W1 to density {dens:.3f}", flush=True)
         if step % a.eval_every == a.eval_every - 1 or step == steps - 1:
             r2v, spv = batched_r2(Xva, Yva)
             hist.append({"step": step + 1, "loss": loss.item(), "val_r2_batched": r2v, "hidden_spikes_per_bin": spv})
             print(f"step {step+1:5d} loss {loss.item():.4f} val R2(batched) {r2v:.4f} hid.spk/bin {spv:.2f} "
                   f"train hid.rate {s.mean().item():.4f} ({time.time()-t0:.0f}s)", flush=True)
-            if r2v > best[0]:
+            # with pruning, only checkpoints taken after the final density has been reached are eligible (an earlier,
+            # less pruned checkpoint would be pruned abruptly at export and lose its accuracy)
+            eligible = a.prune >= 1.0 or step + 1 > int(a.prune_end * steps)
+            if eligible and r2v > best[0]:
                 best = (r2v, {k: v.detach().cpu().clone() for k, v in model.state_dict().items()})
     model.load_state_dict(best[1])
     r2v, spv = evaluate(model, X, Vn, va_lo, va_hi, dev)
@@ -180,7 +205,9 @@ def main():
     print(f"BEST val R2 {r2v:.4f} | TEST R2 {r2t:.4f} | hidden spikes/bin (test) {spt:.2f}")
 
     # ---- cross-check against the pure-integer numpy model on a slice --------------------------
+    if a.prune < 1.0: model.prune_to(a.prune)
     W1, W2 = model.qweights(); W1 = W1.detach().cpu().numpy().astype(np.int64); W2 = W2.detach().cpu().numpy().astype(np.int64)
+    density = float((W1[:N_IN] != 0).mean()); print(f"W1 density (non-zero synapses, rows 0..95): {density:.3f}")
     ref = IntSNN(W1, W2, a.theta, a.k1, a.k2)
     n_chk = 3000
     Yref, _ = ref.run(X[te_lo:te_lo + n_chk] > 0.5)
@@ -195,7 +222,7 @@ def main():
              G=model.g.detach().cpu().numpy(), B=model.b.detach().cpu().numpy(), vel_mean=mu, vel_std=sd)
     json.dump({"session": a.session, "H": a.H, "theta": a.theta, "k1": a.k1, "k2": a.k2, "epochs": a.epochs,
                "L": a.L, "lr": a.lr, "drop": a.drop, "seed": a.seed, "wbits": a.wbits, "val_r2": r2v, "test_r2": r2t,
-               "hidden_spikes_per_bin_test": spt, "int_crosscheck_mismatches": mism,
+               "hidden_spikes_per_bin_test": spt, "int_crosscheck_mismatches": mism, "prune": a.prune, "w1_density": density,
                "train_bins": int(n_tr), "val_bins": int(va_hi - va_lo), "test_bins": int(te_hi - te_lo),
                "history": hist}, open(out / "train.json", "w"), indent=1)
     print("saved", out)

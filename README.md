@@ -18,7 +18,8 @@ OpenLane hardening → gate-level simulation of the real spike stream → OpenST
 | `sw/train_snn.py` | Surrogate-gradient training whose forward pass is bit-exact with the integer model |
 | `sw/eval_int.py`, `sw/export_vectors.py`, `sw/export_firmware.py` | Full-test evaluation, testbench vectors, C header for the RISC-V baseline |
 | `rtl/bmi_snn_top.v`, `rtl/clk_gate_hd.v` | Sequential event-driven / dense-mode core with one SRAM22 weight macro, integrated clock gate, 50 MHz |
-| `rtl/bmi_snn_par.v` → `rtl/gen/bmi_snn_{scmem,hw,min,min32}.v` (via `sw/gen_variant.py`) | Parallel SRAM-free core (one event per cycle, two-stage row pipeline): std-cell register file or hardwired weights (`sw/gen_weights_rom.py`), 16-bit-state / no-dense / H=32 variants, generated as flat modules |
+| `rtl/bmi_snn_par.v` → `rtl/gen/bmi_snn_{scmem,lmem,lmin,hw,min,ming,m12,sp,sp8,min32,min16}.v` (via `sw/gen_variant.py`) | Parallel SRAM-free core (one event per cycle, two-stage row pipeline): weights in a flip-flop register file, in a latch memory (`LATCH_MEM`: one clock gate per row, gate one cycle ahead of the data) or hardwired (`sw/gen_weights_rom.py`, optionally pruned); `GATE_DP` clocks the weight-row register and the membrane bank only when written; 20/16/12-bit state, no-dense, H=32/16 variants, generated as flat modules |
+| `rtl/gen/bmi_snn_topg.v` | The sequential SRAM core with `GATE_MEM`: 16 membrane groups (one weight word each) on their own clock gates |
 | `sim/measure_design.sh <design> func\|sdf` | Complete energy measurement set of a variant (functional or SDF gate-level, full-depth dump, per-pin OpenSTA) |
 | `sw/collect_designs.py` | PPA/energy table of all variants → `results/DESIGNS.md`, `paper/designs_table.tex`, `paper/numbers2.tex`, `paper/figures/variants.pdf` |
 | `sim/tb_bmi_snn.v`, `sim/run_rtl.sh`, `sim/run_gls.sh` | Bit-exact testbench, RTL and gate-level simulation (functional or SDF; VCD for power) |
@@ -57,6 +58,11 @@ for s in indy_20160622_01 indy_20160630_01 indy_20170131_02; do
   .venv/bin/python sw/train_snn.py --session $s --H 64 --theta 256 --k1 4 --k2 4 --drop 0.1 --epochs 1500 --tag _drop; done
 .venv/bin/python sw/eval_int.py results/models/*_H64_th256_k44_drop
 
+# 2b. narrower state (12-bit membranes / 14-bit outputs cost no accuracy) and sparse weights (gradual magnitude pruning)
+.venv/bin/python sw/check_vbits.py H64_th256_k44_drop                 # -> results/explore/vbits_*.json
+./sw/run_prune_sweep.sh                                               # W1 densities 0.5 / 0.25 / 0.125, three sessions
+.venv/bin/python sw/check_vbits.py H64_th256_k44_drop_p0.25; .venv/bin/python sw/check_vbits.py H64_th256_k44_drop_p0.125
+
 # 3. bit-exact RTL check on 2000 test bins (event mode 0 / dense mode 1)
 M=results/models/indy_20160630_01_H64_th256_k44_drop
 .venv/bin/python sw/export_vectors.py $M --n_bins 2000 --out sim/vec_indy_20160630_01
@@ -81,6 +87,17 @@ TAG=gls_md1 ./sim/run_gls.sh sim/vec_indy_20160630_01 200  1 64 --no-sdf; ./powe
 for d in bmi_snn_scmem bmi_snn_hw bmi_snn_min bmi_snn_min32; do DESIGN=$d ./synthesis/run_synthesis.sh; ./sim/measure_design.sh $d func; ./sim/measure_design.sh $d sdf; done
 ./sim/measure_design.sh bmi_snn_top func; ./sim/measure_design.sh bmi_snn_top sdf
 .venv/bin/python sw/collect_designs.py
+
+# 5c. latch memory, datapath clock gating, 12-bit state, pruned weights, gated SRAM core (rtl/gen/*.v from sw/gen_variant.py)
+.venv/bin/python sw/gen_weights_rom.py results/models/indy_20160630_01_H64_th256_k44_drop_p0.25  rtl/sp/weights_rom.vh
+.venv/bin/python sw/gen_weights_rom.py results/models/indy_20160630_01_H64_th256_k44_drop_p0.125 rtl/sp8/weights_rom.vh
+.venv/bin/python sw/export_vectors.py $M --vbits 12 --obits 14 --out sim/vec_v12_indy_20160630_01
+.venv/bin/python sw/export_vectors.py results/models/indy_20160630_01_H64_th256_k44_drop_p0.25  --vbits 12 --obits 14 --out sim/vec_sp_indy_20160630_01
+.venv/bin/python sw/export_vectors.py results/models/indy_20160630_01_H64_th256_k44_drop_p0.125 --vbits 12 --obits 14 --out sim/vec_sp8_indy_20160630_01
+.venv/bin/python sw/gen_variant.py
+for d in bmi_snn_lmem bmi_snn_lmin bmi_snn_ming bmi_snn_m12 bmi_snn_sp bmi_snn_topg; do ./sim/harden_and_measure.sh $d; done   # bmi_snn_sp8 (12.5 %) falls below the R2 gate (0.53) and was not hardened
+# voltage scaling: the same SDF waveforms evaluated with the liberty of other corners (1.40 V / 1.28 V), timing at that corner
+DESIGNS="bmi_snn_min16 bmi_snn_min32 bmi_snn_min bmi_snn_hw bmi_snn_ming bmi_snn_m12 bmi_snn_sp bmi_snn_lmin" ./power/run_corner_set.sh && .venv/bin/python sw/collect_corners.py
 
 # 6. collect numbers + figures, snapshot raw reports, build the paper
 .venv/bin/python sw/fig_accuracy.py && .venv/bin/python sw/collect_results.py && ./sw/snapshot_raw.sh

@@ -1,0 +1,48 @@
+{
+ "session": "indy_20160630_01",
+ "H": 64,
+ "theta": 256,
+ "k1": 4,
+ "k2": 4,
+ "epochs": 200,
+ "L": 256,
+ "lr": 2.0,
+ "drop": 0.1,
+ "seed": 0,
+ "wbits": 8,
+ "val_r2": 0.4783313628250911,
+ "test_r2": 0.410547225230849,
+ "hidden_spikes_per_bin_test": 0.963311120211459,
+ "int_crosscheck_mismatches": 0,
+ "prune": 0.25,
+ "w1_density": 0.25,
+ "train_bins": 172473,
+ "val_bins": 85892,
+ "test_bins": 107444,
+ "history": [
+  {
+   "step": 50,
+   "loss": 0.5602483749389648,
+   "val_r2_batched": 0.34583331244966437,
+   "hidden_spikes_per_bin": 2.460639715194702
+  },
+  {
+   "step": 100,
+   "loss": 0.6510037779808044,
+   "val_r2_batched": 0.4512102008329934,
+   "hidden_spikes_per_bin": 1.4843153953552246
+  },
+  {
+   "step": 150,
+   "loss": 0.5322822332382202,
+   "val_r2_batched": 0.4689652347067878,
+   "hidden_spikes_per_bin": 1.1135550737380981
+  },
+  {
+   "step": 200,
+   "loss": 0.4849716126918793,
+   "val_r2_batched": 0.47231723916245477,
+   "hidden_spikes_per_bin": 1.0738495588302612
+  }
+ ]
+}

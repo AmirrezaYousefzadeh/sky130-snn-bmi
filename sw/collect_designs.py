@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Collect PPA + energy for all core variants into results/designs.json (and a Markdown table).
+"""Collect PPA + energy for all core variants into results/designs.json, results/DESIGNS.md, paper/numbers2.tex,
+paper/designs_table.tex and paper/figures/variants.pdf.
 
 Naming convention of the measurement runs (see run_gls.sh TAG and run_vcd_power.sh):
   sim/build_<tag>/vvp.log, power/out_vcd_<tag>/power_vcd.rpt   with tag = <design>_md0_full | <design>_md1_full | <design>_idle_full
@@ -14,14 +15,36 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from collect_results import parse_group_table, parse_tb_summary, parse_metrics, parse_instance_report, RATE
 
 ROOT = Path(__file__).resolve().parent.parent
+SESS = ["indy_20160622_01", "indy_20160630_01", "indy_20170131_02"]
+# design: label, short macro suffix, table columns (weights, lanes/cycles per row, bits, dense logic), accuracy source
+#   r2: ("vbits", tag, key) -> results/explore/vbits_<tag>.json [key]["mean"]; ("eval", tag) -> mean of eval_int.json test_r2_int
+D = lambda label, sh, weights, lanes, bits, dense, r2, fam, macro=None: dict(label=label, sh=sh, weights=weights, lanes=lanes, bits=bits, dense=dense, r2=r2, fam=fam, macro=macro)
 DESIGNS = {
-    "bmi_snn_top":   {"label": "SRAM macro, sequential (v1)", "tags": {"event": "gls_md0_full", "dense": "gls_md1_full", "idle": "gls_idle2_full"}, "tclk": 20.0, "macro": "u_wmem"},
-    "bmi_snn_scmem": {"label": "std-cell register file, parallel", "tags": {"event": "bmi_snn_scmem_md0_full", "dense": "bmi_snn_scmem_md1_full", "idle": "bmi_snn_scmem_idle_full"}, "tclk": 20.0, "macro": None},
-    "bmi_snn_hw":    {"label": "hardwired weights, parallel", "tags": {"event": "bmi_snn_hw_md0_full", "dense": "bmi_snn_hw_md1_full", "idle": "bmi_snn_hw_idle_full"}, "tclk": 20.0, "macro": None},
-    "bmi_snn_min":   {"label": "hardwired, 16-bit state, no dense logic", "tags": {"event": "bmi_snn_min_md0_full", "dense": "bmi_snn_min_md1_full", "idle": "bmi_snn_min_idle_full"}, "tclk": 20.0, "macro": None},
-    "bmi_snn_min32": {"label": "hardwired, 16-bit, H=32 (R2 0.572)", "tags": {"event": "bmi_snn_min32_md0_full", "dense": "bmi_snn_min32_md1_full", "idle": "bmi_snn_min32_idle_full"}, "tclk": 20.0, "macro": None},
-    "bmi_snn_min16": {"label": "hardwired, 16-bit, H=16 (R2 0.555)", "tags": {"event": "bmi_snn_min16_md0_full", "dense": "bmi_snn_min16_md1_full", "idle": "bmi_snn_min16_idle_full"}, "tclk": 20.0, "macro": None},
+    "bmi_snn_top":   D("SRAM macro, sequential (v1)",                 "Seq",   "SRAM22 macro", "4 / 16", "20 / 24", "yes", ("vbits", "H64_th256_k44_drop", "v20_o24"), "seq", "u_wmem"),
+    "bmi_snn_topg":  D("SRAM sequential, gated membrane groups",      "SeqG",  "SRAM22 macro", "4 / 16", "20 / 24", "yes", ("vbits", "H64_th256_k44_drop", "v20_o24"), "seq", "u_wmem"),
+    "bmi_snn_scmem": D("std-cell register file (flip-flops), parallel", "Rf",  "flip-flops",   "64 / 1", "20 / 24", "yes", ("vbits", "H64_th256_k44_drop", "v20_o24"), "prog"),
+    "bmi_snn_lmem":  D("std-cell latch memory, parallel",             "Lm",    "latches",      "64 / 1", "20 / 24", "yes", ("vbits", "H64_th256_k44_drop", "v20_o24"), "prog"),
+    "bmi_snn_lmin":  D("latch memory, gated datapath, 12-bit",        "LmMin", "latches",      "64 / 1", "12 / 14", "no",  ("vbits", "H64_th256_k44_drop", "v12_o14"), "prog"),
+    "bmi_snn_hw":    D("hardwired weights, parallel",                 "Hw",    "constants",    "64 / 1", "20 / 24", "yes", ("vbits", "H64_th256_k44_drop", "v20_o24"), "hw"),
+    "bmi_snn_min":   D("hardwired, 16-bit state, no dense logic",     "Min",   "constants",    "64 / 1", "16 / 16", "no",  ("vbits", "H64_th256_k44_drop", "v16_o16"), "hw"),
+    "bmi_snn_ming":  D("hardwired 16-bit, gated datapath",            "MinG",  "constants",    "64 / 1", "16 / 16", "no",  ("vbits", "H64_th256_k44_drop", "v16_o16"), "hw"),
+    "bmi_snn_m12":   D("hardwired 12-bit, gated datapath",            "MinT",  "constants",    "64 / 1", "12 / 14", "no",  ("vbits", "H64_th256_k44_drop", "v12_o14"), "hw"),
+    "bmi_snn_sp":    D("hardwired 12-bit, gated, weights pruned to 25 %", "Sp", "constants (25 %)", "64 / 1", "12 / 14", "no", ("vbits", "H64_th256_k44_drop_p0.25", "v12_o14"), "hw"),
+    "bmi_snn_sp8":   D("hardwired 12-bit, gated, weights pruned to 12.5 %", "SpE", "constants (12.5 %)", "64 / 1", "12 / 14", "no", ("vbits", "H64_th256_k44_drop_p0.125", "v12_o14"), "hw"),
+    "bmi_snn_min32": D("hardwired, 16-bit, H=32",                    "MinH",  "constants",    "32 / 1", "16 / 16", "no",  ("eval", "H32_th256_k44_drop"), "hw"),
+    "bmi_snn_min16": D("hardwired, 16-bit, H=16",                    "MinS",  "constants",    "16 / 1", "16 / 16", "no",  ("eval", "H16_th256_k44_drop"), "hw"),
 }
+LEGACY_TAGS = {"bmi_snn_top": {"event": "gls_md0_full", "dense": "gls_md1_full", "idle": "gls_idle2_full"}}
+TCLK = 20.0
+
+def r2_of(spec):
+    try:
+        if spec[0] == "vbits":
+            return json.load(open(ROOT / "results/explore" / f"vbits_{spec[1]}.json"))[spec[2]]["mean"]
+        vals = [json.load(open(ROOT / "results/models" / f"{s}_{spec[1]}" / "eval_int.json"))["test_r2_int"] for s in SESS]
+        return float(np.mean(vals))
+    except Exception:
+        return None
 
 def measured_cycles(log: Path) -> int | None:
     m = re.search(r"MEASURED: cycles_from_dump_start=(\d+)", log.read_text(errors="replace"))
@@ -61,10 +84,11 @@ def run_idle(tag: str, tclk: float, P_dec: float | None) -> dict | None:
     return {"tag": tag, "idle_power_uW": max(idle, g["Total"]["leakage"]) * 1e6, "leakage_uW": g["Total"]["leakage"] * 1e6, "groups": g,
             "idle_raw_uW": g["Total"]["total"] * 1e6, "active_share": act / cyc}
 
-def main():
+def collect():
     out = {}
     for name, cfg in DESIGNS.items():
-        d = {"label": cfg["label"], "tclk_ns": cfg["tclk"]}
+        d = {"label": cfg["label"], "tclk_ns": TCLK, "r2": r2_of(cfg["r2"]), "family": cfg["fam"],
+             "weights": cfg["weights"], "lanes": cfg["lanes"], "bits": cfg["bits"], "dense_logic": cfg["dense"]}
         # PnR results: the primary run if it passed timing, else the lower-utilisation hedge run (<name>_lo)
         cands = (ROOT / f"synthesis/{name}/runs/{name}", ROOT / f"synthesis/{name}_lo/runs/{name}_lo2", ROOT / f"synthesis/{name}_lo/runs/{name}_lo")
         for rd in cands:
@@ -74,158 +98,164 @@ def main():
         if "pnr" not in d:   # no passing run: report the most recent routed run and flag it
             for rd in sorted([c for c in cands if (c / "final/metrics.json").exists()], key=lambda c: (c / "final/metrics.json").stat().st_mtime, reverse=True):
                 d["pnr"] = parse_metrics(rd / "final/metrics.json"); d["pnr"]["run_dir"] = str(rd); d["pnr"]["timing_met"] = False; break
+        tags = LEGACY_TAGS.get(name, {"event": f"{name}_md0_full", "dense": f"{name}_md1_full", "idle": f"{name}_idle_full"})
         for mode in ("event", "dense"):
-            r = run_energy(cfg["tags"][mode], cfg["tclk"], cfg["macro"])
+            r = run_energy(tags[mode], TCLK, cfg["macro"])
             if r: d[mode] = r
-            rs = run_energy(f"{name}_md{0 if mode=='event' else 1}_sdf", cfg["tclk"], cfg["macro"])
+            rs = run_energy(f"{name}_md{0 if mode=='event' else 1}_sdf", TCLK, cfg["macro"])
             if rs: d[mode + "_sdf"] = rs
         P_dec = d["event"]["power_avg_uW"] * 1e-6 if "event" in d else None
-        r = run_idle(cfg["tags"]["idle"], cfg["tclk"], P_dec)
+        r = run_idle(tags["idle"], TCLK, P_dec)
+        if r is None: r = run_idle(f"{name}_idle_sdf", TCLK, P_dec)
         if r: d["idle"] = r
         for f_label, f_mhz in (("50MHz", 50.0), ("1MHz", 1.0)):
             if "event" in d and "idle" in d:
                 # idle dynamic part scales with the always-on clock frequency; leakage does not
-                idle_dyn = max(d["idle"]["idle_power_uW"] - d["idle"]["leakage_uW"], 0) * (f_mhz / (1e3 / cfg["tclk"]))
+                idle_dyn = max(d["idle"]["idle_power_uW"] - d["idle"]["leakage_uW"], 0) * (f_mhz / (1e3 / TCLK))
                 d[f"avg_power_uW_250Hz_clk{f_label}"] = d["event"]["energy_per_bin_nJ"] * RATE * 1e-3 + d["idle"]["leakage_uW"] + idle_dyn
         if "event" in d and "idle" in d:
             d["avg_power_uW_250Hz_clkstopped"] = d["event"]["energy_per_bin_nJ"] * RATE * 1e-3 + d["idle"]["leakage_uW"]
+            if "event_sdf" in d:
+                d["avg_power_uW_250Hz_clkstopped_sdf"] = d["event_sdf"]["energy_per_bin_nJ"] * RATE * 1e-3 + d["idle"]["leakage_uW"]
         out[name] = d
-    (ROOT / "results/designs.json").write_text(json.dumps(out, indent=1, default=float))
-    # markdown table
-    rows = [("design", *[out[n]["label"] for n in out])]
-    def row(label, key):
-        vals = []
-        for n in out:
-            v = key(out[n]) if out[n] else None
-            vals.append("" if v is None else (f"{v:,.3g}" if isinstance(v, float) else str(v)))
-        rows.append((label, *vals))
-    row("area, cells + macro (mm²)", lambda d: d["pnr"]["instance_area_um2"] / 1e6 if "pnr" in d else None)
-    row("std-cell area (mm²)", lambda d: d["pnr"]["stdcell_area_um2"] / 1e6 if "pnr" in d else None)
-    row("std cells", lambda d: d["pnr"]["stdcells"] if "pnr" in d else None)
-    row("setup slack @20 ns (ns)", lambda d: d["pnr"]["setup_ws_ns"] if "pnr" in d else None)
-    row("cycles / bin, event", lambda d: d["event"]["cycles_per_bin"] if "event" in d else None)
-    row("power while decoding, event (µW)", lambda d: d["event"]["power_avg_uW"] if "event" in d else None)
-    row("energy / bin, event (nJ)", lambda d: d["event"]["energy_per_bin_nJ"] if "event" in d else None)
-    row("energy / bin, event, SDF (nJ)", lambda d: d["event_sdf"]["energy_per_bin_nJ"] if "event_sdf" in d else None)
-    row("energy / bin, dense (nJ)", lambda d: d["dense"]["energy_per_bin_nJ"] if "dense" in d else None)
-    row("latency after tick (µs)", lambda d: d["event"]["latency_us"] if "event" in d else None)
-    row("leakage (µW)", lambda d: d["idle"]["leakage_uW"] if "idle" in d else None)
-    row("idle power, 50 MHz clock running (µW)", lambda d: d["idle"]["idle_power_uW"] if "idle" in d else None)
-    row("avg power @250 bins/s, 50 MHz clock (µW)", lambda d: d.get("avg_power_uW_250Hz_clk50MHz"))
-    row("avg power @250 bins/s, 1 MHz clock (µW)", lambda d: d.get("avg_power_uW_250Hz_clk1MHz"))
-    row("avg power @250 bins/s, clock stopped (µW)", lambda d: d.get("avg_power_uW_250Hz_clkstopped"))
-    md = "| " + " | ".join(rows[0]) + " |\n|" + "---|" * len(rows[0]) + "\n" + "\n".join("| " + " | ".join(r) + " |" for r in rows[1:])
-    (ROOT / "results/DESIGNS.md").write_text("# Core variants (sky130 TT 1.8 V 25 °C, per-pin OpenSTA power, 20 ns clock)\n\n" + md + "\n")
-    print(md)
-    write_latex(out)
-    make_variant_figure(out)
-
-SHORT = {"bmi_snn_top": "Seq", "bmi_snn_scmem": "Rf", "bmi_snn_hw": "Hw", "bmi_snn_min": "Min", "bmi_snn_min32": "MinH", "bmi_snn_min16": "MinS"}
-COLS = ["bmi_snn_top", "bmi_snn_scmem", "bmi_snn_hw", "bmi_snn_min", "bmi_snn_min32", "bmi_snn_min16"]
-HEAD = ["SRAM seq.", "reg.\\ file", "hardwired", "hw 16-bit", "hw 16-bit $H{=}32$", "hw 16-bit $H{=}16$"]
+    return out
 
 def _f(x, nd=3):
     if x is None: return "--"
+    if isinstance(x, str): return x
     if abs(x) >= 1000: return f"{x:,.0f}"
     return f"{x:.{nd}g}"
 
+ROWS = [  # (label, key(d), digits)
+    ("area, cells + macro (mm²)", lambda d: d["pnr"]["instance_area_um2"] / 1e6 if "pnr" in d else None, 3),
+    ("std-cell area (mm²)", lambda d: d["pnr"]["stdcell_area_um2"] / 1e6 if "pnr" in d else None, 3),
+    ("std cells", lambda d: d["pnr"]["stdcells"] if "pnr" in d else None, 4),
+    ("setup slack @20 ns (ns)", lambda d: d["pnr"]["setup_ws_ns"] if "pnr" in d else None, 2),
+    ("timing met at all corners", lambda d: ("yes" if d["pnr"]["timing_met"] else "no") if "pnr" in d else None, 3),
+    ("test R² (mean of 3 sessions)", lambda d: d.get("r2"), 3),
+    ("cycles / bin, event", lambda d: d["event"]["cycles_per_bin"] if "event" in d else None, 3),
+    ("power while decoding, event (µW)", lambda d: d["event"]["power_avg_uW"] if "event" in d else None, 3),
+    ("energy / bin, event (nJ)", lambda d: d["event"]["energy_per_bin_nJ"] if "event" in d else None, 3),
+    ("energy / bin, event, SDF (nJ)", lambda d: d["event_sdf"]["energy_per_bin_nJ"] if "event_sdf" in d else None, 3),
+    ("energy / bin, dense (nJ)", lambda d: d["dense"]["energy_per_bin_nJ"] if "dense" in d else None, 3),
+    ("latency after tick (µs)", lambda d: d["event"]["latency_us"] if "event" in d else None, 3),
+    ("leakage (µW)", lambda d: d["idle"]["leakage_uW"] if "idle" in d else None, 3),
+    ("idle power, 50 MHz clock running (µW)", lambda d: d["idle"]["idle_power_uW"] if "idle" in d else None, 3),
+    ("avg power @250 bins/s, 50 MHz clock (µW)", lambda d: d.get("avg_power_uW_250Hz_clk50MHz"), 3),
+    ("avg power @250 bins/s, 1 MHz clock (µW)", lambda d: d.get("avg_power_uW_250Hz_clk1MHz"), 3),
+    ("avg power @250 bins/s, clock stopped (µW)", lambda d: d.get("avg_power_uW_250Hz_clkstopped"), 3),
+]
+
+def write_markdown(out):
+    names = [n for n in out if "pnr" in out[n] or "event" in out[n]]
+    rows = [("design", *[out[n]["label"] for n in names])]
+    for label, key, nd in ROWS:
+        rows.append((label, *[_f(key(out[n]), nd) for n in names]))
+    md = "| " + " | ".join(rows[0]) + " |\n|" + "---|" * len(rows[0]) + "\n" + "\n".join("| " + " | ".join(r) + " |" for r in rows[1:])
+    (ROOT / "results/DESIGNS.md").write_text("# Core variants (sky130 TT 1.8 V 25 °C, per-pin OpenSTA power, 20 ns clock)\n\n" + md + "\n")
+    print(md)
+
 def write_latex(out):
-    """paper/numbers2.tex (macros per variant) and paper/designs_table.tex (the PPA table body)."""
+    """paper/numbers2.tex (macros per variant) and paper/designs_table.tex (designs as rows)."""
     L = []
     def mac(n, v, nd=3): L.append(f"\\newcommand{{\\{n}}}{{{_f(v, nd)}}}")
-    for name in COLS:
-        d = out.get(name, {}); sh = SHORT[name]; p = d.get("pnr", {})
+    KEYS = ("area", "cells", "slack", "cyc", "pdec", "e", "lat", "eSdf", "eDense", "leak", "idle", "pavgFifty", "pavgOne", "pavgStop", "pavgStopSdf", "sdfRatio", "rsq")
+    for name, cfg in DESIGNS.items():
+        d = out.get(name, {}); sh = cfg["sh"]; p = d.get("pnr", {})
         mac(f"area{sh}", p["instance_area_um2"] / 1e6 if p else None); mac(f"cells{sh}", p.get("stdcells") if p else None, 4)
         mac(f"slack{sh}", p.get("setup_ws_ns") if p else None, 2)
         e = d.get("event", {}); mac(f"cyc{sh}", e.get("cycles_per_bin"), 3); mac(f"pdec{sh}", e.get("power_avg_uW"), 3)
         mac(f"e{sh}", e.get("energy_per_bin_nJ"), 3); mac(f"lat{sh}", e.get("latency_us"), 3)
-        mac(f"eSdf{sh}", d.get("event_sdf", {}).get("energy_per_bin_nJ"), 3)
+        es = d.get("event_sdf", {}).get("energy_per_bin_nJ"); mac(f"eSdf{sh}", es, 3)
         mac(f"eDense{sh}", d.get("dense", {}).get("energy_per_bin_nJ"), 3)
         i = d.get("idle", {}); mac(f"leak{sh}", i.get("leakage_uW"), 3); mac(f"idle{sh}", i.get("idle_power_uW"), 3)
         mac(f"pavgFifty{sh}", d.get("avg_power_uW_250Hz_clk50MHz"), 3); mac(f"pavgOne{sh}", d.get("avg_power_uW_250Hz_clk1MHz"), 3)
-        mac(f"pavgStop{sh}", d.get("avg_power_uW_250Hz_clkstopped"), 3)
-    # ratios relative to the sequential SRAM core
+        mac(f"pavgStop{sh}", d.get("avg_power_uW_250Hz_clkstopped"), 3); mac(f"pavgStopSdf{sh}", d.get("avg_power_uW_250Hz_clkstopped_sdf"), 3)
+        ef = e.get("energy_per_bin_nJ"); mac(f"sdfRatio{sh}", (es / ef) if (ef and es) else None, 3)
+        mac(f"rsq{sh}", d.get("r2"), 3)
     e0 = out.get("bmi_snn_top", {}).get("event", {}).get("energy_per_bin_nJ")
-    for name in COLS[1:]:
+    for name, cfg in DESIGNS.items():
+        if name == "bmi_snn_top": continue
         e1 = out.get(name, {}).get("event", {}).get("energy_per_bin_nJ")
-        mac(f"gain{SHORT[name]}", (e0 / e1) if (e0 and e1) else None, 3)
-    for name in COLS:
-        d = out.get(name, {})
-        ef, es = d.get("event", {}).get("energy_per_bin_nJ"), d.get("event_sdf", {}).get("energy_per_bin_nJ")
-        mac(f"sdfRatio{SHORT[name]}", (es / ef) if (ef and es) else None, 3)
-    # convenience ratios (avoid \fpeval on possibly undefined macros)
+        mac(f"gain{cfg['sh']}", (e0 / e1) if (e0 and e1) else None, 3)
     def _area(n): return out.get(n, {}).get("pnr", {}).get("instance_area_um2")
     def _leak(n): return out.get(n, {}).get("idle", {}).get("leakage_uW")
-    a0, a1 = _area("bmi_snn_top"), _area("bmi_snn_scmem"); mac("areaRatioRf", (a1 / a0) if (a0 and a1) else None, 2)
-    l0, l1 = _leak("bmi_snn_top"), _leak("bmi_snn_scmem"); mac("leakRatioRf", (l1 / l0) if (l0 and l1) else None, 2)
+    def _e(n, k="event"): return out.get(n, {}).get(k, {}).get("energy_per_bin_nJ")
+    def ratio(a, b): return (a / b) if (a and b) else None
+    mac("areaRatioRf", ratio(_area("bmi_snn_scmem"), _area("bmi_snn_top")), 2)
+    mac("leakRatioRf", ratio(_leak("bmi_snn_scmem"), _leak("bmi_snn_top")), 2)
+    mac("areaRatioLmRf", ratio(_area("bmi_snn_lmem"), _area("bmi_snn_scmem")), 2)
+    mac("leakRatioLmRf", ratio(_leak("bmi_snn_lmem"), _leak("bmi_snn_scmem")), 2)
+    mac("gainGate", ratio(_e("bmi_snn_min"), _e("bmi_snn_ming")), 2)
+    mac("gainTwelve", ratio(_e("bmi_snn_ming"), _e("bmi_snn_m12")), 2)
+    mac("gainSpVsTwelve", ratio(_e("bmi_snn_m12"), _e("bmi_snn_sp")), 2)
+    mac("gainSpEVsTwelve", ratio(_e("bmi_snn_m12"), _e("bmi_snn_sp8")), 2)
+    mac("gainMinSp", ratio(_e("bmi_snn_min"), _e("bmi_snn_sp")), 2)
+    mac("gainMinSpE", ratio(_e("bmi_snn_min"), _e("bmi_snn_sp8")), 2)
     try:
         R1 = json.load(open(ROOT / "results/results.json")); ecpu = R1["riscv"]["energy_per_bin_nJ_active"]
     except Exception: ecpu = None
-    em = out.get("bmi_snn_min32", {}).get("event", {}).get("energy_per_bin_nJ")
-    mac("gainCpuMinH", (ecpu / em) if (ecpu and em) else None, 3)
-    # placeholders for anything not defined
-    ALL = [f"{k}{sh}" for sh in SHORT.values() for k in ("area","cells","slack","cyc","pdec","e","lat","eSdf","eDense","leak","idle","pavgFifty","pavgOne","pavgStop","sdfRatio")]
-    ALL += [f"gain{sh}" for sh in list(SHORT.values())[1:]] + ["areaRatioRf", "leakRatioRf", "gainCpuMinH"]
+    mac("gainCpuMinH", ratio(ecpu, _e("bmi_snn_min32")), 3)
+    best = min((n for n in DESIGNS if _e(n) and (out[n].get("r2") or 0) >= 0.57), key=lambda n: _e(n), default=None)
+    mac("gainCpuBest", ratio(ecpu, _e(best)) if best else None, 3)
+    L.append(f"\\newcommand{{\\bestCore}}{{{DESIGNS[best]['label'].replace('%', chr(92)+'%') if best else '?'}}}")
+    ALL = [f"{k}{cfg['sh']}" for cfg in DESIGNS.values() for k in KEYS]
+    ALL += [f"gain{cfg['sh']}" for n, cfg in DESIGNS.items() if n != "bmi_snn_top"]
+    ALL += ["areaRatioRf", "leakRatioRf", "areaRatioLmRf", "leakRatioLmRf", "gainGate", "gainTwelve", "gainSpVsTwelve", "gainSpEVsTwelve", "gainMinSp", "gainMinSpE", "gainCpuMinH", "gainCpuBest"]
     defined = {l.split("{")[1].split("}")[0].lstrip("\\") for l in L}
     for n in ALL:
         if n not in defined: L.append(f"\\newcommand{{\\{n}}}{{\\textcolor{{red}}{{?}}}}")
     (ROOT / "paper/numbers2.tex").write_text("% auto-generated by sw/collect_designs.py\n" + "\n".join(L) + "\n")
-    rows = [("Weights", "SRAM22 macro", "flip-flops", "constants", "constants", "constants", "constants"),
-            ("Lanes / cycles per row", "4 / 16", "64 / 1", "64 / 1", "64 / 1", "32 / 1", "16 / 1"),
-            ("Membrane / output bits", "20 / 24", "20 / 24", "20 / 24", "16 / 16", "16 / 16", "16 / 16"),
-            ("Dense-mode logic", "yes", "yes", "yes", "no", "no", "no"),
-            ("Test $\\Rsq$ (mean)", "0.583", "0.583", "0.583", "0.583", "0.572", "0.555")]
-    def r(label, key, nd=3):
-        rows.append((label, *[_f(key(out.get(n, {})), nd) for n in COLS]))
-    g = lambda d, *ks: (lambda x: x)(_get(d, ks))
-    r("Area, cells + macro (mm$^2$)", lambda d: d["pnr"]["instance_area_um2"] / 1e6 if "pnr" in d else None)
-    r("Standard cells", lambda d: d["pnr"]["stdcells"] if "pnr" in d else None, 4)
-    r("Setup slack at 20\\,ns (ns)", lambda d: d["pnr"]["setup_ws_ns"] if "pnr" in d else None, 2)
-    r("Active cycles per bin", lambda d: d["event"]["cycles_per_bin"] if "event" in d else None)
-    r("Latency after tick (\\si{\\micro\\second})", lambda d: d["event"]["latency_us"] if "event" in d else None)
-    r("Power while decoding (\\si{\\micro\\watt})", lambda d: d["event"]["power_avg_uW"] if "event" in d else None)
-    r("\\textbf{Energy per bin, functional (nJ)}", lambda d: d["event"]["energy_per_bin_nJ"] if "event" in d else None)
-    r("Energy per bin, SDF (nJ)", lambda d: d["event_sdf"]["energy_per_bin_nJ"] if "event_sdf" in d else None)
-    r("Energy per bin, dense mode (nJ)", lambda d: d["dense"]["energy_per_bin_nJ"] if "dense" in d else None)
-    r("Leakage (\\si{\\micro\\watt})", lambda d: d["idle"]["leakage_uW"] if "idle" in d else None)
-    r("Idle, 50\\,MHz clock running (\\si{\\micro\\watt})", lambda d: d["idle"]["idle_power_uW"] if "idle" in d else None)
-    r("$P_{\\mathrm{avg}}$ 250\\,bins/s, 50\\,MHz clock (\\si{\\micro\\watt})", lambda d: d.get("avg_power_uW_250Hz_clk50MHz"))
-    r("$P_{\\mathrm{avg}}$ 250\\,bins/s, 1\\,MHz clock (\\si{\\micro\\watt})", lambda d: d.get("avg_power_uW_250Hz_clk1MHz"))
-    r("\\textbf{$P_{\\mathrm{avg}}$ 250\\,bins/s, clock stopped (\\si{\\micro\\watt})}", lambda d: d.get("avg_power_uW_250Hz_clkstopped"))
-    body = " & ".join(["", *HEAD]) + " \\\\\n\\midrule\n" + "\n".join(" & ".join(rw) + " \\\\" for rw in rows)
-    (ROOT / "paper/designs_table.tex").write_text("\\begin{tabular}{lrrrrrr}\n\\toprule\n" + body + "\n\\bottomrule\n\\end{tabular}%\n")
-
-def _get(d, ks):
-    for k in ks:
-        d = d.get(k, {}) if isinstance(d, dict) else {}
-    return d if d != {} else None
+    # ---- table: designs as rows
+    hdr = ["Core", "Weights", "Lanes / cyc.", "Bits", "$\\Rsq$", "Area", "Cells", "Slack", "Cyc.", "$E_{\\mathrm{bin}}$", "$E_{\\mathrm{bin}}$ SDF", "Leak.", "$P_{\\mathrm{avg}}$"]
+    units = ["", "", "per row", "$V$ / $o$", "", "mm$^2$", "", "ns", "/bin", "nJ", "nJ", "\\si{\\micro\\watt}", "\\si{\\micro\\watt}"]
+    TL = {"bmi_snn_top": "SRAM, sequential (v1)", "bmi_snn_topg": "SRAM, seq., gated membrane groups", "bmi_snn_scmem": "flip-flop register file",
+          "bmi_snn_lmem": "latch memory", "bmi_snn_lmin": "latch memory, gated, 12-bit", "bmi_snn_hw": "hardwired 20-bit",
+          "bmi_snn_min": "hardwired 16-bit", "bmi_snn_ming": "hardwired 16-bit, gated", "bmi_snn_m12": "hardwired 12-bit, gated",
+          "bmi_snn_sp": "hardwired 12-bit, gated, 25\\,\\% synapses", "bmi_snn_sp8": "hardwired 12-bit, gated, 12.5\\,\\% synapses",
+          "bmi_snn_min32": "hardwired 16-bit, $H{=}32$", "bmi_snn_min16": "hardwired 16-bit, $H{=}16$"}
+    rows = []
+    for name, cfg in DESIGNS.items():
+        d = out.get(name, {})
+        if "pnr" not in d and "event" not in d: continue
+        p = d.get("pnr", {}); e = d.get("event", {})
+        slack = _f(p.get("setup_ws_ns"), 2) + ("" if p.get("timing_met", True) else "$^{\\dagger}$") if p else "--"
+        rows.append([TL[name], cfg["weights"].replace("%", "\\%"), cfg["lanes"], cfg["bits"], _f(d.get("r2"), 3), _f(p["instance_area_um2"] / 1e6 if p else None),
+                     _f(p.get("stdcells") if p else None, 4), slack, _f(e.get("cycles_per_bin"), 3), _f(e.get("energy_per_bin_nJ")),
+                     _f(d.get("event_sdf", {}).get("energy_per_bin_nJ")), _f(d.get("idle", {}).get("leakage_uW")), _f(d.get("avg_power_uW_250Hz_clkstopped"))])
+    body = " & ".join(hdr) + " \\\\\n" + " & ".join(units) + " \\\\\n\\midrule\n" + "\n".join(" & ".join(r) + " \\\\" for r in rows)
+    (ROOT / "paper/designs_table.tex").write_text("\\begin{tabular}{@{}lllcc rrrr rrrr@{}}\n\\toprule\n" + body + "\n\\bottomrule\n\\end{tabular}%\n")
 
 def make_variant_figure(out):
     import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
-    plt.rcParams.update({"font.size": 9, "axes.spines.top": False, "axes.spines.right": False})
-    names = [n for n in COLS if n in out and "event" in out[n]]
+    plt.rcParams.update({"font.size": 8, "axes.spines.top": False, "axes.spines.right": False})
+    names = [n for n in DESIGNS if n in out and "event" in out[n]]
     if len(names) < 2: return
-    labels = {"bmi_snn_top": "SRAM\nsequential", "bmi_snn_scmem": "register\nfile", "bmi_snn_hw": "hard-\nwired", "bmi_snn_min": "hardwired\n16-bit", "bmi_snn_min32": "hardwired\n16-bit H=32", "bmi_snn_min16": "hardwired\n16-bit H=16"}
-    fig, axs = plt.subplots(1, 3, figsize=(7.6, 2.6))
-    x = np.arange(len(names))
-    e = [out[n]["event"]["energy_per_bin_nJ"] for n in names]
-    es = [out[n].get("event_sdf", {}).get("energy_per_bin_nJ", np.nan) for n in names]
-    axs[0].bar(x - 0.2, e, 0.4, color="#c0504d", label="functional GLS"); axs[0].bar(x + 0.2, es, 0.4, color="#e8a09e", label="SDF GLS (glitches)")
-    axs[0].set_ylabel("energy per 4 ms bin (nJ)"); axs[0].set_yscale("log"); axs[0].set_ylim(top=max(e) * 6)
-    axs[0].legend(fontsize=6.5, frameon=False, loc="upper right")
-    for i, v in enumerate(e): axs[0].text(x[i] - 0.2, v * 1.15, f"{v:.3g}", ha="center", fontsize=6.5)
-    a = [out[n]["pnr"]["instance_area_um2"] / 1e6 if "pnr" in out[n] else np.nan for n in names]
-    axs[1].bar(x, a, 0.55, color="#7f9fbf"); axs[1].set_ylabel("instance area (mm²)"); axs[1].set_ylim(top=np.nanmax(a) * 1.15)
-    for i, v in enumerate(a):
-        if np.isfinite(v): axs[1].text(x[i], v * 1.03, f"{v:.2f}", ha="center", fontsize=6.5)
-    lk = [out[n]["idle"]["leakage_uW"] if "idle" in out[n] else np.nan for n in names]
-    pa = [out[n].get("avg_power_uW_250Hz_clkstopped", np.nan) for n in names]
-    axs[2].bar(x - 0.2, pa, 0.4, color="#5b9b6b", label="avg. power @250 bins/s, clock stopped")
-    axs[2].bar(x + 0.2, lk, 0.4, color="#b8d8c0", label="of which leakage")
-    axs[2].set_ylabel("µW"); axs[2].set_yscale("log"); axs[2].set_ylim(top=np.nanmax(pa) * 8)
-    axs[2].legend(fontsize=6.5, frameon=False, loc="upper right")
-    for ax in axs: ax.set_xticks(x); ax.set_xticklabels([labels[n] for n in names], fontsize=6.5)
+    col = {"seq": "#c0504d", "prog": "#7f6fbf", "hw": "#2e7d5b"}
+    mk = {"seq": "s", "prog": "D", "hw": "o"}
+    short = {"bmi_snn_top": "SRAM v1", "bmi_snn_topg": "SRAM gated", "bmi_snn_scmem": "flip-flop RF", "bmi_snn_lmem": "latch mem.", "bmi_snn_lmin": "latch, gated, 12 b",
+             "bmi_snn_hw": "hw 20 b", "bmi_snn_min": "hw 16 b", "bmi_snn_ming": "hw 16 b gated", "bmi_snn_m12": "hw 12 b gated", "bmi_snn_sp": "hw 25 % syn.",
+             "bmi_snn_sp8": "hw 12.5 % syn.", "bmi_snn_min32": "hw H=32", "bmi_snn_min16": "hw H=16"}
+    fig, axs = plt.subplots(1, 2, figsize=(7.6, 3.0))
+    def E(n): d = out[n]; return d.get("event_sdf", d["event"])["energy_per_bin_nJ"]
+    for n in names:
+        d = out[n]; fam = d["family"]
+        a = d["pnr"]["instance_area_um2"] / 1e6 if "pnr" in d else np.nan
+        axs[0].scatter(a, E(n), c=col[fam], marker=mk[fam], s=28, zorder=3); axs[0].annotate(short[n], (a, E(n)), fontsize=6, xytext=(3, 2), textcoords="offset points")
+        if d.get("r2") is not None:
+            axs[1].scatter(d["r2"], E(n), c=col[fam], marker=mk[fam], s=28, zorder=3); axs[1].annotate(short[n], (d["r2"], E(n)), fontsize=6, xytext=(3, 2), textcoords="offset points")
+    axs[0].set_xscale("log"); axs[0].set_yscale("log"); axs[0].set_xlabel("instance area (mm²)"); axs[0].set_ylabel("energy per 4 ms bin (nJ), SDF where available")
+    axs[1].set_yscale("log"); axs[1].set_xlabel("test R² (mean of three sessions)"); axs[1].set_ylabel("energy per 4 ms bin (nJ)")
+    axs[1].axvline(0.55, color="0.6", ls=":", lw=0.8)
+    for fam, lab in (("seq", "SRAM macro, sequential"), ("prog", "weights in standard cells"), ("hw", "hardwired weights")):
+        axs[1].scatter([], [], c=col[fam], marker=mk[fam], s=28, label=lab)
+    axs[1].legend(fontsize=6.5, frameon=False, loc="upper left")
     fig.tight_layout(); fig.savefig(ROOT / "paper/figures/variants.pdf"); fig.savefig(ROOT / "paper/figures/variants.png", dpi=200)
+
+def main():
+    out = collect()
+    (ROOT / "results/designs.json").write_text(json.dumps(out, indent=1, default=float))
+    write_markdown(out); write_latex(out); make_variant_figure(out)
 
 if __name__ == "__main__":
     main()

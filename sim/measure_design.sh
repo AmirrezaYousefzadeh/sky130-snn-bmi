@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
 # Complete energy measurement set for one core variant.
-# Usage: ./sim/measure_design.sh <design> [func|sdf]      design in {bmi_snn_top, bmi_snn_hw, bmi_snn_scmem}
+# Usage: ./sim/measure_design.sh <design> [func|sdf]      design: any name in sw/gen_variant.py or bmi_snn_top
 #  func: zero-delay functional GLS, full-depth dump: event 500 bins back-to-back, dense 100 bins, idle 1 bin + 400k idle cycles
 #  sdf : SDF-annotated GLS (glitches), full-depth dump: event 200 bins, dense 40 bins, idle 1 bin + 100k idle cycles
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 D="$1"; KIND="${2:-func}"
 case "$D" in
-  bmi_snn_top)   LOAD="-DLOAD_BACKDOOR"; MACRO="u_wmem" ;;
-  bmi_snn_hw|bmi_snn_min) LOAD=""; MACRO="none" ;;
+  bmi_snn_top|bmi_snn_topg) LOAD="-DLOAD_BACKDOOR"; MACRO="u_wmem" ;;
+  bmi_snn_hw|bmi_snn_min|bmi_snn_ming) LOAD=""; MACRO="none" ;;
+  bmi_snn_m12)   LOAD=""; MACRO="none"; VECSEL="vec_v12_indy_20160630_01" ;;
+  bmi_snn_sp)    LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/sp"; VECSEL="vec_sp_indy_20160630_01" ;;
+  bmi_snn_sp8)   LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/sp8"; VECSEL="vec_sp8_indy_20160630_01" ;;
+  bmi_snn_lmem)  LOAD="-DLOAD_PORT -DDUMP_AFTER_LOAD -DHAS_WR_READY"; MACRO="none" ;;
+  bmi_snn_lmin)  LOAD="-DLOAD_PORT -DDUMP_AFTER_LOAD -DHAS_WR_READY"; MACRO="none"; VECSEL="vec_v12_indy_20160630_01" ;;
   bmi_snn_min32) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/h32"; VECSEL="vec_h32_indy_20160630_01" ;;
   bmi_snn_min16) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/h16"; VECSEL="vec_h16_indy_20160630_01" ;;
   bmi_snn_scmem) LOAD="-DLOAD_PORT -DDUMP_AFTER_LOAD -DHAS_WR_READY"; MACRO="none" ;;
@@ -26,7 +31,7 @@ run_one() { # tag nbins mode gap
   grep -E "Annotated|^Total" "$ROOT/logs/vcd_power_$tag.log" "$ROOT/power/out_vcd_$tag/power_vcd.rpt" | head -3
 }
 run_one $T_EV $NEV 0 0 &
-if [[ "$D" != "bmi_snn_min" && "$D" != "bmi_snn_min32" && "$D" != "bmi_snn_min16" ]]; then run_one $T_DN $NDN 1 0 & fi
+case "$D" in bmi_snn_min|bmi_snn_min32|bmi_snn_min16|bmi_snn_ming|bmi_snn_m12|bmi_snn_sp|bmi_snn_sp8|bmi_snn_lmin) ;; *) run_one $T_DN $NDN 1 0 & ;; esac   # DENSE=0 cores have no dense mode
 run_one $T_ID 1 0 $NIDLE &
 wait
 echo "==== $D $KIND done ($(date +%H:%M:%S))"

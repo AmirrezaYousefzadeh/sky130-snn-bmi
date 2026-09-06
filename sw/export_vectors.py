@@ -8,6 +8,7 @@ import argparse, json
 from pathlib import Path
 import numpy as np, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import snn_int
 from snn_int import IntSNN, r2_neurobench, N_IN
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -17,7 +18,10 @@ ap.add_argument("--session", default=None)
 ap.add_argument("--start", type=int, default=0, help="offset into the test block")
 ap.add_argument("--n_bins", type=int, default=2000)
 ap.add_argument("--out", type=Path, required=True)
+ap.add_argument("--vbits", type=int, default=20, help="membrane width of the target core (saturation)")
+ap.add_argument("--obits", type=int, default=24, help="output accumulator width of the target core")
 a = ap.parse_args()
+snn_int.V_MAX = 2 ** (a.vbits - 1) - 1; snn_int.O_MAX = 2 ** (a.obits - 1) - 1
 
 m = np.load(a.model / "model_int.npz")
 meta = json.load(open(a.model / "train.json"))
