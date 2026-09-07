@@ -1,0 +1,34 @@
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:140: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vec_v12_indy_20160630_01/stream.hex): Not enough words in the file for the requested range [0:3999999].
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:141: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vec_v12_indy_20160630_01/expect.hex): Too many words in the file for the requested range [0:1].
+TB: mode_dense=0 n_bins=1 idle_gap=400000 clk=20 ns
+TB: weights loaded through the write port at cycle 1645
+VCD info: dumpfile /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_lmin2_idle_full/bmi_snn_lmin2_idle_full.vcd opened for output.
+WAVEFORM: dumping to /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_lmin2_idle_full/bmi_snn_lmin2_idle_full.vcd from cycle 1645
+GLS_PROGRESS cycle=20000 max=200000000
+GLS_PROGRESS cycle=40000 max=200000000
+GLS_PROGRESS cycle=60000 max=200000000
+GLS_PROGRESS cycle=80000 max=200000000
+GLS_PROGRESS cycle=100000 max=200000000
+GLS_PROGRESS cycle=120000 max=200000000
+GLS_PROGRESS cycle=140000 max=200000000
+GLS_PROGRESS cycle=160000 max=200000000
+GLS_PROGRESS cycle=180000 max=200000000
+GLS_PROGRESS cycle=200000 max=200000000
+GLS_PROGRESS cycle=220000 max=200000000
+GLS_PROGRESS cycle=240000 max=200000000
+GLS_PROGRESS cycle=260000 max=200000000
+GLS_PROGRESS cycle=280000 max=200000000
+GLS_PROGRESS cycle=300000 max=200000000
+GLS_PROGRESS cycle=320000 max=200000000
+GLS_PROGRESS cycle=340000 max=200000000
+GLS_PROGRESS cycle=360000 max=200000000
+GLS_PROGRESS cycle=380000 max=200000000
+GLS_PROGRESS cycle=400000 max=200000000
+SUMMARY: bins=1 events=7 errors=0 cycles=401681 active_cycles=1664 avg_latency_cyc=10 max_latency_cyc=10
+MEASURED: cycles_from_dump_start=400036 active_cycles_from_dump_start=27
+PASS: 1 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:207: $finish called at 8033610000 (1ps)
+
+real	0m22.450s
+user	0m21.558s
+sys	0m0.871s

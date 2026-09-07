@@ -1141,7 +1141,133 @@
   "weights": "latches",
   "lanes": "64 / 1",
   "bits": "12 / 14",
-  "dense_logic": "no"
+  "dense_logic": "no",
+  "pnr": {
+   "instance_area_um2": 2122530,
+   "stdcell_area_um2": 2122530,
+   "macro_area_um2": 0,
+   "instances": 367376,
+   "stdcells": 367376,
+   "macros": 0,
+   "die_area_um2": 5742540,
+   "core_area_um2": 5656930,
+   "setup_ws_ns": -1.1570904562006457,
+   "hold_ws_ns": -2.141552329420056,
+   "setup_viol": 4,
+   "hold_viol": 1079,
+   "clock_period_ns": null,
+   "wirelength_um": 16658107,
+   "drc": 0,
+   "utilisation": 0.375209,
+   "run_dir": "/home/yousefzadeha/workspace/BCI_paper/synthesis/bmi_snn_lmin2/runs/bmi_snn_lmin2",
+   "timing_met": false
+  },
+  "event": {
+   "tag": "bmi_snn_lmin2_md0_full",
+   "tb": {
+    "bins": 500,
+    "events": 2934,
+    "errors": 0,
+    "cycles": 13562,
+    "active_cycles": 13345,
+    "avg_latency_cyc": 8,
+    "max_latency_cyc": 17,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.001884233,
+     "switching": 0.0006486385,
+     "leakage": 4.250752e-07,
+     "total": 0.002533297
+    },
+    "Combinational": {
+     "internal": 0.00216931,
+     "switching": 0.004373697,
+     "leakage": 2.427857e-07,
+     "total": 0.006543249
+    },
+    "Clock": {
+     "internal": 0.001627551,
+     "switching": 0.002712284,
+     "leakage": 2.982403e-06,
+     "total": 0.004342818
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.005681132,
+     "switching": 0.007734639,
+     "leakage": 3.64999e-06,
+     "total": 0.01341942
+    }
+   },
+   "power_avg_uW": 13419.42,
+   "cycles_meas": 11917,
+   "cycles_per_bin": 23.834,
+   "energy_per_bin_nJ": 6.396769125600001,
+   "latency_us": 0.16,
+   "leakage_uW": 3.64999,
+   "pass": true
+  },
+  "idle": {
+   "tag": "bmi_snn_lmin2_idle_full",
+   "idle_power_uW": 47.04926620531038,
+   "leakage_uW": 3.647922,
+   "groups": {
+    "Sequential": {
+     "internal": 6.148909e-06,
+     "switching": 4.557944e-08,
+     "leakage": 4.249052e-07,
+     "total": 6.619393e-06
+    },
+    "Combinational": {
+     "internal": 1.49285e-07,
+     "switching": 3.020772e-07,
+     "leakage": 2.412404e-07,
+     "total": 6.926026e-07
+    },
+    "Clock": {
+     "internal": 3.061212e-05,
+     "switching": 7.045649e-06,
+     "leakage": 2.982065e-06,
+     "total": 4.063984e-05
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 3.691058e-05,
+     "switching": 7.393311e-06,
+     "leakage": 3.647922e-06,
+     "total": 4.795182e-05
+    }
+   },
+   "idle_raw_uW": 47.95182,
+   "active_share": 6.74939255467008e-05
+  },
+  "avg_power_uW_250Hz_clk50MHz": 48.64845848671038,
+  "avg_power_uW_250Hz_clk1MHz": 6.115141165506207,
+  "avg_power_uW_250Hz_clkstopped": 5.2471142814
  },
  "bmi_snn_hw": {
   "label": "hardwired weights, parallel",

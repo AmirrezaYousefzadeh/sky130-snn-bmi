@@ -45,7 +45,7 @@ def main():
     L = ["\\begin{tabular}{llrrrrr}", "\\toprule",
          "Core & Corner & $f_{\\max}$ (MHz) & $E_{\\mathrm{bin}}$ (nJ) & rel. & Leakage (\\si{\\micro\\watt}) & $P_{\\mathrm{avg}}$ (\\si{\\micro\\watt}) \\\\", "\\midrule"]
     def f(x, nd=3): return "--" if x is None else (f"{x:,.0f}" if abs(x) >= 1000 else f"{x:.{nd}g}")
-    TABLE_DESIGNS = ["bmi_snn_min", "bmi_snn_ming", "bmi_snn_sp", "bmi_snn_lmin", "bmi_snn_lmin2", "bmi_snn_min32", "bmi_snn_min16"]   # keep the table short
+    TABLE_DESIGNS = ["bmi_snn_min", "bmi_snn_ming", "bmi_snn_sp", "bmi_snn_min32", "bmi_snn_min16"]   # (no SDF waveform for the latch cores)   # keep the table short
     TABLE_CORNERS = ["tt_025C_1v80", "ss_100C_1v40", "ss_n40C_1v28"]
     for design, row in out.items():
         if design not in TABLE_DESIGNS: continue
