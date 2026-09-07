@@ -18,7 +18,7 @@ OpenLane hardening → gate-level simulation of the real spike stream → OpenST
 | `sw/train_snn.py` | Surrogate-gradient training whose forward pass is bit-exact with the integer model |
 | `sw/eval_int.py`, `sw/export_vectors.py`, `sw/export_firmware.py` | Full-test evaluation, testbench vectors, C header for the RISC-V baseline |
 | `rtl/bmi_snn_top.v`, `rtl/clk_gate_hd.v` | Sequential event-driven / dense-mode core with one SRAM22 weight macro, integrated clock gate, 50 MHz |
-| `rtl/bmi_snn_par.v` → `rtl/gen/bmi_snn_{scmem,lmem,lmin,hw,min,ming,m12,sp,sp8,min32,min16}.v` (via `sw/gen_variant.py`) | Parallel SRAM-free core (one event per cycle, two-stage row pipeline): weights in a flip-flop register file, in a latch memory (`LATCH_MEM`: one clock gate per row, gate one cycle ahead of the data) or hardwired (`sw/gen_weights_rom.py`, optionally pruned); `GATE_DP` clocks the weight-row register and the membrane bank only when written; 20/16/12-bit state, no-dense, H=32/16 variants, generated as flat modules |
+| `rtl/bmi_snn_par.v` → `rtl/gen/bmi_snn_{scmem,lmem,lmin,lmem2,lmin2,hw,min,ming,m12,sp,sp8,min32,min16}.v` (via `sw/gen_variant.py`) | Parallel SRAM-free core (one event per cycle, two-stage row pipeline): weights in a flip-flop register file, in a latch memory (`LATCH_MEM`: one clock gate per row, gate one cycle ahead of the data) or hardwired (`sw/gen_weights_rom.py`, optionally pruned); `GATE_DP` clocks the weight-row register and the membrane bank only when written; `W2_PIPE` pipelines the per-spike W2 read and add (needed by the latch memories at the slow corner); 20/16/12-bit state, no-dense, H=32/16 variants, generated as flat modules |
 | `rtl/gen/bmi_snn_topg.v` | The sequential SRAM core with `GATE_MEM`: 16 membrane groups (one weight word each) on their own clock gates |
 | `sim/measure_design.sh <design> func\|sdf` | Complete energy measurement set of a variant (functional or SDF gate-level, full-depth dump, per-pin OpenSTA) |
 | `sw/collect_designs.py` | PPA/energy table of all variants → `results/DESIGNS.md`, `paper/designs_table.tex`, `paper/numbers2.tex`, `paper/figures/variants.pdf` |
@@ -95,7 +95,7 @@ for d in bmi_snn_scmem bmi_snn_hw bmi_snn_min bmi_snn_min32; do DESIGN=$d ./synt
 .venv/bin/python sw/export_vectors.py results/models/indy_20160630_01_H64_th256_k44_drop_p0.25  --vbits 12 --obits 14 --out sim/vec_sp_indy_20160630_01
 .venv/bin/python sw/export_vectors.py results/models/indy_20160630_01_H64_th256_k44_drop_p0.125 --vbits 12 --obits 14 --out sim/vec_sp8_indy_20160630_01
 .venv/bin/python sw/gen_variant.py
-for d in bmi_snn_lmem bmi_snn_lmin bmi_snn_ming bmi_snn_m12 bmi_snn_sp bmi_snn_topg; do ./sim/harden_and_measure.sh $d; done   # bmi_snn_sp8 (12.5 %) falls below the R2 gate (0.53) and was not hardened
+for d in bmi_snn_lmem bmi_snn_lmin bmi_snn_lmem2 bmi_snn_lmin2 bmi_snn_ming bmi_snn_m12 bmi_snn_sp bmi_snn_topg; do ./sim/harden_and_measure.sh $d; done   # bmi_snn_sp8 (12.5 %) falls below the R2 gate (0.53) and was not hardened
 # voltage scaling: the same SDF waveforms evaluated with the liberty of other corners (1.40 V / 1.28 V), timing at that corner
 DESIGNS="bmi_snn_min16 bmi_snn_min32 bmi_snn_min bmi_snn_hw bmi_snn_ming bmi_snn_m12 bmi_snn_sp bmi_snn_lmin" ./power/run_corner_set.sh && .venv/bin/python sw/collect_corners.py
 
@@ -134,23 +134,25 @@ DESIGNS="bmi_snn_min16 bmi_snn_min32 bmi_snn_min bmi_snn_hw bmi_snn_ming bmi_snn
 
 **Weight storage and parallelism, all core variants** (`results/DESIGNS.md`; energy per bin functional and SDF, per-pin OpenSTA):
 
-| design | SRAM macro, sequential (v1) | std-cell register file, parallel | hardwired weights, parallel | hardwired, 16-bit state, no dense logic | hardwired, 16-bit, H=32 (R2 0.572) | hardwired, 16-bit, H=16 (R2 0.555) |
-|---|---|---|---|---|---|---|
-| area, cells + macro (mm²) | 0.684 | 3.23 | 0.441 | 0.327 | 0.152 | 0.0831 |
-| std-cell area (mm²) | 0.157 | 3.23 | 0.441 | 0.327 | 0.152 | 0.0831 |
-| std cells | 30251 | 511493 | 88404 | 64126 | 29762 | 15835 |
-| setup slack @20 ns (ns) | 1.49 | -2.62 | 1.3 | 0.0502 | 4.23 | 7.39 |
-| cycles / bin, event | 185 | 22.6 | 21 | 21 | 20.8 | 20.5 |
-| power while decoding, event (µW) | 1.08e+04 | 2.54e+04 | 2.33e+04 | 1.94e+04 | 8.78e+03 | 4.55e+03 |
-| energy / bin, event (nJ) | 40.1 | 11.5 | 9.81 | 8.16 | 3.66 | 1.86 |
-| energy / bin, event, SDF (nJ) | 47.3 |  | 12.1 | 10.3 | 4.43 | 2.24 |
-| energy / bin, dense (nJ) | 361 | 52.6 | 52.7 |  |  |  |
-| latency after tick (µs) | 1.66 | 0.14 | 0.1 | 0.1 | 0.1 | 0.1 |
-| leakage (µW) | 2.54 | 5.68 | 0.674 | 0.495 | 0.167 | 0.0945 |
-| idle power, 50 MHz clock running (µW) | 36.4 | 43.8 | 35 | 34.5 | 35 | 35 |
-| avg power @250 bins/s, 50 MHz clock (µW) | 46.4 | 46.7 | 37.4 | 36.5 | 35.9 | 35.5 |
-| avg power @250 bins/s, 1 MHz clock (µW) | 13.2 | 9.31 | 3.81 | 3.22 | 1.78 | 1.26 |
-| avg power @250 bins/s, clock stopped (µW) | 12.6 | 8.55 | 3.13 | 2.54 | 1.08 | 0.561 |
+| design | SRAM macro, sequential (v1) | SRAM sequential, gated membrane groups | std-cell register file (flip-flops), parallel | std-cell latch memory, parallel | hardwired weights, parallel | hardwired, 16-bit state, no dense logic | hardwired 16-bit, gated datapath | hardwired 12-bit, gated datapath | hardwired 12-bit, gated, weights pruned to 25 % | hardwired, 16-bit, H=32 | hardwired, 16-bit, H=16 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| area, cells + macro (mm²) | 0.684 | 0.72 | 3.23 | 2.17 | 0.441 | 0.327 | 0.307 | 0.282 | 0.219 | 0.152 | 0.0831 |
+| std-cell area (mm²) | 0.157 | 0.193 | 3.23 | 2.17 | 0.441 | 0.327 | 0.307 | 0.282 | 0.219 | 0.152 | 0.0831 |
+| std cells | 30,251 | 32,883 | 511,493 | 372,115 | 88,404 | 64,126 | 59,547 | 53,951 | 41,491 | 29,762 | 15,835 |
+| setup slack @20 ns (ns) | 1.5 | 1.7 | -2.6 | -4 | 1.3 | 0.05 | 2.4 | 0.59 | 3.1 | 4.2 | 7.4 |
+| timing met at all corners | yes | yes | no | no | yes | yes | yes | yes | yes | yes | yes |
+| test R² (mean of 3 sessions) | 0.583 | 0.583 | 0.583 | 0.583 | 0.583 | 0.583 | 0.583 | 0.582 | 0.574 | 0.572 | 0.555 |
+| cycles / bin, event | 185 | 185 | 22.6 | 22.6 | 21 | 21 | 21 | 21 | 20.8 | 20.8 | 20.5 |
+| power while decoding, event (µW) | 10,846 | 9,493 | 25,393 | 25,176 | 23,327 | 19,404 | 12,927 | 12,426 | 7,040 | 8,782 | 4,550 |
+| energy / bin, event (nJ) | 40.1 | 35.1 | 11.5 | 11.4 | 9.81 | 8.16 | 5.44 | 5.22 | 2.93 | 3.66 | 1.86 |
+| energy / bin, event, SDF (nJ) | 47.3 | 44.5 | -- | -- | 12.1 | 10.3 | 7.12 | 6.79 | 3.44 | 4.43 | 2.24 |
+| energy / bin, dense (nJ) | 361 | 353 | 52.6 | 51.8 | 52.7 | -- | -- | -- | -- | -- | -- |
+| latency after tick (µs) | 1.66 | 1.66 | 0.14 | 0.14 | 0.1 | 0.1 | 0.1 | 0.1 | 0.1 | 0.1 | 0.1 |
+| leakage (µW) | 2.54 | 2.52 | 5.68 | 3.4 | 0.674 | 0.495 | 0.461 | 0.436 | 0.346 | 0.167 | 0.0945 |
+| idle power, 50 MHz clock running (µW) | 36.4 | 37.2 | 43.8 | 47.1 | 35 | 34.5 | 35.4 | 35.4 | 35.6 | 35 | 35 |
+| avg power @250 bins/s, 50 MHz clock (µW) | 46.4 | 45.9 | 46.7 | 49.9 | 37.4 | 36.5 | 36.7 | 36.7 | 36.3 | 35.9 | 35.5 |
+| avg power @250 bins/s, 1 MHz clock (µW) | 13.2 | 12 | 9.31 | 7.12 | 3.81 | 3.22 | 2.52 | 2.44 | 1.78 | 1.78 | 1.26 |
+| avg power @250 bins/s, clock stopped (µW) | 12.6 | 11.3 | 8.55 | 6.25 | 3.13 | 2.54 | 1.82 | 1.74 | 1.08 | 1.08 | 0.561 |
 
 See `results/results.json`, `results/designs.json` and `results/raw/` for every field and the reports behind them.
 

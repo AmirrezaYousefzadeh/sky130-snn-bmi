@@ -2,10 +2,11 @@
 # Copy the raw reports behind every number into results/raw/ (small text files only).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"; OUT="$ROOT/results/raw"; rm -rf "$OUT"; mkdir -p "$OUT"
-for D in bmi_snn_top bmi_snn_topg bmi_snn_scmem bmi_snn_lmem bmi_snn_lmin bmi_snn_hw bmi_snn_min bmi_snn_ming bmi_snn_m12 bmi_snn_sp bmi_snn_min32 bmi_snn_min16; do
+for D in bmi_snn_top bmi_snn_topg bmi_snn_scmem bmi_snn_lmem bmi_snn_lmin bmi_snn_lmem2 bmi_snn_lmin2 bmi_snn_hw bmi_snn_min bmi_snn_ming bmi_snn_m12 bmi_snn_sp bmi_snn_min32 bmi_snn_min16; do
   R="$ROOT/synthesis/$D/runs/$D"; [ -f "$R/final/metrics.json" ] || R="$ROOT/synthesis/${D}_lo/runs/${D}_lo2"; [ -f "$R/final/metrics.json" ] || R="$ROOT/synthesis/${D}_lo/runs/${D}_lo"; [ -d "$R" ] || continue
   mkdir -p "$OUT/$D/pnr" && cp "$R/synthesis_results.txt" "$R/final/metrics.json" "$OUT/$D/pnr/" 2>/dev/null || true
-  for c in nom_tt_025C_1v80 max_ss_100C_1v60; do mkdir -p "$OUT/$D/pnr/$c"; cp "$R"/50-openroad-stapostpnr/$c/{max.rpt,min.rpt} "$OUT/$D/pnr/$c/" 2>/dev/null || true; done
+  # STA path reports are 5-16 MB each: keep the worst paths only (first 400 lines)
+  for c in nom_tt_025C_1v80 max_ss_100C_1v60; do mkdir -p "$OUT/$D/pnr/$c"; for k in max min; do f=$(ls "$R"/*-openroad-stapostpnr/$c/$k.rpt 2>/dev/null | head -1); [ -n "$f" ] && head -n 400 "$f" > "$OUT/$D/pnr/$c/${k}_worst.rpt"; done; done
 done
 for t in gls_md0_full gls_md1_full gls_idle2_full gls_md0 gls_md1 $(cd "$ROOT/sim" && ls -d build_bmi_snn_* 2>/dev/null | sed 's/^build_//'); do
   [ -d "$ROOT/sim/build_$t" ] || continue

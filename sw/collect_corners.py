@@ -12,7 +12,7 @@ CORNERS = [("tt_025C_1v80", "TT 1.80 V 25 °C", "1.80", "25"), ("tt_100C_1v80", 
            ("ss_100C_1v40", "SS 1.40 V 100 °C", "1.40", "100"), ("ss_n40C_1v40", "SS 1.40 V -40 °C", "1.40", "-40"),
            ("ss_n40C_1v28", "SS 1.28 V -40 °C", "1.28", "-40")]
 LABEL = {"bmi_snn_hw": "hardwired 64x20 b", "bmi_snn_min": "hardwired 64x16 b", "bmi_snn_min32": "hardwired H=32", "bmi_snn_min16": "hardwired H=16",
-         "bmi_snn_ming": "hw 16 b, gated", "bmi_snn_m12": "hw 12 b, gated", "bmi_snn_sp": "hw pruned 25 %", "bmi_snn_sp8": "hw pruned 12.5 %", "bmi_snn_lmin": "latch mem., gated, 12 b"}
+         "bmi_snn_ming": "hw 16 b, gated", "bmi_snn_m12": "hw 12 b, gated", "bmi_snn_sp": "hw pruned 25 %", "bmi_snn_sp8": "hw pruned 12.5 %", "bmi_snn_lmin": "latch mem., gated, 12 b", "bmi_snn_lmin2": "latch mem., gated, 12 b, pipelined W2"}
 
 def cycles(log: Path):
     t = log.read_text(errors="replace"); m = re.search(r"MEASURED: cycles_from_dump_start=(\d+)", t)
@@ -45,7 +45,7 @@ def main():
     L = ["\\begin{tabular}{llrrrrr}", "\\toprule",
          "Core & Corner & $f_{\\max}$ (MHz) & $E_{\\mathrm{bin}}$ (nJ) & rel. & Leakage (\\si{\\micro\\watt}) & $P_{\\mathrm{avg}}$ (\\si{\\micro\\watt}) \\\\", "\\midrule"]
     def f(x, nd=3): return "--" if x is None else (f"{x:,.0f}" if abs(x) >= 1000 else f"{x:.{nd}g}")
-    TABLE_DESIGNS = ["bmi_snn_min", "bmi_snn_ming", "bmi_snn_sp", "bmi_snn_lmin", "bmi_snn_min32", "bmi_snn_min16"]   # keep the table short
+    TABLE_DESIGNS = ["bmi_snn_min", "bmi_snn_ming", "bmi_snn_sp", "bmi_snn_lmin", "bmi_snn_lmin2", "bmi_snn_min32", "bmi_snn_min16"]   # keep the table short
     TABLE_CORNERS = ["tt_025C_1v80", "ss_100C_1v40", "ss_n40C_1v28"]
     for design, row in out.items():
         if design not in TABLE_DESIGNS: continue
@@ -63,7 +63,7 @@ def main():
     (ROOT / "paper/corners_table.tex").write_text("\n".join(L) + "\n")
     # macros: \eC<Design><Corner>, \fC.., \leakC.., \relC..  (design short names as in collect_designs, corners tt, ttHot, ssHot14, ssCold14, ssCold12)
     SH = {"bmi_snn_hw": "Hw", "bmi_snn_min": "Min", "bmi_snn_min32": "MinH", "bmi_snn_min16": "MinS", "bmi_snn_ming": "MinG", "bmi_snn_m12": "MinT",
-          "bmi_snn_sp": "Sp", "bmi_snn_sp8": "SpE", "bmi_snn_lmin": "LmMin"}
+          "bmi_snn_sp": "Sp", "bmi_snn_sp8": "SpE", "bmi_snn_lmin": "LmMin", "bmi_snn_lmin2": "LmMinP"}
     CS = {"tt_025C_1v80": "Tt", "tt_100C_1v80": "TtHot", "ss_100C_1v40": "SsHotA", "ss_n40C_1v40": "SsColdA", "ss_n40C_1v28": "SsColdB"}
     M = []
     for design in LABEL:

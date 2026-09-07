@@ -25,6 +25,8 @@ DESIGNS = {
     "bmi_snn_scmem": D("std-cell register file (flip-flops), parallel", "Rf",  "flip-flops",   "64 / 1", "20 / 24", "yes", ("vbits", "H64_th256_k44_drop", "v20_o24"), "prog"),
     "bmi_snn_lmem":  D("std-cell latch memory, parallel",             "Lm",    "latches",      "64 / 1", "20 / 24", "yes", ("vbits", "H64_th256_k44_drop", "v20_o24"), "prog"),
     "bmi_snn_lmin":  D("latch memory, gated datapath, 12-bit",        "LmMin", "latches",      "64 / 1", "12 / 14", "no",  ("vbits", "H64_th256_k44_drop", "v12_o14"), "prog"),
+    "bmi_snn_lmem2": D("latch memory, pipelined W2 read",              "LmP",   "latches",      "64 / 1", "20 / 24", "yes", ("vbits", "H64_th256_k44_drop", "v20_o24"), "prog"),
+    "bmi_snn_lmin2": D("latch memory, gated, 12-bit, pipelined W2 read", "LmMinP", "latches",   "64 / 1", "12 / 14", "no",  ("vbits", "H64_th256_k44_drop", "v12_o14"), "prog"),
     "bmi_snn_hw":    D("hardwired weights, parallel",                 "Hw",    "constants",    "64 / 1", "20 / 24", "yes", ("vbits", "H64_th256_k44_drop", "v20_o24"), "hw"),
     "bmi_snn_min":   D("hardwired, 16-bit state, no dense logic",     "Min",   "constants",    "64 / 1", "16 / 16", "no",  ("vbits", "H64_th256_k44_drop", "v16_o16"), "hw"),
     "bmi_snn_ming":  D("hardwired 16-bit, gated datapath",            "MinG",  "constants",    "64 / 1", "16 / 16", "no",  ("vbits", "H64_th256_k44_drop", "v16_o16"), "hw"),
@@ -211,6 +213,7 @@ def write_latex(out):
     units = ["", "", "per row", "$V$ / $o$", "", "mm$^2$", "", "ns", "/bin", "nJ", "nJ", "\\si{\\micro\\watt}", "\\si{\\micro\\watt}"]
     TL = {"bmi_snn_top": "SRAM, sequential (v1)", "bmi_snn_topg": "SRAM, seq., gated membrane groups", "bmi_snn_scmem": "flip-flop register file",
           "bmi_snn_lmem": "latch memory", "bmi_snn_lmin": "latch memory, gated, 12-bit", "bmi_snn_hw": "hardwired 20-bit",
+          "bmi_snn_lmem2": "latch memory, pipelined $W_2$ read", "bmi_snn_lmin2": "latch memory, gated, 12-bit, pipelined $W_2$ read",
           "bmi_snn_min": "hardwired 16-bit", "bmi_snn_ming": "hardwired 16-bit, gated", "bmi_snn_m12": "hardwired 12-bit, gated",
           "bmi_snn_sp": "hardwired 12-bit, gated, 25\\,\\% synapses", "bmi_snn_sp8": "hardwired 12-bit, gated, 12.5\\,\\% synapses",
           "bmi_snn_min32": "hardwired 16-bit, $H{=}32$", "bmi_snn_min16": "hardwired 16-bit, $H{=}16$"}
@@ -233,7 +236,7 @@ def make_variant_figure(out):
     if len(names) < 2: return
     col = {"seq": "#c0504d", "prog": "#7f6fbf", "hw": "#2e7d5b"}
     mk = {"seq": "s", "prog": "D", "hw": "o"}
-    short = {"bmi_snn_top": "SRAM v1", "bmi_snn_topg": "SRAM gated", "bmi_snn_scmem": "flip-flop RF", "bmi_snn_lmem": "latch mem.", "bmi_snn_lmin": "latch, gated, 12 b",
+    short = {"bmi_snn_top": "SRAM v1", "bmi_snn_topg": "SRAM gated", "bmi_snn_scmem": "flip-flop RF", "bmi_snn_lmem": "latch mem.", "bmi_snn_lmin": "latch, gated, 12 b", "bmi_snn_lmem2": "latch mem. (pipel.)", "bmi_snn_lmin2": "latch, gated, 12 b (pipel.)",
              "bmi_snn_hw": "hw 20 b", "bmi_snn_min": "hw 16 b", "bmi_snn_ming": "hw 16 b gated", "bmi_snn_m12": "hw 12 b gated", "bmi_snn_sp": "hw 25 % syn.",
              "bmi_snn_sp8": "hw 12.5 % syn.", "bmi_snn_min32": "hw H=32", "bmi_snn_min16": "hw H=16"}
     fig, axs = plt.subplots(1, 2, figsize=(7.6, 3.0))

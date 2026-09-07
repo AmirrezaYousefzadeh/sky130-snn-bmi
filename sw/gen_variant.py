@@ -20,6 +20,8 @@ VARIANTS = {
     "bmi_snn_m12":   (PAR, dict(H=64, HARDWIRED=1, V_BITS=12, O_BITS=14, DENSE=0), ["GATE_DP"]),
     "bmi_snn_sp":    (PAR, dict(H=64, HARDWIRED=1, V_BITS=12, O_BITS=14, DENSE=0), ["GATE_DP"]),   # weights pruned to 25 %:   rtl/sp/weights_rom.vh
     "bmi_snn_sp8":   (PAR, dict(H=64, HARDWIRED=1, V_BITS=12, O_BITS=14, DENSE=0), ["GATE_DP"]),   # weights pruned to 12.5 % (rtl/sp8): below the R2 gate, not hardened
+    "bmi_snn_lmem2": (PAR, dict(H=64, HARDWIRED=0, V_BITS=20, O_BITS=24, DENSE=1), ["LATCH_MEM", "W2_PIPE"]),            # + pipelined W2 read
+    "bmi_snn_lmin2": (PAR, dict(H=64, HARDWIRED=0, V_BITS=12, O_BITS=14, DENSE=0), ["LATCH_MEM", "GATE_DP", "W2_PIPE"]),
     "bmi_snn_topg":  (TOP, dict(), ["GATE_MEM"]),
 }
 def latch_icgs(H):

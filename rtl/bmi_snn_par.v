@@ -10,6 +10,9 @@
 //                     `LATCH_MEM   : the same array in level-sensitive latches written row by row through one integrated
 //                                    clock gate per row (see below): ~25 % less storage area, no hold multiplexers, no
 //                                    clock tree to the array.
+// `W2_PIPE : the output accumulation of a hidden spike is pipelined (find first spike -> read its W2 bytes -> add) so that
+//            a 64-to-1 read from a weight memory, the first-spike finder and the saturating add do not share one cycle
+//            (needed for the standard-cell weight memories at the slow corner; constants fold away in the hardwired cores).
 // `GATE_DP : the weight-row register (w_clk) and the membrane bank (v_clk) get their own integrated clock gates and are
 //            clocked only in the cycles in which they are written (fetch stage / add stage or tick scan); the control
 //            state machine and output accumulators stay on core_clk.
@@ -278,6 +281,12 @@ module bmi_snn_par #(
   wire [6:0]  j_sel   = {1'b0, ffs[5:0]};
   wire signed [7:0] w2sel_0 = w2_0[8*j_sel +: 8];
   wire signed [7:0] w2sel_1 = w2_1[8*j_sel +: 8];
+`ifdef W2_PIPE
+  reg               p1_valid, p2_valid;      // stage 1: index of the spiking neuron; stage 2: its W2 bytes
+  reg  [6:0]        p1_j;
+  reg  signed [7:0] p2_w0, p2_w1;
+  wire              w2_busy = p1_valid | p2_valid;
+`endif
 
   // ---- weight-row pipeline registers (w_clk domain)
   always @(posedge w_clk) begin
@@ -322,6 +331,9 @@ module bmi_snn_par #(
       g_valid <= 1'b0; g_gate <= 1'b0;
       row_cnt <= 7'd0; x <= 96'd0; s_r <= {H{1'b0}};
       out_valid <= 1'b0; o0 <= {O_BITS{1'b0}}; o1 <= {O_BITS{1'b0}};
+`ifdef W2_PIPE
+      p1_valid <= 1'b0; p2_valid <= 1'b0; p1_j <= 7'd0; p2_w0 <= 8'sd0; p2_w1 <= 8'sd0;
+`endif
     end else begin
       out_valid <= 1'b0;
       // ---- row pipeline valids, independent of the state machine (data registers: see the w_clk / v_clk blocks)
@@ -335,6 +347,13 @@ module bmi_snn_par #(
         a_valid <= g_valid;
         if (g_valid) a_gate <= g_gate;
       end
+`ifdef W2_PIPE
+      // ---- output-accumulation pipeline (stage 1 index -> stage 2 W2 bytes -> add), fed by S_OUT one spike per cycle
+      p1_valid <= (state == S_OUT) & any_spk;
+      p2_valid <= p1_valid;
+      if (p1_valid) begin p2_w0 <= w2_0[8*p1_j +: 8]; p2_w1 <= w2_1[8*p1_j +: 8]; end
+      if (p2_valid) begin o0 <= sat_add24w(o0, p2_w0); o1 <= sat_add24w(o1, p2_w1); end
+`endif
       // ---- control
       case (state)
         S_IDLE: begin
@@ -363,6 +382,10 @@ module bmi_snn_par #(
           state <= S_OUT;
         end
         S_OUT: begin                     // accumulate W2 of the spiking neurons, one per cycle
+`ifdef W2_PIPE
+          if (any_spk) begin p1_j <= {1'b0, ffs[5:0]}; s_r[j_sel] <= 1'b0; end
+          else if (!w2_busy) begin out_valid <= 1'b1; x <= 96'd0; state <= S_IDLE; end
+`else
           if (any_spk) begin
             o0 <= sat_add24w(o0, w2sel_0);
             o1 <= sat_add24w(o1, w2sel_1);
@@ -370,6 +393,7 @@ module bmi_snn_par #(
           end else begin
             out_valid <= 1'b1; x <= 96'd0; state <= S_IDLE;
           end
+`endif
         end
         default: state <= S_IDLE;
       endcase
