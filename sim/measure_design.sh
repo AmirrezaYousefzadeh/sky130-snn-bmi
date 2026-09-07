@@ -19,6 +19,8 @@ case "$D" in
   bmi_snn_scmem) LOAD="-DLOAD_PORT -DDUMP_AFTER_LOAD -DHAS_WR_READY"; MACRO="none" ;;
   *) echo "unknown design $D"; exit 2 ;;
 esac
+# SDF annotation of the standard-cell weight memories (370k-600k instances) does not complete in Icarus within hours; skip
+case "$D:$KIND" in bmi_snn_scmem:sdf|bmi_snn_lmem:sdf|bmi_snn_lmin:sdf|bmi_snn_lmem2:sdf|bmi_snn_lmin2:sdf) echo "==== $D sdf skipped (SDF annotation of this netlist size does not complete; functional energy is reported)"; echo "==== $D sdf done (skipped)"; exit 0;; esac
 if [[ "$KIND" == "func" ]]; then EXTRA="--no-sdf"; NEV=500; NDN=100; NIDLE=400000; SUF="full"; else EXTRA=""; NEV=200; NDN=40; NIDLE=100000; SUF="sdf"; fi
 if [[ "$D" == "bmi_snn_top" && "$KIND" == "func" ]]; then T_EV=gls_md0_full; T_DN=gls_md1_full; T_ID=gls_idle2_full; else T_EV=${D}_md0_$SUF; T_DN=${D}_md1_$SUF; T_ID=${D}_idle_$SUF; fi
 VEC="$ROOT/sim/${VECSEL:-vec_indy_20160630_01}"

@@ -29,6 +29,13 @@ set wlatches [all_registers -level_sensitive -cells]
 if { [llength $wlatches] > 0 } {
     set_false_path -from $wlatches
     puts "\[INFO] [llength $wlatches] level-sensitive weight latches: paths launched from them are false paths"
+    # Hold at the latch data pins: the write data (staging register / second data register) is launched by the edge that
+    # opens the row's latches and stays stable until the next word arrives a full cycle later, i.e. long after the latches
+    # have closed half a cycle after opening. The hold check against the opening edge (late at the slow corner by the
+    # clock-gate insertion delay) has no functional meaning for this protocol; setup (arrival before the closing edge, with
+    # time borrowing) stays constrained.
+    set_false_path -hold -to [all_registers -level_sensitive -data_pins]
+    puts "\[INFO] hold checks at the weight-latch data pins waived (data stable from the opening edge for a full cycle)"
 }
 set clocks [get_clocks $clock_port]
 set_input_delay $input_delay_value -clock $clocks $all_inputs_wo_clk

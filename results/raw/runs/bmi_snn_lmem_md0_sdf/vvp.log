@@ -1,0 +1,5 @@
+/home/yousefzadeha/workspace/BCI_paper/sim/run_gls.sh: line 33: 2523999 Killed                  vvp -n gls.vvp
+
+real	123m33.899s
+user	120m15.514s
+sys	0m3.379s

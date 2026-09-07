@@ -947,7 +947,191 @@
   "weights": "latches",
   "lanes": "64 / 1",
   "bits": "20 / 24",
-  "dense_logic": "yes"
+  "dense_logic": "yes",
+  "pnr": {
+   "instance_area_um2": 2286270,
+   "stdcell_area_um2": 2286270,
+   "macro_area_um2": 0,
+   "instances": 385176,
+   "stdcells": 385176,
+   "macros": 0,
+   "die_area_um2": 5528770,
+   "core_area_um2": 5448160,
+   "setup_ws_ns": 0,
+   "hold_ws_ns": -2.337456516726232,
+   "setup_viol": 0,
+   "hold_viol": 818,
+   "clock_period_ns": null,
+   "wirelength_um": 16353265,
+   "drc": 0,
+   "utilisation": 0.419641,
+   "run_dir": "/home/yousefzadeha/workspace/BCI_paper/synthesis/bmi_snn_lmem2/runs/bmi_snn_lmem2",
+   "timing_met": false
+  },
+  "event": {
+   "tag": "bmi_snn_lmem2_md0_full",
+   "tb": {
+    "bins": 500,
+    "events": 2934,
+    "errors": 0,
+    "cycles": 13556,
+    "active_cycles": 13341,
+    "avg_latency_cyc": 8,
+    "max_latency_cyc": 17,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.004411438,
+     "switching": 0.0006749404,
+     "leakage": 4.293198e-07,
+     "total": 0.005086808
+    },
+    "Combinational": {
+     "internal": 0.002852446,
+     "switching": 0.006918571,
+     "leakage": 2.818047e-07,
+     "total": 0.009771299
+    },
+    "Clock": {
+     "internal": 0.005072872,
+     "switching": 0.005176292,
+     "leakage": 2.685947e-06,
+     "total": 0.01025185
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.01233657,
+     "switching": 0.0127697,
+     "leakage": 3.396696e-06,
+     "total": 0.02510967
+    }
+   },
+   "power_avg_uW": 25109.670000000002,
+   "cycles_meas": 11911,
+   "cycles_per_bin": 23.822,
+   "energy_per_bin_nJ": 11.9632511748,
+   "latency_us": 0.16,
+   "leakage_uW": 3.396696,
+   "pass": true
+  },
+  "dense": {
+   "tag": "bmi_snn_lmem2_md1_full",
+   "tb": {
+    "bins": 100,
+    "events": 495,
+    "errors": 0,
+    "cycles": 13741,
+    "active_cycles": 13194,
+    "avg_latency_cyc": 103,
+    "max_latency_cyc": 108,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.004388552,
+     "switching": 0.001355731,
+     "leakage": 4.293352e-07,
+     "total": 0.005744712
+    },
+    "Combinational": {
+     "internal": 0.002067402,
+     "switching": 0.004053217,
+     "leakage": 2.8828e-07,
+     "total": 0.006120908
+    },
+    "Clock": {
+     "internal": 0.004933452,
+     "switching": 0.005033299,
+     "leakage": 2.685947e-06,
+     "total": 0.009969437
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.01138912,
+     "switching": 0.01044217,
+     "leakage": 3.403082e-06,
+     "total": 0.0218347
+    }
+   },
+   "power_avg_uW": 21834.699999999997,
+   "cycles_meas": 12096,
+   "cycles_per_bin": 120.96,
+   "energy_per_bin_nJ": 52.82250624,
+   "latency_us": 2.06,
+   "leakage_uW": 3.403082,
+   "pass": true
+  },
+  "idle": {
+   "tag": "bmi_snn_lmem2_idle_full",
+   "idle_power_uW": 46.83471086100563,
+   "leakage_uW": 3.395118,
+   "groups": {
+    "Sequential": {
+     "internal": 6.325458e-06,
+     "switching": 5.096302e-08,
+     "leakage": 4.289971e-07,
+     "total": 6.805418e-06
+    },
+    "Combinational": {
+     "internal": 2.118498e-07,
+     "switching": 4.959211e-07,
+     "leakage": 2.815021e-07,
+     "total": 9.892731e-07
+    },
+    "Clock": {
+     "internal": 3.084432e-05,
+     "switching": 7.202309e-06,
+     "leakage": 2.685082e-06,
+     "total": 4.073171e-05
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 3.738196e-05,
+     "switching": 7.74923e-06,
+     "leakage": 3.395118e-06,
+     "total": 4.85263e-05
+    }
+   },
+   "idle_raw_uW": 48.526300000000006,
+   "active_share": 6.74939255467008e-05
+  },
+  "avg_power_uW_250Hz_clk50MHz": 49.825523654705634,
+  "avg_power_uW_250Hz_clk1MHz": 7.254722650920113,
+  "avg_power_uW_250Hz_clkstopped": 6.3859307937
  },
  "bmi_snn_lmin2": {
   "label": "latch memory, gated, 12-bit, pipelined W2 read",

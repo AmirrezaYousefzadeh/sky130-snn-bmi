@@ -1,0 +1,33 @@
+sky130_vex2_soc — synthesis results
+metrics: /home/yousefzadeha/workspace/BCI_paper/synthesis/bmi_snn_lmem2/runs/bmi_snn_lmem2/final/metrics.json
+run:     /home/yousefzadeha/workspace/BCI_paper/synthesis/bmi_snn_lmem2/runs/bmi_snn_lmem2
+stdcells (netlist): sky130_fd_sc_hd
+
+Cells
+  total instances     : 385176
+  stdcells            : 385176
+  macros              : 0
+
+Estimated consumed area (instance area)
+  total               : 2,286,270.00 µm² (2.2863 mm²)
+  stdcells            : 2,286,270.00 µm² (2.2863 mm²)
+  macros              : 0.00 µm² (0.0000 mm²)
+  die outline (ref)   : 5,528,770.00 µm² (5.5288 mm²)
+  core outline (ref)  : 5,448,160.00 µm² (5.4482 mm²)
+
+Timing constraints (clock)
+  clock period        : 20.000 ns  (50.00 MHz target)
+  setup slack (WNS)   : +0.0000 ns  (aggregate)  → MET
+  setup violations    : 0
+  critical path       : 20.0000 ns
+  implied Fmax (path) : 50.00 MHz
+  hold slack (WNS)    : -2.3375 ns  (aggregate)  → VIOLATED
+  hold violations     : 818
+
+RESULT: FAIL — timing VIOLATIONS (see setup/hold above)
+
+Notes
+  Setup MET  ⇒ critical path fits in CLOCK_PERIOD (positive slack).
+  Hold MET   ⇒ no hold-time failures after CTS/PnR.
+  Slack < 0 or violation count > 0 ⇒ constraint not met.
+
