@@ -201,22 +201,22 @@
   "voltage": 5.0,
   "temperature": 25.0,
   "pnr": {
-   "instance_area_um2": 330920,
-   "stdcell_area_um2": 330920,
+   "instance_area_um2": 263997,
+   "stdcell_area_um2": 263997,
    "macro_area_um2": 0,
-   "instances": 21625,
-   "stdcells": 21625,
+   "instances": 17236,
+   "stdcells": 17236,
    "macros": 0,
-   "die_area_um2": 465180,
-   "core_area_um2": 434439,
-   "setup_ws_ns": -20.089063425821944,
-   "hold_ws_ns": -0.18086643805693645,
-   "setup_viol": 1143,
-   "hold_viol": 2,
+   "die_area_um2": 405224,
+   "core_area_um2": 375327,
+   "setup_ws_ns": -3.385812614998292,
+   "hold_ws_ns": 0.30664360807394175,
+   "setup_viol": 679,
+   "hold_viol": 0,
    "clock_period_ns": null,
-   "wirelength_um": 974997,
+   "wirelength_um": 514105,
    "drc": 0,
-   "utilisation": 0.761718,
+   "utilisation": 0.703379,
    "timing_met": false
   }
  },
@@ -240,7 +240,119 @@
   "fab": false,
   "voltage": 1.1,
   "temperature": 25.0,
-  "pnr": null
+  "pnr": {
+   "instance_area_um2": 17812.4,
+   "stdcells": 11682,
+   "setup_ws_ns": 11.7308,
+   "hold_ws_ns": null,
+   "clock_period": null,
+   "power_total_W": 0.00329138,
+   "timing_met": true
+  },
+  "event": {
+   "tag": "pdk_nangate45_min16_md0_full",
+   "tb": {
+    "bins": 500,
+    "events": 2934,
+    "errors": 0,
+    "cycles": 10268,
+    "active_cycles": 9981,
+    "avg_latency_cyc": 5,
+    "max_latency_cyc": 9,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.0001537325,
+     "switching": 5.254474e-06,
+     "leakage": 4.430722e-05,
+     "total": 0.0002032942
+    },
+    "Combinational": {
+     "internal": 0.0002456583,
+     "switching": 0.0003876696,
+     "leakage": 0.0004270556,
+     "total": 0.001060384
+    },
+    "Clock": {
+     "internal": 6.615862e-05,
+     "switching": 7.481114e-05,
+     "leakage": 4.916358e-06,
+     "total": 0.0001458861
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.0004655484,
+     "switching": 0.0004677345,
+     "leakage": 0.000476281,
+     "total": 0.001409564
+    }
+   },
+   "power_avg_uW": 1409.564,
+   "cycles_meas": 10244,
+   "cycles_per_bin": 20.488,
+   "energy_per_bin_nJ": 0.57758294464,
+   "latency_us": 0.1,
+   "leakage_uW": 476.281,
+   "pass": true
+  },
+  "idle": {
+   "tag": "pdk_nangate45_min16_idle_full",
+   "idle_power_uW": 479.014223728466,
+   "leakage_uW": 474.13620000000003,
+   "groups": {
+    "Sequential": {
+     "internal": 3.668666e-07,
+     "switching": 4.056957e-10,
+     "leakage": 4.341846e-05,
+     "total": 4.378573e-05
+    },
+    "Combinational": {
+     "internal": 1.709512e-08,
+     "switching": 2.686473e-08,
+     "leakage": 0.0004256397,
+     "total": 0.0004256837
+    },
+    "Clock": {
+     "internal": 3.647262e-06,
+     "switching": 8.706863e-07,
+     "leakage": 5.081381e-06,
+     "total": 9.599329e-06
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 4.031248e-06,
+     "switching": 8.97956e-07,
+     "leakage": 0.0004741362,
+     "total": 0.0004790654
+    }
+   },
+   "idle_raw_uW": 479.0654,
+   "active_share": 5.499573783031815e-05
+  },
+  "avg_power_uW_250Hz_clkstopped": 474.28059573616
  },
  "asap7": {
   "label": "ASAP7",
@@ -251,6 +363,118 @@
   "fab": false,
   "voltage": 0.7,
   "temperature": 25.0,
-  "pnr": null
+  "pnr": {
+   "instance_area_um2": 1274.51,
+   "stdcells": 10577,
+   "setup_ws_ns": 11.895100000000001,
+   "hold_ws_ns": null,
+   "clock_period": null,
+   "power_total_W": 0.000171746,
+   "timing_met": true
+  },
+  "event": {
+   "tag": "pdk_asap7_min16_md0_full",
+   "tb": {
+    "bins": 500,
+    "events": 2934,
+    "errors": 0,
+    "cycles": 10268,
+    "active_cycles": 9981,
+    "avg_latency_cyc": 5,
+    "max_latency_cyc": 9,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 3.34037e-05,
+     "switching": 2.487537e-06,
+     "leakage": 1.496496e-07,
+     "total": 3.604088e-05
+    },
+    "Combinational": {
+     "internal": 3.345138e-05,
+     "switching": 4.589499e-05,
+     "leakage": 1.089876e-06,
+     "total": 8.043624e-05
+    },
+    "Clock": {
+     "internal": 1.727689e-05,
+     "switching": 1.420204e-05,
+     "leakage": 2.79798e-08,
+     "total": 3.15069e-05
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 8.413201e-05,
+     "switching": 6.258443e-05,
+     "leakage": 1.2675e-06,
+     "total": 0.0001479839
+    }
+   },
+   "power_avg_uW": 147.9839,
+   "cycles_meas": 10244,
+   "cycles_per_bin": 20.488,
+   "energy_per_bin_nJ": 0.060637882864000014,
+   "latency_us": 0.1,
+   "leakage_uW": 1.2674999999999998,
+   "pass": true
+  },
+  "idle": {
+   "tag": "pdk_asap7_min16_idle_full",
+   "idle_power_uW": 4.165545603486421,
+   "leakage_uW": 1.838659,
+   "groups": {
+    "Sequential": {
+     "internal": 6.42636e-08,
+     "switching": 1.92557e-10,
+     "leakage": 1.531633e-07,
+     "total": 2.176195e-07
+    },
+    "Combinational": {
+     "internal": 2.3249e-09,
+     "switching": 3.19278e-09,
+     "leakage": 1.633455e-06,
+     "total": 1.638973e-06
+    },
+    "Clock": {
+     "internal": 1.895992e-06,
+     "switching": 3.688238e-07,
+     "leakage": 5.204982e-08,
+     "total": 2.316865e-06
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 1.962587e-06,
+     "switching": 3.722093e-07,
+     "leakage": 1.838659e-06,
+     "total": 4.173455e-06
+    }
+   },
+   "idle_raw_uW": 4.173455000000001,
+   "active_share": 5.499573783031815e-05
+  },
+  "avg_power_uW_250Hz_clkstopped": 1.8538184707160001
  }
 }
