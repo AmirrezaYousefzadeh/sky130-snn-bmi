@@ -8,8 +8,9 @@ OL2="${OPENLANE_ROOT:-/media/hardware_design_tools/openlane2}"
 if [[ "$KIND" == "core" ]]; then
   DESIGN="${DESIGN:-bmi_snn_top}"
   export RUN_DIR="${RUN_DIR:-$ROOT/synthesis/$DESIGN/runs/$DESIGN}" TOP="$DESIGN" VCD_SCOPE="tb_bmi_snn/u_dut" PERIOD_NS="${PERIOD_NS:-20}" MACRO_INST="${MACRO_INST:-u_wmem}"
-  export LIB_SC="$PDK_ROOT/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib"
-  export LIB_SRAM="$ROOT/synthesis/bmi_snn_top/macros/sram22_2048x32m8w8_tt_025C_1v80.lib"
+  # LIB_SC may be preset for other PDKs (multi-PDK study); LIB_SRAM is only read if the file exists
+  export LIB_SC="${LIB_SC:-$PDK_ROOT/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib}"
+  export LIB_SRAM="${LIB_SRAM:-$ROOT/synthesis/bmi_snn_top/macros/sram22_2048x32m8w8_tt_025C_1v80.lib}"
 else
   export RUN_DIR="${RUN_DIR:-$SKY/synthesis/sky130_vex2_soc/runs/sky130_vex2_soc}" TOP=sky130_vex2_soc VCD_SCOPE="tb_fw_mnist/u_soc" PERIOD_NS="${PERIOD_NS:-20}" MACRO_INST="u_imem u_dmem"
   export LIB_SC="$PDK_ROOT/sky130A/libs.ref/sky130_fd_sc_ms/lib/sky130_fd_sc_ms__tt_025C_1v80.lib"

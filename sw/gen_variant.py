@@ -29,8 +29,34 @@ def latch_icgs(H):
     L += [f"  sky130_fd_sc_hd__dlclkp_1 u_icg_r{c} (.CLK(wr_clk), .GATE(row_we_q1[{c}]), .GCLK(row_gclk[{c}]));" for c in range(97)]
     L += [f"  sky130_fd_sc_hd__dlclkp_1 u_icg_j{j} (.CLK(wr_clk), .GATE(w2_we_q1[{j}]), .GCLK(w2_gclk[{j}]));" for j in range(H)]
     return "\n".join(L)
+# ---- multi-PDK study: the integrated clock-gate cell of each library (the only technology-specific cell in the RTL)
+#      instantiation template: {name} = instance name, {clk} {en} {gclk} = nets
+ICG = {
+    "sky130":    "sky130_fd_sc_hd__dlclkp_4 {name} (.CLK({clk}), .GATE({en}), .GCLK({gclk}));",
+    "gf180":     "gf180mcu_fd_sc_mcu7t5v0__icgtp_4 {name} (.CLK({clk}), .E({en}), .TE(1'b0), .Q({gclk}));",
+    "ihp":       "sg13g2_lgcp_1 {name} (.CLK({clk}), .GATE({en}), .GCLK({gclk}));",
+    "asap7":     "ICGx1_ASAP7_75t_R {name} (.CLK({clk}), .ENA({en}), .SE(1'b0), .GCLK({gclk}));",
+    "nangate45": "CLKGATE_X1 {name} (.CK({clk}), .E({en}), .GCK({gclk}));",
+}
+ICG_RE = re.compile(r"sky130_fd_sc_hd__dlclkp_\d (\w+) \(\.CLK\((\w+)\), \.GATE\(([^)]*\))\)?, \.GCLK\((\w+)\)\);")
+def retarget(src: str, pdk: str, rom_dir: Path) -> str:
+    """Replace the sky130 clock gates by the PDK's cell and inline the weight ROM (no include directories in other flows)."""
+    def sub(m):
+        en = m.group(3)[:-1] if m.group(3).endswith(")") and m.group(3).count("(") < m.group(3).count(")") else m.group(3)
+        return ICG[pdk].format(name=m.group(1), clk=m.group(2), en=en, gclk=m.group(4))
+    out, n = ICG_RE.subn(sub, src)
+    assert n >= 1, "no clock gate found"
+    rom = (rom_dir / "weights_rom.vh").read_text()
+    out = out.replace('    `include "weights_rom.vh"', rom)
+    return f"// retargeted to {pdk} by sw/gen_variant.py --pdk (clock-gate cell substituted, ROM inlined)\n" + out
 out_dir = ROOT / "rtl/gen"; out_dir.mkdir(exist_ok=True)
-only = sys.argv[1:]
+args = sys.argv[1:]
+if args[:1] == ["--pdk"]:      # usage: gen_variant.py --pdk <pdk> <variant> [rom_dir]
+    pdk, var = args[1], args[2]; rom_dir = Path(args[3]) if len(args) > 3 else ROOT / "rtl" / ("h16" if var.endswith("16") else "h32" if var.endswith("32") else "")
+    src = (out_dir / f"{var}.v").read_text()
+    d = out_dir / "pdk" / pdk; d.mkdir(parents=True, exist_ok=True)
+    (d / f"{var}.v").write_text(retarget(src, pdk, rom_dir)); print("wrote", d / f"{var}.v"); sys.exit(0)
+only = args
 for name, (src, prm, defs) in VARIANTS.items():
     if only and name not in only: continue
     s = (ROOT / "rtl" / src).read_text()

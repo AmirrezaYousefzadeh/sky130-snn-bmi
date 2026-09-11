@@ -1,11 +1,14 @@
 # Per-net activity power: OpenSTA read_power_activities from a gate-level VCD (no global median, no case analysis).
 # Env: RUN_DIR TOP LIB_SC LIB_SRAM VCD_FILE VCD_SCOPE PERIOD_NS OUT MACRO_INST
 set RUN $::env(RUN_DIR); set TOP $::env(TOP); set OUT $::env(OUT)
-read_liberty $::env(LIB_SC)
+foreach l $::env(LIB_SC) { read_liberty $l }      ;# one or several liberty files (space-separated; gzip accepted)
 if {[info exists ::env(LIB_SRAM)] && [file exists $::env(LIB_SRAM)]} { read_liberty $::env(LIB_SRAM) }
-read_verilog "$RUN/final/nl/$TOP.nl.v"
+# NETLIST / SPEF may be preset (multi-PDK study: OpenROAD-flow-scripts result directories)
+set nl [expr {[info exists ::env(NETLIST)] ? $::env(NETLIST) : "$RUN/final/nl/$TOP.nl.v"}]
+set spef [expr {[info exists ::env(SPEF)] ? $::env(SPEF) : "$RUN/final/spef/nom/$TOP.nom.spef"}]
+read_verilog $nl
 link_design $TOP
-read_spef "$RUN/final/spef/nom/$TOP.nom.spef"
+read_spef $spef
 set period $::env(PERIOD_NS); set half [expr {$period / 2.0}]
 create_clock -name clk -period $period -waveform [list 0.0 $half] [get_ports clk]
 set_propagated_clock [get_clocks clk]

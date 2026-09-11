@@ -19,3 +19,4 @@ __pycache__/
 *.pyc
 results/raw/**/power_vcd_by_instance*.rpt
 results/raw/**/power_by_instance*.rpt
+synthesis/*/*/runs/

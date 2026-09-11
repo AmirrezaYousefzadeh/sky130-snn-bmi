@@ -110,7 +110,23 @@ DESIGNS="bmi_snn_min16 bmi_snn_min32 bmi_snn_min bmi_snn_hw bmi_snn_ming bmi_snn
 for f in loco_20170210_03 loco_20170215_02 loco_20170301_05; do curl -L -o data/$f.mat "https://zenodo.org/record/583331/files/$f.mat?download=1"; done
 ./sw/run_loco.sh                                                          # 192-channel Loco sessions: prepare, train H=64, integer evaluation
 ./sw/run_adapt_experiment.sh && .venv/bin/python sw/collect_adapt.py      # W1 frozen from another session, only bias + read-out retrained
-.venv/bin/python sw/asap7_leakage.py <dir with ASAP7 SEQ *_TT_*.lib>       # flip-flop leakage sky130 vs ASAP7 RVT/LVT/SLVT (see script header)
+.venv/bin/python sw/asap7_leakage.py /media/pdk/asap7sc7p5t_28/lib       # flip-flop leakage sky130 vs ASAP7 RVT/LVT/SLVT (see script header)
+
+# 5e. multi-PDK study: the hardwired 16-bit H=16 core on GF180MCU (OpenLane), IHP SG13G2, NanGate45/FreePDK45 and ASAP7
+#     (OpenROAD-flow-scripts with the OpenROAD/Yosys of the OpenLane Nix environment). PDK installation, next to sky130 in /media/pdk:
+#       PDK_ROOT=/media/pdk/volare volare enable --pdk gf180mcu $(cat $OPENLANE_ROOT/openlane/open_pdks_rev); ln -s volare/gf180mcuD /media/pdk/gf180mcuD
+#       git clone https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts /media/pdk/OpenROAD-flow-scripts && git -C /media/pdk/OpenROAD-flow-scripts checkout b4dbcb4978
+#       git clone --depth 1 --filter=blob:none --sparse https://github.com/IHP-GmbH/IHP-Open-PDK /media/pdk/IHP-Open-PDK (sparse: ihp-sg13g2/libs.ref/sg13g2_stdcell ...)
+#       git clone --depth 1 --filter=blob:none --sparse https://github.com/The-OpenROAD-Project/asap7sc7p5t_28 /media/pdk/asap7sc7p5t_28 (sparse: LIB/NLDM Verilog)
+for p in gf180 ihp asap7 nangate45; do .venv/bin/python sw/gen_variant.py --pdk $p bmi_snn_min16 rtl/h16; done   # clock-gate cell substituted, ROM inlined
+PDK=gf180mcuD DESIGN=pdk_gf180/bmi_snn_min16 RUN_TAG=bmi_snn_min16 ./synthesis/run_synthesis.sh
+for plat in nangate45 ihp-sg13g2 asap7; do ./synthesis/run_orfs.sh $plat; done      # configs in synthesis/orfs/<platform>/ (ADDER_MAP_FILE disabled, see below)
+.venv/bin/python sim/liberty2verilog.py /media/pdk/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib /media/pdk/nangate45_models.v
+for p in gf180 ihp asap7 nangate45; do ./sim/measure_pdk.sh $p; done && .venv/bin/python sw/collect_pdks.py
+# Notes: the flow-scripts' platform adder techmap (ADDER_MAP_FILE) produced netlists whose outputs differed from the RTL by a few
+# units (caught by the bit-exact gate-level check on two platforms); it is disabled in synthesis/orfs/*/config.mk. SYNTH_MEMORY_MAX_BITS
+# is raised because the case-statement ROM is inferred as a 12 kbit memory. Physical-only cells in the routed netlists get empty
+# simulation stubs (sim/gen_phys_stubs.py). Energies on the other PDKs are functional gate-level estimates at each library's typical corner.
 
 # 6. collect numbers + figures, snapshot raw reports, build the paper
 .venv/bin/python sw/fig_accuracy.py && .venv/bin/python sw/collect_results.py && ./sw/snapshot_raw.sh

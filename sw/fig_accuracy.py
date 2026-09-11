@@ -18,9 +18,9 @@ r2 = [o["test_r2_int"] for o in ours]
 plt.rcParams.update({"font.size": 9, "axes.spines.top": False, "axes.spines.right": False})
 fig, ax = plt.subplots(figsize=(4.6, 2.6))
 x = np.arange(3); w = 0.26
-ax.bar(x - w, NB["SNN3 (NeuroBench)"], w, label="NeuroBench SNN3 (float, 3 layers)", color="#bbbbbb")
-ax.bar(x, NB["SNN2 streaming (NeuroBench)"], w, label="NeuroBench SNN2 streaming (float)", color="#7f9fbf")
-ax.bar(x + w, r2, w, label="this work: int8 / int20 streaming SNN (bit-exact HW)", color="#c0504d")
+ax.bar(x - w, NB["SNN3 (NeuroBench)"], w, label="NeuroBench SNN3 (float, 3 layers)", color="#bbbbbb", hatch="//", edgecolor="#666666", linewidth=0.4)
+ax.bar(x, NB["SNN2 streaming (NeuroBench)"], w, label="NeuroBench SNN2 streaming (float)", color="#7f9fbf", hatch="..", edgecolor="#3f5f7f", linewidth=0.4)
+ax.bar(x + w, r2, w, label="this work: int8 / int20 streaming SNN (bit-exact HW)", color="#c0504d", edgecolor="#802020", linewidth=0.4)
 for i, v in enumerate(r2): ax.text(x[i] + w, v + 0.01, f"{v:.2f}", ha="center", fontsize=7)
 ax.set_xticks(x); ax.set_xticklabels([s.replace("indy_", "") for s in SESS]); ax.set_ylabel("test $R^2$ (NeuroBench)")
 ax.set_ylim(0, 0.95); ax.axhline(0.55, ls="--", lw=0.8, color="k", label="accuracy threshold used in this work (0.55)")

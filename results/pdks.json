@@ -1,0 +1,256 @@
+{
+ "sky130": {
+  "label": "SkyWater sky130",
+  "node": "130 nm",
+  "lib": "sky130\\_fd\\_sc\\_hd",
+  "flow": "OpenLane",
+  "sh": "Sky",
+  "fab": true,
+  "voltage": 1.8,
+  "temperature": 25.0,
+  "pnr": {
+   "instance_area_um2": 83082.2,
+   "stdcell_area_um2": 83082.2,
+   "macro_area_um2": 0,
+   "instances": 15835,
+   "stdcells": 15835,
+   "macros": 0,
+   "die_area_um2": 178964,
+   "core_area_um2": 164803,
+   "setup_ws_ns": 7.385811282730625,
+   "hold_ws_ns": 0.11058199113842161,
+   "setup_viol": 0,
+   "hold_viol": 0,
+   "clock_period_ns": null,
+   "wirelength_um": 365209,
+   "drc": 0,
+   "utilisation": 0.50413,
+   "run_dir": "/home/yousefzadeha/workspace/BCI_paper/synthesis/bmi_snn_min16/runs/bmi_snn_min16",
+   "timing_met": true
+  },
+  "event": {
+   "tag": "bmi_snn_min16_md0_full",
+   "tb": {
+    "bins": 500,
+    "events": 2934,
+    "errors": 0,
+    "cycles": 10268,
+    "active_cycles": 9981,
+    "avg_latency_cyc": 5,
+    "max_latency_cyc": 9,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.001124546,
+     "switching": 8.601582e-05,
+     "leakage": 4.566318e-09,
+     "total": 0.001210566
+    },
+    "Combinational": {
+     "internal": 0.0005825287,
+     "switching": 0.00131457,
+     "leakage": 2.453814e-08,
+     "total": 0.001897123
+    },
+    "Clock": {
+     "internal": 0.0007586905,
+     "switching": 0.0006831317,
+     "leakage": 6.544987e-08,
+     "total": 0.001441888
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.002465759,
+     "switching": 0.002083715,
+     "leakage": 9.45542e-08,
+     "total": 0.004549569
+    }
+   },
+   "power_avg_uW": 4549.5689999999995,
+   "cycles_meas": 10244,
+   "cycles_per_bin": 20.488,
+   "energy_per_bin_nJ": 1.8642313934399999,
+   "latency_us": 0.1,
+   "leakage_uW": 0.0945542,
+   "pass": true
+  },
+  "idle": {
+   "tag": "bmi_snn_min16_idle_full",
+   "idle_power_uW": 35.039841172457244,
+   "leakage_uW": 0.09452138,
+   "groups": {
+    "Sequential": {
+     "internal": 2.128919e-06,
+     "switching": 6.665772e-09,
+     "leakage": 4.474277e-09,
+     "total": 2.140059e-06
+    },
+    "Combinational": {
+     "internal": 4.071158e-08,
+     "switching": 9.030344e-08,
+     "leakage": 2.478775e-08,
+     "total": 1.558028e-07
+    },
+    "Clock": {
+     "internal": 2.727175e-05,
+     "switching": 5.881084e-06,
+     "leakage": 6.526184e-08,
+     "total": 3.32181e-05
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 2.944126e-05,
+     "switching": 5.978045e-06,
+     "leakage": 9.452138e-08,
+     "total": 3.551383e-05
+    }
+   },
+   "idle_raw_uW": 35.51383,
+   "active_share": 0.00010499186313060738
+  },
+  "event_sdf": {
+   "tag": "bmi_snn_min16_md0_sdf",
+   "tb": {
+    "bins": 200,
+    "events": 1262,
+    "errors": 0,
+    "cycles": 4301,
+    "active_cycles": 4181,
+    "avg_latency_cyc": 5,
+    "max_latency_cyc": 9,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.001143951,
+     "switching": 8.692185e-05,
+     "leakage": 4.569132e-09,
+     "total": 0.001230878
+    },
+    "Combinational": {
+     "internal": 0.0009027487,
+     "switching": 0.001672648,
+     "leakage": 2.458335e-08,
+     "total": 0.002575421
+    },
+    "Clock": {
+     "internal": 0.0007588628,
+     "switching": 0.0006833001,
+     "leakage": 6.544989e-08,
+     "total": 0.001442228
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.00280557,
+     "switching": 0.002442867,
+     "leakage": 9.46019e-08,
+     "total": 0.005248531
+    }
+   },
+   "power_avg_uW": 5248.531,
+   "cycles_meas": 4277,
+   "cycles_per_bin": 21.385,
+   "energy_per_bin_nJ": 2.2447967087,
+   "latency_us": 0.1,
+   "leakage_uW": 0.0946019,
+   "pass": true
+  },
+  "avg_power_uW_250Hz_clkstopped": 0.56057922836
+ },
+ "gf180": {
+  "label": "GlobalFoundries GF180MCU",
+  "node": "180 nm",
+  "lib": "gf180mcu\\_fd\\_sc\\_mcu7t5v0",
+  "flow": "OpenLane",
+  "sh": "Gf",
+  "fab": true,
+  "voltage": 5.0,
+  "temperature": 25.0,
+  "pnr": {
+   "instance_area_um2": 330920,
+   "stdcell_area_um2": 330920,
+   "macro_area_um2": 0,
+   "instances": 21625,
+   "stdcells": 21625,
+   "macros": 0,
+   "die_area_um2": 465180,
+   "core_area_um2": 434439,
+   "setup_ws_ns": -20.089063425821944,
+   "hold_ws_ns": -0.18086643805693645,
+   "setup_viol": 1143,
+   "hold_viol": 2,
+   "clock_period_ns": null,
+   "wirelength_um": 974997,
+   "drc": 0,
+   "utilisation": 0.761718,
+   "timing_met": false
+  }
+ },
+ "ihp": {
+  "label": "IHP SG13G2",
+  "node": "130 nm",
+  "lib": "sg13g2\\_stdcell",
+  "flow": "ORFS",
+  "sh": "Ihp",
+  "fab": true,
+  "voltage": 1.2,
+  "temperature": 25.0,
+  "pnr": null
+ },
+ "nangate45": {
+  "label": "NanGate45 / FreePDK45",
+  "node": "45 nm",
+  "lib": "NangateOpenCellLibrary",
+  "flow": "ORFS",
+  "sh": "Nan",
+  "fab": false,
+  "voltage": 1.1,
+  "temperature": 25.0,
+  "pnr": null
+ },
+ "asap7": {
+  "label": "ASAP7",
+  "node": "7 nm (FinFET)",
+  "lib": "asap7sc7p5t RVT",
+  "flow": "ORFS",
+  "sh": "Asap",
+  "fab": false,
+  "voltage": 0.7,
+  "temperature": 25.0,
+  "pnr": null
+ }
+}
