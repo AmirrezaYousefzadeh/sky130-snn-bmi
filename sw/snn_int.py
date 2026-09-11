@@ -30,7 +30,8 @@ def sat(x, m):
 
 class IntSNN:
     def __init__(self, W1: np.ndarray, W2: np.ndarray, theta: int, k1: int, k2: int):
-        assert W1.shape[0] == N_IN + 1 and W1.dtype == np.int64 or W1.dtype == np.int8
+        assert W1.dtype in (np.int64, np.int8)
+        self.n_in = W1.shape[0] - 1                       # 96 (Indy) or 192 (Loco); the last row is the bias
         self.W1 = W1.astype(np.int64)
         self.W2 = W2.astype(np.int64)
         self.H = W1.shape[1]
@@ -46,7 +47,7 @@ class IntSNN:
         v = self.v
         for c in active_channels:                       # sequential, as the hardware does
             v = sat(v + self.W1[c], V_MAX)
-        v = sat(v + self.W1[N_IN], V_MAX)               # bias row
+        v = sat(v + self.W1[self.n_in], V_MAX)          # bias row
         vl = v - (v >> self.k1)
         s = vl >= self.theta
         self.v = np.where(s, 0, vl)
@@ -69,7 +70,7 @@ class IntSNN:
         """2048 x uint32 memory image."""
         mem = np.zeros(2048, dtype=np.uint32)
         W1u = (self.W1 & 0xFF).astype(np.uint32)
-        for c in range(N_IN + 1):
+        for c in range(self.n_in + 1):
             for w in range(self.H // 4):
                 word = 0
                 for l in range(4):

@@ -1,0 +1,10 @@
+{
+ "o2": {
+  "label": "-O2 (released)",
+  "cycles_per_bin": 9030.5,
+  "power_awake_mW": 14.17973,
+  "energy_per_bin_nJ_ref": 2561.0010353000002,
+  "latency_us": 180.61,
+  "energy_per_bin_nJ_vcd": null
+ }
+}

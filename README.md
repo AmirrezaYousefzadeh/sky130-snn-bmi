@@ -19,6 +19,7 @@ OpenLane hardening → gate-level simulation of the real spike stream → OpenST
 | `sw/eval_int.py`, `sw/export_vectors.py`, `sw/export_firmware.py` | Full-test evaluation, testbench vectors, C header for the RISC-V baseline |
 | `rtl/bmi_snn_top.v`, `rtl/clk_gate_hd.v` | Sequential event-driven / dense-mode core with one SRAM22 weight macro, integrated clock gate, 50 MHz |
 | `rtl/bmi_snn_par.v` → `rtl/gen/bmi_snn_{scmem,lmem,lmin,lmem2,lmin2,hw,min,ming,m12,sp,sp8,min32,min16}.v` (via `sw/gen_variant.py`) | Parallel SRAM-free core (one event per cycle, two-stage row pipeline): weights in a flip-flop register file, in a latch memory (`LATCH_MEM`: one clock gate per row, gate one cycle ahead of the data) or hardwired (`sw/gen_weights_rom.py`, optionally pruned); `GATE_DP` clocks the weight-row register and the membrane bank only when written; `W2_PIPE` pipelines the per-spike W2 read and add (needed by the latch memories at the slow corner); 20/16/12-bit state, no-dense, H=32/16 variants, generated as flat modules |
+| `firmware/bmi_snn_sw_tuned.c` | Hand-tuned software baseline (unclamped 32-bit adds with a per-bin range check, unrolled row loop); built with `FW_SRC`/`FW_OPT`, run with `VARIANT=_tuned ./sim/run_riscv.sh gls --vcd` |
 | `rtl/gen/bmi_snn_topg.v` | The sequential SRAM core with `GATE_MEM`: 16 membrane groups (one weight word each) on their own clock gates |
 | `sim/measure_design.sh <design> func\|sdf` | Complete energy measurement set of a variant (functional or SDF gate-level, full-depth dump, per-pin OpenSTA) |
 | `sw/collect_designs.py` | PPA/energy table of all variants → `results/DESIGNS.md`, `paper/designs_table.tex`, `paper/numbers2.tex`, `paper/figures/variants.pdf` |
@@ -99,6 +100,17 @@ for d in bmi_snn_lmem bmi_snn_lmin bmi_snn_lmem2 bmi_snn_lmin2 bmi_snn_ming bmi_
 # (the SDF set is skipped automatically for the standard-cell weight memories: Icarus does not finish annotating their 370k-600k-instance netlists)   # bmi_snn_sp8 (12.5 %) falls below the R2 gate (0.53) and was not hardened
 # voltage scaling: the same SDF waveforms evaluated with the liberty of other corners (1.40 V / 1.28 V), timing at that corner
 DESIGNS="bmi_snn_min16 bmi_snn_min32 bmi_snn_min bmi_snn_hw bmi_snn_ming bmi_snn_m12 bmi_snn_sp bmi_snn_lmin" ./power/run_corner_set.sh && .venv/bin/python sw/collect_corners.py
+
+# 5d. referee experiments (2026-09-12): seed variance, same-window glitch factor, 500-bin SDF, cross-session energy, tuned software,
+#     Loco sessions, ASAP7 leakage, recalibration with hardwired input weights
+./sw/run_seed_sweep.sh && .venv/bin/python sw/collect_seeds.py            # seeds 1-4 of every configuration -> paper/seeds_table.tex
+./sim/run_review_experiments.sh                                           # E1 <d>_md0_f200, E9 <d>_md0_x<session>, E5 500-bin SDF (old 200-bin kept as *_sdf200)
+.venv/bin/python sw/collect_transfer.py                                   # E9: E_bin = a + b n_ev across the three sessions' streams
+./sim/run_e4_software.sh && .venv/bin/python sw/collect_software.py       # -O3 and hand-tuned firmware (firmware/bmi_snn_sw_tuned.c) on the SoC netlist
+for f in loco_20170210_03 loco_20170215_02 loco_20170301_05; do curl -L -o data/$f.mat "https://zenodo.org/record/583331/files/$f.mat?download=1"; done
+./sw/run_loco.sh                                                          # 192-channel Loco sessions: prepare, train H=64, integer evaluation
+./sw/run_adapt_experiment.sh && .venv/bin/python sw/collect_adapt.py      # W1 frozen from another session, only bias + read-out retrained
+.venv/bin/python sw/asap7_leakage.py <dir with ASAP7 SEQ *_TT_*.lib>       # flip-flop leakage sky130 vs ASAP7 RVT/LVT/SLVT (see script header)
 
 # 6. collect numbers + figures, snapshot raw reports, build the paper
 .venv/bin/python sw/fig_accuracy.py && .venv/bin/python sw/collect_results.py && ./sw/snapshot_raw.sh

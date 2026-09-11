@@ -11,6 +11,7 @@ TCLK = 20.0
 CORNERS = [("tt_025C_1v80", "TT 1.80 V 25 °C", "1.80", "25"), ("tt_100C_1v80", "TT 1.80 V 100 °C", "1.80", "100"),
            ("ss_100C_1v40", "SS 1.40 V 100 °C", "1.40", "100"), ("ss_n40C_1v40", "SS 1.40 V -40 °C", "1.40", "-40"),
            ("ss_n40C_1v28", "SS 1.28 V -40 °C", "1.28", "-40")]
+TLABEL = {"bmi_snn_min": "hardwired 16-bit", "bmi_snn_ming": "hardwired 16-bit, gated", "bmi_snn_sp": "hardwired 12-bit, gated, 25\\,\\% synapses", "bmi_snn_min32": "hardwired 16-bit, $H{=}32$", "bmi_snn_min16": "hardwired 16-bit, $H{=}16$"}
 LABEL = {"bmi_snn_hw": "hardwired 64x20 b", "bmi_snn_min": "hardwired 64x16 b", "bmi_snn_min32": "hardwired H=32", "bmi_snn_min16": "hardwired H=16",
          "bmi_snn_ming": "hw 16 b, gated", "bmi_snn_m12": "hw 12 b, gated", "bmi_snn_sp": "hw pruned 25 %", "bmi_snn_sp8": "hw pruned 12.5 %", "bmi_snn_lmin": "latch mem., gated, 12 b", "bmi_snn_lmin2": "latch mem., gated, 12 b, pipelined W2"}
 
@@ -46,7 +47,7 @@ def main():
          "Core & Corner & $f_{\\max}$ (MHz) & $E_{\\mathrm{bin}}$ (nJ) & rel. & Leakage (\\si{\\micro\\watt}) & $P_{\\mathrm{avg}}$ (\\si{\\micro\\watt}) \\\\", "\\midrule"]
     def f(x, nd=3): return "--" if x is None else (f"{x:,.0f}" if abs(x) >= 1000 else f"{x:.{nd}g}")
     TABLE_DESIGNS = ["bmi_snn_min", "bmi_snn_ming", "bmi_snn_sp", "bmi_snn_min32", "bmi_snn_min16"]   # (no SDF waveform for the latch cores)   # keep the table short
-    TABLE_CORNERS = ["tt_025C_1v80", "ss_100C_1v40", "ss_n40C_1v28"]
+    TABLE_CORNERS = ["tt_025C_1v80", "tt_100C_1v80", "ss_100C_1v40", "ss_n40C_1v40", "ss_n40C_1v28"]
     for design, row in out.items():
         if design not in TABLE_DESIGNS: continue
         base = row.get("tt_025C_1v80", {}) or {}
@@ -56,7 +57,7 @@ def main():
             r = row.get(c)
             if not r: continue
             rel = r["energy_per_bin_nJ"] / base["energy_per_bin_nJ"] if base.get("energy_per_bin_nJ") else None
-            L.append(f"{LABEL[design] if first else ''} & {lab} & {f(r.get('fmax_MHz'), 3)} & {f(r['energy_per_bin_nJ'])} & {f(rel, 2)} & {f(r.get('leakage_uW'))} & {f(r.get('avg_power_uW_250Hz_clkstopped'))} \\\\")
+            L.append(f"{TLABEL.get(design, LABEL[design]) if first else ''} & {lab} & {f(r.get('fmax_MHz'), 3)} & {f(r['energy_per_bin_nJ'])} & {f(rel, 2)} & {f(r.get('leakage_uW'))} & {f(r.get('avg_power_uW_250Hz_clkstopped'))} \\\\")
             first = False
         L.append("\\midrule")
     L[-1] = "\\bottomrule"; L.append("\\end{tabular}%")

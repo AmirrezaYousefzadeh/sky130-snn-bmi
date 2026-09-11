@@ -1,0 +1,22 @@
+{
+ "bmi_snn_top": {
+  "points": [
+   {
+    "ev_per_bin": 5.868,
+    "e_nJ": 40.0797348428,
+    "cyc": 184.774,
+    "stream": "Ref"
+   }
+  ]
+ },
+ "bmi_snn_sp": {
+  "points": [
+   {
+    "ev_per_bin": 5.868,
+    "e_nJ": 2.93391590984,
+    "cyc": 20.836,
+    "stream": "Ref"
+   }
+  ]
+ }
+}

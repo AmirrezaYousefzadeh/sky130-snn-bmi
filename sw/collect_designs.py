@@ -106,6 +106,11 @@ def collect():
             if r: d[mode] = r
             rs = run_energy(f"{name}_md{0 if mode=='event' else 1}_sdf", TCLK, cfg["macro"])
             if rs: d[mode + "_sdf"] = rs
+        r200 = run_energy(f"{name}_md0_f200", TCLK, cfg["macro"])            # E1: functional run on the 200-bin SDF window
+        if r200: d["event_f200"] = r200
+        for s_ in SESS:                                                      # E9: other sessions' streams (energy transfer)
+            rx = run_energy(f"{name}_md0_x{s_[5:]}", TCLK, cfg["macro"])
+            if rx: d[f"event_x{s_[5:]}"] = rx
         P_dec = d["event"]["power_avg_uW"] * 1e-6 if "event" in d else None
         r = run_idle(tags["idle"], TCLK, P_dec)
         if r is None: r = run_idle(f"{name}_idle_sdf", TCLK, P_dec)
@@ -161,7 +166,8 @@ def write_latex(out):
     """paper/numbers2.tex (macros per variant) and paper/designs_table.tex (designs as rows)."""
     L = []
     def mac(n, v, nd=3): L.append(f"\\newcommand{{\\{n}}}{{{_f(v, nd)}}}")
-    KEYS = ("area", "cells", "slack", "cyc", "pdec", "e", "lat", "eSdf", "eDense", "leak", "idle", "pavgFifty", "pavgOne", "pavgStop", "pavgStopSdf", "sdfRatio", "rsq")
+    KEYS = ("area", "cells", "slack", "cyc", "pdec", "e", "lat", "eSdf", "eDense", "leak", "idle", "pavgFifty", "pavgOne", "pavgStop", "pavgStopSdf", "sdfRatio", "sdfRatioMixed", "rsq",
+            "evWin", "evWinSdf", "evWinF", "nbevWin", "nbevWinSdf", "nbevWinF")
     for name, cfg in DESIGNS.items():
         d = out.get(name, {}); sh = cfg["sh"]; p = d.get("pnr", {})
         mac(f"area{sh}", p["instance_area_um2"] / 1e6 if p else None); mac(f"cells{sh}", p.get("stdcells") if p else None, 4)
@@ -173,7 +179,19 @@ def write_latex(out):
         i = d.get("idle", {}); mac(f"leak{sh}", i.get("leakage_uW"), 3); mac(f"idle{sh}", i.get("idle_power_uW"), 3)
         mac(f"pavgFifty{sh}", d.get("avg_power_uW_250Hz_clk50MHz"), 3); mac(f"pavgOne{sh}", d.get("avg_power_uW_250Hz_clk1MHz"), 3)
         mac(f"pavgStop{sh}", d.get("avg_power_uW_250Hz_clkstopped"), 3); mac(f"pavgStopSdf{sh}", d.get("avg_power_uW_250Hz_clkstopped_sdf"), 3)
-        ef = e.get("energy_per_bin_nJ"); mac(f"sdfRatio{sh}", (es / ef) if (ef and es) else None, 3)
+        ef = e.get("energy_per_bin_nJ")
+        # glitch factor from the same simulation window: an SDF run of N bins is compared with a functional run of N bins
+        # (the <design>_md0_f200 runs of the referee experiment E1 where the SDF window is shorter than the 500-bin functional one)
+        ef_same = None
+        if es:
+            if d.get("event_sdf", {}).get("tb", {}).get("bins") == e.get("tb", {}).get("bins"): ef_same = ef
+            elif "event_f200" in d and d["event_f200"]["tb"]["bins"] == d["event_sdf"]["tb"]["bins"]: ef_same = d["event_f200"]["energy_per_bin_nJ"]
+        mac(f"sdfRatio{sh}", (es / ef_same) if (ef_same and es) else None, 3)
+        mac(f"sdfRatioMixed{sh}", (es / ef) if (ef and es) else None, 3)     # SDF window against the full functional window
+        for key, suf in (("event", "evWin"), ("event_sdf", "evWinSdf"), ("event_f200", "evWinF")):
+            tb = d.get(key, {}).get("tb", {})
+            mac(f"{suf}{sh}", (tb["events"] / tb["bins"]) if tb.get("bins") else None, 3)
+            mac(f"bins{suf[5:] or 'Func'}{sh}" if False else f"nb{suf}{sh}", tb.get("bins"), 4)
         mac(f"rsq{sh}", d.get("r2"), 3)
     e0 = out.get("bmi_snn_top", {}).get("event", {}).get("energy_per_bin_nJ")
     for name, cfg in DESIGNS.items():
@@ -189,7 +207,7 @@ def write_latex(out):
     mac("areaRatioLmRf", ratio(_area("bmi_snn_lmem"), _area("bmi_snn_scmem")), 2)
     mac("leakRatioLmRf", ratio(_leak("bmi_snn_lmem"), _leak("bmi_snn_scmem")), 2)
     mac("gainGate", ratio(_e("bmi_snn_min"), _e("bmi_snn_ming")), 2)
-    mac("gainTwelve", ratio(_e("bmi_snn_ming"), _e("bmi_snn_m12")), 2)
+    mac("gainTwelve", ratio(_e("bmi_snn_ming"), _e("bmi_snn_m12")), 3)
     mac("gainSpVsTwelve", ratio(_e("bmi_snn_m12"), _e("bmi_snn_sp")), 2)
     mac("gainSpEVsTwelve", ratio(_e("bmi_snn_m12"), _e("bmi_snn_sp8")), 2)
     mac("gainMinSp", ratio(_e("bmi_snn_min"), _e("bmi_snn_sp")), 2)
@@ -222,7 +240,9 @@ def write_latex(out):
         d = out.get(name, {})
         if "pnr" not in d and "event" not in d: continue
         p = d.get("pnr", {}); e = d.get("event", {})
-        slack = _f(p.get("setup_ws_ns"), 2) + ("" if p.get("timing_met", True) else "$^{\\dagger}$") if p else "--"
+        setup = p.get("setup_ws_ns") if p else None; hold = p.get("hold_ws_ns") if p else None
+        flags = ("$^{\\dagger}$" if (setup is not None and setup < 0) else "") + ("$^{\\ddagger}$" if (hold is not None and hold < 0) else "")
+        slack = (_f(setup, 2) + flags) if p else "--"
         rows.append([TL[name], cfg["weights"].replace("%", "\\%"), cfg["lanes"], cfg["bits"], _f(d.get("r2"), 3), _f(p["instance_area_um2"] / 1e6 if p else None),
                      _f(p.get("stdcells") if p else None, 4), slack, _f(e.get("cycles_per_bin"), 3), _f(e.get("energy_per_bin_nJ")),
                      _f(d.get("event_sdf", {}).get("energy_per_bin_nJ")), _f(d.get("idle", {}).get("leakage_uW")), _f(d.get("avg_power_uW_250Hz_clkstopped"))])
@@ -258,7 +278,9 @@ def make_variant_figure(out):
 def main():
     out = collect()
     (ROOT / "results/designs.json").write_text(json.dumps(out, indent=1, default=float))
-    write_markdown(out); write_latex(out); make_variant_figure(out)
+    write_markdown(out); write_latex(out)
+    import subprocess
+    subprocess.run([sys.executable, str(ROOT / "sw/make_variants_fig.py"), str(ROOT), str(ROOT / "paper/figures")], check=False)
 
 if __name__ == "__main__":
     main()

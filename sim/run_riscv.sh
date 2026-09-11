@@ -7,11 +7,13 @@ export PATH="/media/hardware_design_tools/oss-cad-suite/bin:$PATH"
 PDK_ROOT="${PDK_ROOT:-/media/pdk}"
 MODE="$1"; VCD="${2:-}"
 RUN_DIR="${RUN_DIR:-$SKY/synthesis/sky130_vex2_soc/runs/sky130_vex2_soc}"
-OUT="$ROOT/sim/build_riscv_$MODE"; rm -rf "$OUT"; mkdir -p "$OUT"; cd "$OUT"
-make -C "$ROOT/firmware" all >/dev/null
+# VARIANT (e.g. _o3, _tuned) selects the firmware build (FW_OPT, FW_SRC) and suffixes the output directory
+VARIANT="${VARIANT:-}"
+OUT="$ROOT/sim/build_riscv_${MODE}${VARIANT}"; rm -rf "$OUT"; mkdir -p "$OUT"; cd "$OUT"
+make -C "$ROOT/firmware" all OPT="${FW_OPT:--O2}" SRC="${FW_SRC:-bmi_snn_sw.c}" >/dev/null
 cp -f "$ROOT/firmware/build/imem.hex" "$ROOT/firmware/build/dmem.hex" .
 cp -f "$SKY/rtl/cpu/VexRiscv2.v_toplevel_RegFilePlugin_regFile.bin" .
-DUMP=(); [[ "$VCD" == "--vcd" ]] && DUMP=(-DDUMP_PATH="\"$OUT/riscv_$MODE.vcd\"" -DDUMP_LEVEL=1 -DDUMP_MODULE=tb_fw_mnist.u_soc)
+DUMP=(); [[ "$VCD" == "--vcd" ]] && DUMP=(-DDUMP_PATH="\"$OUT/riscv_${MODE}${VARIANT}.vcd\"" -DDUMP_LEVEL=1 -DDUMP_MODULE=tb_fw_mnist.u_soc)
 TIMEOUT=5000000
 if [[ "$MODE" == "rtl" ]]; then
   iverilog -g2012 -o fw.vvp -DIMEM_HEX="\"imem.hex\"" -DDMEM_HEX="\"dmem.hex\"" -DTIMEOUT_CYCLES=$TIMEOUT "${DUMP[@]}" \
@@ -31,5 +33,5 @@ else
     "$SKY/rtl/sram/sram22_2048x32m8w8.v" "$NETLIST" "$SSIM/tb_fw_mnist.v" 2> iverilog_warn.log || { tail -20 iverilog_warn.log; exit 1; }
   echo "==> running GLS ($(date +%H:%M:%S))"; ( time vvp -n fw_gls.vvp ) > vvp.log 2>&1 || true
   grep -E "PASS|FAIL|TB:|SDF:" vvp.log | head; tail -3 vvp.log
-  [[ "$VCD" == "--vcd" ]] && python3 "$SSIM/vcd_rescale_ns.py" "$OUT/riscv_$MODE.vcd" && echo "VCD: $OUT/riscv_$MODE.vcd ($(du -h "$OUT/riscv_$MODE.vcd" | cut -f1))"
+  [[ "$VCD" == "--vcd" ]] && python3 "$SSIM/vcd_rescale_ns.py" "$OUT/riscv_${MODE}${VARIANT}.vcd" && echo "VCD: $OUT/riscv_${MODE}${VARIANT}.vcd ($(du -h "$OUT/riscv_${MODE}${VARIANT}.vcd" | cut -f1))"
 fi

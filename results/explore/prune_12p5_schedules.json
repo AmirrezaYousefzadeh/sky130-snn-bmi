@@ -1,0 +1,17 @@
+{
+ "note": "12.5 % density (H=64), torch test R2 per session and mean; the released models are the 1500-step ones",
+ "steps1500_prune_0.2_0.6": {
+  "indy_20160622_01": 0.5988,
+  "indy_20160630_01": 0.5013,
+  "indy_20170131_02": 0.4976,
+  "mean": 0.5326,
+  "log": "logs/train_*_H64_p0.125.log (2026-09-06 21:40)"
+ },
+ "steps3000_prune_0.1_0.5": {
+  "indy_20160622_01": 0.5834,
+  "indy_20160630_01": 0.4722,
+  "indy_20170131_02": 0.4559,
+  "mean": 0.5038,
+  "log": "logs/train_*_H64_p0.125L.log"
+ }
+}

@@ -41,9 +41,10 @@ class SpikeFn(torch.autograd.Function):
 
 
 class QSNN(nn.Module):
-    def __init__(self, H, theta, k1, k2, w_init=40.0, drop=0.0, wbits=8):
+    def __init__(self, H, theta, k1, k2, w_init=40.0, drop=0.0, wbits=8, n_in=N_IN):
         super().__init__()
-        self.H, self.theta, self.k1, self.k2 = H, theta, k1, k2
+        self.H, self.theta, self.k1, self.k2, self.n_in = H, theta, k1, k2, n_in
+        N_IN = n_in
         self.wmax = 2 ** (wbits - 1) - 1
         self.w1 = nn.Parameter(torch.randn(N_IN + 1, H) * w_init)   # row 96 = bias
         self.w1.data[N_IN] = 0.0
@@ -59,12 +60,12 @@ class QSNN(nn.Module):
     def prune_to(self, density):
         """Keep the `density` fraction of largest-magnitude W1 synapses (rows 0..95; the bias row is never pruned)."""
         with torch.no_grad():
-            w = (self.w1[:N_IN].abs() * self.mask1[:N_IN]).flatten()
+            w = (self.w1[:self.n_in].abs() * self.mask1[:self.n_in]).flatten()
             k = int(round(density * w.numel()))
             thr = torch.topk(w, k).values.min() if k > 0 else w.max() + 1
-            self.mask1[:N_IN] = ((self.w1[:N_IN].abs() >= thr) & (self.mask1[:N_IN] > 0)).float()
-            self.w1[:N_IN] *= self.mask1[:N_IN]
-            return float(self.mask1[:N_IN].mean())
+            self.mask1[:self.n_in] = ((self.w1[:self.n_in].abs() >= thr) & (self.mask1[:self.n_in] > 0)).float()
+            self.w1[:self.n_in] *= self.mask1[:self.n_in]
+            return float(self.mask1[:self.n_in].mean())
 
     def forward(self, x):
         """x: (B, T, 96) float {0,1}. Returns yhat (B,T,2) in normalised velocity units, hidden spikes (B,T,H)."""
@@ -142,6 +143,9 @@ def main():
     ap.add_argument("--prune_start", type=float, default=0.2, help="fraction of steps before pruning starts")
     ap.add_argument("--prune_end", type=float, default=0.6, help="fraction of steps at which the final density is reached")
     ap.add_argument("--prune_every", type=int, default=50)
+    ap.add_argument("--init_from", type=Path, default=None, help="load W1/W2 from this model directory (model_int.npz)")
+    ap.add_argument("--train_only", default="all", choices=["all", "bias_w2"],
+                    help="bias_w2: keep the 96 input rows of W1 fixed (hybrid core: hardwired W1, programmable bias and read-out)")
     ap.add_argument("--out", type=Path, default=None)
     ap.add_argument("--tag", default="")
     a = ap.parse_args()
@@ -153,7 +157,15 @@ def main():
     mu, sd = V[tr_lo:tr_hi].mean(0), V[tr_lo:tr_hi].std(0)
     Vn = ((V - mu) / sd).astype(np.float32)
 
-    model = QSNN(a.H, a.theta, a.k1, a.k2, a.w_init, a.drop, a.wbits).to(dev)
+    n_in = X.shape[1]                                   # 96 channels (Indy) or 192 (Loco)
+    model = QSNN(a.H, a.theta, a.k1, a.k2, a.w_init, a.drop, a.wbits, n_in=n_in).to(dev)
+    if a.init_from is not None:
+        m0 = np.load(a.init_from / "model_int.npz")
+        with torch.no_grad():
+            model.w1.copy_(torch.from_numpy(m0["W1"].astype(np.float32))); model.w2.copy_(torch.from_numpy(m0["W2"].astype(np.float32)))
+            model.mask1.copy_((model.w1 != 0).float()); model.mask1[model.n_in] = 1.0
+            if "G" in m0: model.g.copy_(torch.from_numpy(m0["G"].astype(np.float32))); model.b.copy_(torch.from_numpy(m0["B"].astype(np.float32)))
+        print(f"initialised from {a.init_from} (W1 density {float((m0['W1'][:model.n_in] != 0).mean()):.3f})")
     opt = torch.optim.Adam([{"params": [model.w1, model.w2], "lr": a.lr},
                             {"params": [model.g, model.b], "lr": 1e-2}])
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, a.epochs, eta_min=a.lr * 0.05)
@@ -166,7 +178,7 @@ def main():
         model.eval()
         with torch.no_grad():
             n = (Xs.shape[0] // L) * L
-            xb = Xs[:n].reshape(-1, L, N_IN); yb = Ys[:n].reshape(-1, L, 2)
+            xb = Xs[:n].reshape(-1, L, model.n_in); yb = Ys[:n].reshape(-1, L, 2)
             yhat, s, _ = model(xb)
             r2 = r2_neurobench(yhat.reshape(-1, 2).cpu().numpy(), yb.reshape(-1, 2).cpu().numpy())
             return r2, s.sum(2).mean().item()
@@ -181,7 +193,9 @@ def main():
         xb, yb = Xtr[idx], Ytr[idx]
         yhat, s, _ = model(xb)
         loss = ((yhat[:, a.warm:] - yb[:, a.warm:]) ** 2).mean()
-        opt.zero_grad(); loss.backward(); opt.step(); sched.step()
+        opt.zero_grad(); loss.backward()
+        if a.train_only == "bias_w2": model.w1.grad[:model.n_in] = 0.0     # only the bias row of W1, W2, g and b are adapted
+        opt.step(); sched.step()
         if a.prune < 1.0 and step % a.prune_every == 0:
             s0, s1 = int(a.prune_start * steps), int(a.prune_end * steps)
             if s0 <= step <= s1:
@@ -207,7 +221,7 @@ def main():
     # ---- cross-check against the pure-integer numpy model on a slice --------------------------
     if a.prune < 1.0: model.prune_to(a.prune)
     W1, W2 = model.qweights(); W1 = W1.detach().cpu().numpy().astype(np.int64); W2 = W2.detach().cpu().numpy().astype(np.int64)
-    density = float((W1[:N_IN] != 0).mean()); print(f"W1 density (non-zero synapses, rows 0..95): {density:.3f}")
+    density = float((W1[:n_in] != 0).mean()); print(f"W1 density (non-zero synapses, input rows): {density:.3f}")
     ref = IntSNN(W1, W2, a.theta, a.k1, a.k2)
     n_chk = 3000
     Yref, _ = ref.run(X[te_lo:te_lo + n_chk] > 0.5)
@@ -223,6 +237,7 @@ def main():
     json.dump({"session": a.session, "H": a.H, "theta": a.theta, "k1": a.k1, "k2": a.k2, "epochs": a.epochs,
                "L": a.L, "lr": a.lr, "drop": a.drop, "seed": a.seed, "wbits": a.wbits, "val_r2": r2v, "test_r2": r2t,
                "hidden_spikes_per_bin_test": spt, "int_crosscheck_mismatches": mism, "prune": a.prune, "w1_density": density,
+               "init_from": str(a.init_from) if a.init_from else None, "train_only": a.train_only,
                "train_bins": int(n_tr), "val_bins": int(va_hi - va_lo), "test_bins": int(te_hi - te_lo),
                "history": hist}, open(out / "train.json", "w"), indent=1)
     print("saved", out)
