@@ -287,16 +287,19 @@ def make_figures(R):
     ev, dn, cpu = R["core"].get("event", {}), R["core"].get("dense", {}), R.get("riscv", {})
     if "energy_per_bin_nJ_active" in ev and "energy_per_bin_nJ_active" in dn:
         # --- energy / latency / EDP bars (log)
-        names = ["RISC-V SoC\n(software)", "dense\nengine", "event-driven\ncore"]
-        vals = [[cpu.get("energy_per_bin_nJ_active", np.nan), dn["energy_per_bin_nJ_active"], ev["energy_per_bin_nJ_active"]],
-                [cpu.get("latency_us", np.nan), dn["latency_us"], ev["latency_us"]],
-                [cpu.get("avg_power_uW_realtime_leak_only", np.nan), dn["avg_power_uW_realtime_leak_only"], ev["avg_power_uW_realtime_leak_only"]]]
+        try:    # hand-tuned firmware (E4 of the referee experiments): results/explore/software.json
+            tuned = json.load(open(ROOT / "results/explore/software.json"))["_tuned"]
+        except Exception: tuned = {}
+        names = ["software\n(-O2)", "software\n(tuned)", "dense\nengine", "event-driven\ncore"]
+        vals = [[cpu.get("energy_per_bin_nJ_active", np.nan), tuned.get("energy_per_bin_nJ_ref", np.nan), dn["energy_per_bin_nJ_active"], ev["energy_per_bin_nJ_active"]],
+                [cpu.get("latency_us", np.nan), tuned.get("latency_us", np.nan), dn["latency_us"], ev["latency_us"]],
+                [cpu.get("avg_power_uW_realtime_leak_only", np.nan), tuned.get("avg_power_uW_250Hz_leak", np.nan), dn["avg_power_uW_realtime_leak_only"], ev["avg_power_uW_realtime_leak_only"]]]
         titles = ["energy per 4 ms bin (nJ)", "decode latency (µs)", "avg. power @250 bins/s (µW), clock stopped"]
         fig, axs = plt.subplots(1, 3, figsize=(7.6, 2.6))
-        cols = ["#999999", "#7f9fbf", "#c0504d"]
+        cols = ["#999999", "#bbbbbb", "#7f9fbf", "#c0504d"]
         for ax, v, t in zip(axs, vals, titles):
-            b = ax.bar(range(3), v, color=cols); ax.set_yscale("log"); ax.set_title(t, fontsize=7.5)
-            ax.set_xticks(range(3)); ax.set_xticklabels(names, fontsize=7)
+            b = ax.bar(range(4), v, color=cols); ax.set_yscale("log"); ax.set_title(t, fontsize=7.5)
+            ax.set_xticks(range(4)); ax.set_xticklabels(names, fontsize=6.5)
             for i, x in enumerate(v):
                 if np.isfinite(x): ax.text(i, x * 1.15, f"{x:,.0f}" if x >= 100 else f"{x:.3g}", ha="center", fontsize=7)
             ax.set_ylim(top=max([x for x in v if np.isfinite(x)]) * 4)

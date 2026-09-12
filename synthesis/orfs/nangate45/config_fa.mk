@@ -1,0 +1,10 @@
+# Hardwired 16-bit H=16 SNN decoder core (github.com/AmirrezaYousefzadeh/sky130-snn-bmi), multi-PDK study
+export DESIGN_NAME = bmi_snn_min16
+export DESIGN_NICKNAME = bmi_snn_min16_fa
+export PLATFORM    = nangate45
+export VERILOG_FILES = /home/yousefzadeha/workspace/BCI_paper/rtl/gen/pdk/nangate45/bmi_snn_min16.v
+export SDC_FILE      = ./designs/nangate45/bmi_snn_min16/constraint.sdc
+export CORE_UTILIZATION = 40
+export PLACE_DENSITY_LB_ADDON = 0.10
+export TNS_END_PERCENT = 100
+export SYNTH_MEMORY_MAX_BITS = 65536   # the hardwired weight ROM is a 97 x 128-bit case statement

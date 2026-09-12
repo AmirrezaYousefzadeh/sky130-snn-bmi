@@ -9,7 +9,7 @@ case $P in
          VLOG="$PDK/gf180mcuD/libs.ref/gf180mcu_fd_sc_mcu7t5v0/verilog/primitives.v $PDK/gf180mcuD/libs.ref/gf180mcu_fd_sc_mcu7t5v0/verilog/gf180mcu_fd_sc_mcu7t5v0.v" ;;
   nangate45) RUN=$ORFS/results/nangate45/$D/base; NL=$RUN/6_final.v; SPEF=$RUN/6_final.spef
          LIB="$ORFS/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib"; VLOG="/media/pdk/nangate45_models.v" ;;   # functional models generated from the liberty (sim/liberty2verilog.py)
-  ihp)   IHP_RUN=${IHP_RUN:-ihp-sg13g2/$D}   # <platform dir>/<design nickname> of the flow-scripts run (e.g. ihp-sg13g2/bmi_snn_min16_pad)
+  ihp)   IHP_RUN=${IHP_RUN:-ihp-sg13g2/bmi_snn_min16_abc}   # <platform dir>/<design nickname> of the flow-scripts run (the ABC_AREA variant closes DRC-clean)
          RUN=$ORFS/results/$IHP_RUN/base; NL=$RUN/6_final.v; SPEF=$RUN/6_final.spef
          LIB="$ORFS/platforms/${IHP_RUN%%/*}/lib/sg13g2_stdcell_typ_1p20V_25C.lib"
          VLOG="/media/pdk/ihp_sg13g2_models_functional.v" ;;   # platforms/ihp-sg13g2/verilog/sg13g2_stdcell.v with `sed s/delayed_//g`: the vendor models drive

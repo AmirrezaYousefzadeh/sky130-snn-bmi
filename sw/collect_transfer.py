@@ -23,5 +23,6 @@ for name, sh in (("bmi_snn_top", "Seq"), ("bmi_snn_sp", "Sp")):
         for s, v in o["e_at_session_mean"].items(): M.append(f"\\newcommand{{\\xfer{sh}E{s}}}{{{v:.3g}}}")
     for p in pts: M += [f"\\newcommand{{\\xfer{sh}Ev{p[3]}}}{{{p[0]:.3g}}}", f"\\newcommand{{\\xfer{sh}E{p[3]}}}{{{p[1]:.3g}}}"]
     out[name] = o; print(name, o)
+for s, v in SESS.items(): M.append(f"\\newcommand{{\\xferRate{s}}}{{{v:.2f}}}")   # whole-session mean active channels per bin (Table 2)
 (ROOT / "results/explore/transfer.json").write_text(json.dumps(out, indent=1))
 (ROOT / "paper/numbers_transfer.tex").write_text("\n".join(M) + "\n")

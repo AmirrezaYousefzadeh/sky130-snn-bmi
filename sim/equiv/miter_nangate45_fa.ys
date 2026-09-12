@@ -1,0 +1,21 @@
+# Bounded equivalence check (Yosys miter + sat) of the OpenROAD-flow-scripts NanGate45 netlist against the RTL: WITH the platform full-adder mapping (ADDER_MAP_FILE default) -> counterexample
+# Netlist: make DESIGN_CONFIG=designs/nangate45/bmi_snn_min16_fa/config.mk synth   (see README step 5e). Run: yosys -l <log> sim/equiv/miter_nangate45_fa.ys
+read_verilog /media/pdk/nangate45_models.v
+read_verilog -sv /home/yousefzadeha/workspace/BCI_paper/rtl/gen/pdk/nangate45/bmi_snn_min16.v
+hierarchy -top bmi_snn_min16
+proc; flatten; memory -nomap; memory_map; opt -fast
+rename -top gold
+design -stash gold
+read_verilog /media/pdk/nangate45_models.v
+read_verilog /media/pdk/OpenROAD-flow-scripts/flow/results/nangate45/bmi_snn_min16_fa/base/1_synth.v
+hierarchy -top bmi_snn_min16
+proc; flatten; opt -fast
+rename -top gate
+design -stash gate
+design -copy-from gold -as gold gold
+design -copy-from gate -as gate gate
+clk2fflogic
+miter -equiv -flatten -make_outputs gold gate miter
+hierarchy -top miter
+opt -fast
+sat -verify -seq 24 -set-init-zero -prove trigger 0 -show-inputs -show-outputs -timeout 2400 miter

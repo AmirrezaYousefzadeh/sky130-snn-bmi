@@ -29,7 +29,8 @@
    "timing_met": true,
    "stdcells_netlist": 7643,
    "instance_area_netlist_um2": 65510.329599999626,
-   "phys_cells": 32303
+   "phys_cells": 32303,
+   "netlist": "/home/yousefzadeha/workspace/BCI_paper/synthesis/bmi_snn_min16/runs/bmi_snn_min16/final/nl/bmi_snn_min16.nl.v"
   },
   "event": {
    "tag": "bmi_snn_min16_md0_full",
@@ -192,7 +193,15 @@
    "leakage_uW": 0.09456454,
    "pass": true
   },
-  "avg_power_uW_250Hz_clkstopped": 0.56057922836
+  "leak_split": {
+   "leak_logic_uW": 0.030410135205200414,
+   "leak_phys_uW": 0.06411215112081078,
+   "n_logic": 7643,
+   "n_phys": 32303,
+   "n_unmatched": 0
+  },
+  "avg_power_uW_250Hz_clkstopped": 0.56057922836,
+  "avg_power_uW_250Hz_clkstopped_logic": 0.4964679835652004
  },
  "gf180": {
   "label": "GlobalFoundries GF180MCU",
@@ -223,7 +232,8 @@
    "timing_met": false,
    "stdcells_netlist": 8451,
    "instance_area_netlist_um2": 225427.28319999788,
-   "phys_cells": 16809
+   "phys_cells": 16809,
+   "netlist": "/home/yousefzadeha/workspace/BCI_paper/synthesis/pdk_gf180/bmi_snn_min16/runs/bmi_snn_min16/final/nl/bmi_snn_min16.nl.v"
   },
   "event": {
    "tag": "pdk_gf180_min16_md0_full",
@@ -328,7 +338,31 @@
    "idle_raw_uW": 651.7791000000001,
    "active_share": 5.499573783031815e-05
   },
-  "avg_power_uW_250Hz_clkstopped": 10.503397641600001
+  "volt": {
+   "Low": {
+    "voltage": 1.8,
+    "corner": "tt_025C_1v80",
+    "energy_per_bin_nJ": 3.25942321744,
+    "leakage_uW": 0.34289179999999997,
+    "setup_ws_ns": -28.74329396718167
+   },
+   "Mid": {
+    "voltage": 3.3,
+    "corner": "tt_025C_3v30",
+    "energy_per_bin_nJ": 12.3565135824,
+    "leakage_uW": 1.157013,
+    "setup_ws_ns": 1.8663932621620916
+   }
+  },
+  "leak_split": {
+   "leak_logic_uW": 1.3736125320000505,
+   "leak_phys_uW": 1.2921767449993498,
+   "n_logic": 8451,
+   "n_phys": 16809,
+   "n_unmatched": 0
+  },
+  "avg_power_uW_250Hz_clkstopped": 10.503397641600001,
+  "avg_power_uW_250Hz_clkstopped_logic": 9.211055173600052
  },
  "ihp": {
   "label": "IHP SG13G2",
@@ -340,17 +374,18 @@
   "voltage": 1.2,
   "temperature": 25.0,
   "pnr": {
-   "drc_errors": 825,
-   "instance_area_um2": 157888.5587999887,
-   "stdcells": 14203,
-   "setup_ws_ns": 11.1012,
+   "drc_errors": 0,
+   "instance_area_um2": 127491.31079999454,
+   "stdcells": 12034,
+   "setup_ws_ns": 10.8082,
    "hold_ws_ns": null,
    "clock_period": null,
-   "power_total_W": 0.00822914,
+   "power_total_W": 0.00976813,
    "timing_met": true,
-   "stdcells_netlist": 14203,
-   "instance_area_netlist_um2": 157888.5587999887,
-   "phys_cells": 45960
+   "stdcells_netlist": 12034,
+   "instance_area_netlist_um2": 127491.31079999454,
+   "phys_cells": 36291,
+   "netlist": "/media/pdk/OpenROAD-flow-scripts/flow/results/ihp-sg13g2/bmi_snn_min16_abc/base/6_final.v"
   },
   "event": {
    "tag": "pdk_ihp_min16_md0_full",
@@ -366,22 +401,22 @@
    },
    "groups": {
     "Sequential": {
-     "internal": 0.001237178,
-     "switching": 1.323736e-05,
+     "internal": 0.001243614,
+     "switching": 1.938244e-05,
      "leakage": 2.793712e-07,
-     "total": 0.001250695
+     "total": 0.001263276
     },
     "Combinational": {
-     "internal": 0.0005006232,
-     "switching": 0.001693543,
-     "leakage": 1.746055e-06,
-     "total": 0.002195913
+     "internal": 0.0003360318,
+     "switching": 0.001066711,
+     "leakage": 1.297201e-06,
+     "total": 0.001404041
     },
     "Clock": {
-     "internal": 0.0007685901,
-     "switching": 0.0004859934,
-     "leakage": 2.100349e-05,
-     "total": 0.001275587
+     "internal": 0.0005274779,
+     "switching": 0.000389794,
+     "leakage": 1.827546e-05,
+     "total": 0.0009355473
     },
     "Macro": {
      "internal": 0.0,
@@ -396,42 +431,42 @@
      "total": 0.0
     },
     "Total": {
-     "internal": 0.00250639,
-     "switching": 0.002192772,
-     "leakage": 2.302919e-05,
-     "total": 0.004722192
+     "internal": 0.002107125,
+     "switching": 0.001475887,
+     "leakage": 1.985224e-05,
+     "total": 0.003602864
     }
    },
-   "power_avg_uW": 4722.192,
+   "power_avg_uW": 3602.864,
    "cycles_meas": 10244,
    "cycles_per_bin": 20.488,
-   "energy_per_bin_nJ": 1.9349653939200002,
+   "energy_per_bin_nJ": 1.47630955264,
    "latency_us": 0.1,
-   "leakage_uW": 23.02919,
+   "leakage_uW": 19.85224,
    "pass": true
   },
   "idle": {
    "tag": "pdk_ihp_min16_idle_full",
-   "idle_power_uW": 58.14994756605476,
-   "leakage_uW": 23.045309999999997,
+   "idle_power_uW": 49.93336395821093,
+   "leakage_uW": 19.85306,
    "groups": {
     "Sequential": {
-     "internal": 2.802653e-06,
-     "switching": 8.403378e-10,
+     "internal": 2.803331e-06,
+     "switching": 1.218642e-09,
      "leakage": 2.693247e-07,
-     "total": 3.072818e-06
+     "total": 3.073875e-06
     },
     "Combinational": {
-     "internal": 3.087451e-08,
-     "switching": 1.022378e-07,
-     "leakage": 1.757056e-06,
-     "total": 1.890168e-06
+     "internal": 2.12083e-08,
+     "switching": 6.624668e-08,
+     "leakage": 1.297474e-06,
+     "total": 1.384929e-06
     },
     "Clock": {
-     "internal": 2.627165e-05,
-     "switching": 6.152894e-06,
-     "leakage": 2.101968e-05,
-     "total": 5.344423e-05
+     "internal": 2.259249e-05,
+     "switching": 4.791169e-06,
+     "leakage": 1.828705e-05,
+     "total": 4.567071e-05
     },
     "Macro": {
      "internal": 0.0,
@@ -446,16 +481,24 @@
      "total": 0.0
     },
     "Total": {
-     "internal": 2.910515e-05,
-     "switching": 6.255989e-06,
-     "leakage": 2.304531e-05,
-     "total": 5.840645e-05
+     "internal": 2.541707e-05,
+     "switching": 4.858637e-06,
+     "leakage": 1.985306e-05,
+     "total": 5.012876e-05
     }
    },
-   "idle_raw_uW": 58.40645,
+   "idle_raw_uW": 50.12876,
    "active_share": 5.499573783031815e-05
   },
-  "avg_power_uW_250Hz_clkstopped": 23.529051348479996
+  "leak_split": {
+   "leak_logic_uW": 1.6840939500000351,
+   "leak_phys_uW": 18.16993524000693,
+   "n_logic": 12034,
+   "n_phys": 36291,
+   "n_unmatched": 0
+  },
+  "avg_power_uW_250Hz_clkstopped": 20.22213738816,
+  "avg_power_uW_250Hz_clkstopped_logic": 2.053171338160035
  },
  "nangate45": {
   "label": "NanGate45 / FreePDK45",
@@ -477,7 +520,8 @@
    "timing_met": true,
    "stdcells_netlist": 11351,
    "instance_area_netlist_um2": 17724.378000000695,
-   "phys_cells": 9927
+   "phys_cells": 9927,
+   "netlist": "/media/pdk/OpenROAD-flow-scripts/flow/results/nangate45/bmi_snn_min16/base/6_final.v"
   },
   "event": {
    "tag": "pdk_nangate45_min16_md0_full",
@@ -582,7 +626,15 @@
    "idle_raw_uW": 479.0654,
    "active_share": 5.499573783031815e-05
   },
-  "avg_power_uW_250Hz_clkstopped": 474.28059573616
+  "leak_split": {
+   "leak_logic_uW": 474.1450943000015,
+   "leak_phys_uW": 0.0,
+   "n_logic": 11351,
+   "n_phys": 9927,
+   "n_unmatched": 0
+  },
+  "avg_power_uW_250Hz_clkstopped": 474.28059573616,
+  "avg_power_uW_250Hz_clkstopped_logic": 474.2894900361615
  },
  "asap7": {
   "label": "ASAP7",
@@ -604,7 +656,8 @@
    "timing_met": true,
    "stdcells_netlist": 9993,
    "instance_area_netlist_um2": 1257.481260000077,
-   "phys_cells": 13628
+   "phys_cells": 13628,
+   "netlist": "/media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_min16/base/6_final.v"
   },
   "event": {
    "tag": "pdk_asap7_min16_md0_full",
@@ -709,6 +762,14 @@
    "idle_raw_uW": 4.173455000000001,
    "active_share": 5.499573783031815e-05
   },
-  "avg_power_uW_250Hz_clkstopped": 1.8538184707160001
+  "leak_split": {
+   "leak_logic_uW": 1.8386527403000155,
+   "leak_phys_uW": 0.0,
+   "n_logic": 9993,
+   "n_phys": 13628,
+   "n_unmatched": 0
+  },
+  "avg_power_uW_250Hz_clkstopped": 1.8538184707160001,
+  "avg_power_uW_250Hz_clkstopped_logic": 1.8538122110160156
  }
 }

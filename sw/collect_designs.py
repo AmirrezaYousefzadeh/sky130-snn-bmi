@@ -215,9 +215,14 @@ def write_latex(out):
     try:
         R1 = json.load(open(ROOT / "results/results.json")); ecpu = R1["riscv"]["energy_per_bin_nJ_active"]
     except Exception: ecpu = None
+    try:    # the hand-tuned firmware (results/explore/software.json) is the software reference for every ratio in the text
+        ecpu_tuned = json.load(open(ROOT / "results/explore/software.json"))["_tuned"]["energy_per_bin_nJ_ref"]
+    except Exception: ecpu_tuned = None
+    ecpu_o2 = ecpu; ecpu = ecpu_tuned if ecpu_tuned else ecpu
     mac("gainCpuMinH", ratio(ecpu, _e("bmi_snn_min32")), 3)
     best = min((n for n in DESIGNS if _e(n) and (out[n].get("r2") or 0) >= 0.57), key=lambda n: _e(n), default=None)
     mac("gainCpuBest", ratio(ecpu, _e(best)) if best else None, 3)
+    mac("gainCpuOtwoMinH", ratio(ecpu_o2, _e("bmi_snn_min32")), 3); mac("gainCpuOtwoBest", ratio(ecpu_o2, _e(best)) if best else None, 3)   # against the compiler-generated (-O2) firmware
     L.append(f"\\newcommand{{\\bestCore}}{{{DESIGNS[best]['label'].replace('%', chr(92)+'%') if best else '?'}}}")
     ALL = [f"{k}{cfg['sh']}" for cfg in DESIGNS.values() for k in KEYS]
     ALL += [f"gain{cfg['sh']}" for n, cfg in DESIGNS.items() if n != "bmi_snn_top"]

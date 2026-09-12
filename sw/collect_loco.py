@@ -19,5 +19,17 @@ for s, sh in zip(SESS, SH):
           f"\\newcommand{{\\evBin{sh}}}{{{e['events_per_bin']:.2f}}}", f"\\newcommand{{\\spkBin{sh}}}{{{e['hidden_spikes_per_bin']:.2f}}}"]
 if ours:
     M += [f"\\newcommand{{\\rTwoLocoMean}}{{{np.mean(ours):.3f}}}", f"\\newcommand{{\\nbSnnTwoLocoMean}}{{{nb['SNN2']['loco_mean']:.3f}}}", f"\\newcommand{{\\nbSnnThreeLocoMean}}{{{nb['SNN3']['loco_mean']:.3f}}}"]
+# retuned variants (round-2 referee): threshold 512 on each session, and a 128-neuron layer on the weak session
+th = []
+for s, sh in zip(SESS, SH):
+    f = ROOT / "results/models" / f"{s}_H64_th512_k44_drop/eval_int.json"
+    if f.exists():
+        e = json.load(open(f)); th.append(e["test_r2_int"]); out[s]["r2_int_theta512"] = e["test_r2_int"]
+        M.append(f"\\newcommand{{\\rTwo{sh}Th}}{{{e['test_r2_int']:.3f}}}")
+    else: M.append(f"\\newcommand{{\\rTwo{sh}Th}}{{--}}")
+M.append(f"\\newcommand{{\\rTwoLocoMeanTh}}{{{np.mean(th):.3f}}}" if len(th) == len(SESS) else "\\newcommand{\\rTwoLocoMeanTh}{--}")
+f = ROOT / "results/models/loco_20170215_02_H128_th256_k44_drop/eval_int.json"
+M.append(f"\\newcommand{{\\rTwoLocoBWide}}{{{json.load(open(f))['test_r2_int']:.3f}}}" if f.exists() else "\\newcommand{\\rTwoLocoBWide}{--}")
+if f.exists(): out["loco_20170215_02"]["r2_int_H128"] = json.load(open(f))["test_r2_int"]
 (ROOT / "results/explore/loco.json").write_text(json.dumps(out, indent=1)); (ROOT / "paper/numbers_loco.tex").write_text("\n".join(M) + "\n")
 print({k: round(v["r2_int"], 3) for k, v in out.items()}, "mean", round(float(np.mean(ours)), 3) if ours else None)

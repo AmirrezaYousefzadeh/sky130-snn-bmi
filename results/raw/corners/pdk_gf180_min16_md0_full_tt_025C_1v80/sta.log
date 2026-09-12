@@ -1,0 +1,11 @@
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+warning: In a derivation named 'neovim-unwrapped-0.9.5', 'structuredAttrs' disables the effect of the derivation attribute 'disallowedRequisites'; use 'outputChecks.<output>.disallowedRequisites' instead
+warning: Using 'builtins.derivation' to create a derivation named 'devshell-env.bash' that references the store path '/nix/store/i1aw9jjgxcvyd642s12kw3iasmarwd42-source' without a proper context. The resulting derivation will not have a correct store reference, so this is unreliable and may stop working in the future.
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+reading VCD /home/yousefzadeha/workspace/BCI_paper/sim/build_pdk_gf180_min16_md0_full/pdk_gf180_min16_md0_full.vcd scope tb_bmi_snn/u_dut
+Warning: power_corner_sta.tcl line 13, read_power_activities is deprecated. Use read_vcd.
+Annotated 34660 pin activities.
+WORST_SETUP_SLACK_NS -2.874329396718167e-8
+WROTE /home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk_gf180_min16_md0_full_tt_025C_1v80/power_vcd.rpt

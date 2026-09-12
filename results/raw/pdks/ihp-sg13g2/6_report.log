@@ -8,13 +8,13 @@ Deleted 0 routing obstructions
 [INFO RCX-0029] Defined extraction corner X
 [INFO RCX-0435] Reading extraction model file /media/pdk/OpenROAD-flow-scripts/flow/platforms/ihp-sg13g2/rcx_patterns.rules ...
 [INFO RCX-0436] RC segment generation bmi_snn_min16 (max_merge_res 50.0) ...
-[INFO RCX-0040] Final 92749 rc segments
+[INFO RCX-0040] Final 63154 rc segments
 [INFO RCX-0439] Coupling Cap extraction bmi_snn_min16 ...
 [INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
-[INFO RCX-0442] 51% of 163064 wires extracted
-[INFO RCX-0442] 100% of 163064 wires extracted
-[INFO RCX-0045] Extract 14692 nets, 106877 rsegs, 106877 caps, 190868 ccs
-[INFO RCX-0443] 14692 nets finished
+[INFO RCX-0442] 51% of 105244 wires extracted
+[INFO RCX-0442] 100% of 105244 wires extracted
+[INFO RCX-0045] Extract 12583 nets, 75173 rsegs, 75173 caps, 125932 ccs
+[INFO RCX-0443] 12583 nets finished
 [INFO PSM-0040] All shapes on net VDD are connected.
 [INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
 ########## IR report #################
@@ -23,9 +23,9 @@ Corner           : default
 Supply voltage   : 1.20e+00 V
 Worstcase voltage: 1.20e+00 V
 Average voltage  : 1.20e+00 V
-Average IR drop  : 1.08e-04 V
-Worstcase IR drop: 1.56e-04 V
-Percentage drop  : 0.01 %
+Average IR drop  : 2.19e-04 V
+Worstcase IR drop: 2.77e-04 V
+Percentage drop  : 0.02 %
 ######################################
 [INFO PSM-0040] All shapes on net VSS are connected.
 [INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
@@ -33,36 +33,36 @@ Percentage drop  : 0.01 %
 Net              : VSS
 Corner           : default
 Supply voltage   : 0.00e+00 V
-Worstcase voltage: 1.72e-04 V
-Average voltage  : 1.30e-04 V
-Average IR drop  : 1.30e-04 V
-Worstcase IR drop: 1.72e-04 V
-Percentage drop  : 0.01 %
+Worstcase voltage: 2.86e-04 V
+Average voltage  : 2.48e-04 V
+Average IR drop  : 2.48e-04 V
+Worstcase IR drop: 2.86e-04 V
+Percentage drop  : 0.02 %
 ######################################
 Cell type report:                       Count       Area
-  Fill cell                              8633   23148.12
-  Antenna cell                           4265   23215.25
-  Other                                 33062  346593.95
-  Buffer                                 1929   16338.67
-  Clock buffer                            217    5065.80
-  Timing Repair Buffer                   1089   10568.88
-  Inverter                                335    1963.18
-  Clock inverter                           86     602.38
+  Fill cell                              7120   19212.68
+  Antenna cell                           1515    8246.45
+  Other                                 27656  300098.13
+  Buffer                                  948    8248.26
+  Clock buffer                            137    3403.81
+  Timing Repair Buffer                    532    5127.49
+  Inverter                               1355    7644.07
+  Clock inverter                           33     263.09
   Clock gate cell                           1      27.22
   Sequential cell                         551   25993.09
-  Multi-Input combinational cell         9995   97342.56
-  Total                                 60163  550859.10
+  Multi-Input combinational cell         8477   76790.85
+  Total                                 48325  455055.15
 Report metrics stage 6, finish...
 
 ==========================================================================
 finish report_design_area
 --------------------------------------------------------------------------
-Design area 527711 u^2 96% utilization.
+Design area 435842 u^2 96% utilization.
 [WARNING GUI-0076] qglx_findConfig: Failed to finding matching FBConfig for QSurfaceFormat(version 2.0, options QFlags<QSurfaceFormat::FormatOption>(), depthBufferSize -1, redBufferSize 1, greenBufferSize 1, blueBufferSize 1, alphaBufferSize -1, stencilBufferSize -1, samples -1, swapBehavior QSurfaceFormat::SingleBuffer, swapInterval 1, colorSpace QSurfaceFormat::DefaultColorSpace, profile  QSurfaceFormat::NoProfile)
-[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_min16_pad2/base/final_routing.webp.png
-[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_min16_pad2/base/final_placement.webp.png
-[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_min16_pad2/base/final_ir_drop.webp.png
-[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_min16_pad2/base/final_clocks.webp.png
-[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_min16_pad2/base/final_resizer.webp.png
-[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_min16_pad2/base/cts_clk.webp.png
-Elapsed time: 0:32.69[h:]min:sec. CPU time: user 30.94 sys 0.65 (96%). Peak memory: 678668KB.
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_min16_abc/base/final_routing.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_min16_abc/base/final_placement.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_min16_abc/base/final_ir_drop.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_min16_abc/base/final_clocks.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_min16_abc/base/final_resizer.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_min16_abc/base/cts_clk.webp.png
+Elapsed time: 0:25.93[h:]min:sec. CPU time: user 24.41 sys 0.56 (96%). Peak memory: 575556KB.

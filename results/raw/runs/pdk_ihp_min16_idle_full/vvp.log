@@ -28,6 +28,6 @@ MEASURED: cycles_from_dump_start=400031 active_cycles_from_dump_start=22
 PASS: 1 bins bit-exact
 /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:207: $finish called at 8001090000 (1ps)
 
-real	0m4.785s
-user	0m4.609s
-sys	0m0.176s
+real	0m4.592s
+user	0m4.385s
+sys	0m0.202s

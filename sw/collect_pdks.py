@@ -10,13 +10,18 @@ from collect_designs import run_energy, run_idle, TCLK, RATE
 from collect_results import parse_metrics
 ROOT = Path(__file__).resolve().parent.parent
 ORFS = Path("/media/pdk/OpenROAD-flow-scripts/flow")
-IHP_RUN = os.environ.get("IHP_RUN", "ihp-sg13g2/bmi_snn_min16")   # <platform dir>/<design nickname> of the IHP run (see sim/measure_pdk.sh)
+IHP_RUN = os.environ.get("IHP_RUN", "ihp-sg13g2/bmi_snn_min16_abc")   # <platform dir>/<design nickname> of the IHP run (see sim/measure_pdk.sh)
 PDKS = {  # key: label, node, library, flow, voltage, predictive?, macro shorthand
     "sky130":    dict(label="SkyWater sky130", node="130 nm", lib="sky130\\_fd\\_sc\\_hd", flow="OpenLane", sh="Sky", fab=True),
     "gf180":     dict(label="GlobalFoundries GF180MCU", node="180 nm", lib="gf180mcu\\_fd\\_sc\\_mcu7t5v0", flow="OpenLane", sh="Gf", fab=True),
     "ihp":       dict(label="IHP SG13G2", node="130 nm", lib="sg13g2\\_stdcell", flow="ORFS", sh="Ihp", fab=True),
     "nangate45": dict(label="NanGate45 / FreePDK45", node="45 nm", lib="NangateOpenCellLibrary", flow="ORFS", sh="Nan", fab=False),
     "asap7":     dict(label="ASAP7", node="7 nm (FinFET)", lib="asap7sc7p5t RVT", flow="ORFS", sh="Asap", fab=False),
+}
+UTIL = {"sky130": 40, "gf180": 40, "ihp": 25, "nangate45": 40, "asap7": 40}   # core utilization target of each run (%), see synthesis/*/config.*
+# GF180 at other supply voltages: the routed netlist and its recorded activity re-evaluated with the 1.8 V and 3.3 V typical liberty files
+GF_VOLT = {"Low": ("tt_025C_1v80", 1.8), "Mid": ("tt_025C_3v30", 3.3)}
+_unused = {
 }
 LIBS = {"sky130": "/media/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib",
         "gf180": "/media/pdk/gf180mcuD/libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib/gf180mcu_fd_sc_mcu7t5v0__tt_025C_5v00.lib",
@@ -57,10 +62,30 @@ def netlist_stats(netlist, lib_paths):
         else: unknown.add(c)
     if unknown: print("  cells without liberty area:", sorted(unknown)[:8])
     return dict(stdcells_netlist=n, instance_area_netlist_um2=a, phys_cells=phys)
+def leakage_split(rpt, netlist):
+    """Leakage (uW) of the logic standard cells and of the physical-only cells (fillers, decaps, taps, antenna diodes) from the
+    per-instance OpenSTA report of the idle run and the cell types of the routed netlist."""
+    if not rpt.exists() or not netlist.exists(): return None
+    cell_of = {}
+    for m in re.finditer(r'^\s*([A-Za-z_][A-Za-z0-9_]*)\s+(\\?\S+)\s*\(', open(netlist, errors="ignore").read(), flags=re.M):
+        if m.group(1) in ("module", "wire", "input", "output", "assign", "reg", "endmodule"): continue
+        cell_of[m.group(2).lstrip("\\")] = m.group(1)
+    logic = phys = 0.0; nl_ = np_ = 0; unknown = 0
+    for line in open(rpt, errors="ignore"):
+        f = line.split()
+        if len(f) < 5:
+            continue
+        try: leak = float(f[2])
+        except ValueError: continue
+        inst = f[4].lstrip("\\"); c = cell_of.get(inst)
+        if c is None: unknown += 1; continue
+        if PHYS_RE.search(c): phys += leak; np_ += 1
+        else: logic += leak; nl_ += 1
+    return dict(leak_logic_uW=logic * 1e6, leak_phys_uW=phys * 1e6, n_logic=nl_, n_phys=np_, n_unmatched=unknown)
 def uniform_stats(d, netlist, libs, p):
     """Replace the flow's own cell count / area by the netlist-based ones (same definition for every PDK: standard cells only)."""
     if not d.get("pnr") or not netlist.exists(): return
-    st = netlist_stats(netlist, libs); d["pnr"].update(st)
+    st = netlist_stats(netlist, libs); d["pnr"].update(st); d["pnr"]["netlist"] = str(netlist)
     print(f"  {p}: flow metrics {d['pnr'].get('stdcells')} cells / {d['pnr'].get('instance_area_um2')} um2; netlist (physical cells excluded) {st['stdcells_netlist']} cells / {st['instance_area_netlist_um2']:.0f} um2, {st['phys_cells']} physical cells")
     d["pnr"]["stdcells"] = st["stdcells_netlist"]; d["pnr"]["instance_area_um2"] = st["instance_area_netlist_um2"]
 def orfs_metrics(plat):
@@ -94,8 +119,26 @@ for p, cfg in PDKS.items():
         e = run_energy(f"pdk_{p}_min16_md0_full", TCLK, None); i = run_idle(f"pdk_{p}_min16_idle_full", TCLK, e["power_avg_uW"] * 1e-6 if e else None)
         if e: d["event"] = e
         if i: d["idle"] = i
+    if p == "gf180" and d.get("event"):
+        d["volt"] = {}
+        for k, (corner, v) in GF_VOLT.items():
+            base = ROOT / f"power/out_vcd_pdk_gf180_min16_md0_full_{corner}"; idle = ROOT / f"power/out_vcd_pdk_gf180_min16_idle_full_{corner}"
+            if not (base / "power_vcd.rpt").exists(): continue
+            from collect_designs import parse_group_table
+            g = parse_group_table(base / "power_vcd.rpt"); gi = parse_group_table(idle / "power_vcd.rpt") if (idle / "power_vcd.rpt").exists() else None
+            P = g["Total"]["total"]; T = d["event"]["cycles_meas"] * TCLK * 1e-9
+            sl = None
+            for line in open(base / "sta.log", errors="ignore"):
+                if line.startswith("WORST_SETUP_SLACK_NS"): sl = float(line.split()[1]) * 1e9
+            d["volt"][k] = dict(voltage=v, corner=corner, energy_per_bin_nJ=P * T / d["event"]["tb"]["bins"] * 1e9, leakage_uW=(gi["Total"]["leakage"] if gi else g["Total"]["leakage"]) * 1e6, setup_ws_ns=sl)
+    if d.get("pnr") and d["pnr"].get("netlist"):
+        tag = "bmi_snn_min16_idle_full" if p == "sky130" else f"pdk_{p}_min16_idle_full"
+        ls = leakage_split(ROOT / f"power/out_vcd_{tag}/power_vcd_by_instance.rpt", Path(d["pnr"]["netlist"]))
+        if ls: d["leak_split"] = ls; print(f"  {p}: leakage logic {ls['leak_logic_uW']:.4g} uW ({ls['n_logic']} cells), physical {ls['leak_phys_uW']:.4g} uW ({ls['n_phys']} cells), unmatched instances {ls['n_unmatched']}")
     if d.get("event") and d.get("idle"):
         d["avg_power_uW_250Hz_clkstopped"] = d["event"]["energy_per_bin_nJ"] * RATE * 1e-3 + d["idle"]["leakage_uW"]
+        if d.get("leak_split"):   # average power with the logic leakage only (the physical cells' leakage is a flow choice, reported separately)
+            d["avg_power_uW_250Hz_clkstopped_logic"] = d["event"]["energy_per_bin_nJ"] * RATE * 1e-3 + d["leak_split"]["leak_logic_uW"]
     out[p] = d
 (ROOT / "results/pdks.json").write_text(json.dumps(out, indent=1, default=float))
 def f(x, nd=3): return "--" if x is None else (f"{x:,.0f}" if abs(x) >= 1000 else f"{x:.{nd}g}")
@@ -105,14 +148,25 @@ for p, d in out.items():
     area = pnr.get("instance_area_um2"); area_mm2 = area / 1e6 if area else None
     slack = pnr.get("setup_ws_ns"); flag = "" if pnr.get("timing_met", True) else "$^{\\dagger}$"
     drcflag = "$^{\\ddagger}$" if (pnr.get("drc_errors") or 0) > 0 else ""   # route not DRC-clean (see text)
-    rows.append(f"{d['label']}{drcflag}{'' if d['fab'] else ' (predictive)'} & {d['node']} & {d['flow']} & {f(d['voltage'],2)} & {f(area_mm2)} & {f(pnr.get('stdcells'),4)} & {f(slack,2)}{flag} & {f(e.get('energy_per_bin_nJ'))} & {f(i.get('leakage_uW'))} & {f(d.get('avg_power_uW_250Hz_clkstopped'))} \\\\")
-    for k, v in (("area", area_mm2), ("e", e.get("energy_per_bin_nJ")), ("leak", i.get("leakage_uW")), ("pavg", d.get("avg_power_uW_250Hz_clkstopped")), ("slack", slack), ("volt", d["voltage"]), ("cells", pnr.get("stdcells")), ("drc", pnr.get("drc_errors"))):
+    ls = d.get("leak_split") or {}
+    rows.append(f"{d['label']}{drcflag}{'' if d['fab'] else ' (predictive)'} & {d['node']} & {f(d['voltage'],2)} & {UTIL[p]} & {f(area_mm2)} & {f(pnr.get('stdcells'),4)} & {f(slack,2)}{flag} & {f(e.get('energy_per_bin_nJ'))} & {f(ls.get('leak_logic_uW'))} & {f(ls.get('leak_phys_uW'))} & {f(d.get('avg_power_uW_250Hz_clkstopped_logic'))} \\\\")
+    for k, v in (("area", area_mm2), ("e", e.get("energy_per_bin_nJ")), ("leak", i.get("leakage_uW")), ("pavg", d.get("avg_power_uW_250Hz_clkstopped")), ("slack", slack), ("volt", d["voltage"]), ("cells", pnr.get("stdcells")), ("drc", pnr.get("drc_errors")),
+                 ("leakLogic", ls.get("leak_logic_uW")), ("leakPhys", ls.get("leak_phys_uW")), ("pavgLogic", d.get("avg_power_uW_250Hz_clkstopped_logic")), ("util", UTIL[p]),
+                 ("leakEv", e.get("leakage_uW")), ("physcells", ls.get("n_phys"))):
         M.append(f"\\newcommand{{\\pdk{k}{sh}}}{{{f(v, 4 if k == 'cells' else 3)}}}")
     e0 = out["sky130"].get("event", {}).get("energy_per_bin_nJ"); l0 = out["sky130"].get("idle", {}).get("leakage_uW"); p0 = out["sky130"].get("avg_power_uW_250Hz_clkstopped")
     M.append(f"\\newcommand{{\\pdkRel{sh}}}{{{f(e['energy_per_bin_nJ'] / e0, 3) if (e0 and e.get('energy_per_bin_nJ')) else '--'}}}")   # energy per bin relative to sky130
     M.append(f"\\newcommand{{\\pdkLeakRel{sh}}}{{{f(i['leakage_uW'] / l0, 3) if (l0 and i.get('leakage_uW')) else '--'}}}")           # leakage relative to sky130
     M.append(f"\\newcommand{{\\pdkPavgRel{sh}}}{{{f(d['avg_power_uW_250Hz_clkstopped'] / p0, 3) if (p0 and d.get('avg_power_uW_250Hz_clkstopped')) else '--'}}}")   # average power relative to sky130
+    ls0 = out["sky130"].get("leak_split") or {}; pl0 = out["sky130"].get("avg_power_uW_250Hz_clkstopped_logic")
+    M.append(f"\\newcommand{{\\pdkLeakLogicRel{sh}}}{{{f(ls['leak_logic_uW'] / ls0['leak_logic_uW'], 3) if (ls0.get('leak_logic_uW') and ls.get('leak_logic_uW')) else '--'}}}")   # logic leakage relative to sky130
+    M.append(f"\\newcommand{{\\pdkPavgLogicRel{sh}}}{{{f(d['avg_power_uW_250Hz_clkstopped_logic'] / pl0, 3) if (pl0 and d.get('avg_power_uW_250Hz_clkstopped_logic')) else '--'}}}")   # average power (logic leakage) relative to sky130
+    for k, vd in (d.get("volt") or {}).items():   # GF180 at 1.8 V / 3.3 V
+        for kk, vv in (("e", vd["energy_per_bin_nJ"]), ("leak", vd["leakage_uW"]), ("slack", vd["setup_ws_ns"]), ("volt", vd["voltage"])):
+            M.append(f"\\newcommand{{\\pdk{kk}{sh}{k}}}{{{f(vv, 3)}}}")
+        M.append(f"\\newcommand{{\\pdkRel{sh}{k}}}{{{f(vd['energy_per_bin_nJ'] / e0, 3) if e0 else '--'}}}")
+        M.append(f"\\newcommand{{\\pdkpavgLogic{sh}{k}}}{{{f(vd['energy_per_bin_nJ'] * RATE * 1e-3 + vd['leakage_uW'] * (ls.get('leak_logic_uW', 0) / i['leakage_uW'] if i.get('leakage_uW') else 1), 3)}}}")   # logic share of leakage assumed voltage-independent
     print(f"{d['label']:28s} V {f(d['voltage'],2):>5s}  area {f(area_mm2):>7s} mm2  cells {f(pnr.get('stdcells'),5):>7s}  slack {f(slack,2):>6s}{flag}  E {f(e.get('energy_per_bin_nJ')):>6s} nJ  leak {f(i.get('leakage_uW')):>7s} uW  Pavg {f(d.get('avg_power_uW_250Hz_clkstopped')):>6s} uW")
-hdr = "PDK & Node & Flow & $V_{DD}$ (V) & Area (mm$^2$) & Cells & Slack (ns) & $E_{\\mathrm{bin}}$ (nJ) & Leakage (\\si{\\micro\\watt}) & $P_{\\mathrm{avg}}$ (\\si{\\micro\\watt}) \\\\"
-(ROOT / "paper/pdks_table.tex").write_text("\\begin{tabular}{@{}lllrrrrrrr@{}}\n\\toprule\n" + hdr + "\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}%\n")
+hdr = "PDK & Node & $V_{DD}$ (V) & Util.\\ (\\%) & Area (mm$^2$) & Cells & Slack (ns) & $E_{\\mathrm{bin}}$ (nJ) & \\multicolumn{2}{c}{Leakage (\\si{\\micro\\watt})} & $P_{\\mathrm{avg}}$ (\\si{\\micro\\watt}) \\\\\n & & & & & & & & logic & physical & \\\\"
+(ROOT / "paper/pdks_table.tex").write_text("\\begin{tabular}{@{}llrrrrrrrrr@{}}\n\\toprule\n" + hdr + "\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}%\n")
 (ROOT / "paper/numbers_pdks.tex").write_text("\n".join(M) + "\n")

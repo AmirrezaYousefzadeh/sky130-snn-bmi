@@ -109,6 +109,9 @@ DESIGNS="bmi_snn_min16 bmi_snn_min32 bmi_snn_min bmi_snn_hw bmi_snn_ming bmi_snn
 ./sim/run_e4_software.sh && .venv/bin/python sw/collect_software.py       # -O3 and hand-tuned firmware (firmware/bmi_snn_sw_tuned.c) on the SoC netlist
 for f in loco_20170210_03 loco_20170215_02 loco_20170301_05; do curl -L -o data/$f.mat "https://zenodo.org/record/583331/files/$f.mat?download=1"; done
 ./sw/run_loco.sh                                                          # 192-channel Loco sessions: prepare, train H=64, integer evaluation
+for s in loco_20170210_03 loco_20170215_02 loco_20170301_05; do .venv/bin/python sw/train_snn.py --session $s --theta 512 --H 64 --epochs 1500 --eval_every 100 --drop 0.1 --lr 2.0 --tag _drop; done
+.venv/bin/python sw/train_snn.py --session loco_20170215_02 --theta 256 --H 128 --epochs 1500 --eval_every 100 --drop 0.1 --lr 2.0 --tag _drop
+.venv/bin/python sw/eval_int.py results/models/loco_*_th512_k44_drop results/models/loco_20170215_02_H128_th256_k44_drop && .venv/bin/python sw/collect_loco.py   # Loco retuned: threshold 512
 ./sw/run_adapt_experiment.sh && .venv/bin/python sw/collect_adapt.py      # W1 frozen from another session, only bias + read-out retrained
 .venv/bin/python sw/asap7_leakage.py /media/pdk/asap7sc7p5t_28/lib       # flip-flop leakage sky130 vs ASAP7 RVT/LVT/SLVT (see script header)
 
@@ -121,10 +124,11 @@ for f in loco_20170210_03 loco_20170215_02 loco_20170301_05; do curl -L -o data/
 for p in gf180 ihp asap7 nangate45; do .venv/bin/python sw/gen_variant.py --pdk $p bmi_snn_min16 rtl/h16; done   # clock-gate cell substituted, ROM inlined
 PDK=gf180mcuD DESIGN=pdk_gf180/bmi_snn_min16 RUN_TAG=bmi_snn_min16 ./synthesis/run_synthesis.sh
 for plat in nangate45 ihp-sg13g2 asap7; do ./synthesis/run_orfs.sh $plat; done      # configs in synthesis/orfs/<platform>/ (ADDER_MAP_FILE disabled, see below)
-# IHP SG13G2: the detail router of this OpenROAD build does not converge on this netlist with the platform defaults (tens of thousands of
-# via-sized Metal2-4 shorts on the buffered high-fanout ROM address nets; the flow-scripts' own gcd/ibex examples route clean). The run used
-# for the paper is synthesis/orfs/ihp-sg13g2/config.mk: 25 % utilization, cell padding 4/2 sites, detail routing bounded to 12 iterations
-# (DETAILED_ROUTE_ARGS); the violations left are reported in the table (double dagger). Measure it with IHP_RUN=ihp-sg13g2/<design nickname>.
+# IHP SG13G2: with the platform defaults the detail router of this OpenROAD build does not converge on this netlist (tens of thousands
+# of via-sized Metal2-4 shorts on the buffered high-fanout ROM address nets; the flow-scripts' own gcd/ibex examples route clean).
+# Area-oriented synthesis (ABC_AREA = 1) halves the high-fanout nets the resizer buffers (443 instead of 995 fanout violations) and,
+# with cell padding 4/2 sites at 25 % utilization, the route closes DRC-clean in 16 iterations (synthesis/orfs/ihp-sg13g2/config.mk,
+# design nickname bmi_snn_min16_abc; DETAILED_ROUTE_ARGS keeps a 25-iteration safety bound). Measure it with IHP_RUN=ihp-sg13g2/bmi_snn_min16_abc.
 # The IHP Verilog models (platform and 2026 PDK alike) read delayed_* copies of their inputs that only $setuphold timing checks create;
 # Icarus does not implement timing checks, so a functional copy is used (/media/pdk/ihp_sg13g2_models_functional.v): specify blocks removed,
 # delayed_* replaced by the pins, and behavioural sg13g2_dfrbp_1 / sg13g2_lgcp_1 models with a defined power-up state in place of the UDP
@@ -134,8 +138,21 @@ for plat in nangate45 ihp-sg13g2 asap7; do ./synthesis/run_orfs.sh $plat; done  
 .venv/bin/python sim/gen_ihp_models.py    # -> /media/pdk/ihp_sg13g2_models_functional.v (used by sim/measure_pdk.sh ihp)
 .venv/bin/python sim/liberty2verilog.py /media/pdk/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib /media/pdk/nangate45_models.v
 for p in gf180 ihp asap7 nangate45; do ./sim/measure_pdk.sh $p; done && .venv/bin/python sw/collect_pdks.py   # IHP_RUN=<platform dir>/<nickname> selects the IHP run for both
-# Notes: the flow-scripts' platform adder techmap (ADDER_MAP_FILE) produced netlists whose outputs differed from the RTL by a few
-# units (caught by the bit-exact gate-level check on two platforms); it is disabled in synthesis/orfs/*/config.mk. SYNTH_MEMORY_MAX_BITS
+# collect_pdks.py splits the leakage of each row into logic and physical cells (fillers, decaps, taps, antenna diodes) from the per-instance
+# report of the idle run (power/out_vcd_*_idle_full/power_vcd_by_instance.rpt): at 25 % utilization the IHP decaps leak 21 of 23 uW.
+# GF180MCU at 1.8 V and 3.3 V: the routed netlist and its recorded activity re-evaluated with the other typical liberty files
+for c in tt_025C_1v80 tt_025C_3v30; do for t in pdk_gf180_min16_md0_full pdk_gf180_min16_idle_full; do
+  RUN_DIR=$PWD/synthesis/pdk_gf180/bmi_snn_min16/runs/bmi_snn_min16 TOP=bmi_snn_min16 VCD_SCOPE=tb_bmi_snn/u_dut PERIOD_NS=20 \
+  LIB_SC=/media/pdk/gf180mcuD/libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib/gf180mcu_fd_sc_mcu7t5v0__$c.lib VCD_FILE=$PWD/sim/build_$t/$t.vcd \
+  OUT=$PWD/power/out_vcd_${t}_$c sta -no_splash -exit power/power_corner_sta.tcl; done; done   # (inside the OpenLane nix shell)
+# Notes: with the flow-scripts' platform adder techmap (ADDER_MAP_FILE) the gate-level simulation of the NanGate45 and ASAP7 netlists
+# differed from the RTL by a few units. A bounded formal check confirms the netlist is wrong, not the simulation models: a Yosys miter of
+# RTL and netlist from the reset state (sat -seq 24, all input sequences) finds a counterexample for the adder-mapped NanGate45 netlist
+# (accumulators read 2 where the RTL reads 0, eleven cycles after reset), which proves that netlist wrong independently of the simulation
+# models; for the netlist without the mapping the same check finds no counterexample within its time budget (sat -seq 24 timed out at 40 min):
+#   make DESIGN_CONFIG=./designs/nangate45/bmi_snn_min16_fa/config.mk synth      # synthesis/orfs/nangate45/config_fa.mk: default ADDER_MAP_FILE
+#   yosys -l miter_fa.log sim/equiv/miter_nangate45_fa.ys; yosys -l miter_plain.log sim/equiv/miter_nangate45_plain.ys
+# The mapping is therefore disabled in synthesis/orfs/*/config.mk on all three platforms. SYNTH_MEMORY_MAX_BITS
 # is raised because the case-statement ROM is inferred as a 12 kbit memory. Physical-only cells in the routed netlists get empty
 # simulation stubs (sim/gen_phys_stubs.py). Energies on the other PDKs are functional gate-level estimates at each library's typical corner.
 
