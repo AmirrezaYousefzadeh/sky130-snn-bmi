@@ -1,8 +1,8 @@
 1. Executing RTLIL frontend.
-2. Executing Liberty frontend: ./objects/ihp-sg13g2/bmi_snn_min16/base/lib/sg13g2_stdcell_typ_1p20V_25C.lib
+2. Executing Liberty frontend: ./objects/ihp-sg13g2/bmi_snn_min16_pad2/base/lib/sg13g2_stdcell_typ_1p20V_25C.lib
 3. Executing Verilog-2005 frontend: /media/pdk/OpenROAD-flow-scripts/flow/platforms/ihp-sg13g2/cells_clkgate.v
 Using ABC speed script.
-Extracting clock period from SDC file: ./results/ihp-sg13g2/bmi_snn_min16/base/clock_period.txt
+Extracting clock period from SDC file: ./results/ihp-sg13g2/bmi_snn_min16_pad2/base/clock_period.txt
 Setting clock period to 20000
 synth -top bmi_snn_min16 -run :fine -flatten -extra-map /media/pdk/OpenROAD-flow-scripts/flow/platforms/common/lcu_kogge_stone.v
 4. Executing SYNTH pass.
@@ -212,7 +212,7 @@ Warning: Found unsupported expression 'SCE*SCD+SCE'*D' in pin attribute of cell 
 9.14. Executing OPT_CLEAN pass (remove unused cells and wires).
 9.15. Executing OPT_EXPR pass (perform const folding).
 9.16. Finished OPT passes. (There is nothing left to do.)
-abc -script /media/pdk/OpenROAD-flow-scripts/flow/scripts/abc_speed.script -liberty ./objects/ihp-sg13g2/bmi_snn_min16/base/lib/sg13g2_stdcell_typ_1p20V_25C.lib -constr ./objects/ihp-sg13g2/bmi_snn_min16/base/abc.constr -dont_use sg13g2_lgcp_1 -dont_use sg13g2_sighold -dont_use sg13g2_slgcp_1 -dont_use sg13g2_dfrbp_2 -D 20000
+abc -script /media/pdk/OpenROAD-flow-scripts/flow/scripts/abc_speed.script -liberty ./objects/ihp-sg13g2/bmi_snn_min16_pad2/base/lib/sg13g2_stdcell_typ_1p20V_25C.lib -constr ./objects/ihp-sg13g2/bmi_snn_min16_pad2/base/abc.constr -dont_use sg13g2_lgcp_1 -dont_use sg13g2_sighold -dont_use sg13g2_slgcp_1 -dont_use sg13g2_dfrbp_2 -D 20000
 10. Executing ABC pass (technology mapping using ABC).
 10.1. Extracting gate netlist of module `\bmi_snn_min16' to `<abc-temp-dir>/input.blif'..
 10.1.1. Executing ABC.
@@ -226,7 +226,7 @@ abc -script /media/pdk/OpenROAD-flow-scripts/flow/scripts/abc_speed.script -libe
 17. Printing statistics.
 18. Executing Verilog backend.
 Warnings: 1 unique messages, 9 total
-End of script. Logfile hash: c6d88c8949, CPU: user 3.88s system 0.11s, MEM: 196.39 MB peak
+End of script. Logfile hash: c18d0a67ea, CPU: user 3.93s system 0.10s, MEM: 196.44 MB peak
 Yosys 0.46 (git sha1 e97731b9dda91fa5fa53ed87df7c34163ba59a41, clang++ 17.0.6 -fPIC -O3)
-Time spent: 80% 2x abc (14 sec), 4% 45x opt_expr (0 sec), ...
-Elapsed time: 0:18.36[h:]min:sec. CPU time: user 18.14 sys 0.22 (99%). Peak memory: 201104KB.
+Time spent: 80% 2x abc (14 sec), 5% 45x opt_expr (0 sec), ...
+Elapsed time: 0:18.54[h:]min:sec. CPU time: user 18.33 sys 0.21 (99%). Peak memory: 201156KB.

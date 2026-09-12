@@ -12,7 +12,8 @@ case $P in
   ihp)   IHP_RUN=${IHP_RUN:-ihp-sg13g2/$D}   # <platform dir>/<design nickname> of the flow-scripts run (e.g. ihp-sg13g2/bmi_snn_min16_pad)
          RUN=$ORFS/results/$IHP_RUN/base; NL=$RUN/6_final.v; SPEF=$RUN/6_final.spef
          LIB="$ORFS/platforms/${IHP_RUN%%/*}/lib/sg13g2_stdcell_typ_1p20V_25C.lib"
-         VLOG="$ORFS/platforms/${IHP_RUN%%/*}/verilog/sg13g2_stdcell.v" ;;   # self-contained models of the same platform revision as the LEF/liberty
+         VLOG="/media/pdk/ihp_sg13g2_models_functional.v" ;;   # platforms/ihp-sg13g2/verilog/sg13g2_stdcell.v with `sed s/delayed_//g`: the vendor models drive
+         # their logic from delayed_* nets that only the $setuphold timing checks create; Icarus has no timing checks, so gated clocks and flip-flop inputs float (simulation never finishes)
   asap7) RUN=$ORFS/results/asap7/$D/base; NL=$RUN/6_final.v; SPEF=$RUN/6_final.spef; PERIOD_LIB=20000   # ASAP7 liberty time unit: ps
          LIB="$(ls $ORFS/platforms/asap7/lib/NLDM/asap7sc7p5t_{AO,INVBUF,OA,SEQ,SIMPLE}_RVT_TT_nldm_*.lib* | tr '\n' ' ')"
          VLOG="$(ls /media/pdk/asap7sc7p5t_28/Verilog/asap7sc7p5t_{AO,INVBUF,OA,SEQ,SIMPLE}_RVT_TT_*.v | tr "\n" " ")" ;;

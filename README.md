@@ -125,6 +125,13 @@ for plat in nangate45 ihp-sg13g2 asap7; do ./synthesis/run_orfs.sh $plat; done  
 # via-sized Metal2-4 shorts on the buffered high-fanout ROM address nets; the flow-scripts' own gcd/ibex examples route clean). The run used
 # for the paper is synthesis/orfs/ihp-sg13g2/config.mk: 25 % utilization, cell padding 4/2 sites, detail routing bounded to 12 iterations
 # (DETAILED_ROUTE_ARGS); the violations left are reported in the table (double dagger). Measure it with IHP_RUN=ihp-sg13g2/<design nickname>.
+# The IHP Verilog models (platform and 2026 PDK alike) read delayed_* copies of their inputs that only $setuphold timing checks create;
+# Icarus does not implement timing checks, so a functional copy is used (/media/pdk/ihp_sg13g2_models_functional.v): specify blocks removed,
+# delayed_* replaced by the pins, and behavioural sg13g2_dfrbp_1 / sg13g2_lgcp_1 models with a defined power-up state in place of the UDP
+# ones (Icarus ignores UDP `initial`), because ABC implemented the synchronous reset of one membrane flop as a tautology in its own output
+# (Q | ~Q), which gate-level simulation cannot resolve from X (the bit stayed X and the core never produced an output). Every flop is reset
+# by the RTL, so the power-up value affects nothing after reset.
+.venv/bin/python sim/gen_ihp_models.py    # -> /media/pdk/ihp_sg13g2_models_functional.v (used by sim/measure_pdk.sh ihp)
 .venv/bin/python sim/liberty2verilog.py /media/pdk/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib /media/pdk/nangate45_models.v
 for p in gf180 ihp asap7 nangate45; do ./sim/measure_pdk.sh $p; done && .venv/bin/python sw/collect_pdks.py   # IHP_RUN=<platform dir>/<nickname> selects the IHP run for both
 # Notes: the flow-scripts' platform adder techmap (ADDER_MAP_FILE) produced netlists whose outputs differed from the RTL by a few
