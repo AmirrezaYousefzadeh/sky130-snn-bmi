@@ -30,3 +30,6 @@ if {[llength $ct]} { report_power -instances $ct -digits 6 > $OUT/power_vcd_cloc
 if {[catch {report_activity_annotation > $OUT/activity_annotation.rpt} err]} { puts "NOTE: $err" }
 puts "WROTE $OUT/power_vcd.rpt"
 exit
+
+# timing summary at this liberty (multi-PDK study: liberty swaps on a routed netlist)
+catch { report_worst_slack -max -digits 3 }   ;# prints "worst slack max <value>" in the liberty time unit

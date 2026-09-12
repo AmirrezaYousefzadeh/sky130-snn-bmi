@@ -88,6 +88,29 @@ class QSNN(nn.Module):
         return yhat, torch.stack(ss, 1), y
 
 
+class QLinear(nn.Module):
+    """Linear leaky-integrator baseline: the SNN's output layer without the hidden layer. W: (n_in+1) x 2 integer weights
+    (last row = per-bin bias), two accumulators with the K2 leak, same saturation and affine read-out. H = 0 in the recipe."""
+    def __init__(self, k2, w_init=40.0, drop=0.0, wbits=8, n_in=N_IN):
+        super().__init__()
+        self.H, self.theta, self.k1, self.k2, self.n_in = 0, 0, 0, k2, n_in
+        self.wmax = 2 ** (wbits - 1) - 1
+        self.w1 = nn.Parameter(torch.randn(n_in + 1, 2) * w_init); self.w1.data[n_in] = 0.0
+        self.w2 = nn.Parameter(torch.zeros(1, 2), requires_grad=False)   # unused, keeps the optimizer set-up uniform
+        self.g = nn.Parameter(torch.ones(2)); self.b = nn.Parameter(torch.zeros(2))
+        self.drop = nn.Dropout(drop) if drop > 0 else nn.Identity()
+        self.register_buffer("mask1", torch.ones(n_in + 1, 2))
+    def qweights(self): return RoundSTE.apply(self.w1.clamp(-self.wmax, self.wmax)), None
+    def forward(self, x):
+        W, _ = self.qweights(); B, T, _ = x.shape
+        xb = torch.cat([x, torch.ones(B, T, 1, device=x.device)], dim=2); cur = xb @ W
+        o = torch.zeros(B, 2, device=x.device); ys = []
+        for t in range(T):
+            o = (o - FloorSTE.apply(o / 2 ** self.k2) + self.drop(cur[:, t])).clamp(-O_MAX - 1, O_MAX); ys.append(o)
+        y = torch.stack(ys, 1)
+        return self.g * y / 4096.0 + self.b, torch.zeros(B, T, 1, device=x.device), y
+
+
 def load_session(name):
     d = np.load(ROOT / "data" / "prepared" / f"{name}.npz")
     return d["spikes"].astype(np.float32), d["vel"].astype(np.float32), d["ind_train"], d["ind_val"], d["ind_test"]
@@ -109,6 +132,11 @@ def evaluate(model, X, Vn, lo, hi, device, chunk=8192):
         ys = []; nsp = 0
         xb = torch.cat([x, torch.ones(1, x.shape[1], 1, device=device)], 2)
         cur = xb @ W1
+        if model.H == 0:   # linear leaky-integrator baseline
+            for t in range(x.shape[1]):
+                o = (o - torch.floor(o / 2 ** model.k2) + cur[:, t]).clamp(-O_MAX - 1, O_MAX); ys.append(o)
+            y = torch.stack(ys, 1); yhat = (model.g * y / 4096.0 + model.b)[0].cpu().numpy()
+            return r2_neurobench(yhat, Vn[lo:hi]), 0.0
         for t in range(x.shape[1]):
             v = (v + cur[:, t]).clamp(-V_MAX - 1, V_MAX)
             vl = v - torch.floor(v / 2 ** model.k1)
@@ -146,6 +174,7 @@ def main():
     ap.add_argument("--init_from", type=Path, default=None, help="load W1/W2 from this model directory (model_int.npz)")
     ap.add_argument("--train_only", default="all", choices=["all", "bias_w2"],
                     help="bias_w2: keep the 96 input rows of W1 fixed (hybrid core: hardwired W1, programmable bias and read-out)")
+    ap.add_argument("--linear", action="store_true", help="linear leaky-integrator baseline: no hidden layer (96 x 2 weights, two leaky accumulators)")
     ap.add_argument("--out", type=Path, default=None)
     ap.add_argument("--tag", default="")
     a = ap.parse_args()
@@ -158,7 +187,7 @@ def main():
     Vn = ((V - mu) / sd).astype(np.float32)
 
     n_in = X.shape[1]                                   # 96 channels (Indy) or 192 (Loco)
-    model = QSNN(a.H, a.theta, a.k1, a.k2, a.w_init, a.drop, a.wbits, n_in=n_in).to(dev)
+    model = (QLinear(a.k2, a.w_init, a.drop, a.wbits, n_in=n_in) if a.linear else QSNN(a.H, a.theta, a.k1, a.k2, a.w_init, a.drop, a.wbits, n_in=n_in)).to(dev)
     if a.init_from is not None:
         m0 = np.load(a.init_from / "model_int.npz")
         with torch.no_grad():
@@ -194,7 +223,7 @@ def main():
         yhat, s, _ = model(xb)
         loss = ((yhat[:, a.warm:] - yb[:, a.warm:]) ** 2).mean()
         opt.zero_grad(); loss.backward()
-        if a.train_only == "bias_w2": model.w1.grad[:model.n_in] = 0.0     # only the bias row of W1, W2, g and b are adapted
+        if a.train_only == "bias_w2" and not a.linear: model.w1.grad[:model.n_in] = 0.0     # only the bias row of W1, W2, g and b are adapted
         opt.step(); sched.step()
         if a.prune < 1.0 and step % a.prune_every == 0:
             s0, s1 = int(a.prune_start * steps), int(a.prune_end * steps)
@@ -218,6 +247,21 @@ def main():
     r2t, spt = evaluate(model, X, Vn, te_lo, te_hi, dev)
     print(f"BEST val R2 {r2v:.4f} | TEST R2 {r2t:.4f} | hidden spikes/bin (test) {spt:.2f}")
 
+    if a.linear:   # ---- linear baseline: integer cross-check on the full test block, save, and write eval_int.json directly
+        from snn_int import IntLinear
+        W = model.qweights()[0].detach().cpu().numpy().astype(np.int64)
+        ref = IntLinear(W, a.k2); Xte = X[te_lo:te_hi] > 0.5; Yref = ref.run(Xte)
+        pred = (model.g.detach().cpu().numpy() * Yref / 4096.0 + model.b.detach().cpu().numpy()) * sd + mu
+        r2_int = r2_neurobench(pred, V[te_lo:te_hi])
+        out = a.out or (ROOT / "results" / "models" / f"{a.session}_LIN_k{a.k2}{a.tag}"); out.mkdir(parents=True, exist_ok=True)
+        np.savez(out / "model_int.npz", W=W.astype(np.int8), k2=a.k2, G=model.g.detach().cpu().numpy(), B=model.b.detach().cpu().numpy(), vel_mean=mu, vel_std=sd, linear=True)
+        json.dump({"session": a.session, "H": 0, "linear": True, "k2": a.k2, "epochs": a.epochs, "L": a.L, "lr": a.lr, "drop": a.drop, "w_init": a.w_init,
+                   "seed": a.seed, "wbits": a.wbits, "val_r2": r2v, "test_r2": r2t, "test_r2_int": r2_int, "train_bins": int(n_tr),
+                   "val_bins": int(va_hi - va_lo), "test_bins": int(te_hi - te_lo), "history": hist}, open(out / "train.json", "w"), indent=1)
+        nev = Xte.sum(1)
+        json.dump({"session": a.session, "model": str(out), "test_bins": int(te_hi - te_lo), "test_r2_int": float(r2_int), "linear": True,
+                   "events_per_bin": float(nev.mean()), "hidden_spikes_per_bin": 0.0}, open(out / "eval_int.json", "w"), indent=1)
+        print(f"linear baseline: TEST R2 torch {r2t:.4f} int {r2_int:.4f}; saved {out}"); return
     # ---- cross-check against the pure-integer numpy model on a slice --------------------------
     if a.prune < 1.0: model.prune_to(a.prune)
     W1, W2 = model.qweights(); W1 = W1.detach().cpu().numpy().astype(np.int64); W2 = W2.detach().cpu().numpy().astype(np.int64)
@@ -235,7 +279,7 @@ def main():
     np.savez(out / "model_int.npz", W1=W1.astype(np.int8), W2=W2.astype(np.int8), theta=a.theta, k1=a.k1, k2=a.k2,
              G=model.g.detach().cpu().numpy(), B=model.b.detach().cpu().numpy(), vel_mean=mu, vel_std=sd)
     json.dump({"session": a.session, "H": a.H, "theta": a.theta, "k1": a.k1, "k2": a.k2, "epochs": a.epochs,
-               "L": a.L, "lr": a.lr, "drop": a.drop, "seed": a.seed, "wbits": a.wbits, "val_r2": r2v, "test_r2": r2t,
+               "L": a.L, "lr": a.lr, "drop": a.drop, "w_init": a.w_init, "seed": a.seed, "wbits": a.wbits, "val_r2": r2v, "test_r2": r2t,
                "hidden_spikes_per_bin_test": spt, "int_crosscheck_mismatches": mism, "prune": a.prune, "w1_density": density,
                "init_from": str(a.init_from) if a.init_from else None, "train_only": a.train_only,
                "train_bins": int(n_tr), "val_bins": int(va_hi - va_lo), "test_bins": int(te_hi - te_lo),

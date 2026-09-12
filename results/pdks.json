@@ -637,7 +637,7 @@
   "avg_power_uW_250Hz_clkstopped_logic": 474.2894900361615
  },
  "asap7": {
-  "label": "ASAP7",
+  "label": "ASAP7 RVT",
   "node": "7 nm (FinFET)",
   "lib": "asap7sc7p5t RVT",
   "flow": "ORFS",
@@ -771,5 +771,141 @@
   },
   "avg_power_uW_250Hz_clkstopped": 1.8538184707160001,
   "avg_power_uW_250Hz_clkstopped_logic": 1.8538122110160156
+ },
+ "asap7sram": {
+  "label": "ASAP7 SRAM-Vt (low leakage)",
+  "node": "7 nm (FinFET)",
+  "lib": "asap7sc7p5t SRAM",
+  "flow": "ORFS",
+  "sh": "AsapS",
+  "fab": false,
+  "voltage": 0.7,
+  "temperature": 25.0,
+  "pnr": {
+   "drc_errors": 0,
+   "instance_area_um2": 1257.481260000077,
+   "stdcells": 9993,
+   "setup_ws_ns": null,
+   "hold_ws_ns": null,
+   "clock_period": null,
+   "power_total_W": 0.000171746,
+   "timing_met": true,
+   "stdcells_netlist": 9993,
+   "instance_area_netlist_um2": 1257.481260000077,
+   "phys_cells": 13628,
+   "netlist": "/media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_min16/base/6_final_sram.v"
+  },
+  "event": {
+   "tag": "pdk_asap7sram_min16_md0_full",
+   "tb": {
+    "bins": 500,
+    "events": 2934,
+    "errors": 0,
+    "cycles": 10268,
+    "active_cycles": 9981,
+    "avg_latency_cyc": 5,
+    "max_latency_cyc": 9,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 3.243579e-05,
+     "switching": 2.367298e-06,
+     "leakage": 3.372796e-08,
+     "total": 3.483681e-05
+    },
+    "Combinational": {
+     "internal": 3.14414e-05,
+     "switching": 4.39953e-05,
+     "leakage": 2.459992e-07,
+     "total": 7.568271e-05
+    },
+    "Clock": {
+     "internal": 1.610537e-05,
+     "switching": 1.361419e-05,
+     "leakage": 5.658131e-09,
+     "total": 2.972522e-05
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 7.998255e-05,
+     "switching": 5.99767e-05,
+     "leakage": 2.853854e-07,
+     "total": 0.0001402446
+    }
+   },
+   "power_avg_uW": 140.2446,
+   "cycles_meas": 10244,
+   "cycles_per_bin": 20.488,
+   "energy_per_bin_nJ": 0.057466627296,
+   "latency_us": 0.1,
+   "leakage_uW": 0.28538539999999996,
+   "pass": true
+  },
+  "idle": {
+   "tag": "pdk_asap7sram_min16_idle_full",
+   "idle_power_uW": 2.6130708525058184,
+   "leakage_uW": 0.4111,
+   "groups": {
+    "Sequential": {
+     "internal": 6.26974e-08,
+     "switching": 1.831733e-10,
+     "leakage": 3.544829e-08,
+     "total": 9.832887e-08
+    },
+    "Combinational": {
+     "internal": 2.184994e-09,
+     "switching": 3.058357e-09,
+     "leakage": 3.650992e-07,
+     "total": 3.703425e-07
+    },
+    "Clock": {
+     "internal": 1.794635e-06,
+     "switching": 3.467736e-07,
+     "leakage": 1.055089e-08,
+     "total": 2.151959e-06
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 1.859524e-06,
+     "switching": 3.500159e-07,
+     "leakage": 4.111e-07,
+     "total": 2.62064e-06
+    }
+   },
+   "idle_raw_uW": 2.6206400000000003,
+   "active_share": 5.499573783031815e-05
+  },
+  "leak_split": {
+   "leak_logic_uW": 0.4111028646000071,
+   "leak_phys_uW": 0.0,
+   "n_logic": 9993,
+   "n_phys": 13628,
+   "n_unmatched": 0
+  },
+  "avg_power_uW_250Hz_clkstopped": 0.42546665682400003,
+  "avg_power_uW_250Hz_clkstopped_logic": 0.4254695214240071
  }
 }

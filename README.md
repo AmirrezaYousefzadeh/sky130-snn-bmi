@@ -113,7 +113,10 @@ for s in loco_20170210_03 loco_20170215_02 loco_20170301_05; do .venv/bin/python
 .venv/bin/python sw/train_snn.py --session loco_20170215_02 --theta 256 --H 128 --epochs 1500 --eval_every 100 --drop 0.1 --lr 2.0 --tag _drop
 .venv/bin/python sw/eval_int.py results/models/loco_*_th512_k44_drop results/models/loco_20170215_02_H128_th256_k44_drop && .venv/bin/python sw/collect_loco.py   # Loco retuned: threshold 512
 ./sw/run_adapt_experiment.sh && .venv/bin/python sw/collect_adapt.py      # W1 frozen from another session, only bias + read-out retrained
-.venv/bin/python sw/asap7_leakage.py /media/pdk/asap7sc7p5t_28/lib       # flip-flop leakage sky130 vs ASAP7 RVT/LVT/SLVT (see script header)
+.venv/bin/python sw/asap7_leakage.py /media/pdk/asap7sc7p5t_28/lib       # flip-flop leakage sky130 vs ASAP7 RVT/LVT/SLVT/SRAM-Vt (see script header)
+# linear leaky-integrator baseline (no hidden layer, 96 x 2 int8 weights; what the hidden layer buys): same recipe, --linear
+for s in indy_20160622_01 indy_20160630_01 indy_20170131_02; do .venv/bin/python sw/train_snn.py --session $s --linear --k2 4 --epochs 1500 --eval_every 100 --drop 0.1 --lr 2.0 --tag _drop; done
+.venv/bin/python sw/collect_linear.py                                      # -> paper/numbers_linear.tex (with the NeuroBench ANN 2D baseline)
 
 # 5e. multi-PDK study: the hardwired 16-bit H=16 core on GF180MCU (OpenLane), IHP SG13G2, NanGate45/FreePDK45 and ASAP7
 #     (OpenROAD-flow-scripts with the OpenROAD/Yosys of the OpenLane Nix environment). PDK installation, next to sky130 in /media/pdk:
@@ -138,6 +141,12 @@ for plat in nangate45 ihp-sg13g2 asap7; do ./synthesis/run_orfs.sh $plat; done  
 .venv/bin/python sim/gen_ihp_models.py    # -> /media/pdk/ihp_sg13g2_models_functional.v (used by sim/measure_pdk.sh ihp)
 .venv/bin/python sim/liberty2verilog.py /media/pdk/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib /media/pdk/nangate45_models.v
 for p in gf180 ihp asap7 nangate45; do ./sim/measure_pdk.sh $p; done && .venv/bin/python sw/collect_pdks.py   # IHP_RUN=<platform dir>/<nickname> selects the IHP run for both
+# ASAP7 low-leakage (SRAM-Vt) flavour: liberty swap on the routed RVT netlist (same footprints), same activity; sim stats aliased by symlink
+R=/media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_min16/base; sed 's/_ASAP7_75t_R\b/_ASAP7_75t_SRAM/g' $R/6_final.v > $R/6_final_sram.v
+for t in md0 idle; do ln -sfn build_pdk_asap7_min16_${t}_full sim/build_pdk_asap7sram_min16_${t}_full
+  DESIGN=bmi_snn_min16 MACRO_INST=none PERIOD_NS=20000 RUN_DIR=$R NETLIST=$R/6_final_sram.v SPEF=$R/6_final.spef \
+  LIB_SC="$(ls /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_{AO,INVBUF,OA,SEQ,SIMPLE}_SRAM_TT_nldm_*.lib* | tr '\n' ' ')" \
+  ./power/run_vcd_power.sh core sim/build_pdk_asap7_min16_${t}_full/pdk_asap7_min16_${t}_full.vcd power/out_vcd_pdk_asap7sram_min16_${t}_full; done
 # collect_pdks.py splits the leakage of each row into logic and physical cells (fillers, decaps, taps, antenna diodes) from the per-instance
 # report of the idle run (power/out_vcd_*_idle_full/power_vcd_by_instance.rpt): at 25 % utilization the IHP decaps leak 21 of 23 uW.
 # GF180MCU at 1.8 V and 3.3 V: the routed netlist and its recorded activity re-evaluated with the other typical liberty files

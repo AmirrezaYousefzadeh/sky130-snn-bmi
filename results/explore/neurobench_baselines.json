@@ -1,5 +1,5 @@
 {
- "source": "comment blocks at the end of examples/primate_reaching/benchmark_SNN2.py and benchmark_snn_3.py in github.com/NeuroBench/neurobench, revision e521c28 (2026-05-12)",
+ "source": "comment blocks at the end of examples/primate_reaching/benchmark_SNN2.py and benchmark_snn_3.py in github.com/NeuroBench/neurobench, revision e521c28 (2026-05-12); ANN2D from the comment block at the end of examples/primate_reaching/benchmark_2d_ann.py (same revision)",
  "SNN2": {
   "indy_20160622_01": 0.6774135828018188,
   "indy_20160630_01": 0.5010538101196289,
@@ -19,5 +19,15 @@
   "loco_20170301_05": 0.681292712688446,
   "indy_mean": 0.6419012149175009,
   "loco_mean": 0.6238500277201334
+ },
+ "ANN2D": {
+  "indy_20160622_01": 0.6327020525932312,
+  "indy_20160630_01": 0.5241347551345825,
+  "indy_20170131_02": 0.6216747164726257,
+  "loco_20170210_03": 0.5727078914642334,
+  "loco_20170215_02": 0.4745999276638031,
+  "loco_20170301_05": 0.6272222995758057,
+  "indy_mean": 0.5928371747334799,
+  "loco_mean": 0.558176706234614
  }
 }

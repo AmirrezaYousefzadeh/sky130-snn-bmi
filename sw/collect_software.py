@@ -31,6 +31,7 @@ for suf, (sh, label) in V.items():
     if e_sp_sdf: M.append(f"\\newcommand{{\\ratioCpu{sh}SpSdf}}{{{f(e_ref / e_sp_sdf, 3)}}}")
     print(f"{label:18s} cycles/bin {o['cycles_per_bin']:8.1f}  P_awake {o['power_awake_mW']:.2f} mW  E {e_ref:7.0f} nJ  = {e_ref/e_seq:5.1f}x SRAM core, {e_ref/e_sp:5.0f}x pruned core")
 if "o2" in out and "_tuned" in out:
+    M.append(f"\\newcommand{{\\cpuUwPerMhz}}{{{f(out['o2']['power_awake_mW'] * 1e3 / 50.0, 3)}}}")   # SoC efficiency while decoding at 50 MHz (uW per MHz)
     M.append(f"\\newcommand{{\\cpuTunedSpeedup}}{{{f(out['o2']['cycles_per_bin'] / out['_tuned']['cycles_per_bin'], 2)}}}")
     M.append(f"\\newcommand{{\\cpuTunedEnergyGain}}{{{f(out['o2']['energy_per_bin_nJ_ref'] / out['_tuned']['energy_per_bin_nJ_ref'], 2)}}}")
 (ROOT / "results/explore/software.json").write_text(json.dumps(out, indent=1)); (ROOT / "paper/numbers_software.tex").write_text("\n".join(M) + "\n")

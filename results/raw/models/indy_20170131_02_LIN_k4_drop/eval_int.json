@@ -1,0 +1,9 @@
+{
+ "session": "indy_20170131_02",
+ "model": "/home/yousefzadeha/workspace/BCI_paper/results/models/indy_20170131_02_LIN_k4_drop",
+ "test_bins": 52116,
+ "test_r2_int": 0.3463086097051892,
+ "linear": true,
+ "events_per_bin": 3.7087842505180753,
+ "hidden_spikes_per_bin": 0.0
+}

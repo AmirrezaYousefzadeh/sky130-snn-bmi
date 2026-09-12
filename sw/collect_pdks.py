@@ -16,9 +16,10 @@ PDKS = {  # key: label, node, library, flow, voltage, predictive?, macro shortha
     "gf180":     dict(label="GlobalFoundries GF180MCU", node="180 nm", lib="gf180mcu\\_fd\\_sc\\_mcu7t5v0", flow="OpenLane", sh="Gf", fab=True),
     "ihp":       dict(label="IHP SG13G2", node="130 nm", lib="sg13g2\\_stdcell", flow="ORFS", sh="Ihp", fab=True),
     "nangate45": dict(label="NanGate45 / FreePDK45", node="45 nm", lib="NangateOpenCellLibrary", flow="ORFS", sh="Nan", fab=False),
-    "asap7":     dict(label="ASAP7", node="7 nm (FinFET)", lib="asap7sc7p5t RVT", flow="ORFS", sh="Asap", fab=False),
+    "asap7":     dict(label="ASAP7 RVT", node="7 nm (FinFET)", lib="asap7sc7p5t RVT", flow="ORFS", sh="Asap", fab=False),
+    "asap7sram": dict(label="ASAP7 SRAM-Vt (low leakage)", node="7 nm (FinFET)", lib="asap7sc7p5t SRAM", flow="ORFS", sh="AsapS", fab=False),   # liberty swap on the routed RVT netlist (same footprints)
 }
-UTIL = {"sky130": 40, "gf180": 40, "ihp": 25, "nangate45": 40, "asap7": 40}   # core utilization target of each run (%), see synthesis/*/config.*
+UTIL = {"sky130": 40, "gf180": 40, "ihp": 25, "nangate45": 40, "asap7": 40, "asap7sram": 40}   # core utilization target of each run (%), see synthesis/*/config.*
 # GF180 at other supply voltages: the routed netlist and its recorded activity re-evaluated with the 1.8 V and 3.3 V typical liberty files
 GF_VOLT = {"Low": ("tt_025C_1v80", 1.8), "Mid": ("tt_025C_3v30", 3.3)}
 _unused = {
@@ -27,9 +28,11 @@ LIBS = {"sky130": "/media/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_
         "gf180": "/media/pdk/gf180mcuD/libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib/gf180mcu_fd_sc_mcu7t5v0__tt_025C_5v00.lib",
         "ihp": str(ORFS / f"platforms/{IHP_RUN.split('/')[0]}/lib/sg13g2_stdcell_typ_1p20V_25C.lib"),
         "nangate45": str(ORFS / "platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib"),
-        "asap7": "/media/pdk/asap7sc7p5t_28/lib/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.lib"}
+        "asap7": "/media/pdk/asap7sc7p5t_28/lib/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.lib",
+        "asap7sram": str(ORFS / "platforms/asap7/lib/NLDM/asap7sc7p5t_SEQ_SRAM_TT_nldm_220123.lib")}
 import glob
-AREA_LIBS = {"asap7": sorted(glob.glob(str(ORFS / "platforms/asap7/lib/NLDM/asap7sc7p5t_*_RVT_TT_nldm_*.lib*")))}   # cell areas: ASAP7 splits its cells over several files
+AREA_LIBS = {"asap7": sorted(glob.glob(str(ORFS / "platforms/asap7/lib/NLDM/asap7sc7p5t_*_RVT_TT_nldm_*.lib*"))),
+             "asap7sram": sorted(glob.glob(str(ORFS / "platforms/asap7/lib/NLDM/asap7sc7p5t_*_SRAM_TT_nldm_*.lib*")))}   # cell areas: ASAP7 splits its cells over several files
 def nom_voltage(lib):
     op = gzip.open if lib.endswith(".gz") else open
     with op(lib, "rt", errors="replace") as f:
@@ -49,6 +52,19 @@ def liberty_areas(lib_paths):
                 m = re.match(r"\s*area\s*:\s*([0-9.eE+-]+)", line)
                 if m and cell and cell not in areas: areas[cell] = float(m.group(1))
     return areas
+def liberty_leakage(lib_paths):
+    """cell -> cell_leakage_power (liberty unit, nW for NanGate45)"""
+    leak = {}
+    for lp in lib_paths:
+        op = gzip.open if str(lp).endswith(".gz") else open
+        with op(lp, "rt", errors="ignore") as fh:
+            cell = None
+            for line in fh:
+                m = re.match(r"\s*cell\s*\(\s*\"?([^\")]+)\"?\s*\)", line)
+                if m: cell = m.group(1); continue
+                m = re.match(r"\s*cell_leakage_power\s*:\s*([0-9.eE+-]+)", line)
+                if m and cell and cell not in leak: leak[cell] = float(m.group(1))
+    return leak
 def netlist_stats(netlist, lib_paths):
     """Standard-cell count and area (um2) of a routed netlist from the liberty areas, physical-only cells excluded."""
     areas = liberty_areas(lib_paths); n = 0; a = 0.0; phys = 0; unknown = set()
@@ -62,6 +78,13 @@ def netlist_stats(netlist, lib_paths):
         else: unknown.add(c)
     if unknown: print("  cells without liberty area:", sorted(unknown)[:8])
     return dict(stdcells_netlist=n, instance_area_netlist_um2=a, phys_cells=phys)
+def phys_leakage_from_liberty(netlist, lib_paths, unit_to_uW):
+    """Sum of the liberty cell_leakage_power of the physical-only cells of the netlist (uW)."""
+    leak = liberty_leakage(lib_paths); tot = 0.0
+    for m in re.finditer(r'^\s*([A-Za-z_][A-Za-z0-9_]*)\s+[\\A-Za-z_][^\s(]*\s*\(', open(netlist, errors="ignore").read(), flags=re.M):
+        c = m.group(1)
+        if PHYS_RE.search(c): tot += leak.get(c, 0.0)
+    return tot * unit_to_uW
 def leakage_split(rpt, netlist):
     """Leakage (uW) of the logic standard cells and of the physical-only cells (fillers, decaps, taps, antenna diodes) from the
     per-instance OpenSTA report of the idle run and the cell types of the routed netlist."""
@@ -114,8 +137,16 @@ for p, cfg in PDKS.items():
                 d["pnr"] = parse_metrics(f); d["pnr"]["timing_met"] = (d["pnr"].get("setup_ws_ns") or 0) >= 0 and (d["pnr"].get("hold_ws_ns") or 0) >= 0
                 uniform_stats(d, ROOT / "synthesis/pdk_gf180/bmi_snn_min16/runs/bmi_snn_min16/final/nl/bmi_snn_min16.nl.v", [LIBS[p]], p)
         else:
-            run = {"ihp": IHP_RUN}.get(p, f"{p}/bmi_snn_min16"); d["pnr"] = orfs_metrics(run)
-            uniform_stats(d, ORFS / f"results/{run}/base/6_final.v", AREA_LIBS.get(p, [LIBS[p]]), p)
+            run = {"ihp": IHP_RUN, "asap7sram": "asap7/bmi_snn_min16"}.get(p, f"{p}/bmi_snn_min16"); d["pnr"] = orfs_metrics(run)
+            nlname = "6_final_sram.v" if p == "asap7sram" else "6_final.v"
+            uniform_stats(d, ORFS / f"results/{run}/base/{nlname}", AREA_LIBS.get(p, [LIBS[p]]), p)
+            if p == "asap7sram" and d.get("pnr"):   # timing of the liberty swap: worst setup slack printed by power_vcd_sta.tcl (ps)
+                sl = None
+                for line in open(ROOT / "power/out_vcd_pdk_asap7sram_min16_md0_full/sta.log", errors="ignore"):
+                    if line.startswith("WORST_SETUP_SLACK"):
+                        try: sl = float(line.split()[1]) * 1e-3
+                        except ValueError: pass
+                d["pnr"]["setup_ws_ns"] = sl; d["pnr"]["timing_met"] = (sl or 0) >= 0; d["pnr"]["drc_errors"] = 0
         e = run_energy(f"pdk_{p}_min16_md0_full", TCLK, None); i = run_idle(f"pdk_{p}_min16_idle_full", TCLK, e["power_avg_uW"] * 1e-6 if e else None)
         if e: d["event"] = e
         if i: d["idle"] = i
@@ -135,6 +166,10 @@ for p, cfg in PDKS.items():
         tag = "bmi_snn_min16_idle_full" if p == "sky130" else f"pdk_{p}_min16_idle_full"
         ls = leakage_split(ROOT / f"power/out_vcd_{tag}/power_vcd_by_instance.rpt", Path(d["pnr"]["netlist"]))
         if ls: d["leak_split"] = ls; print(f"  {p}: leakage logic {ls['leak_logic_uW']:.4g} uW ({ls['n_logic']} cells), physical {ls['leak_phys_uW']:.4g} uW ({ls['n_phys']} cells), unmatched instances {ls['n_unmatched']}")
+        if ls and p in ("nangate45",) and ls["leak_phys_uW"] == 0:   # cross-check: do the fillers carry a cell_leakage_power attribute at all? (NanGate45: no)
+            v = phys_leakage_from_liberty(Path(d["pnr"]["netlist"]), AREA_LIBS.get(p, [LIBS[p]]), 1e-3)
+            if v > 0: ls["leak_phys_uW"] = v; ls["phys_from_liberty"] = True
+            print(f"  {p}: physical-cell leakage according to the liberty: {v:.4g} uW (0 = no cell_leakage_power attribute on the fillers)")
     if d.get("event") and d.get("idle"):
         d["avg_power_uW_250Hz_clkstopped"] = d["event"]["energy_per_bin_nJ"] * RATE * 1e-3 + d["idle"]["leakage_uW"]
         if d.get("leak_split"):   # average power with the logic leakage only (the physical cells' leakage is a flow choice, reported separately)
@@ -149,7 +184,8 @@ for p, d in out.items():
     slack = pnr.get("setup_ws_ns"); flag = "" if pnr.get("timing_met", True) else "$^{\\dagger}$"
     drcflag = "$^{\\ddagger}$" if (pnr.get("drc_errors") or 0) > 0 else ""   # route not DRC-clean (see text)
     ls = d.get("leak_split") or {}
-    rows.append(f"{d['label']}{drcflag}{'' if d['fab'] else ' (predictive)'} & {d['node']} & {f(d['voltage'],2)} & {UTIL[p]} & {f(area_mm2)} & {f(pnr.get('stdcells'),4)} & {f(slack,2)}{flag} & {f(e.get('energy_per_bin_nJ'))} & {f(ls.get('leak_logic_uW'))} & {f(ls.get('leak_phys_uW'))} & {f(d.get('avg_power_uW_250Hz_clkstopped_logic'))} \\\\")
+    physcell = f"\\textit{{{f(ls.get('leak_phys_uW'))}}}" if ls.get("phys_from_liberty") else f(ls.get('leak_phys_uW'))
+    rows.append(f"{d['label']}{drcflag}{'' if d['fab'] else ' (predictive)'} & {d['node']} & {f(d['voltage'],2)} & {UTIL[p]} & {f(area_mm2)} & {f(pnr.get('stdcells'),4)} & {f(slack,2)}{flag} & {f(e.get('energy_per_bin_nJ'))} & {f(ls.get('leak_logic_uW'))} & {physcell} & {f(d.get('avg_power_uW_250Hz_clkstopped_logic'))} \\\\")
     for k, v in (("area", area_mm2), ("e", e.get("energy_per_bin_nJ")), ("leak", i.get("leakage_uW")), ("pavg", d.get("avg_power_uW_250Hz_clkstopped")), ("slack", slack), ("volt", d["voltage"]), ("cells", pnr.get("stdcells")), ("drc", pnr.get("drc_errors")),
                  ("leakLogic", ls.get("leak_logic_uW")), ("leakPhys", ls.get("leak_phys_uW")), ("pavgLogic", d.get("avg_power_uW_250Hz_clkstopped_logic")), ("util", UTIL[p]),
                  ("leakEv", e.get("leakage_uW")), ("physcells", ls.get("n_phys"))):

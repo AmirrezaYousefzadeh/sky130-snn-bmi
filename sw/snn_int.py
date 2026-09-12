@@ -90,3 +90,19 @@ def r2_neurobench(pred: np.ndarray, label: np.ndarray) -> float:
         den = label[:, i].var() * len(label)
         r.append(1.0 - ss / den)
     return float(np.mean(r))
+
+
+class IntLinear:
+    """Linear leaky-integrator baseline (no hidden layer): the two output accumulators of the SNN fed directly by the input
+    spikes through W (n_in+1 rows, last row = per-bin bias), same leak shift K2, same saturation and read-out."""
+    def __init__(self, W: np.ndarray, k2: int):
+        self.W = W.astype(np.int64); self.k2 = k2; self.n_in = W.shape[0] - 1; self.reset()
+    def reset(self): self.o = np.zeros(2, dtype=np.int64)
+    def step(self, active_channels):
+        o = self.o - (self.o >> self.k2)
+        o = sat(o + self.W[self.n_in] + (self.W[active_channels].sum(axis=0) if len(active_channels) else 0), O_MAX)
+        self.o = o; return o.copy()
+    def run(self, spikes_bool: np.ndarray):
+        Y = np.zeros((spikes_bool.shape[0], 2), dtype=np.int64)
+        for t in range(spikes_bool.shape[0]): Y[t] = self.step(np.nonzero(spikes_bool[t])[0])
+        return Y

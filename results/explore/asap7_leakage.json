@@ -71,5 +71,23 @@
   "leak_min": 0.0,
   "library": "ASAP7 7.5T SLVT",
   "voltage": 0.7
+ },
+ "asap7_SRAM_DFFHQNx1": {
+  "area_um2": 0.2916,
+  "states": 18,
+  "leak_mean": 26.232166666666668,
+  "leak_max": 59.5953,
+  "leak_min": 0.0,
+  "library": "ASAP7 7.5T SRAM",
+  "voltage": 0.7
+ },
+ "asap7_SRAM_DHLx1": {
+  "area_um2": 0.2187,
+  "states": 14,
+  "leak_mean": 21.44495714285714,
+  "leak_max": 46.8375,
+  "leak_min": 0.0,
+  "library": "ASAP7 7.5T SRAM",
+  "voltage": 0.7
  }
 }
