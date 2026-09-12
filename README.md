@@ -97,7 +97,7 @@ for d in bmi_snn_scmem bmi_snn_hw bmi_snn_min bmi_snn_min32; do DESIGN=$d ./synt
 .venv/bin/python sw/export_vectors.py results/models/indy_20160630_01_H64_th256_k44_drop_p0.125 --vbits 12 --obits 14 --out sim/vec_sp8_indy_20160630_01
 .venv/bin/python sw/gen_variant.py
 for d in bmi_snn_lmem bmi_snn_lmin bmi_snn_lmem2 bmi_snn_lmin2 bmi_snn_ming bmi_snn_m12 bmi_snn_sp bmi_snn_topg; do ./sim/harden_and_measure.sh $d; done
-# (the SDF set is skipped automatically for the standard-cell weight memories: Icarus does not finish annotating their 370k-600k-instance netlists)   # bmi_snn_sp8 (12.5 %) falls below the R2 gate (0.53) and was not hardened
+# (the SDF set is skipped automatically for the standard-cell weight memories: Icarus does not finish annotating their 370k-600k-instance netlists)   # bmi_snn_sp8 (12.5 %) reaches R2 0.53 (gate 0.55; sw/check_vbits.py H64_th256_k44_drop_p0.125) and was not hardened
 # voltage scaling: the same SDF waveforms evaluated with the liberty of other corners (1.40 V / 1.28 V), timing at that corner
 DESIGNS="bmi_snn_min16 bmi_snn_min32 bmi_snn_min bmi_snn_hw bmi_snn_ming bmi_snn_m12 bmi_snn_sp bmi_snn_lmin" ./power/run_corner_set.sh && .venv/bin/python sw/collect_corners.py
 
@@ -121,8 +121,12 @@ for f in loco_20170210_03 loco_20170215_02 loco_20170301_05; do curl -L -o data/
 for p in gf180 ihp asap7 nangate45; do .venv/bin/python sw/gen_variant.py --pdk $p bmi_snn_min16 rtl/h16; done   # clock-gate cell substituted, ROM inlined
 PDK=gf180mcuD DESIGN=pdk_gf180/bmi_snn_min16 RUN_TAG=bmi_snn_min16 ./synthesis/run_synthesis.sh
 for plat in nangate45 ihp-sg13g2 asap7; do ./synthesis/run_orfs.sh $plat; done      # configs in synthesis/orfs/<platform>/ (ADDER_MAP_FILE disabled, see below)
+# IHP SG13G2: the detail router of this OpenROAD build does not converge on this netlist with the platform defaults (tens of thousands of
+# via-sized Metal2-4 shorts on the buffered high-fanout ROM address nets; the flow-scripts' own gcd/ibex examples route clean). The run used
+# for the paper is synthesis/orfs/ihp-sg13g2/config.mk: 25 % utilization, cell padding 4/2 sites, detail routing bounded to 12 iterations
+# (DETAILED_ROUTE_ARGS); the violations left are reported in the table (double dagger). Measure it with IHP_RUN=ihp-sg13g2/<design nickname>.
 .venv/bin/python sim/liberty2verilog.py /media/pdk/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib /media/pdk/nangate45_models.v
-for p in gf180 ihp asap7 nangate45; do ./sim/measure_pdk.sh $p; done && .venv/bin/python sw/collect_pdks.py
+for p in gf180 ihp asap7 nangate45; do ./sim/measure_pdk.sh $p; done && .venv/bin/python sw/collect_pdks.py   # IHP_RUN=<platform dir>/<nickname> selects the IHP run for both
 # Notes: the flow-scripts' platform adder techmap (ADDER_MAP_FILE) produced netlists whose outputs differed from the RTL by a few
 # units (caught by the bit-exact gate-level check on two platforms); it is disabled in synthesis/orfs/*/config.mk. SYNTH_MEMORY_MAX_BITS
 # is raised because the case-statement ROM is inferred as a 12 kbit memory. Physical-only cells in the routed netlists get empty

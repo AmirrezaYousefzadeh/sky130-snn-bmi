@@ -1,0 +1,81 @@
+
+17. Printing statistics.
+
+=== bmi_snn_min16 ===
+
+   Number of wires:              11619
+   Number of wire bits:          11712
+   Number of public wires:         536
+   Number of public wire bits:     629
+   Number of ports:                 17
+   Number of port bits:            110
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              11105
+     AND2_X1                       289
+     AND2_X2                         1
+     AND3_X1                        72
+     AND3_X2                         1
+     AND4_X1                        25
+     AND4_X2                         1
+     AOI211_X2                      23
+     AOI21_X1                     1278
+     AOI21_X2                       12
+     AOI21_X4                        2
+     AOI221_X1                     375
+     AOI221_X2                      17
+     AOI222_X1                      16
+     AOI22_X1                      224
+     AOI22_X2                        1
+     BUF_X1                       1027
+     BUF_X2                         70
+     BUF_X4                         17
+     BUF_X8                          1
+     CLKBUF_X1                     103
+     CLKGATE_X1                      1
+     DFF_X1                        551
+     INV_X1                        468
+     INV_X2                          5
+     LOGIC0_X1                       1
+     MUX2_X1                       249
+     MUX2_X2                         1
+     NAND2_X1                     1240
+     NAND2_X2                        6
+     NAND3_X1                      357
+     NAND3_X2                        2
+     NAND4_X1                       97
+     NOR2_X1                      1292
+     NOR2_X2                         7
+     NOR2_X4                         4
+     NOR3_X1                       364
+     NOR3_X2                         7
+     NOR4_X1                        77
+     NOR4_X2                         2
+     NOR4_X4                         7
+     OAI211_X2                      40
+     OAI21_X1                     1294
+     OAI21_X2                        6
+     OAI21_X4                        1
+     OAI221_X1                     278
+     OAI221_X2                       3
+     OAI222_X1                      11
+     OAI22_X1                      189
+     OAI22_X2                        3
+     OAI22_X4                        1
+     OAI33_X1                       43
+     OR2_X1                        144
+     OR2_X2                          1
+     OR3_X1                         83
+     OR3_X2                          2
+     OR4_X1                         27
+     OR4_X2                          7
+     OR4_X4                          2
+     XNOR2_X1                      555
+     XNOR2_X2                        1
+     XOR2_X1                       120
+     XOR2_X2                         1
+
+   Chip area for module '\bmi_snn_min16': 13921.376000
+     of which used for sequential elements: 2491.622000 (17.90%)
+

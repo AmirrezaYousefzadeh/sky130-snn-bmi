@@ -1,0 +1,67 @@
+OpenROAD edf00dff99f6c40d67a30c0e22a8191c5d2ed9d6 
+Features included (+) or not (-): +Charts +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 24 thread(s).
+Deleted 0 routing obstructions
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file /media/pdk/OpenROAD-flow-scripts/flow/platforms/nangate45/rcx_patterns.rules ...
+[INFO RCX-0436] RC segment generation bmi_snn_min16 (max_merge_res 50.0) ...
+[INFO RCX-0040] Final 53503 rc segments
+[INFO RCX-0439] Coupling Cap extraction bmi_snn_min16 ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 48% of 104124 wires extracted
+[INFO RCX-0442] 100% of 104124 wires extracted
+[INFO RCX-0045] Extract 11877 nets, 64816 rsegs, 64816 caps, 170689 ccs
+[INFO RCX-0443] 11877 nets finished
+[INFO PSM-0040] All shapes on net VDD are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VDD
+Corner           : default
+Supply voltage   : 1.10e+00 V
+Worstcase voltage: 1.08e+00 V
+Average voltage  : 1.09e+00 V
+Average IR drop  : 7.95e-03 V
+Worstcase IR drop: 1.60e-02 V
+Percentage drop  : 1.45 %
+######################################
+[INFO PSM-0040] All shapes on net VSS are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VSS
+Corner           : default
+Supply voltage   : 0.00e+00 V
+Worstcase voltage: 8.96e-03 V
+Average voltage  : 4.66e-03 V
+Average IR drop  : 4.66e-03 V
+Worstcase IR drop: 8.96e-03 V
+Percentage drop  : 0.81 %
+######################################
+Cell type report:                       Count       Area
+  Fill cell                              9596   16632.45
+  Tap cell                                331      88.05
+  Buffer                                 1218    2161.78
+  Clock buffer                            134     160.13
+  Timing Repair Buffer                     65      53.20
+  Inverter                                473     314.41
+  Clock inverter                           47      38.84
+  Clock gate cell                           1       3.46
+  Sequential cell                         551    2508.65
+  Multi-Input combinational cell         8862   12483.91
+  Total                                 21278   34444.87
+Report metrics stage 6, finish...
+
+==========================================================================
+finish report_design_area
+--------------------------------------------------------------------------
+Design area 17812 u^2 52% utilization.
+[WARNING GUI-0076] qglx_findConfig: Failed to finding matching FBConfig for QSurfaceFormat(version 2.0, options QFlags<QSurfaceFormat::FormatOption>(), depthBufferSize -1, redBufferSize 1, greenBufferSize 1, blueBufferSize 1, alphaBufferSize -1, stencilBufferSize -1, samples -1, swapBehavior QSurfaceFormat::SingleBuffer, swapInterval 1, colorSpace QSurfaceFormat::DefaultColorSpace, profile  QSurfaceFormat::NoProfile)
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/nangate45/bmi_snn_min16/base/final_routing.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/nangate45/bmi_snn_min16/base/final_placement.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/nangate45/bmi_snn_min16/base/final_ir_drop.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/nangate45/bmi_snn_min16/base/final_clocks.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/nangate45/bmi_snn_min16/base/final_resizer.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/nangate45/bmi_snn_min16/base/cts_clk.webp.png
+Elapsed time: 0:22.50[h:]min:sec. CPU time: user 17.35 sys 0.29 (78%). Peak memory: 439868KB.

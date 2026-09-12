@@ -1,0 +1,75 @@
+{
+ "note": "leakage in pW, mean over the state-dependent liberty values (cell_leakage_power for sky130); TT corner, 25 C",
+ "sky130_dfxtp_1": {
+  "area_um2": 20.0192,
+  "states": 8,
+  "leak_mean": 8.438625,
+  "leak_max": 9.2298,
+  "leak_min": 8.041,
+  "library": "sky130_fd_sc_hd",
+  "voltage": 1.8
+ },
+ "sky130_dlxtp_1": {
+  "area_um2": 15.0144,
+  "states": 6,
+  "leak_mean": 7.928216666666667,
+  "leak_max": 8.622599999999998,
+  "leak_min": 7.1637,
+  "library": "sky130_fd_sc_hd",
+  "voltage": 1.8
+ },
+ "asap7_RVT_DFFHQNx1": {
+  "area_um2": 0.2916,
+  "states": 18,
+  "leak_mean": 114.86833333333334,
+  "leak_max": 260.532,
+  "leak_min": 0.0,
+  "library": "ASAP7 7.5T RVT",
+  "voltage": 0.7
+ },
+ "asap7_RVT_DHLx1": {
+  "area_um2": 0.2187,
+  "states": 14,
+  "leak_mean": 95.28085714285714,
+  "leak_max": 204.994,
+  "leak_min": 0.0,
+  "library": "ASAP7 7.5T RVT",
+  "voltage": 0.7
+ },
+ "asap7_LVT_DFFHQNx1": {
+  "area_um2": 0.2916,
+  "states": 18,
+  "leak_mean": 1111.4083333333333,
+  "leak_max": 2554.36,
+  "leak_min": 0.0,
+  "library": "ASAP7 7.5T LVT",
+  "voltage": 0.7
+ },
+ "asap7_LVT_DHLx1": {
+  "area_um2": 0.2187,
+  "states": 14,
+  "leak_mean": 926.9414285714286,
+  "leak_max": 2009.76,
+  "leak_min": 0.0,
+  "library": "ASAP7 7.5T LVT",
+  "voltage": 0.7
+ },
+ "asap7_SLVT_DFFHQNx1": {
+  "area_um2": 0.2916,
+  "states": 18,
+  "leak_mean": 11270.05,
+  "leak_max": 25987.5,
+  "leak_min": 0.0,
+  "library": "ASAP7 7.5T SLVT",
+  "voltage": 0.7
+ },
+ "asap7_SLVT_DHLx1": {
+  "area_um2": 0.2187,
+  "states": 14,
+  "leak_mean": 9406.785714285714,
+  "leak_max": 20412.7,
+  "leak_min": 0.0,
+  "library": "ASAP7 7.5T SLVT",
+  "voltage": 0.7
+ }
+}

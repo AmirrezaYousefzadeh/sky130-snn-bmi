@@ -2,13 +2,13 @@ SDF: annotated /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_m12_md0_
 VCD info: dumpfile /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_m12_md0_sdf/bmi_snn_m12_md0_sdf.vcd opened for output.
 WAVEFORM: dumping to /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_m12_md0_sdf/bmi_snn_m12_md0_sdf.vcd
 WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:140: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vec_v12_indy_20160630_01/stream.hex): Not enough words in the file for the requested range [0:3999999].
-WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:141: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vec_v12_indy_20160630_01/expect.hex): Too many words in the file for the requested range [0:399].
-TB: mode_dense=0 n_bins=200 idle_gap=0 clk=20 ns
-SUMMARY: bins=200 events=1262 errors=0 cycles=4470 active_cycles=4329 avg_latency_cyc=5 max_latency_cyc=14
-MEASURED: cycles_from_dump_start=4446 active_cycles_from_dump_start=4309
-PASS: 200 bins bit-exact
-/home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:207: $finish called at 89390000 (1ps)
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:141: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vec_v12_indy_20160630_01/expect.hex): Too many words in the file for the requested range [0:999].
+TB: mode_dense=0 n_bins=500 idle_gap=0 clk=20 ns
+SUMMARY: bins=500 events=2934 errors=0 cycles=10536 active_cycles=10225 avg_latency_cyc=5 max_latency_cyc=14
+MEASURED: cycles_from_dump_start=10512 active_cycles_from_dump_start=10205
+PASS: 500 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:207: $finish called at 210710000 (1ps)
 
-real	8m11.709s
-user	8m9.483s
-sys	0m1.574s
+real	12m5.028s
+user	11m53.747s
+sys	0m3.553s

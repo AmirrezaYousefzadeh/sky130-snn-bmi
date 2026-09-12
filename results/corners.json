@@ -97,10 +97,42 @@
    "leakage_uW": 0.16707149999999998,
    "avg_power_uW_250Hz_clkstopped": 1.2180734021000001
   },
-  "tt_100C_1v80": null,
-  "ss_100C_1v40": null,
-  "ss_n40C_1v40": null,
-  "ss_n40C_1v28": null
+  "tt_100C_1v80": {
+   "energy_per_bin_nJ": 4.310695372000001,
+   "power_uW": 10351.300000000001,
+   "leakage_active_uW": 16.49689,
+   "setup_ws_ns": 12.720749786865326,
+   "fmax_MHz": 137.37678616893822,
+   "leakage_uW": 16.44531,
+   "avg_power_uW_250Hz_clkstopped": 17.522983843
+  },
+  "ss_100C_1v40": {
+   "energy_per_bin_nJ": 2.4489682861200004,
+   "power_uW": 5880.723,
+   "leakage_active_uW": 48.353100000000005,
+   "setup_ws_ns": -2.2507560260009996,
+   "fmax_MHz": 44.94229314417252,
+   "leakage_uW": 47.73097,
+   "avg_power_uW_250Hz_clkstopped": 48.34321207153
+  },
+  "ss_n40C_1v40": {
+   "energy_per_bin_nJ": 2.2643620998800005,
+   "power_uW": 5437.427,
+   "leakage_active_uW": 0.07349631999999999,
+   "setup_ws_ns": -13.341415083800712,
+   "fmax_MHz": 29.992728187648545,
+   "leakage_uW": 0.07315395999999999,
+   "avg_power_uW_250Hz_clkstopped": 0.6392444849700001
+  },
+  "ss_n40C_1v28": {
+   "energy_per_bin_nJ": 1.80762195176,
+   "power_uW": 4340.654,
+   "leakage_active_uW": 0.060209269999999995,
+   "setup_ws_ns": -38.935887403113156,
+   "fmax_MHz": 16.967590445531787,
+   "leakage_uW": 0.06003825000000001,
+   "avg_power_uW_250Hz_clkstopped": 0.51194373794
+  }
  },
  "bmi_snn_min16": {
   "tt_025C_1v80": {
@@ -110,7 +142,15 @@
    "leakage_uW": 0.09452227,
    "avg_power_uW_250Hz_clkstopped": 0.62868448404
   },
-  "tt_100C_1v80": null,
+  "tt_100C_1v80": {
+   "energy_per_bin_nJ": 2.1945868713600007,
+   "power_uW": 5355.786,
+   "leakage_active_uW": 9.259923,
+   "setup_ws_ns": 14.114856838887135,
+   "fmax_MHz": 169.91940087501672,
+   "leakage_uW": 9.249835,
+   "avg_power_uW_250Hz_clkstopped": 9.79848171784
+  },
   "ss_100C_1v40": {
    "energy_per_bin_nJ": 1.2380242784000002,
    "power_uW": 3021.34,
@@ -120,8 +160,24 @@
    "leakage_uW": 26.85536,
    "avg_power_uW_250Hz_clkstopped": 27.164866069600002
   },
-  "ss_n40C_1v40": null,
-  "ss_n40C_1v28": null
+  "ss_n40C_1v40": {
+   "energy_per_bin_nJ": 1.1340661176,
+   "power_uW": 2767.635,
+   "leakage_active_uW": 0.041256379999999995,
+   "setup_ws_ns": -6.5652407954530645,
+   "fmax_MHz": 37.64317469206457,
+   "leakage_uW": 0.0409782,
+   "avg_power_uW_250Hz_clkstopped": 0.3244947294
+  },
+  "ss_n40C_1v28": {
+   "energy_per_bin_nJ": 0.8994047608000001,
+   "power_uW": 2194.9550000000004,
+   "leakage_active_uW": 0.03385304,
+   "setup_ws_ns": -28.605910529222456,
+   "fmax_MHz": 20.57362960825079,
+   "leakage_uW": 0.03363107,
+   "avg_power_uW_250Hz_clkstopped": 0.25848226020000004
+  }
  },
  "bmi_snn_ming": {
   "tt_025C_1v80": {
@@ -131,10 +187,42 @@
    "leakage_uW": 0.4615337,
    "avg_power_uW_250Hz_clkstopped": 2.1372288552
   },
-  "tt_100C_1v80": null,
-  "ss_100C_1v40": null,
-  "ss_n40C_1v40": null,
-  "ss_n40C_1v28": null
+  "tt_100C_1v80": {
+   "energy_per_bin_nJ": 6.8664558512000005,
+   "power_uW": 16323.830000000002,
+   "leakage_active_uW": 33.15098,
+   "setup_ws_ns": 11.419376555465988,
+   "fmax_MHz": 116.54164833873641,
+   "leakage_uW": 33.544560000000004,
+   "avg_power_uW_250Hz_clkstopped": 35.2611739628
+  },
+  "ss_100C_1v40": {
+   "energy_per_bin_nJ": 4.00061323728,
+   "power_uW": 9510.777,
+   "leakage_active_uW": 99.44520999999999,
+   "setup_ws_ns": -5.283803616862315,
+   "fmax_MHz": 39.5510111988482,
+   "leakage_uW": 100.28960000000001,
+   "avg_power_uW_250Hz_clkstopped": 101.28975330932
+  },
+  "ss_n40C_1v40": {
+   "energy_per_bin_nJ": 3.758140777600001,
+   "power_uW": 8934.34,
+   "leakage_active_uW": 0.22340859999999998,
+   "setup_ws_ns": -16.335999220018493,
+   "fmax_MHz": 27.52091648683966,
+   "leakage_uW": 0.2227555,
+   "avg_power_uW_250Hz_clkstopped": 1.1622906944000002
+  },
+  "ss_n40C_1v28": {
+   "energy_per_bin_nJ": 3.0481425216,
+   "power_uW": 7246.44,
+   "leakage_active_uW": 0.18398869999999998,
+   "setup_ws_ns": -45.87408852785302,
+   "fmax_MHz": 15.180475697620892,
+   "leakage_uW": 0.18374200000000002,
+   "avg_power_uW_250Hz_clkstopped": 0.9457776304000001
+  }
  },
  "bmi_snn_m12": {
   "tt_025C_1v80": {
@@ -144,10 +232,42 @@
    "leakage_uW": 0.43594869999999997,
    "avg_power_uW_250Hz_clkstopped": 2.0107566759999997
   },
-  "tt_100C_1v80": null,
-  "ss_100C_1v40": null,
-  "ss_n40C_1v40": null,
-  "ss_n40C_1v28": null
+  "tt_100C_1v80": {
+   "energy_per_bin_nJ": 6.4479010176,
+   "power_uW": 15334.62,
+   "leakage_active_uW": 30.17677,
+   "setup_ws_ns": 10.96846258263895,
+   "fmax_MHz": 110.72311986193296,
+   "leakage_uW": 30.16498,
+   "avg_power_uW_250Hz_clkstopped": 31.7769552544
+  },
+  "ss_100C_1v40": {
+   "energy_per_bin_nJ": 3.7601642649599993,
+   "power_uW": 8942.552,
+   "leakage_active_uW": 90.49961,
+   "setup_ws_ns": -8.110491833690503,
+   "fmax_MHz": 35.57390620969133,
+   "leakage_uW": 90.10835999999999,
+   "avg_power_uW_250Hz_clkstopped": 91.04840106623999
+  },
+  "ss_n40C_1v40": {
+   "energy_per_bin_nJ": 3.5338564627200006,
+   "power_uW": 8404.339,
+   "leakage_active_uW": 0.21364930000000001,
+   "setup_ws_ns": -20.303632553009265,
+   "fmax_MHz": 24.811659313456477,
+   "leakage_uW": 0.2135182,
+   "avg_power_uW_250Hz_clkstopped": 1.09698231568
+  },
+  "ss_n40C_1v28": {
+   "energy_per_bin_nJ": 2.8647344448000003,
+   "power_uW": 6813.01,
+   "leakage_active_uW": 0.1760587,
+   "setup_ws_ns": -53.663949728388616,
+   "fmax_MHz": 13.575161306000673,
+   "leakage_uW": 0.1759807,
+   "avg_power_uW_250Hz_clkstopped": 0.8921643112000001
+  }
  },
  "bmi_snn_sp": {
   "tt_025C_1v80": {
@@ -157,9 +277,41 @@
    "leakage_uW": 0.3457305,
    "avg_power_uW_250Hz_clkstopped": 1.1633400364600002
   },
-  "tt_100C_1v80": null,
-  "ss_100C_1v40": null,
-  "ss_n40C_1v40": null,
-  "ss_n40C_1v28": null
+  "tt_100C_1v80": {
+   "energy_per_bin_nJ": 3.3607222007199997,
+   "power_uW": 8064.701000000001,
+   "leakage_active_uW": 25.17143,
+   "setup_ws_ns": 11.871529537188508,
+   "fmax_MHz": 123.02437519765778,
+   "leakage_uW": 24.81575,
+   "avg_power_uW_250Hz_clkstopped": 25.655930550180003
+  },
+  "ss_100C_1v40": {
+   "energy_per_bin_nJ": 1.92717706376,
+   "power_uW": 4624.633000000001,
+   "leakage_active_uW": 74.92812,
+   "setup_ws_ns": -4.17319157008933,
+   "fmax_MHz": 41.368141112046985,
+   "leakage_uW": 73.73371,
+   "avg_power_uW_250Hz_clkstopped": 74.21550426594
+  },
+  "ss_n40C_1v40": {
+   "energy_per_bin_nJ": 1.7677404084800004,
+   "power_uW": 4242.034000000001,
+   "leakage_active_uW": 0.1671331,
+   "setup_ws_ns": -13.897155426434438,
+   "fmax_MHz": 29.501000524078126,
+   "leakage_uW": 0.1677128,
+   "avg_power_uW_250Hz_clkstopped": 0.6096479021200001
+  },
+  "ss_n40C_1v28": {
+   "energy_per_bin_nJ": 1.4129979239200001,
+   "power_uW": 3390.761,
+   "leakage_active_uW": 0.1377265,
+   "setup_ws_ns": -40.15667798284994,
+   "fmax_MHz": 16.623258356870867,
+   "leakage_uW": 0.1382497,
+   "avg_power_uW_250Hz_clkstopped": 0.49149918098
+  }
  }
 }

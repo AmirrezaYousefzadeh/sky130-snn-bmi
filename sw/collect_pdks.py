@@ -3,13 +3,14 @@
 and ASAP7 (OpenROAD-flow-scripts). Post-layout area / timing from the flow metrics, functional gate-level energy from
 sim/build_pdk_<p>_min16_{md0,idle}_full + power/out_vcd_... (same per-pin OpenSTA method). -> results/pdks.json,
 paper/pdks_table.tex, paper/numbers_pdks.tex."""
-import json, re, sys, gzip
+import json, os, re, sys, gzip
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from collect_designs import run_energy, run_idle, TCLK, RATE
 from collect_results import parse_metrics
 ROOT = Path(__file__).resolve().parent.parent
 ORFS = Path("/media/pdk/OpenROAD-flow-scripts/flow")
+IHP_RUN = os.environ.get("IHP_RUN", "ihp-sg13g2/bmi_snn_min16")   # <platform dir>/<design nickname> of the IHP run (see sim/measure_pdk.sh)
 PDKS = {  # key: label, node, library, flow, voltage, predictive?, macro shorthand
     "sky130":    dict(label="SkyWater sky130", node="130 nm", lib="sky130\\_fd\\_sc\\_hd", flow="OpenLane", sh="Sky", fab=True),
     "gf180":     dict(label="GlobalFoundries GF180MCU", node="180 nm", lib="gf180mcu\\_fd\\_sc\\_mcu7t5v0", flow="OpenLane", sh="Gf", fab=True),
@@ -19,7 +20,7 @@ PDKS = {  # key: label, node, library, flow, voltage, predictive?, macro shortha
 }
 LIBS = {"sky130": "/media/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib",
         "gf180": "/media/pdk/gf180mcuD/libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib/gf180mcu_fd_sc_mcu7t5v0__tt_025C_5v00.lib",
-        "ihp": str(ORFS / "platforms/ihp-sg13g2/lib/sg13g2_stdcell_typ_1p20V_25C.lib"),
+        "ihp": str(ORFS / f"platforms/{IHP_RUN.split('/')[0]}/lib/sg13g2_stdcell_typ_1p20V_25C.lib"),
         "nangate45": str(ORFS / "platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib"),
         "asap7": "/media/pdk/asap7sc7p5t_28/lib/asap7sc7p5t_SEQ_RVT_TT_nldm_220123.lib"}
 def nom_voltage(lib):
@@ -29,13 +30,15 @@ def nom_voltage(lib):
     m = re.search(r"nom_voltage\s*:\s*([\d.]+)", head); t = re.search(r"nom_temperature\s*:\s*([\d.]+)", head)
     return (float(m.group(1)) if m else None), (float(t.group(1)) if t else None)
 def orfs_metrics(plat):
-    f = ORFS / f"logs/{plat}/bmi_snn_min16/base/6_report.json"
+    f = ORFS / f"logs/{plat}/base/6_report.json"   # plat = <platform dir>/<design nickname>
     if not f.exists(): return None
     m = json.load(open(f)); g = lambda k: m.get(k)
     period = g("finish__clock__period") or g("clock__period")
     tu = 1e-3 if plat == "asap7" else 1.0          # the ASAP7 liberty time unit is ps
     sws = g("finish__timing__setup__ws"); hws = g("finish__timing__hold__ws")
-    return dict(instance_area_um2=g("finish__design__instance__area"), stdcells=g("finish__design__instance__count__stdcell") or g("finish__design__instance__count"),
+    fr = ORFS / f"logs/{plat}/base/5_2_route.json"   # detail-route violations left when the router stopped (0 = DRC-clean route)
+    drc = json.load(open(fr)).get("detailedroute__route__drc_errors") if fr.exists() else None
+    return dict(drc_errors=drc, instance_area_um2=g("finish__design__instance__area"), stdcells=g("finish__design__instance__count__stdcell") or g("finish__design__instance__count"),
                 setup_ws_ns=sws * tu if sws is not None else None, hold_ws_ns=hws * tu if hws is not None else None, clock_period=period * tu if period else None,
                 power_total_W=g("finish__power__total"), timing_met=(g("finish__timing__setup__ws") or 0) >= 0 and (g("finish__timing__hold__ws") or 0) >= 0)
 out = {}
@@ -50,7 +53,7 @@ for p, cfg in PDKS.items():
             if f.exists():
                 d["pnr"] = parse_metrics(f); d["pnr"]["timing_met"] = (d["pnr"].get("setup_ws_ns") or 0) >= 0 and (d["pnr"].get("hold_ws_ns") or 0) >= 0
         else:
-            d["pnr"] = orfs_metrics({"ihp": "ihp-sg13g2"}.get(p, p))
+            d["pnr"] = orfs_metrics({"ihp": IHP_RUN}.get(p, f"{p}/bmi_snn_min16"))
         e = run_energy(f"pdk_{p}_min16_md0_full", TCLK, None); i = run_idle(f"pdk_{p}_min16_idle_full", TCLK, e["power_avg_uW"] * 1e-6 if e else None)
         if e: d["event"] = e
         if i: d["idle"] = i
@@ -64,8 +67,9 @@ for p, d in out.items():
     pnr = d.get("pnr") or {}; e = d.get("event") or {}; i = d.get("idle") or {}; sh = d["sh"]
     area = pnr.get("instance_area_um2"); area_mm2 = area / 1e6 if area else None
     slack = pnr.get("setup_ws_ns"); flag = "" if pnr.get("timing_met", True) else "$^{\\dagger}$"
-    rows.append(f"{d['label']}{'' if d['fab'] else ' (predictive)'} & {d['node']} & {d['flow']} & {f(d['voltage'],2)} & {f(area_mm2)} & {f(pnr.get('stdcells'),4)} & {f(slack,2)}{flag} & {f(e.get('energy_per_bin_nJ'))} & {f(i.get('leakage_uW'))} & {f(d.get('avg_power_uW_250Hz_clkstopped'))} \\\\")
-    for k, v in (("area", area_mm2), ("e", e.get("energy_per_bin_nJ")), ("leak", i.get("leakage_uW")), ("pavg", d.get("avg_power_uW_250Hz_clkstopped")), ("slack", slack), ("volt", d["voltage"]), ("cells", pnr.get("stdcells"))):
+    drcflag = "$^{\\ddagger}$" if (pnr.get("drc_errors") or 0) > 0 else ""   # route not DRC-clean (see text)
+    rows.append(f"{d['label']}{drcflag}{'' if d['fab'] else ' (predictive)'} & {d['node']} & {d['flow']} & {f(d['voltage'],2)} & {f(area_mm2)} & {f(pnr.get('stdcells'),4)} & {f(slack,2)}{flag} & {f(e.get('energy_per_bin_nJ'))} & {f(i.get('leakage_uW'))} & {f(d.get('avg_power_uW_250Hz_clkstopped'))} \\\\")
+    for k, v in (("area", area_mm2), ("e", e.get("energy_per_bin_nJ")), ("leak", i.get("leakage_uW")), ("pavg", d.get("avg_power_uW_250Hz_clkstopped")), ("slack", slack), ("volt", d["voltage"]), ("cells", pnr.get("stdcells")), ("drc", pnr.get("drc_errors"))):
         M.append(f"\\newcommand{{\\pdk{k}{sh}}}{{{f(v, 4 if k == 'cells' else 3)}}}")
     e0 = out["sky130"].get("event", {}).get("energy_per_bin_nJ")
     M.append(f"\\newcommand{{\\pdkRel{sh}}}{{{f(e['energy_per_bin_nJ'] / e0, 2) if (e0 and e.get('energy_per_bin_nJ')) else '--'}}}")

@@ -1,0 +1,62 @@
+{
+ "bmi_snn_top": {
+  "points": [
+   {
+    "ev_per_bin": 5.868,
+    "e_nJ": 40.0797348428,
+    "cyc": 184.774,
+    "stream": "Ref"
+   },
+   {
+    "ev_per_bin": 7.466,
+    "e_nJ": 46.718909124,
+    "cyc": 211.94,
+    "stream": "A"
+   },
+   {
+    "ev_per_bin": 3.63,
+    "e_nJ": 31.3528977312,
+    "cyc": 146.728,
+    "stream": "B"
+   }
+  ],
+  "intercept_nJ": 16.77139802944549,
+  "slope_nJ_per_event": 3.9989004721565378,
+  "resid_max_nJ": 0.15721115726005763,
+  "e_at_session_mean": {
+   "SessA": 47.522942660329264,
+   "SessRef": 37.845603517710444,
+   "SessB": 32.567054894463816
+  }
+ },
+ "bmi_snn_sp": {
+  "points": [
+   {
+    "ev_per_bin": 5.868,
+    "e_nJ": 2.93391590984,
+    "cyc": 20.836,
+    "stream": "Ref"
+   },
+   {
+    "ev_per_bin": 7.466,
+    "e_nJ": 3.5356812780799998,
+    "cyc": 24.472,
+    "stream": "A"
+   },
+   {
+    "ev_per_bin": 3.63,
+    "e_nJ": 2.2146407876400005,
+    "cyc": 16.658,
+    "stream": "B"
+   }
+  ],
+  "intercept_nJ": 0.9557512919988559,
+  "slope_nJ_per_event": 0.3429016800025603,
+  "resid_max_nJ": 0.03398244041387999,
+  "e_at_session_mean": {
+   "SessA": 3.592665211218545,
+   "SessRef": 2.7628431456123486,
+   "SessB": 2.310212928008969
+  }
+ }
+}

@@ -1,0 +1,75 @@
+
+21. Printing statistics.
+
+=== bmi_snn_min16 ===
+
+   Number of wires:               9820
+   Number of wire bits:           9913
+   Number of public wires:          19
+   Number of public wire bits:     112
+   Number of ports:                 17
+   Number of port bits:            110
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               9857
+     AND2x2_ASAP7_75t_R            445
+     AND2x4_ASAP7_75t_R              3
+     AND3x1_ASAP7_75t_R            362
+     AND3x2_ASAP7_75t_R              1
+     AND4x1_ASAP7_75t_R            141
+     AND4x2_ASAP7_75t_R              2
+     AND5x1_ASAP7_75t_R             51
+     AND5x2_ASAP7_75t_R              2
+     AO211x2_ASAP7_75t_R            13
+     AO21x1_ASAP7_75t_R           1257
+     AO21x2_ASAP7_75t_R              3
+     AO221x1_ASAP7_75t_R           286
+     AO222x2_ASAP7_75t_R            33
+     AO22x1_ASAP7_75t_R             65
+     AO22x2_ASAP7_75t_R              1
+     AO31x2_ASAP7_75t_R             32
+     AO32x1_ASAP7_75t_R            239
+     AO33x2_ASAP7_75t_R             15
+     AOI211x1_ASAP7_75t_R           66
+     AOI21x1_ASAP7_75t_R           188
+     AOI221x1_ASAP7_75t_R           34
+     AOI22x1_ASAP7_75t_R            33
+     BUFx12f_ASAP7_75t_R             5
+     BUFx2_ASAP7_75t_R            1008
+     BUFx3_ASAP7_75t_R              19
+     BUFx4f_ASAP7_75t_R              2
+     BUFx6f_ASAP7_75t_R              7
+     DFFHQNx1_ASAP7_75t_R          551
+     ICGx1_ASAP7_75t_R               1
+     INVx1_ASAP7_75t_R             587
+     INVx2_ASAP7_75t_R               5
+     MAJx2_ASAP7_75t_R             195
+     NAND2x1_ASAP7_75t_R           605
+     NAND2x2_ASAP7_75t_R             4
+     NAND3x1_ASAP7_75t_R            27
+     NOR2x1_ASAP7_75t_R            378
+     NOR2x2_ASAP7_75t_R             41
+     NOR3x1_ASAP7_75t_R             25
+     OA211x2_ASAP7_75t_R           515
+     OA21x2_ASAP7_75t_R            580
+     OA221x2_ASAP7_75t_R             7
+     OA222x2_ASAP7_75t_R            22
+     OA22x2_ASAP7_75t_R             46
+     OA31x2_ASAP7_75t_R             39
+     OA33x2_ASAP7_75t_R             14
+     OAI21x1_ASAP7_75t_R           245
+     OAI22x1_ASAP7_75t_R            33
+     OR2x2_ASAP7_75t_R             239
+     OR3x1_ASAP7_75t_R             484
+     OR4x1_ASAP7_75t_R             155
+     OR4x2_ASAP7_75t_R               1
+     OR5x1_ASAP7_75t_R              50
+     TIELOx1_ASAP7_75t_R             1
+     XNOR2x1_ASAP7_75t_R             2
+     XNOR2x2_ASAP7_75t_R           565
+     XOR2x2_ASAP7_75t_R            127
+
+   Chip area for module '\bmi_snn_min16': 1107.394740
+     of which used for sequential elements: 160.671600 (14.51%)
+

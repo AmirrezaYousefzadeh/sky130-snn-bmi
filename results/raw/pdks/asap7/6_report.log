@@ -1,0 +1,68 @@
+OpenROAD edf00dff99f6c40d67a30c0e22a8191c5d2ed9d6 
+Features included (+) or not (-): +Charts +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 24 thread(s).
+Deleted 0 routing obstructions
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/rcx_patterns.rules ...
+[INFO RCX-0436] RC segment generation bmi_snn_min16 (max_merge_res 50.0) ...
+[INFO RCX-0040] Final 92620 rc segments
+[INFO RCX-0439] Coupling Cap extraction bmi_snn_min16 ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 54% of 99651 wires extracted
+[INFO RCX-0442] 100% of 99651 wires extracted
+[INFO RCX-0045] Extract 10020 nets, 102596 rsegs, 102596 caps, 156529 ccs
+[INFO RCX-0443] 10020 nets finished
+[INFO PSM-0040] All shapes on net VDD are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VDD
+Corner           : default
+Supply voltage   : 7.70e-01 V
+Worstcase voltage: 7.70e-01 V
+Average voltage  : 7.70e-01 V
+Average IR drop  : 1.05e-05 V
+Worstcase IR drop: 7.29e-05 V
+Percentage drop  : 0.01 %
+######################################
+[INFO PSM-0040] All shapes on net VSS are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VSS
+Corner           : default
+Supply voltage   : 0.00e+00 V
+Worstcase voltage: 6.59e-05 V
+Average voltage  : 1.04e-05 V
+Average IR drop  : 1.04e-05 V
+Worstcase IR drop: 6.59e-05 V
+Percentage drop  : 0.01 %
+######################################
+Cell type report:                       Count       Area
+  Fill cell                             13044    1477.64
+  Tap cell                                584      17.03
+  Tie cell                                  2       0.09
+  Buffer                                 1041     152.29
+  Clock buffer                             54      15.98
+  Timing Repair Buffer                     64       4.69
+  Inverter                                592      32.13
+  Clock inverter                           17       2.84
+  Clock gate cell                           1       0.26
+  Sequential cell                         551     167.89
+  Multi-Input combinational cell         7671     881.30
+  Total                                 23621    2752.15
+Report metrics stage 6, finish...
+
+==========================================================================
+finish report_design_area
+--------------------------------------------------------------------------
+Design area 1275 u^2 46% utilization.
+[WARNING GUI-0076] qglx_findConfig: Failed to finding matching FBConfig for QSurfaceFormat(version 2.0, options QFlags<QSurfaceFormat::FormatOption>(), depthBufferSize -1, redBufferSize 1, greenBufferSize 1, blueBufferSize 1, alphaBufferSize -1, stencilBufferSize -1, samples -1, swapBehavior QSurfaceFormat::SingleBuffer, swapInterval 1, colorSpace QSurfaceFormat::DefaultColorSpace, profile  QSurfaceFormat::NoProfile)
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_min16/base/final_routing.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_min16/base/final_placement.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_min16/base/final_ir_drop.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_min16/base/final_clocks.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_min16/base/final_resizer.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_min16/base/cts_clk.webp.png
+Elapsed time: 0:27.26[h:]min:sec. CPU time: user 23.61 sys 0.42 (88%). Peak memory: 558252KB.

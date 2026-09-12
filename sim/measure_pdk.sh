@@ -9,9 +9,10 @@ case $P in
          VLOG="$PDK/gf180mcuD/libs.ref/gf180mcu_fd_sc_mcu7t5v0/verilog/primitives.v $PDK/gf180mcuD/libs.ref/gf180mcu_fd_sc_mcu7t5v0/verilog/gf180mcu_fd_sc_mcu7t5v0.v" ;;
   nangate45) RUN=$ORFS/results/nangate45/$D/base; NL=$RUN/6_final.v; SPEF=$RUN/6_final.spef
          LIB="$ORFS/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib"; VLOG="/media/pdk/nangate45_models.v" ;;   # functional models generated from the liberty (sim/liberty2verilog.py)
-  ihp)   RUN=$ORFS/results/ihp-sg13g2/$D/base; NL=$RUN/6_final.v; SPEF=$RUN/6_final.spef
-         LIB="$ORFS/platforms/ihp-sg13g2/lib/sg13g2_stdcell_typ_1p20V_25C.lib"
-         VLOG="$PDK/ihp-sg13g2/libs.ref/sg13g2_stdcell/verilog/sg13g2_udp.v $PDK/ihp-sg13g2/libs.ref/sg13g2_stdcell/verilog/sg13g2_stdcell.v" ;;
+  ihp)   IHP_RUN=${IHP_RUN:-ihp-sg13g2/$D}   # <platform dir>/<design nickname> of the flow-scripts run (e.g. ihp-sg13g2/bmi_snn_min16_pad)
+         RUN=$ORFS/results/$IHP_RUN/base; NL=$RUN/6_final.v; SPEF=$RUN/6_final.spef
+         LIB="$ORFS/platforms/${IHP_RUN%%/*}/lib/sg13g2_stdcell_typ_1p20V_25C.lib"
+         VLOG="$ORFS/platforms/${IHP_RUN%%/*}/verilog/sg13g2_stdcell.v" ;;   # self-contained models of the same platform revision as the LEF/liberty
   asap7) RUN=$ORFS/results/asap7/$D/base; NL=$RUN/6_final.v; SPEF=$RUN/6_final.spef; PERIOD_LIB=20000   # ASAP7 liberty time unit: ps
          LIB="$(ls $ORFS/platforms/asap7/lib/NLDM/asap7sc7p5t_{AO,INVBUF,OA,SEQ,SIMPLE}_RVT_TT_nldm_*.lib* | tr '\n' ' ')"
          VLOG="$(ls /media/pdk/asap7sc7p5t_28/Verilog/asap7sc7p5t_{AO,INVBUF,OA,SEQ,SIMPLE}_RVT_TT_*.v | tr "\n" " ")" ;;

@@ -1,10 +1,14 @@
 # Hardwired 16-bit H=16 SNN decoder core (github.com/AmirrezaYousefzadeh/sky130-snn-bmi), multi-PDK study
 export DESIGN_NAME = bmi_snn_min16
+export DESIGN_NICKNAME = bmi_snn_min16_pad2
 export PLATFORM    = ihp-sg13g2
 export VERILOG_FILES = /home/yousefzadeha/workspace/BCI_paper/rtl/gen/pdk/ihp/bmi_snn_min16.v
-export SDC_FILE      = ./designs/ihp-sg13g2/bmi_snn_min16/constraint.sdc
+export SDC_FILE      = ./designs/ihp-sg13g2/bmi_snn_min16_pad2/constraint.sdc
 export CORE_UTILIZATION = 25   # 40 % did not route within 2 h (62k violations stuck)
 export PLACE_DENSITY_LB_ADDON = 0.05
+export CELL_PAD_IN_SITES_GLOBAL_PLACEMENT = 4   # hedge run: room for pin access (Metal2 shorts at the Via1 landings)
+export CELL_PAD_IN_SITES_DETAIL_PLACEMENT = 2
 export TNS_END_PERCENT = 100
 export SYNTH_MEMORY_MAX_BITS = 65536   # the hardwired weight ROM is a 97 x 128-bit case statement
 export ADDER_MAP_FILE :=   # the platform full-adder techmap (FA/HA cells) alters the arithmetic of this design (bit-exact GLS fails); plain gates instead
+export DETAILED_ROUTE_ARGS = -droute_end_iter 12 -verbose 1 -bottom_routing_layer Metal2 -top_routing_layer Metal5   # bounded: the router does not converge on this netlist (see README)

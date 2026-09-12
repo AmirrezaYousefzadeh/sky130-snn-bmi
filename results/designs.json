@@ -2851,7 +2851,7 @@
  "bmi_snn_sp8": {
   "label": "hardwired 12-bit, gated, weights pruned to 12.5 %",
   "tclk_ns": 20.0,
-  "r2": 0.503832186277568,
+  "r2": 0.5326064074021999,
   "family": "hw",
   "weights": "constants (12.5 %)",
   "lanes": "64 / 1",
