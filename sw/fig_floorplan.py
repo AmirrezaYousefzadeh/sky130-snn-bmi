@@ -27,11 +27,9 @@ for n, c, x, y in mac:
     ax.add_patch(Rectangle((x, y), mw, mh, facecolor="#6f8fbf", edgecolor="black", linewidth=1.2, alpha=0.9))
     ax.text(x + mw / 2, y + mh / 2, f"SRAM22 weight macro\n2048 x 32 b\n{mw:.0f} x {mh:.0f} um", ha="center", va="center", fontsize=11, color="white", fontweight="bold")
 ax.add_patch(Rectangle((die[0], die[1]), die[2] - die[0], die[3] - die[1], fill=False, edgecolor="black", linewidth=1.8))
-ax.text(0.5 * (mac[0][2] + mw + die[2]) if mac else 0.8 * die[2], die[3] - 130, f"standard-cell logic\n{len(xs):,} logic cells: controller,\n64 membranes, 4 adders, read-out\n(taps, diodes, fillers not shown)", ha="center", va="top", fontsize=10.5,
-        bbox=dict(boxstyle="round,pad=0.3", facecolor="white", edgecolor="#777777", linewidth=0.6))
 ax.set_xlim(die[0] - 20, die[2] + 20); ax.set_ylim(die[1] - 20, die[3] + 20); ax.set_aspect("equal")
 ax.set_xlabel("x (um)"); ax.set_ylabel("y (um)")
-ax.set_title(f"die {die[2]-die[0]:.0f} x {die[3]-die[1]:.0f} um", fontsize=11)
+ax.set_title(f"die {die[2]-die[0]:.0f} x {die[3]-die[1]:.0f} um; right: {len(xs):,} logic cells (controller, 64 membranes,\n4 adders, read-out); taps, diodes and fillers not shown", fontsize=10.5)
 fig.tight_layout()
 FIG = ROOT / "paper/figures"; fig.savefig(FIG / "floorplan.pdf"); fig.savefig(FIG / "floorplan.png", dpi=200)
 print(f"floorplan figure: {len(xs)} standard cells, macro {mw} x {mh} um, die {die}")
