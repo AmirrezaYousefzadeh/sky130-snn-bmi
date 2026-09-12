@@ -149,7 +149,7 @@ for c in tt_025C_1v80 tt_025C_3v30; do for t in pdk_gf180_min16_md0_full pdk_gf1
 # differed from the RTL by a few units. A bounded formal check confirms the netlist is wrong, not the simulation models: a Yosys miter of
 # RTL and netlist from the reset state (sat -seq 24, all input sequences) finds a counterexample for the adder-mapped NanGate45 netlist
 # (accumulators read 2 where the RTL reads 0, eleven cycles after reset), which proves that netlist wrong independently of the simulation
-# models; for the netlist without the mapping the same check finds no counterexample within its time budget (sat -seq 24 timed out at 40 min):
+# models; the netlist without the mapping is proven equivalent over 12 cycles (sat -seq 12, 25 min; -seq 24 timed out at 40 min without a counterexample):
 #   make DESIGN_CONFIG=./designs/nangate45/bmi_snn_min16_fa/config.mk synth      # synthesis/orfs/nangate45/config_fa.mk: default ADDER_MAP_FILE
 #   yosys -l miter_fa.log sim/equiv/miter_nangate45_fa.ys; yosys -l miter_plain.log sim/equiv/miter_nangate45_plain.ys
 # The mapping is therefore disabled in synthesis/orfs/*/config.mk on all three platforms. SYNTH_MEMORY_MAX_BITS
