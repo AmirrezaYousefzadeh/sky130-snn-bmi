@@ -5,6 +5,26 @@
   "power_awake_mW": 14.17973,
   "energy_per_bin_nJ_ref": 2561.0010353000002,
   "latency_us": 180.61,
-  "energy_per_bin_nJ_vcd": null
+  "energy_per_bin_nJ_vcd": null,
+  "avg_power_uW_250Hz_clk": 1080.574258825,
+  "avg_power_uW_250Hz_leak": 644.9238688250001
+ },
+ "_o3": {
+  "label": "-O3",
+  "cycles_per_bin": 9017.125,
+  "power_awake_mW": 14.15963,
+  "energy_per_bin_nJ_ref": 2553.583073275,
+  "latency_us": 180.3425,
+  "avg_power_uW_250Hz_clk": 1078.71976831875,
+  "avg_power_uW_250Hz_leak": 643.0693783187501
+ },
+ "_tuned": {
+  "label": "-O3, hand-tuned",
+  "cycles_per_bin": 4795.375,
+  "power_awake_mW": 14.70665,
+  "energy_per_bin_nJ_ref": 1410.478034875,
+  "latency_us": 95.9075,
+  "avg_power_uW_250Hz_clk": 792.9435087187501,
+  "avg_power_uW_250Hz_leak": 357.29311871875
  }
 }

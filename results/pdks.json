@@ -218,7 +218,111 @@
    "drc": 0,
    "utilisation": 0.703379,
    "timing_met": false
-  }
+  },
+  "event": {
+   "tag": "pdk_gf180_min16_md0_full",
+   "tb": {
+    "bins": 500,
+    "events": 2934,
+    "errors": 0,
+    "cycles": 10268,
+    "active_cycles": 9981,
+    "avg_latency_cyc": 5,
+    "max_latency_cyc": 9,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.01450846,
+     "switching": 0.001080216,
+     "leakage": 2.271257e-07,
+     "total": 0.0155889
+    },
+    "Combinational": {
+     "internal": 0.01073463,
+     "switching": 0.01740033,
+     "leakage": 1.088624e-06,
+     "total": 0.02813605
+    },
+    "Clock": {
+     "internal": 0.02223959,
+     "switching": 0.01054188,
+     "leakage": 1.376565e-06,
+     "total": 0.03278285
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.04748259,
+     "switching": 0.02902237,
+     "leakage": 2.692325e-06,
+     "total": 0.07650764
+    }
+   },
+   "power_avg_uW": 76507.64,
+   "cycles_meas": 10244,
+   "cycles_per_bin": 20.488,
+   "energy_per_bin_nJ": 31.349770566400004,
+   "latency_us": 0.1,
+   "leakage_uW": 2.6923250000000003,
+   "pass": true
+  },
+  "idle": {
+   "tag": "pdk_gf180_min16_idle_full",
+   "idle_power_uW": 647.6071215200159,
+   "leakage_uW": 2.6659550000000003,
+   "groups": {
+    "Sequential": {
+     "internal": 2.651355e-05,
+     "switching": 8.557364e-08,
+     "leakage": 2.007646e-07,
+     "total": 2.679989e-05
+    },
+    "Combinational": {
+     "internal": 7.551209e-07,
+     "switching": 1.206548e-06,
+     "leakage": 1.090875e-06,
+     "total": 3.052544e-06
+    },
+    "Clock": {
+     "internal": 0.0005343716,
+     "switching": 8.617644e-05,
+     "leakage": 1.374337e-06,
+     "total": 0.0006219224
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.0005616446,
+     "switching": 8.746852e-05,
+     "leakage": 2.665955e-06,
+     "total": 0.0006517791
+    }
+   },
+   "idle_raw_uW": 651.7791000000001,
+   "active_share": 5.499573783031815e-05
+  },
+  "avg_power_uW_250Hz_clkstopped": 10.503397641600001
  },
  "ihp": {
   "label": "IHP SG13G2",

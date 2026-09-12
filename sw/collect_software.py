@@ -16,15 +16,18 @@ def f(x, nd=3): return "--" if x is None else (f"{x:,.0f}" if abs(x) >= 1000 els
 for suf, (sh, label) in V.items():
     pe = ROOT / f"power/out_riscv{suf}/power_energy.txt"; cy = ROOT / f"results/riscv_cycles{suf}.json"
     if not (pe.exists() and cy.exists()): continue
-    p = parse_power_energy(pe); c = json.load(open(cy))
+    p = parse_power_energy(pe); txt = cy.read_text(); c = json.loads(txt[: txt.rfind("}") + 1])   # the cycle script also prints a 'wrote' line
     e_ref = p["power_awake_mW"] * 1e-3 * c["cycles_per_bin"] * TCLK_CPU_NS
     o = {"label": label, "cycles_per_bin": c["cycles_per_bin"], "power_awake_mW": p["power_awake_mW"], "energy_per_bin_nJ_ref": e_ref,
          "latency_us": c["cycles_per_bin"] * TCLK_CPU_NS * 1e-3}
     if suf == "": o["energy_per_bin_nJ_vcd"] = R["riscv"].get("energy_per_bin_nJ_vcd")
+    idle = R["riscv"].get("idle_power_uW_50MHz"); leak = R["riscv"].get("leakage_uW")
+    o["avg_power_uW_250Hz_clk"] = e_ref * 0.25 + (idle or 0); o["avg_power_uW_250Hz_leak"] = e_ref * 0.25 + (leak or 0)
     out[suf or "o2"] = o
     M += [f"\\newcommand{{\\cycCpu{sh}}}{{{f(o['cycles_per_bin'])}}}", f"\\newcommand{{\\pAwakeCpu{sh}}}{{{f(o['power_awake_mW'])}}}",
           f"\\newcommand{{\\eCpu{sh}Ref}}{{{f(e_ref)}}}", f"\\newcommand{{\\latCpu{sh}}}{{{f(o['latency_us'])}}}",
-          f"\\newcommand{{\\ratioCpu{sh}Seq}}{{{f(e_ref / e_seq, 3)}}}", f"\\newcommand{{\\ratioCpu{sh}Sp}}{{{f(e_ref / e_sp, 3)}}}"]
+          f"\\newcommand{{\\ratioCpu{sh}Seq}}{{{f(e_ref / e_seq, 3)}}}", f"\\newcommand{{\\ratioCpu{sh}Sp}}{{{f(e_ref / e_sp, 3)}}}",
+          f"\\newcommand{{\\pAvgCpu{sh}}}{{{f(o['avg_power_uW_250Hz_clk'])}}}", f"\\newcommand{{\\pAvgLeakCpu{sh}}}{{{f(o['avg_power_uW_250Hz_leak'])}}}"]
     if e_sp_sdf: M.append(f"\\newcommand{{\\ratioCpu{sh}SpSdf}}{{{f(e_ref / e_sp_sdf, 3)}}}")
     print(f"{label:18s} cycles/bin {o['cycles_per_bin']:8.1f}  P_awake {o['power_awake_mW']:.2f} mW  E {e_ref:7.0f} nJ  = {e_ref/e_seq:5.1f}x SRAM core, {e_ref/e_sp:5.0f}x pruned core")
 if "o2" in out and "_tuned" in out:

@@ -34,4 +34,5 @@ for c, name, v in events:
 res = {"vcd": str(vcd), "n_bins": n_bins, "total_cycles": clk_rises, "awake_cycles": en_cycles, "decode_cycles": dec,
        "cycles_per_bin": dec / n_bins, "wakes_at_cycles": wakes, "gpio_done_at": done, "awake_segments": segs}
 print(json.dumps(res, indent=1))
-outp = Path(__file__).resolve().parent.parent / "results" / "riscv_cycles.json"; json.dump(res, open(outp, "w"), indent=1); print("wrote", outp)
+import os
+outp = Path(os.environ.get("CYCLES_OUT", Path(__file__).resolve().parent.parent / "results" / "riscv_cycles.json")); json.dump(res, open(outp, "w"), indent=1); print("wrote", outp, file=sys.stderr)

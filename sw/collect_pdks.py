@@ -68,7 +68,7 @@ for p, d in out.items():
     for k, v in (("area", area_mm2), ("e", e.get("energy_per_bin_nJ")), ("leak", i.get("leakage_uW")), ("pavg", d.get("avg_power_uW_250Hz_clkstopped")), ("slack", slack), ("volt", d["voltage"]), ("cells", pnr.get("stdcells"))):
         M.append(f"\\newcommand{{\\pdk{k}{sh}}}{{{f(v, 4 if k == 'cells' else 3)}}}")
     e0 = out["sky130"].get("event", {}).get("energy_per_bin_nJ")
-    if e0 and e.get("energy_per_bin_nJ"): M.append(f"\\newcommand{{\\pdkRel{sh}}}{{{f(e['energy_per_bin_nJ'] / e0, 2)}}}")
+    M.append(f"\\newcommand{{\\pdkRel{sh}}}{{{f(e['energy_per_bin_nJ'] / e0, 2) if (e0 and e.get('energy_per_bin_nJ')) else '--'}}}")
     print(f"{d['label']:28s} V {f(d['voltage'],2):>5s}  area {f(area_mm2):>7s} mm2  cells {f(pnr.get('stdcells'),5):>7s}  slack {f(slack,2):>6s}{flag}  E {f(e.get('energy_per_bin_nJ')):>6s} nJ  leak {f(i.get('leakage_uW')):>7s} uW  Pavg {f(d.get('avg_power_uW_250Hz_clkstopped')):>6s} uW")
 hdr = "PDK & Node & Flow & $V_{DD}$ (V) & Area (mm$^2$) & Cells & Slack (ns) & $E_{\\mathrm{bin}}$ (nJ) & Leakage (\\si{\\micro\\watt}) & $P_{\\mathrm{avg}}$ (\\si{\\micro\\watt}) \\\\"
 (ROOT / "paper/pdks_table.tex").write_text("\\begin{tabular}{@{}lllrrrrrrr@{}}\n\\toprule\n" + hdr + "\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}%\n")
