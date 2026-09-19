@@ -18,6 +18,13 @@ s = re.sub(r"^RUN_HEURISTIC_DIODE_INSERTION:.*$", "RUN_HEURISTIC_DIODE_INSERTION
 s = re.sub(r"^(RUN_HEURISTIC_DIODE_INSERTION:.*)$", r"\1\nDIODE_ON_PORTS: in", s, flags=re.M)
 s = re.sub(r"^FP_CORE_UTIL:.*$", "FP_CORE_UTIL: @UTIL@", s, flags=re.M)
 s = re.sub(r"^PL_TARGET_DENSITY_PCT:.*$", "PL_TARGET_DENSITY_PCT: @DENS@", s, flags=re.M)
+import os
+extra = os.environ.get("EXTRA_YAML", "")          # extra configuration lines (e.g. a larger hold-repair margin), appended verbatim
+if extra:
+    for line in extra.split("\\n"):
+        key = line.split(":")[0].strip()
+        if key: s = re.sub(r"^" + re.escape(key) + r":.*\n", "", s, flags=re.M)
+    s = s.rstrip("\n") + "\n# policy amendment (EXTRA_YAML)\n" + extra.replace("\\n", "\n") + "\n"
 s = "# Round-5 configuration (E1): common 5 MHz clock, utilization policy; generated from config.yaml by synthesis/harden_policy2.sh\n" + s
 open(dst + ".tmpl", "w").write(s)
 PY
@@ -25,7 +32,7 @@ watch() { # <run dir> <flow pid>: kill the flow when routing is hopeless; prints
   local rd=$1 fp=$2 last_it=-1 last_t=$(date +%s)
   while kill -0 $fp 2>/dev/null; do
     sleep 300
-    local log; log=$(ls -t "$rd"/*openroad-detailedrouting*/*.log 2>/dev/null | head -n 1); [[ -z "$log" ]] && continue
+    local log; log=$(ls -t "$rd"/*openroad-detailedrouting*/*.log 2>/dev/null | head -n 1); [[ -z "$log" ]] && { last_t=$(date +%s); continue; }   # the 3 h idle rule counts from the start of detailed routing
     local it viol; it=$(grep -c "Completing 100%" "$log"); viol=$(grep "Number of violations" "$log" | tail -n 1 | awk '{print $NF}' | tr -d .)
     if [[ "$it" != "$last_it" ]]; then last_it=$it; last_t=$(date +%s); fi
     local reason=""
@@ -38,7 +45,7 @@ watch() { # <run dir> <flow pid>: kill the flow when routing is hopeless; prints
 for U in $UTILS; do
   DENS=$((U + 10)); [ $DENS -gt 95 ] && DENS=95
   sed -e "s/@UTIL@/$U/" -e "s/@DENS@/$DENS/" "$CFG.tmpl" > "$CFG"
-  TAG="${B}_5m_u$U"; T0=$(date +%s)
+  TAG="${B}_5m_u$U${TAG_SUFFIX:-}"; T0=$(date +%s)
   echo "==== $D: clock $CLK ns, utilization $U % (density $DENS %), run tag $TAG ($(date +%H:%M))"
   DESIGN=$D CFG="$CFG" RUN_TAG=$TAG "$ROOT/synthesis/run_synthesis.sh" > "$ROOT/logs/openlane_$TAG.log" 2>&1 &
   FP=$!; watch "$DES/runs/$TAG" $FP; wait $FP 2>/dev/null

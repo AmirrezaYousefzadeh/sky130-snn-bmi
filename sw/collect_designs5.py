@@ -15,7 +15,22 @@ import json, re, sys, os
 from pathlib import Path
 import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from collect_designs import DESIGNS, D, r2_of, run_energy, run_idle, _f, SESS
+from collect_designs import DESIGNS, D, r2_of, run_idle, _f, SESS
+from collect_designs import run_energy as _run_energy_vcd
+from collect_results import parse_tb_summary as _tb, parse_group_table as _grp
+def run_energy(tag, tclk, macro):
+    """as collect_designs.run_energy, but the streamed (toggle-count) runs write power/out_<tag>/ instead of power/out_vcd_<tag>/"""
+    r = _run_energy_vcd(tag, tclk, macro)
+    if r: return r
+    log = ROOT / f"sim/build_{tag}/vvp.log"; rpt = ROOT / f"power/out_{tag}/power_vcd.rpt"
+    if not (log.exists() and rpt.exists()): return None
+    tb = _tb(log); g = _grp(rpt)
+    if "bins" not in tb or "Total" not in g: return None
+    import re as _re
+    m = _re.search(r"MEASURED: cycles_from_dump_start=(\d+)", log.read_text(errors="replace")); cyc = int(m.group(1)) if m else tb["cycles"]
+    P = g["Total"]["total"]; T = cyc * tclk * 1e-9
+    return {"tag": tag, "tb": tb, "groups": g, "power_avg_uW": P * 1e6, "cycles_meas": cyc, "cycles_per_bin": cyc / tb["bins"], "energy_per_bin_nJ": P * T / tb["bins"] * 1e9,
+            "latency_us": tb["avg_latency_cyc"] * tclk * 1e-3, "leakage_uW": g["Total"]["leakage"] * 1e6, "pass": tb.get("pass"), "streamed": True}
 from collect_pdks import leakage_split, netlist_stats
 from collect_results import RATE, parse_metrics
 ROOT = Path(__file__).resolve().parent.parent

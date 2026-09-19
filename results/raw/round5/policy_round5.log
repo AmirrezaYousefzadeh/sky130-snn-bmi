@@ -38,3 +38,20 @@ bmi_snn_sp_s131 ACCEPTED util=40 tag=bmi_snn_sp_s131_5m_u40 runtime=20min drc=0
 bmi_snn_g32p50 ACCEPTED util=50 tag=bmi_snn_g32p50_5m_u50 runtime=140min drc=0
 bmi_snn_sp LOWV util=40 tag=bmi_snn_sp_5m_lv runtime=70min drc=0 pass=1
 bmi_snn_g32p25 ACCEPTED util=50 tag=bmi_snn_g32p25_5m_u50 runtime=25min drc=0
+bmi_snn_ming REJECTED util=40 tag=bmi_snn_ming_5m_u40 runtime=175min drc=NA pass=0 watchdog="drt 4211 violations after 8 iterations"
+bmi_snn_min REJECTED util=60 tag=bmi_snn_min_5m_u60 runtime=225min drc=NA pass=0 watchdog="drt 290,447 violations after 1 iteration (killed by hand ahead of the watchdog)"
+bmi_snn_m12 REJECTED util=40 tag=bmi_snn_m12_5m_u40 runtime=215min drc=NA pass=0 watchdog="drt no completed iteration for 3 h (at 0)"
+bmi_snn_g64p50 REJECTED util=50 tag=bmi_snn_g64p50_5m_u50 runtime=80min drc=NA pass=0 watchdog="drt 87987 violations after 3 iterations"
+bmi_snn_m12_s622 REJECTED util=40 tag=bmi_snn_m12_s622_5m_u40 runtime=215min drc=NA pass=0 watchdog="drt no completed iteration for 3 h (at 0)"
+bmi_snn_ming ACCEPTED util=30 tag=bmi_snn_ming_5m_u30 runtime=45min drc=0
+bmi_snn_m12 REJECTED util=30 tag=bmi_snn_m12_5m_u30 runtime=80min drc=0 pass=0
+0
+bmi_snn_m12 REJECTED util=20 tag=bmi_snn_m12_5m_u20 runtime=10min drc=NA pass=0 killed="hold failure at 30 % is not a utilization problem; rerun at 30 % with hold margin 0.8 ns"
+bmi_snn_min REJECTED util=50 tag=bmi_snn_min_5m_u50 runtime=100min drc=NA pass=0 watchdog="drt 77045 violations after 3 iterations"
+bmi_snn_min32 LOWV util=50 tag=bmi_snn_min32_5m_lv runtime=330min drc=NA pass=0 killed="detailed routing 58,294 -> 45,169 violations over 4 iterations with the 1.28 V repair; repeated at 40 %"
+pdk_gf180/bmi_snn_lmin2 REJECTED util=30 tag=bmi_snn_lmin2_5m_u30 runtime=395min drc=0 pass=0
+0
+bmi_snn_m12_s131 ACCEPTED util=30 tag=bmi_snn_m12_s131_5m_u30h runtime=90min drc=0
+pdk_gf180/bmi_snn_lmin2 REJECTED util=20 tag=bmi_snn_lmin2_5m_u20 runtime=5min drc=NA pass=0 killed="hold failure at 30 % (-0.127 ns at max_ff_n40C_5v50) is not a utilization problem; rerun at 30 % with hold margin 0.8 ns"
+bmi_snn_m12 ACCEPTED util=30 tag=bmi_snn_m12_5m_u30h runtime=105min drc=0
+bmi_snn_g64p50 REJECTED util=40 tag=bmi_snn_g64p50_5m_u40 runtime=220min drc=NA pass=0 watchdog="drt no completed iteration for 3 h (at 0)"

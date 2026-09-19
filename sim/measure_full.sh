@@ -8,7 +8,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 D="$1"; S="$2"; KIND="${3:-func}"; NB="${4:-}"
 RUN_TAG="${RUN_TAG:-$D}"; CLK_NS="${CLK_NS:-20}"; export RUN_DIR="$ROOT/synthesis/$D/runs/$RUN_TAG"
 case "$D" in
-  bmi_snn_top|bmi_snn_topg) LOAD="-DLOAD_BACKDOOR"; MACRO="u_wmem"; VP="" ;;
+  bmi_snn_top|bmi_snn_topg) LOAD="-DLOAD_BACKDOOR"; MACRO="u_wmem"; VP=""; export LIB_SRAM="$ROOT/synthesis/bmi_snn_top/macros/sram22_2048x32m8w8_tt_025C_1v80_pwr.lib" ;;   # round 5: vdd-only SRAM22 liberty as the primary figure (E11)
   bmi_snn_hw|bmi_snn_scmem) LOAD=""; MACRO="none"; VP="" ;;
   bmi_snn_min|bmi_snn_ming) LOAD=""; MACRO="none"; VP="v16_" ;;
   bmi_snn_m12)   LOAD=""; MACRO="none"; VP="v12_" ;;

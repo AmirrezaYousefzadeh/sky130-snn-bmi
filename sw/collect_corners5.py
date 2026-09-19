@@ -17,10 +17,11 @@ def slack_txt(d):
     p = ROOT / d / "slack.txt"
     if not p.exists(): return None, None
     v = dict(l.split() for l in p.read_text().split("\n") if l.strip())
-    g = lambda k: float(v[k]) if k in v else None
-    a, b = g("setup_ws") if "setup_ws" in v else g("setup_ws_ns"), g("hold_ws") if "hold_ws" in v else g("hold_ws_ns")
-    if "setup_ws" in v: a = a * 1e9 if a is not None else None; b = b * 1e9 if b is not None else None      # seconds from sta::worst_slack_cmd
-    return a, b
+    def ns(k1, k2):   # both scripts write sta::worst_slack_cmd (seconds); power_corner_sta.tcl names the key *_ns nevertheless
+        x = v.get(k1, v.get(k2))
+        if x is None: return None
+        x = float(x); return x * 1e9 if abs(x) < 1e-3 else x
+    return ns("setup_ws", "setup_ws_ns"), ns("hold_ws", "hold_ws_ns")
 def energy_of(tag, rpt_dir):
     log = ROOT / f"sim/build_{tag}/vvp.log"; rpt = ROOT / rpt_dir / "power_vcd.rpt"
     if not (log.exists() and rpt.exists()): return None

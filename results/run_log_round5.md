@@ -309,3 +309,75 @@ the SoC's decode is a fixed number of cycles and its leakage over a 1.8 ms decod
 idle power with the clock running (76 uW at 50 MHz, 11.9 uW at 5 MHz). Per-pin against the reference flow of the previous rounds:
 -O2 3,537 nJ against 2,561 nJ (ratio 1.38); the reference flow's awake power came from OpenSTA's propagated activities, so the
 software ratios of the paper move from bounds to measurements (macros in `paper/numbers_software5.tex`: `\eCpuOtwoFive`, `\ratioCpuOtwoFiveSp`, ...).
+
+### E4 first full block (18:55): bmi_snn_g16p50
+Full test block of indy_20160630_01 (107,444 bins, 524,200 events = 4.88 per bin, streamed toggles, 2 h 53 min): 0.822 nJ per bin
+zero-delay against 0.93 nJ on the 500-bin window (5.87 events per bin), per-bin range 0.245-3.23 nJ (sd 0.357); 5,000 annotated
+bins: 0.973 nJ against 1.10 nJ on the 200-bin window. Both runs bit-exact. The remaining cores follow the same path as their
+hardenings and windows complete (`sim/pipeline5.sh`); the per-session and full-block macros (`\eFull<Sh>B`, `\eSdfW<Sh>B`,
+`\eFullMin/Max<Sh>B`, `\evFull<Sh>B`) are in `paper/numbers2.tex`.
+
+### E14 measurement (19:00): bmi_snn_sp hardened at 1.28 V
+Annotated 200-bin run with the nom_ss_n40C_1v28 SDF and the 1.28 V liberty (bit-exact): 1.43 nJ per bin against 3.15 nJ for the
+TT-signoff netlist at 1.8 V (2.2x), leakage 0.0732 uW at -40 C by liberty definition, average power at 250 bins/s 0.431 uW
+(clock stopped). The TT-signoff netlist re-evaluated at 1.28 V with its own activity gives 1.13 nJ on the zero-delay window
+(`sky130/sp` row of E5) - fewer cells than the 1.28 V hardening, which carries 32 % more cells for the slow-corner timing; the
+hardened figure is the one that is timing-safe at 1.28 V (setup +113 ns, hold +2.05 ns at that corner). Macros
+`\cnrFive...Sp` in `paper/numbers_corners5.tex`, table `paper/corners_table5.tex`.
+Addendum: on the annotated 200-bin window the TT-signoff netlist re-evaluated at 1.28 V gives 1.34 nJ per bin (setup slack 142.9 ns,
+f_max 17.5 MHz without IO constraints), i.e. the hardened 1.28 V core (1.43 nJ) costs 7 % more than the liberty swap for its
+timing safety at the slow corner.
+
+### E1 (continued): stalled detailed-routing starts (20:00)
+`bmi_snn_m12` at 40 % (and, earlier, `bmi_snn_sp` at 50 %) entered detailed routing and never wrote a routing iteration: the DRT
+log stopped one minute after the step started and stayed silent for 3 h (m12) and 8 h (sp) while the process kept consuming CPU
+(pin-access analysis or initial routing at that density). The watchdog's idle rule (no completed iteration for 3 h) ends such
+attempts; it now counts from the start of detailed routing rather than from the start of the flow. `bmi_snn_min` at 60 %
+(290,447 violations after its first iteration) was stopped by hand ahead of the watchdog. Both cores continue at the next lower
+utilization (m12 30 %, min 50 %).
+
+### E4 scheduling (20:15)
+The SRAM core simulates about 35 bins per minute at gate level (185 cycles per bin and the behavioural SRAM model), so its full
+block of indy_20160630_01 takes about two days; the six E4 windows of `bmi_snn_top` and `bmi_snn_topg` (full block of B, 20,000
+bins of A and C, 2,000 annotated bins per session as E4 allows for the SRAM core) therefore run in parallel instead of in the
+sequential pipeline (`sim/topg_windows.sh`, and the same commands by hand for top). The latch and register-file memory cores
+(lmin2, lmem2, lmem, scmem) get 5,000-bin windows per session (E4 asks for at least 5,000 bins for these), the hardwired cores
+their full own-session block.
+
+### E1 (continued): hold at the fast corner for the 12-bit gated cores (21:20)
+`bmi_snn_m12` at 30 % routed DRC-clean and met setup at every corner (+118 ns) but failed hold by 0.139 ns on 5 endpoints at
+max_ff_n40C_1v95 (the nested clock gates of this core; the 50 MHz hardening needed a 0.5 ns hold margin for the same reason).
+Since a lower utilization does not address hold, the policy's 20 % step was stopped and the 30 % run is repeated with the
+hold-repair margin raised from 0.5 to 0.8 ns (`EXTRA_YAML` amendment of `synthesis/harden_policy2.sh`, run tag suffix `h`); the
+per-session `bmi_snn_m12_s131` starts directly at 30 % with the same margin (its 40 % attempt would stall in routing like m12
+and m12_s622), `bmi_snn_m12_s622` at 30 % is still running with the original margin and is repeated the same way if it fails hold.
+
+### E4 / E3 results (21:45): min16 full block, sp_s131 own-session block
+`bmi_snn_min16` (5 MHz, 60 %): full block of indy_20160630_01, 107,444 bins bit-exact, 1.498 nJ per bin (4.88 events per bin)
+against 1.687 nJ on the 500-bin window (5.87 events per bin, +13 %); 5,000 annotated bins 1.833 nJ against 2.062 nJ on the 200-bin
+window; per-bin energy 0.444-5.78 nJ. `bmi_snn_sp_s131` (weights of indy_20170131_02, 40 %): full block of its own session,
+52,116 bins bit-exact, 1.774 nJ per bin (3.71 events per bin; window 1.753 nJ); 5,000 annotated bins 2.044 nJ; per-bin range
+0.594-22.7 nJ (one burst bin). The 50 MHz transfer model of the previous rounds predicted 2.31 nJ for this session at its
+whole-session mean rate (3.95 events per bin) with the indy_20160630_01 weights; the per-session netlist at 5 MHz needs 23 % less.
+
+### E14 (continued): bmi_snn_min32 at 1.28 V (22:45)
+At the TT utilization (50 %) the 1.28 V hardening did not route: 58,294 -> 53,634 -> 51,203 -> 45,169 violations over four
+detailed-routing iterations (5.5 h), against a DRC-clean TT run at the same utilization; the hold and setup repair for the slow
+corner adds cells and wire. Stopped and repeated at 40 % (`LV_UTIL=40` in `synthesis/harden_lowv.sh`, i.e. the E1 policy step
+applied to the low-voltage signoff). `bmi_snn_m12` at 1.28 V waits for its TT acceptance.
+
+### E5 (continued): GF180 latch-memory core at 30 % (22:50)
+`pdk_gf180/bmi_snn_lmin2` at 30 % (206,902 cells, 5.08 mm2) routed DRC-clean after 6.6 h and met setup at every corner but failed
+hold by 0.127 ns on 3 endpoints at max_ff_n40C_5v50, like the sky130 m12 at its fast corner. The policy's 20 % step was stopped
+(hold is not a utilization problem) and the 30 % run is repeated with the hold-repair margin raised to 0.8 ns (tag
+`bmi_snn_lmin2_5m_u30h`); its annotated measurement follows E9's 50-bin rule on GF180 as well if time allows.
+
+### E3 (continued): per-session H=32 netlists (22:55)
+The configurations of `bmi_snn_min32_s622` and `bmi_snn_min32_s131` referenced the constraint file of `bmi_snn_min32` without a copy
+in their directories, so their first attempts failed at configuration load within minutes (removed from the policy log); the file is
+copied and the two policies restart at 50 %. `bmi_snn_m12_s131` was accepted at 30 % with the 0.8 ns hold margin (90 min).
+
+### E1 (continued): bmi_snn_m12 accepted (23:10)
+`bmi_snn_m12` at 30 % with the 0.8 ns hold margin: DRC-clean, timing met at all corners (105 min, tag `bmi_snn_m12_5m_u30h`);
+its 500/200-bin windows, full block and 5,000 annotated bins start (`sim/pipeline5.sh`), and the 1.28 V hardening (E14) at the
+same utilization is launched (a stale waiter still carrying the wrong OpenLane key had to be replaced).

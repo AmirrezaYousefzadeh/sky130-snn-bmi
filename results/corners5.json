@@ -13,7 +13,16 @@
     "bins": 200,
     "cycles": 4371
    },
-   "e_lowv": null
+   "e_lowv": {
+    "energy_per_bin_nJ": 1.3421527034999998,
+    "power_uW": 307.0585,
+    "leakage_uW": 0.08616475999999999,
+    "bins": 200,
+    "cycles": 4371,
+    "setup_ws_ns": 142.9319809176377,
+    "hold_ws_ns": 2.416037148122996,
+    "fmax_MHz": 17.522949211830355
+   }
   },
   "lv": {
    "cells": 32484,
@@ -44,7 +53,15 @@
   }
  },
  "bmi_snn_m12": {
-  "label": "hardwired 12-bit, gated"
+  "label": "hardwired 12-bit, gated",
+  "tt": {
+   "cells": 32603,
+   "area_um2": 239629,
+   "setup_ws_ns": 118.0770714625046,
+   "hold_ws_ns": 0.20241386917286938,
+   "e_tt": null,
+   "e_lowv": null
+  }
  },
  "bmi_snn_min32": {
   "label": "hardwired 16-bit, $H{=}32$",

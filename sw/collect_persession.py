@@ -25,7 +25,8 @@ for core, (sh, per) in CORES.items():
                "energy_per_bin_full_nJ": fu.get("energy_per_bin_nJ"), "cycles_per_bin_full": fu.get("cycles_per_bin"),
                "bins_sdf": sd.get("tb", {}).get("bins"), "energy_per_bin_sdf_nJ": sd.get("energy_per_bin_nJ"),
                "energy_per_bin_500win_nJ": e500.get("energy_per_bin_nJ") if ss == "B" else None, "leakage_uW": d.get("idle", {}).get("leakage_uW"),
-               "transfer_model_nJ": (TR.get(core) or {}).get(s), "bit_exact": fu.get("pass")}
+               "transfer_model_nJ": ((TR.get(dname if ss == "B" else per["B"]) or {}).get("e_at_session_mean") or {}).get({"A": "SessA", "B": "SessRef", "C": "SessB"}[ss]),   # 50 MHz transfer model of the previous rounds, at the whole-session mean rate
+               "bit_exact": fu.get("pass")}
         rows.append(row)
         mac(f"ePerSess{sh}{ss}", row["energy_per_bin_full_nJ"]); mac(f"ePerSessSdf{sh}{ss}", row["energy_per_bin_sdf_nJ"]); mac(f"evPerSess{sh}{ss}", row["events_per_bin_full"])
         mac(f"nbPerSess{sh}{ss}", row["bins_full"], 6); mac(f"areaPerSess{sh}{ss}", row["area_mm2"]); mac(f"utilPerSess{sh}{ss}", row["util_pct"], 2); mac(f"rsqPerSess{sh}{ss}", row["r2_int"])

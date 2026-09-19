@@ -264,6 +264,199 @@
   "avg_power_uW_250Hz_clkstopped_best": 1.03177633325,
   "bit_exact_500": true
  },
+ "sky130/m12": {
+  "label": "SkyWater sky130",
+  "node": "130 nm",
+  "lib": "sky130\\_fd\\_sc\\_hd",
+  "flow": "OpenLane",
+  "sh": "Sky",
+  "fab": true,
+  "core": "m12",
+  "core_sh": "MinT",
+  "core_label": "hardwired 12-bit gated",
+  "voltage": 1.8,
+  "temperature": 25.0,
+  "pnr": {
+   "instance_area_um2": 239629,
+   "stdcell_area_um2": 239629,
+   "macro_area_um2": 0,
+   "instances": 32603,
+   "stdcells": 32603,
+   "macros": 0,
+   "die_area_um2": 586161,
+   "core_area_um2": 560162,
+   "setup_ws_ns": 118.0770714625046,
+   "hold_ws_ns": 0.20241386917286938,
+   "setup_viol": 0,
+   "hold_viol": 0,
+   "clock_period_ns": null,
+   "wirelength_um": 2188494,
+   "drc": 0,
+   "utilisation": 0.427784,
+   "run_dir": "/home/yousefzadeha/workspace/BCI_paper/synthesis/bmi_snn_m12/runs/bmi_snn_m12_5m_u30h",
+   "timing_met": true,
+   "per_corner": {
+    "nom_tt_025C_1v80": {
+     "setup_ws_ns": 118.86708132017512,
+     "hold_ws_ns": 0.7889775722730229
+    },
+    "nom_ss_100C_1v60": {
+     "setup_ws_ns": 118.11174594899036,
+     "hold_ws_ns": 2.0658164652518503
+    },
+    "nom_ff_n40C_1v95": {
+     "setup_ws_ns": 119.16981516673496,
+     "hold_ws_ns": 0.37504356237716074
+    },
+    "min_tt_025C_1v80": {
+     "setup_ws_ns": 118.89000342947902,
+     "hold_ws_ns": 0.9181611286705224
+    },
+    "min_ss_100C_1v60": {
+     "setup_ws_ns": 118.15439983062437,
+     "hold_ws_ns": 2.165009566236962
+    },
+    "min_ff_n40C_1v95": {
+     "setup_ws_ns": 119.18540447479843,
+     "hold_ws_ns": 0.4748745975302644
+    },
+    "max_tt_025C_1v80": {
+     "setup_ws_ns": 118.84877063335672,
+     "hold_ws_ns": 0.540236315418367
+    },
+    "max_ss_100C_1v60": {
+     "setup_ws_ns": 118.0770714625046,
+     "hold_ws_ns": 1.8962414397639045
+    },
+    "max_ff_n40C_1v95": {
+     "setup_ws_ns": 119.15706802969491,
+     "hold_ws_ns": 0.20241386917286938
+    }
+   },
+   "util_target_pct": 30,
+   "utilization_pct": 42.7784,
+   "logic_cells": 24558,
+   "logic_area_um2": 229547.65439991825,
+   "phys_cells": 99791
+  },
+  "event": {
+   "tag": "bmi_snn_m12_5m_md0_full",
+   "tb": {
+    "bins": 500,
+    "events": 2934,
+    "errors": 0,
+    "cycles": 10536,
+    "active_cycles": 10225,
+    "avg_latency_cyc": 5,
+    "max_latency_cyc": 14,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.0001533707,
+     "switching": 8.60141e-06,
+     "leakage": 1.245119e-08,
+     "total": 0.0001619846
+    },
+    "Combinational": {
+     "internal": 0.0002839061,
+     "switching": 0.0005931698,
+     "leakage": 8.837944e-08,
+     "total": 0.0008771643
+    },
+    "Clock": {
+     "internal": 0.0001015485,
+     "switching": 9.606634e-05,
+     "leakage": 2.628909e-07,
+     "total": 0.0001978777
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.0005388255,
+     "switching": 0.0006978365,
+     "leakage": 3.63725e-07,
+     "total": 0.001237026
+    }
+   },
+   "power_avg_uW": 1237.026,
+   "cycles_meas": 10512,
+   "cycles_per_bin": 21.024,
+   "energy_per_bin_nJ": 5.2014469248,
+   "latency_us": 1.0,
+   "leakage_uW": 0.363725,
+   "pass": true
+  },
+  "idle": {
+   "tag": "bmi_snn_m12_5m_idle_full",
+   "idle_power_uW": 3.9133065147572044,
+   "leakage_uW": 0.361818,
+   "groups": {
+    "Sequential": {
+     "internal": 2.247894e-07,
+     "switching": 6.0925e-10,
+     "leakage": 1.226847e-08,
+     "total": 2.376672e-07
+    },
+    "Combinational": {
+     "internal": 1.965697e-08,
+     "switching": 4.308161e-08,
+     "leakage": 8.683806e-08,
+     "total": 1.495766e-07
+    },
+    "Clock": {
+     "internal": 2.737326e-06,
+     "switching": 5.968895e-07,
+     "leakage": 2.627029e-07,
+     "total": 3.596919e-06
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 2.981803e-06,
+     "switching": 6.405842e-07,
+     "leakage": 3.61818e-07,
+     "total": 3.984205e-06
+    }
+   },
+   "idle_raw_uW": 3.984205,
+   "active_share": 5.749554409533261e-05
+  },
+  "leak_split": {
+   "leak_logic_uW": 0.10289639348098574,
+   "leak_phys_uW": 0.2589149407232383,
+   "n_logic": 24558,
+   "n_phys": 99791,
+   "n_unmatched": 0
+  },
+  "volt": {},
+  "avg_power_uW_250Hz_clkstopped": 1.6621797312,
+  "energy_dyn_per_bin_nJ": 5.1999255524736,
+  "avg_power_uW_250Hz_clkstopped_logic": 1.4032581246809857,
+  "glitch_factor": null,
+  "avg_power_uW_250Hz_clkstopped_best": 1.6621797312,
+  "bit_exact_500": true
+ },
  "sky130/min32": {
   "label": "SkyWater sky130",
   "node": "130 nm",
