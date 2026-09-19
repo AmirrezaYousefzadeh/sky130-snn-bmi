@@ -1,0 +1,112 @@
+{
+ "session": "indy_20160622_01",
+ "H": 32,
+ "theta": 256,
+ "k1": 4,
+ "k2": 4,
+ "epochs": 1500,
+ "L": 256,
+ "lr": 2.0,
+ "drop": 0.1,
+ "seed": 0,
+ "wbits": 8,
+ "val_r2": 0.661498054623488,
+ "test_r2": 0.6323225338627503,
+ "hidden_spikes_per_bin_test": 0.5688801838110663,
+ "int_crosscheck_mismatches": 0,
+ "train_bins": 373048,
+ "val_bins": 106627,
+ "test_bins": 132745,
+ "history": [
+  {
+   "step": 100,
+   "loss": 0.7300114631652832,
+   "val_r2_batched": 0.4463657687174307,
+   "hidden_spikes_per_bin": 1.6168025732040405
+  },
+  {
+   "step": 200,
+   "loss": 0.46008867025375366,
+   "val_r2_batched": 0.5603849120788932,
+   "hidden_spikes_per_bin": 1.0737680196762085
+  },
+  {
+   "step": 300,
+   "loss": 0.3562883138656616,
+   "val_r2_batched": 0.6123663593946856,
+   "hidden_spikes_per_bin": 0.9853328466415405
+  },
+  {
+   "step": 400,
+   "loss": 0.4606342017650604,
+   "val_r2_batched": 0.6343068950317723,
+   "hidden_spikes_per_bin": 0.8066688179969788
+  },
+  {
+   "step": 500,
+   "loss": 0.36987513303756714,
+   "val_r2_batched": 0.6368134327594555,
+   "hidden_spikes_per_bin": 0.7786396145820618
+  },
+  {
+   "step": 600,
+   "loss": 0.38876456022262573,
+   "val_r2_batched": 0.6367252847673854,
+   "hidden_spikes_per_bin": 0.690157413482666
+  },
+  {
+   "step": 700,
+   "loss": 0.42305073142051697,
+   "val_r2_batched": 0.645172212616171,
+   "hidden_spikes_per_bin": 0.6588134765625
+  },
+  {
+   "step": 800,
+   "loss": 0.3320058286190033,
+   "val_r2_batched": 0.6525995545045371,
+   "hidden_spikes_per_bin": 0.6360896229743958
+  },
+  {
+   "step": 900,
+   "loss": 0.4560914635658264,
+   "val_r2_batched": 0.6495255436365006,
+   "hidden_spikes_per_bin": 0.69384765625
+  },
+  {
+   "step": 1000,
+   "loss": 0.30434292554855347,
+   "val_r2_batched": 0.6516256825118831,
+   "hidden_spikes_per_bin": 0.643648624420166
+  },
+  {
+   "step": 1100,
+   "loss": 0.3568797707557678,
+   "val_r2_batched": 0.6554244327581381,
+   "hidden_spikes_per_bin": 0.6128117442131042
+  },
+  {
+   "step": 1200,
+   "loss": 0.3239368200302124,
+   "val_r2_batched": 0.6572923090333633,
+   "hidden_spikes_per_bin": 0.6408128142356873
+  },
+  {
+   "step": 1300,
+   "loss": 0.4561085104942322,
+   "val_r2_batched": 0.6514162743328142,
+   "hidden_spikes_per_bin": 0.6207557320594788
+  },
+  {
+   "step": 1400,
+   "loss": 0.3461829423904419,
+   "val_r2_batched": 0.6555416100082391,
+   "hidden_spikes_per_bin": 0.6189810037612915
+  },
+  {
+   "step": 1500,
+   "loss": 0.3574756979942322,
+   "val_r2_batched": 0.654498823729214,
+   "hidden_spikes_per_bin": 0.6241267323493958
+  }
+ ]
+}

@@ -16,7 +16,7 @@ cp -f "$SKY/rtl/cpu/VexRiscv2.v_toplevel_RegFilePlugin_regFile.bin" .
 DUMP=(); [[ "$VCD" == "--vcd" ]] && DUMP=(-DDUMP_PATH="\"$OUT/riscv_${MODE}${VARIANT}.vcd\"" -DDUMP_LEVEL=1 -DDUMP_MODULE=tb_fw_mnist.u_soc)
 TIMEOUT=5000000
 if [[ "$MODE" == "rtl" ]]; then
-  iverilog -g2012 -o fw.vvp -DIMEM_HEX="\"imem.hex\"" -DDMEM_HEX="\"dmem.hex\"" -DTIMEOUT_CYCLES=$TIMEOUT "${DUMP[@]}" \
+  iverilog -g2012 -o fw.vvp -DIMEM_HEX="\"imem.hex\"" -DDMEM_HEX="\"dmem.hex\"" -DTIMEOUT_CYCLES=$TIMEOUT ${EXTRA_DEFS:-} "${DUMP[@]}" \
     "$SKY/rtl/cpu/VexRiscv2.v" "$SKY/rtl/sram/sram22_2048x32m8w8.v" "$SKY/rtl/soc/ibus_sram22_bridge.v" "$SKY/rtl/soc/dbus_sram22_bridge.v" \
     "$SSIM/sky130_dlclkp_stub.v" "$SKY/rtl/soc/clk_gate.v" "$SKY/rtl/soc/sleep_ctrl.v" "$SKY/rtl/soc/sky130_vex2_soc.v" "$SSIM/tb_fw_mnist.v"
   vvp -n fw.vvp | grep -v "^VCD info" | tail -12
@@ -27,7 +27,7 @@ else
   python3 "$SSIM/sdf_sanitize_for_icarus.py" "$SDF_SRC" -o "$OUT/soc.icarus.sdf"
   python3 "$SSIM/gen_gls_regfile_init.py" -o "$OUT/gls_regfile_init.vh" --scope u_soc
   echo "==> compiling GLS (SoC, $LIB)"
-  iverilog -g2012 -gspecify -ginterconnect -Ttyp -o fw_gls.vvp -DGLS_RF_INIT -DGLS_PROGRESS -DUNIT_DELAY='#1' \
+  iverilog -g2012 -gspecify -ginterconnect -Ttyp -o fw_gls.vvp -DGLS_RF_INIT -DGLS_PROGRESS -DUNIT_DELAY='#1' ${EXTRA_DEFS:-} \
     -DSDF_ANNOTATE="\"$OUT/soc.icarus.sdf\"" -DIMEM_HEX="\"imem.hex\"" -DDMEM_HEX="\"dmem.hex\"" -DTIMEOUT_CYCLES=$TIMEOUT "${DUMP[@]}" \
     "$PDK_ROOT/sky130A/libs.ref/$LIB/verilog/primitives.v" "$PDK_ROOT/sky130A/libs.ref/$LIB/verilog/$LIB.v" \
     "$SKY/rtl/sram/sram22_2048x32m8w8.v" "$NETLIST" "$SSIM/tb_fw_mnist.v" 2> iverilog_warn.log || { tail -20 iverilog_warn.log; exit 1; }

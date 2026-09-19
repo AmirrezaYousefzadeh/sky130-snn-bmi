@@ -1,0 +1,2 @@
+design,energy_per_bin_nJ,annotated,clock_share,sequential_share,combinational_share,macro_share,leakage_25C_uW,leakage_100C_uW,leakage_37C_uW,p_avg_250Hz_uW
+bmi_snn_min16,2.0619570972,True,0.23914673111754403,0.25416030911198345,0.5066892261331382,0.0,0.06407752,,,0.5795667943

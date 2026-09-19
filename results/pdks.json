@@ -10,30 +10,72 @@
   "temperature": 25.0,
   "pnr": {
    "instance_area_um2": 65510.329599999626,
-   "stdcell_area_um2": 83082.2,
+   "stdcell_area_um2": 65486.6,
    "macro_area_um2": 0,
-   "instances": 15835,
+   "instances": 9150,
    "stdcells": 7643,
    "macros": 0,
-   "die_area_um2": 178964,
-   "core_area_um2": 164803,
-   "setup_ws_ns": 7.385811282730625,
-   "hold_ws_ns": 0.11058199113842161,
+   "die_area_um2": 121270,
+   "core_area_um2": 110058,
+   "setup_ws_ns": 117.24669567087393,
+   "hold_ws_ns": 0.1136107906575618,
    "setup_viol": 0,
    "hold_viol": 0,
    "clock_period_ns": null,
-   "wirelength_um": 365209,
+   "wirelength_um": 347363,
    "drc": 0,
-   "utilisation": 0.50413,
-   "run_dir": "/home/yousefzadeha/workspace/BCI_paper/synthesis/bmi_snn_min16/runs/bmi_snn_min16",
+   "utilisation": 0.595018,
+   "run_dir": "/home/yousefzadeha/workspace/BCI_paper/synthesis/bmi_snn_min16/runs/bmi_snn_min16_5m_u60",
    "timing_met": true,
+   "per_corner": {
+    "nom_tt_025C_1v80": {
+     "setup_ws_ns": 118.4535028037018,
+     "hold_ws_ns": 0.3253910566425811
+    },
+    "nom_ss_100C_1v60": {
+     "setup_ws_ns": 117.34030967895791,
+     "hold_ws_ns": 0.8561427364933316
+    },
+    "nom_ff_n40C_1v95": {
+     "setup_ws_ns": 118.89266085938593,
+     "hold_ws_ns": 0.11742762650186812
+    },
+    "min_tt_025C_1v80": {
+     "setup_ws_ns": 118.51310313006296,
+     "hold_ws_ns": 0.3192916021950886
+    },
+    "min_ss_100C_1v60": {
+     "setup_ws_ns": 117.44907245859673,
+     "hold_ws_ns": 0.847769878294018
+    },
+    "min_ff_n40C_1v95": {
+     "setup_ws_ns": 118.93263599483036,
+     "hold_ws_ns": 0.1136107906575618
+    },
+    "max_tt_025C_1v80": {
+     "setup_ws_ns": 118.40267057494788,
+     "hold_ws_ns": 0.33035020098923096
+    },
+    "max_ss_100C_1v60": {
+     "setup_ws_ns": 117.24669567087393,
+     "hold_ws_ns": 0.8647234284487331
+    },
+    "max_ff_n40C_1v95": {
+     "setup_ws_ns": 118.85800058375528,
+     "hold_ws_ns": 0.12176315855794903
+    }
+   },
+   "util_target_pct": 60,
+   "utilization_pct": 59.5018,
+   "logic_cells": 7588,
+   "logic_area_um2": 63517.168000000056,
+   "phys_cells": 32303,
    "stdcells_netlist": 7643,
    "instance_area_netlist_um2": 65510.329599999626,
-   "phys_cells": 32303,
    "netlist": "/home/yousefzadeha/workspace/BCI_paper/synthesis/bmi_snn_min16/runs/bmi_snn_min16/final/nl/bmi_snn_min16.nl.v"
   },
   "event": {
-   "tag": "bmi_snn_min16_md0_full",
+   "tag": "bmi_snn_min16_5m_md0_full",
    "tb": {
     "bins": 500,
     "events": 2934,
@@ -46,22 +88,22 @@
    },
    "groups": {
     "Sequential": {
-     "internal": 0.001124546,
-     "switching": 8.601582e-05,
-     "leakage": 4.566318e-09,
-     "total": 0.001210566
+     "internal": 0.0001123086,
+     "switching": 8.112219e-06,
+     "leakage": 4.56306e-09,
+     "total": 0.0001204254
     },
     "Combinational": {
-     "internal": 0.0005825287,
-     "switching": 0.00131457,
-     "leakage": 2.453814e-08,
-     "total": 0.001897123
+     "internal": 5.711737e-05,
+     "switching": 0.0001188661,
+     "leakage": 2.449667e-08,
+     "total": 0.0001760079
     },
     "Clock": {
-     "internal": 0.0007586905,
-     "switching": 0.0006831317,
-     "leakage": 6.544987e-08,
-     "total": 0.001441888
+     "internal": 5.570498e-05,
+     "switching": 5.952592e-05,
+     "leakage": 3.505014e-08,
+     "total": 0.0001152659
     },
     "Macro": {
      "internal": 0.0,
@@ -76,42 +118,42 @@
      "total": 0.0
     },
     "Total": {
-     "internal": 0.002465759,
-     "switching": 0.002083715,
-     "leakage": 9.45542e-08,
-     "total": 0.004549569
+     "internal": 0.0002251303,
+     "switching": 0.0001865038,
+     "leakage": 6.410981e-08,
+     "total": 0.0004116982
     }
    },
-   "power_avg_uW": 4549.5689999999995,
+   "power_avg_uW": 411.69820000000004,
    "cycles_meas": 10244,
    "cycles_per_bin": 20.488,
-   "energy_per_bin_nJ": 1.8642313934399999,
-   "latency_us": 0.1,
-   "leakage_uW": 0.0945542,
+   "energy_per_bin_nJ": 1.68697454432,
+   "latency_us": 1.0,
+   "leakage_uW": 0.06410980999999999,
    "pass": true
   },
   "idle": {
-   "tag": "bmi_snn_min16_idle_full",
-   "idle_power_uW": 35.039841172457244,
-   "leakage_uW": 0.09452138,
+   "tag": "bmi_snn_min16_5m_idle_full",
+   "idle_power_uW": 3.812909047473931,
+   "leakage_uW": 0.06407752,
    "groups": {
     "Sequential": {
-     "internal": 2.128919e-06,
-     "switching": 6.665772e-09,
-     "leakage": 4.474277e-09,
-     "total": 2.140059e-06
+     "internal": 2.122226e-07,
+     "switching": 6.471707e-10,
+     "leakage": 4.464214e-09,
+     "total": 2.17334e-07
     },
     "Combinational": {
-     "internal": 4.071158e-08,
-     "switching": 9.030344e-08,
-     "leakage": 2.478775e-08,
-     "total": 1.558028e-07
+     "internal": 3.952759e-09,
+     "switching": 8.164928e-09,
+     "leakage": 2.471177e-08,
+     "total": 3.682946e-08
     },
     "Clock": {
-     "internal": 2.727175e-05,
-     "switching": 5.881084e-06,
-     "leakage": 6.526184e-08,
-     "total": 3.32181e-05
+     "internal": 2.746222e-06,
+     "switching": 8.000615e-07,
+     "leakage": 3.49028e-08,
+     "total": 3.581187e-06
     },
     "Macro": {
      "internal": 0.0,
@@ -126,45 +168,45 @@
      "total": 0.0
     },
     "Total": {
-     "internal": 2.944126e-05,
-     "switching": 5.978045e-06,
-     "leakage": 9.452138e-08,
-     "total": 3.551383e-05
+     "internal": 2.962389e-06,
+     "switching": 8.088742e-07,
+     "leakage": 6.407752e-08,
+     "total": 3.835341e-06
     }
    },
-   "idle_raw_uW": 35.51383,
-   "active_share": 0.00010499186313060738
+   "idle_raw_uW": 3.835341,
+   "active_share": 5.499573783031815e-05
   },
   "event_sdf": {
-   "tag": "bmi_snn_min16_md0_sdf",
+   "tag": "bmi_snn_min16_5m_md0_sdf",
    "tb": {
-    "bins": 500,
-    "events": 2934,
+    "bins": 200,
+    "events": 1262,
     "errors": 0,
-    "cycles": 10268,
-    "active_cycles": 9981,
+    "cycles": 4301,
+    "active_cycles": 4181,
     "avg_latency_cyc": 5,
     "max_latency_cyc": 9,
     "pass": true
    },
    "groups": {
     "Sequential": {
-     "internal": 0.001142909,
-     "switching": 8.601582e-05,
-     "leakage": 4.566734e-09,
-     "total": 0.001228929
+     "internal": 0.0001143297,
+     "switching": 8.197322e-06,
+     "leakage": 4.566997e-09,
+     "total": 0.0001225316
     },
     "Combinational": {
-     "internal": 0.0008928599,
-     "switching": 0.001650669,
-     "leakage": 2.454816e-08,
-     "total": 0.002543554
+     "internal": 8.973914e-05,
+     "switching": 0.0001545131,
+     "leakage": 2.448638e-08,
+     "total": 0.0002442767
     },
     "Clock": {
-     "internal": 0.0007587022,
-     "switching": 0.0006831487,
-     "leakage": 6.544984e-08,
-     "total": 0.001441916
+     "internal": 5.571792e-05,
+     "switching": 5.954054e-05,
+     "leakage": 3.505017e-08,
+     "total": 0.0001152935
     },
     "Macro": {
      "internal": 0.0,
@@ -179,18 +221,18 @@
      "total": 0.0
     },
     "Total": {
-     "internal": 0.002794464,
-     "switching": 0.002419832,
-     "leakage": 9.456454e-08,
-     "total": 0.005214391
+     "internal": 0.0002597886,
+     "switching": 0.0002222509,
+     "leakage": 6.410342e-08,
+     "total": 0.0004821036
     }
    },
-   "power_avg_uW": 5214.391,
-   "cycles_meas": 10244,
-   "cycles_per_bin": 20.488,
-   "energy_per_bin_nJ": 2.13664885616,
-   "latency_us": 0.1,
-   "leakage_uW": 0.09456454,
+   "power_avg_uW": 482.1036,
+   "cycles_meas": 4277,
+   "cycles_per_bin": 21.385,
+   "energy_per_bin_nJ": 2.0619570972,
+   "latency_us": 1.0,
+   "leakage_uW": 0.06410342000000001,
    "pass": true
   },
   "leak_split": {
@@ -200,8 +242,8 @@
    "n_phys": 32303,
    "n_unmatched": 0
   },
-  "avg_power_uW_250Hz_clkstopped": 0.56057922836,
-  "avg_power_uW_250Hz_clkstopped_logic": 0.4964679835652004
+  "avg_power_uW_250Hz_clkstopped": 0.48582115608,
+  "avg_power_uW_250Hz_clkstopped_logic": 0.4521537712852004
  },
  "gf180": {
   "label": "GlobalFoundries GF180MCU",

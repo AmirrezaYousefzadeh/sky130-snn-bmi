@@ -170,6 +170,32 @@ for c in tt_025C_1v80 tt_025C_3v30; do for t in pdk_gf180_min16_md0_full pdk_gf1
 (cd paper && ../tools/tectonic -X compile main.tex)
 ```
 
+## Round 5 (5 MHz, utilization policy, cross-kit study, training grid)
+
+Everything of round 5 hangs off a common 5 MHz clock (200 ns; 9,030 SoC cycles per 4 ms bin bound the clock from below at
+2.26 MHz) and one utilization policy: start at 60 % core utilization with a placement density of utilization + 10 %, step down by
+10 % until detailed routing converges DRC-clean and timing is met at every signoff corner. Heuristic antenna-diode insertion is off
+(it broke legalization at 50-60 %); diodes on input ports only.
+
+- `synthesis/harden_policy2.sh <design> [clock_ns] ["60 50 40 30 20"]` — the policy for the standard-cell cores (OpenLane; watchdog
+  aborts hopeless routing), `synthesis/harden_policy_top.sh` for the SRAM cores (absolute die, width from the target utilization),
+  `synthesis/harden_lowv.sh` for the 1.28 V signoff (E14), `synthesis/run_orfs5_all.sh <platform> [rvt|sram]` for the
+  OpenROAD-flow-scripts kits (NanGate45, IHP SG13G2, ASAP7 RVT and SRAM-Vt), `PDK=gf180mcuD harden_policy2.sh pdk_gf180/<core>`.
+  Results: `logs/policy_round5.log`, `logs/orfs5_policy.log`, accepted run linked as `synthesis/<design>/runs/<design>_5m`.
+- `sim/pipeline5.sh <design>` — per design: 500/200-bin windows and idle run (`sim/measure_design.sh`, `RUN_TAG=<design>_5m
+  CLK_NS=200`), full test block(s) and 5,000-bin annotated windows with streamed toggle counts (`sim/measure_full.sh`,
+  `sim/run_gls_stream.sh`, `tools/vcd_toggles`, `power/run_toggles_power.sh`). Session policy: hardwired cores on their own
+  session, programmable cores on all three.
+- `sim/measure_pdk5.sh <kit> <core> [func|sdf|volt]` — cross-kit measurements (zero-delay window, idle, annotated where the
+  kit's models allow, lowest characterized supply re-evaluation with f_max). `sim/measure_soc_window.sh` — SoC per-pin power
+  over the decoding window (E7). `sim/run_fe.sh`, `power/root_clock_correction.py` — digital front end (E10; OpenSTA counts the
+  root clock network at the clock definition's rate, see `results/run_log_round5.md`).
+- Collectors: `sw/collect_designs5.py` (numbers2.tex, designs_table.tex, DESIGNS_50_vs_5.md), `sw/collect_pdks5.py`
+  (pdks_table.tex, numbers_pdks.tex, pdks_pavg_vs_rate.csv), `sw/collect_pareto.py` (pareto.csv, E2), `sw/collect_persession.py`
+  (per_session.csv, E3), `sw/collect_software5.py` (E7), `sw/collect_frontend.py` (E10), `sw/collect_seeds.py` (grid seeds),
+  `sw/bootstrap_r2.py` (E12). Figures: `figures/fig_pareto.py`, `figures/fig_pavg_vs_rate.py`, `figures/fig_power_breakdown5.py`.
+- Raw reports: `sw/snapshot_raw5.sh` -> `results/raw/round5/`. Run log: `results/run_log_round5.md`.
+
 ## Measurement recipe (for comparable future work)
 
 * **Task**: NeuroBench primate reaching, streaming (4 ms bins, binary channel indicators, no spike sorting),

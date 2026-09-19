@@ -304,6 +304,14 @@ def make_figures(R):
                 if np.isfinite(x): ax.text(i, x * 1.15, f"{x:,.0f}" if x >= 100 else f"{x:.3g}", ha="center", fontsize=7)
             ax.set_ylim(top=max([x for x in v if np.isfinite(x)]) * 4)
         fig.tight_layout(); fig.savefig(FIG / "energy_bars.pdf"); fig.savefig(FIG / "energy_bars.png", dpi=200)
+        # round 5 (F6): energy panel alone (latency and average power stay in the architecture table)
+        fig, ax = plt.subplots(figsize=(3.4, 2.4)); v = vals[0]
+        ax.bar(range(4), v, color=cols); ax.set_yscale("log"); ax.set_ylabel("energy per 4 ms bin (nJ)", fontsize=7.5)
+        ax.set_xticks(range(4)); ax.set_xticklabels(names, fontsize=6.5)
+        for i, x in enumerate(v):
+            if np.isfinite(x): ax.text(i, x * 1.15, f"{x:,.0f}" if x >= 100 else f"{x:.3g}", ha="center", fontsize=7)
+        ax.set_ylim(top=max([x for x in v if np.isfinite(x)]) * 4); ax.spines["top"].set_visible(False); ax.spines["right"].set_visible(False)
+        fig.tight_layout(); fig.savefig(FIG / "energy_bars_energy.pdf"); fig.savefig(FIG / "energy_bars_energy.png", dpi=200)
         # --- power breakdown (awake), event vs dense
         fig, ax = plt.subplots(figsize=(4.2, 2.6))
         groups = ["Sequential", "Combinational", "Clock", "Macro"]

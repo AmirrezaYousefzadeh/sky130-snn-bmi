@@ -14,6 +14,13 @@ CONFIGS = [  # label, model tag without session prefix, macro suffix
     ("$H{=}64$, 12.5\\,\\% synapses", "H64_th256_k44_drop_p0.125", "HsfEighth"),
     ("$H{=}32$, dense", "H32_th256_k44_drop", "HtDense"),
     ("$H{=}16$, dense", "H16_th256_k44_drop", "HsDense"),
+    # round 5 (E2): training grid
+    ("$H{=}128$, dense", "H128_th256_k44_drop", "HoDense"),
+    ("$H{=}128$, 25\\,\\% synapses", "H128_th256_k44_drop_p0.25", "HoQuarter"),
+    ("$H{=}128$, 12.5\\,\\% synapses", "H128_th256_k44_drop_p0.125", "HoEighth"),
+    ("$H{=}32$, 50\\,\\% synapses", "H32_th256_k44_drop_p0.5", "HtHalf"),
+    ("$H{=}32$, 25\\,\\% synapses", "H32_th256_k44_drop_p0.25", "HtQuarter"),
+    ("$H{=}16$, 50\\,\\% synapses", "H16_th256_k44_drop_p0.5", "HsHalf"),
 ]
 SEEDS = [0, 1, 2, 3, 4]
 def r2(sess, tag, seed):

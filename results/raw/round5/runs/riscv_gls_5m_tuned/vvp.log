@@ -1,0 +1,71 @@
+GLS: deposited 0 into CPU regfile + read ports
+SDF ERROR: /home/yousefzadeha/workspace/BCI_paper/sim/build_riscv_gls_5m_tuned/soc.icarus.sdf:225158: Cannot find u_dmem_icg in scope tb_fw_mnist.u_soc.
+SDF ERROR: /home/yousefzadeha/workspace/BCI_paper/sim/build_riscv_gls_5m_tuned/soc.icarus.sdf:225167: Cannot find u_imem_icg in scope tb_fw_mnist.u_soc.
+SDF ERROR: /home/yousefzadeha/workspace/BCI_paper/sim/build_riscv_gls_5m_tuned/soc.icarus.sdf:225176: Cannot find u_sleep in scope tb_fw_mnist.u_soc.
+SDF: annotated /home/yousefzadeha/workspace/BCI_paper/sim/build_riscv_gls_5m_tuned/soc.icarus.sdf onto u_soc
+VCD info: dumpfile /home/yousefzadeha/workspace/BCI_paper/sim/build_riscv_gls_5m_tuned/riscv_gls_5m_tuned.vcd opened for output.
+WAVEFORM: dumping to /home/yousefzadeha/workspace/BCI_paper/sim/build_riscv_gls_5m_tuned/riscv_gls_5m_tuned.vcd (level=1)
+CLK: period=200 ns  reset_cycles=64  sleep_cycles=10000
+FW: loaded imem.hex and dmem.hex
+TB: reset released at t=12800000
+TB: power-on sleep — wake for init
+TB: post-init sleep — hold 10000 cycles
+GLS_PROGRESS cycle=2000 max=5000000
+GLS_PROGRESS cycle=4000 max=5000000
+GLS_PROGRESS cycle=6000 max=5000000
+GLS_PROGRESS cycle=8000 max=5000000
+GLS_PROGRESS cycle=10000 max=5000000
+TB: wake for inference
+GLS_PROGRESS cycle=12000 max=5000000
+GLS_PROGRESS cycle=14000 max=5000000
+GLS_PROGRESS cycle=16000 max=5000000
+GLS_PROGRESS cycle=18000 max=5000000
+GLS_PROGRESS cycle=20000 max=5000000
+GLS_PROGRESS cycle=22000 max=5000000
+GLS_PROGRESS cycle=24000 max=5000000
+GLS_PROGRESS cycle=26000 max=5000000
+GLS_PROGRESS cycle=28000 max=5000000
+GLS_PROGRESS cycle=30000 max=5000000
+GLS_PROGRESS cycle=32000 max=5000000
+GLS_PROGRESS cycle=34000 max=5000000
+GLS_PROGRESS cycle=36000 max=5000000
+GLS_PROGRESS cycle=38000 max=5000000
+GLS_PROGRESS cycle=40000 max=5000000
+GLS_PROGRESS cycle=42000 max=5000000
+GLS_PROGRESS cycle=44000 max=5000000
+GLS_PROGRESS cycle=46000 max=5000000
+GLS_PROGRESS cycle=48000 max=5000000
+GLS_PROGRESS cycle=50000 max=5000000
+GLS_PROGRESS cycle=52000 max=5000000
+GLS_PROGRESS cycle=54000 max=5000000
+GLS_PROGRESS cycle=56000 max=5000000
+GLS_PROGRESS cycle=58000 max=5000000
+GLS_PROGRESS cycle=60000 max=5000000
+GLS_PROGRESS cycle=62000 max=5000000
+GLS_PROGRESS cycle=64000 max=5000000
+GLS_PROGRESS cycle=66000 max=5000000
+GLS_PROGRESS cycle=68000 max=5000000
+GLS_PROGRESS cycle=70000 max=5000000
+GLS_PROGRESS cycle=72000 max=5000000
+GLS_PROGRESS cycle=74000 max=5000000
+GLS_PROGRESS cycle=76000 max=5000000
+GLS_PROGRESS cycle=78000 max=5000000
+GLS_PROGRESS cycle=80000 max=5000000
+GLS_PROGRESS cycle=82000 max=5000000
+GLS_PROGRESS cycle=84000 max=5000000
+GLS_PROGRESS cycle=86000 max=5000000
+GLS_PROGRESS cycle=88000 max=5000000
+TB: inference done (gpio_done) at t=17607700000
+TB: post-infer sleep — hold 10000 cycles
+GLS_PROGRESS cycle=90000 max=5000000
+GLS_PROGRESS cycle=92000 max=5000000
+GLS_PROGRESS cycle=94000 max=5000000
+GLS_PROGRESS cycle=96000 max=5000000
+GLS_PROGRESS cycle=98000 max=5000000
+TB: wake for halt
+PASS: digit=0  tohost=1  cycles~53  sram_clk_en=0
+/home/yousefzadeha/workspace/BCI_paper/../skywater/simulation/tb_fw_mnist.v:177: $finish called at 19620700000 (1ps)
+
+real	78m36.791s
+user	39m17.180s
+sys	0m16.113s

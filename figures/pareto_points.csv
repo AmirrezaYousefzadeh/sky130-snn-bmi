@@ -1,0 +1,2 @@
+tag,H,density,core,n_seeds,r2_int_mean,r2_int_sd,r2_int_min,r2_int_max,r2_int_seed0_B,r2_float_seed0_mean,energy_per_bin_nJ,energy_per_bin_sdf_nJ,cycles_per_bin,leakage_uW,area_mm2,cells,util_pct,p_avg_250Hz_uW,r2_int_indy_20160622_01_mean,r2_int_indy_20160622_01_sd,r2_int_indy_20160630_01_mean,r2_int_indy_20160630_01_sd,r2_int_indy_20170131_02_mean,r2_int_indy_20170131_02_sd,pareto
+H16_th256_k44_drop,16,1,bmi_snn_min16,5,0.552,0.00458,0.546,0.556,0.499,0.555,1.69,2.06,20.5,0.0641,0.0655,9150,60,0.58,0.613,0.012,0.497,0.0109,0.545,0.0088,True

@@ -1,0 +1,120 @@
+{
+ "pnr": {
+  "cells": 2328,
+  "area_um2": 20002.9,
+  "setup_ws_ns": 57.773272245900195,
+  "hold_ws_ns": 0.30681694164856355,
+  "drc": 0,
+  "util": 0.748455,
+  "util_target_pct": 60
+ },
+ "tb": {
+  "bins": 500,
+  "events": 2934,
+  "recorded": 2934,
+  "ticks": 500,
+  "errors": 0,
+  "clk5_cycles": 305332,
+  "core_clk_cycles": 22858,
+  "slow_cycles": 65500,
+  "osc_on_cycles": 305075,
+  "pass": true
+ },
+ "osc_duty": 0.03052426748091603,
+ "osc_us_per_bin": 122.1328,
+ "core_clk_per_bin": 45.716,
+ "power_reported": {
+  "total_uW": 4.850409,
+  "leakage_uW": 0.014221059999999999,
+  "internal_uW": 4.132061,
+  "switching_uW": 0.7041276999999999,
+  "sequential_uW": 1.1238670000000002,
+  "combinational_uW": 0.01891153,
+  "clock_uW": 3.707632
+ },
+ "power_v1_freerunning": {
+  "total_uW": 4.833126,
+  "leakage_uW": 0.01378903,
+  "internal_uW": 3.967973,
+  "switching_uW": 0.8513634,
+  "sequential_uW": 1.11799,
+  "combinational_uW": 0.01943791,
+  "clock_uW": 3.6957009999999997
+ },
+ "root_clock_correction": {
+  "duty": 0.03052427,
+  "root_cells": {
+   "buf": 4,
+   "flop": 5,
+   "icg": 1
+  },
+  "removed_W": 4.159014841439737e-06,
+  "reported": {
+   "Clock": {
+    "internal": 3.002240418964086e-06,
+    "switching": 6.984890357371732e-07,
+    "leakage": 7.183825119999989e-10,
+    "total": 3.7014865245999935e-06
+   },
+   "Sequential": {
+    "internal": 1.120972590000002e-06,
+    "switching": 2.830876879499998e-10,
+    "leakage": 2.603974299999998e-09,
+    "total": 1.1238760099999995e-06
+   },
+   "Combinational": {
+    "internal": 8.851816677281557e-09,
+    "switching": 5.3594591453621846e-09,
+    "leakage": 1.0898536665300227e-08,
+    "total": 2.510979541950073e-08
+   },
+   "Total": {
+    "internal": 4.1320648256413695e-06,
+    "switching": 7.041315825704853e-07,
+    "leakage": 1.4220893477300223e-08,
+    "total": 4.850472330019493e-06
+   }
+  },
+  "corrected": {
+   "Clock": {
+    "internal": 1.847985262245865e-07,
+    "switching": 1.3535988672626688e-07,
+    "leakage": 7.183825119999989e-10,
+    "total": 3.208767954628529e-07
+   },
+   "Sequential": {
+    "internal": 3.4254174735379977e-07,
+    "switching": 2.830876879499998e-10,
+    "leakage": 2.603974299999998e-09,
+    "total": 3.4542880934174985e-07
+   },
+   "Combinational": {
+    "internal": 8.838859634150107e-09,
+    "switching": 5.3594591453621846e-09,
+    "leakage": 1.0898536665300227e-08,
+    "total": 2.509685544481308e-08
+   },
+   "Total": {
+    "internal": 5.361791332125364e-07,
+    "switching": 1.4100243355957907e-07,
+    "leakage": 1.4220893477300223e-08,
+    "total": 6.914024602494158e-07
+   }
+  }
+ },
+ "power": {
+  "total_uW": 0.6914024602494159,
+  "leakage_uW": 0.014220893477300224,
+  "internal_uW": 0.5361791332125364,
+  "switching_uW": 0.14100243355957906,
+  "sequential_uW": 0.34542880934174985,
+  "combinational_uW": 0.02509685544481308,
+  "clock_uW": 0.3208767954628529
+ },
+ "clock_tree_uW": {
+  "clk32k": 0.158056594377,
+  "clk5": 0.09577579172950111,
+  "icg": 0.004172056879291603
+ },
+ "combined_250Hz": {}
+}

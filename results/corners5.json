@@ -1,0 +1,11 @@
+{
+ "bmi_snn_sp": {
+  "label": "hardwired 12-bit, gated, 25\\,\\% synapses"
+ },
+ "bmi_snn_m12": {
+  "label": "hardwired 12-bit, gated"
+ },
+ "bmi_snn_min32": {
+  "label": "hardwired 16-bit, $H{=}32$"
+ }
+}

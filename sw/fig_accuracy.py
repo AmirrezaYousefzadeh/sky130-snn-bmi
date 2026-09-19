@@ -11,7 +11,10 @@ ROOT = Path(__file__).resolve().parent.parent
 FIG = ROOT / "paper" / "figures"; FIG.mkdir(exist_ok=True)
 SESS = ["indy_20160622_01", "indy_20160630_01", "indy_20170131_02"]
 TAG = sys.argv[1] if len(sys.argv) > 1 else "_H64_th256_k44_drop"
-# NeuroBench published baselines (examples/primate_reaching/*.py comments), Indy sessions in the same order
+# NeuroBench published baselines (examples/primate_reaching/benchmark_*.py comments), Indy sessions in the same order.
+# Architectures from the NeuroBench scripts: ANNModel2D = fc 96-32-48-2 (ReLU, batch norm, dropout 0.5) on the spike counts of a
+# 200 ms window ("2D" = [batch, channels] input, the 3D variant keeps 7 time steps); SNNModel3 = three snntorch Leaky layers
+# 96-32-48-2 (beta 0.5, 200 ms window in 7 steps); SNN2 = Leaky 96-50-2 (tau 0.96) streamed per 4 ms bin.
 NB = {"ANN 2D (NeuroBench)": [0.6327, 0.5241, 0.6217], "SNN3 (NeuroBench)": [0.6968, 0.5772, 0.6517], "SNN2 streaming (NeuroBench)": [0.6774, 0.5011, 0.5994]}
 import json as _json
 _lin = []
@@ -23,15 +26,19 @@ r2 = [o["test_r2_int"] for o in ours]
 plt.rcParams.update({"font.size": 9, "axes.spines.top": False, "axes.spines.right": False})
 fig, ax = plt.subplots(figsize=(6.4, 2.9))
 x = np.arange(3); w = 0.17
-ax.bar(x - 2 * w, _lin, w, label="this work: linear leaky integrator, no hidden layer (int8)", color="#e8c9a0", edgecolor="#8a6a30", linewidth=0.4)
-ax.bar(x - w, NB["ANN 2D (NeuroBench)"], w, label="NeuroBench ANN 2D (float)", color="#dddddd", hatch="xx", edgecolor="#777777", linewidth=0.4)
-ax.bar(x, NB["SNN3 (NeuroBench)"], w, label="NeuroBench SNN3 (float, 3 layers)", color="#bbbbbb", hatch="//", edgecolor="#666666", linewidth=0.4)
-ax.bar(x + w, NB["SNN2 streaming (NeuroBench)"], w, label="NeuroBench SNN2 streaming (float)", color="#7f9fbf", hatch="..", edgecolor="#3f5f7f", linewidth=0.4)
-ax.bar(x + 2 * w, r2, w, label="this work: int8 / int20 streaming SNN (bit-exact HW)", color="#c0504d", edgecolor="#802020", linewidth=0.4)
+ax.bar(x - 2 * w, _lin, w, label="this work, linear leaky integrator (int8, no hidden layer)", color="#e8c9a0", edgecolor="#8a6a30", linewidth=0.4)
+ax.bar(x - w, NB["ANN 2D (NeuroBench)"], w, label="NeuroBench ANN 2D (float, 96-32-48-2, spike counts over a 200 ms window)", color="#dddddd", hatch="xx", edgecolor="#777777", linewidth=0.4)
+ax.bar(x, NB["SNN3 (NeuroBench)"], w, label="NeuroBench SNN3 (float, three LIF layers 96-32-48-2, 200 ms window in 7 steps)", color="#bbbbbb", hatch="//", edgecolor="#666666", linewidth=0.4)
+ax.bar(x + w, NB["SNN2 streaming (NeuroBench)"], w, label="NeuroBench SNN2 (float, streaming, 96-50-2)", color="#7f9fbf", hatch="..", edgecolor="#3f5f7f", linewidth=0.4)
+ax.bar(x + 2 * w, r2, w, label="this work, integer streaming SNN 96-64-2 (bit-exact hardware)", color="#c0504d", edgecolor="#802020", linewidth=0.4)
 for i, v in enumerate(r2): ax.text(x[i] + 2 * w, v + 0.01, f"{v:.2f}", ha="center", fontsize=7)
+for xi, v in zip(x - 2 * w, _lin):                       # R2 above the bars of this work (linear baseline and SNN)
+    if np.isfinite(v): ax.text(xi, v + 0.012, f"{v:.3f}", ha="center", va="bottom", fontsize=6.2, color="#5a4010")
+for xi, v in zip(x + 2 * w, r2):
+    ax.text(xi, v + 0.012, f"{v:.3f}", ha="center", va="bottom", fontsize=6.2, color="#802020")
 ax.set_xticks(x); ax.set_xticklabels([s.replace("indy_", "") for s in SESS]); ax.set_ylabel("test $R^2$ (NeuroBench)")
 ax.set_ylim(0, 0.95); ax.axhline(0.55, ls="--", lw=0.8, color="k", label="accuracy threshold used in this work (0.55)")
-ax.legend(fontsize=6.5, loc="upper center", frameon=False, ncol=2, bbox_to_anchor=(0.5, -0.16))
+ax.legend(fontsize=6.2, loc="upper center", frameon=False, ncol=2, bbox_to_anchor=(0.5, -0.16))
 fig.tight_layout(); fig.savefig(FIG / "r2.pdf", bbox_inches="tight"); fig.savefig(FIG / "r2.png", dpi=200, bbox_inches="tight")
 print("mean R2 ours", np.mean(r2), "SNN2", np.mean(NB["SNN2 streaming (NeuroBench)"]), "SNN3", np.mean(NB["SNN3 (NeuroBench)"]))
 # ---- trace figure

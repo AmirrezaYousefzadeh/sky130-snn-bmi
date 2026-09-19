@@ -20,3 +20,7 @@ __pycache__/
 results/raw/**/power_vcd_by_instance*.rpt
 results/raw/**/power_by_instance*.rpt
 synthesis/*/*/runs/
+power/out_*.log
+sim/vecfull_*/
+sim/_invalid_wrong_weights/
+sim/build_pdk5_*_stubs.v

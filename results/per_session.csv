@@ -1,0 +1,10 @@
+core,session,design,util_pct,area_mm2,cells,r2_int,bins_full,events_per_bin_full,energy_per_bin_full_nJ,cycles_per_bin_full,bins_sdf,energy_per_bin_sdf_nJ,energy_per_bin_500win_nJ,leakage_uW,transfer_model_nJ,bit_exact
+sp,indy_20160622_01,bmi_snn_sp_s622,,,,,,,,,,,,,,
+sp,indy_20160630_01,bmi_snn_sp,,,,,,,,,,,,,,
+sp,indy_20170131_02,bmi_snn_sp_s131,,,,,,,,,,,,,,
+min32,indy_20160622_01,bmi_snn_min32_s622,,,,,,,,,,,,,,
+min32,indy_20160630_01,bmi_snn_min32,,,,,,,,,,,,,,
+min32,indy_20170131_02,bmi_snn_min32_s131,,,,,,,,,,,,,,
+m12,indy_20160622_01,bmi_snn_m12_s622,,,,,,,,,,,,,,
+m12,indy_20160630_01,bmi_snn_m12,,,,,,,,,,,,,,
+m12,indy_20170131_02,bmi_snn_m12_s131,,,,,,,,,,,,,,

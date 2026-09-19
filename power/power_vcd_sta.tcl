@@ -1,6 +1,7 @@
 # Per-net activity power: OpenSTA read_power_activities from a gate-level VCD (no global median, no case analysis).
 # Env: RUN_DIR TOP LIB_SC LIB_SRAM VCD_FILE VCD_SCOPE PERIOD_NS OUT MACRO_INST
 set RUN $::env(RUN_DIR); set TOP $::env(TOP); set OUT $::env(OUT)
+if {[info exists ::env(ORD_LEFS)]} { foreach l $::env(ORD_LEFS) { read_lef $l } }   ;# OpenROAD (not sta) needs the technology and cell LEF before read_verilog
 foreach l $::env(LIB_SC) { read_liberty $l }      ;# one or several liberty files (space-separated; gzip accepted)
 if {[info exists ::env(LIB_SRAM)] && [file exists $::env(LIB_SRAM)]} { read_liberty $::env(LIB_SRAM) }
 # NETLIST / SPEF may be preset (multi-PDK study: OpenROAD-flow-scripts result directories)
@@ -10,11 +11,29 @@ read_verilog $nl
 link_design $TOP
 read_spef $spef
 set period $::env(PERIOD_NS); set half [expr {$period / 2.0}]
-create_clock -name clk -period $period -waveform [list 0.0 $half] [get_ports clk]
-set_propagated_clock [get_clocks clk]
+set clkport [expr {[info exists ::env(CLK_PORT)] ? $::env(CLK_PORT) : "clk"}]      ;# round 5: designs whose clock port is not "clk" (front end: clk5)
+create_clock -name clk -period $period -waveform [list 0.0 $half] [get_ports $clkport]
+if {[info exists ::env(CLK2_PORT)]} {                                               ;# optional second (asynchronous) clock, e.g. the 32.768 kHz clock of the front end
+  create_clock -name clk2 -period $::env(CLK2_PERIOD) [get_ports $::env(CLK2_PORT)]
+  set_clock_groups -asynchronous -group [get_clocks clk] -group [get_clocks clk2]
+}
+set_propagated_clock [all_clocks]
+# Round 5: OpenSTA (2.6.0 and the OpenROAD build) takes the activity of every clock-network pin from the clock definition, not
+# from the annotation, so gated clock subtrees would be counted as always toggling. CLK_STOP_ICG=1 stops the clock propagation at
+# the outputs of all clock-gate cells (their subtrees are then annotated from the waveform); CLK_STOP_PINS lists further pins or
+# ports (e.g. an oscillator-gated clock port) where the propagation stops. Timing is not reported in the power runs.
+if {[info exists ::env(CLK_STOP_PINS)]} { foreach p $::env(CLK_STOP_PINS) { set o [get_pins -quiet $p]; if {![llength $o]} { set o [get_ports -quiet $p] }
+  if {[llength $o]} { set_clock_sense -stop_propagation $o; puts "CLK_STOP_PINS: $p" } } }
+if {[info exists ::env(CLK_STOP_ICG)] && $::env(CLK_STOP_ICG) != 0} { set __icg {}
+  foreach c [get_cells -hierarchical *] { set r [get_property $c ref_name]
+    if {[string match {*dlclkp*} $r] || [string match {ICGx*} $r] || [string match {*icgt*} $r] || [string match {*lgcp*} $r] || [string match {CLKGATE*} $r]} {
+      foreach p [get_pins -of_objects $c] { if {[get_property $p direction] eq "output"} { lappend __icg $p } } } }
+  if {[llength $__icg]} { set_clock_sense -stop_propagation $__icg; puts "CLK_STOP_ICG: [llength $__icg] clock-gate outputs" } }
 file mkdir $OUT
 puts "reading VCD $::env(VCD_FILE) scope $::env(VCD_SCOPE)"
 read_power_activities -scope $::env(VCD_SCOPE) -vcd $::env(VCD_FILE)
+# GLOBAL_ZERO=1 (round 5, clock correction): all data activities zero -> the report contains the clock-driven power only
+if {[info exists ::env(GLOBAL_ZERO)]} { set __gd [expr {[info exists ::env(GLOBAL_ZERO_DUTY)] ? $::env(GLOBAL_ZERO_DUTY) : 0.5}]; set_power_activity -global -activity 0 -duty $__gd; puts "GLOBAL_ZERO: data activities set to zero, duty $__gd" }
 report_power -digits 6 > $OUT/power_vcd.rpt
 report_power -instances [get_cells -hierarchical *] -digits 4 > $OUT/power_vcd_by_instance.rpt
 foreach inst [split $::env(MACRO_INST) " "] {
@@ -28,6 +47,9 @@ foreach cell [get_cells -quiet -hierarchical *] {
 }
 if {[llength $ct]} { report_power -instances $ct -digits 6 > $OUT/power_vcd_clock_tree.rpt }
 if {[catch {report_activity_annotation > $OUT/activity_annotation.rpt} err]} { puts "NOTE: $err" }
+# timing at this liberty (liberty time unit): worst setup and hold slack of the annotated design (round 5: low-voltage re-evaluation)
+catch { set __ws [sta::worst_slack_cmd max]; set __wh [sta::worst_slack_cmd min]; puts "WORST_SETUP_SLACK $__ws"; puts "WORST_HOLD_SLACK $__wh"
+        set __fh [open $OUT/slack.txt w]; puts $__fh "setup_ws $__ws"; puts $__fh "hold_ws $__wh"; close $__fh }
 puts "WROTE $OUT/power_vcd.rpt"
 exit
 

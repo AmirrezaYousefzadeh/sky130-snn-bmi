@@ -1,0 +1,33 @@
+bmi_snn_sp REJECTED util=60 tag=bmi_snn_sp_5m_u60 runtime=5min drc=NA pass=0
+bmi_snn_m12 REJECTED util=60 tag=bmi_snn_m12_5m_u60 runtime=9min drc=NA pass=0
+bmi_snn_min16 ACCEPTED util=60 tag=bmi_snn_min16_5md_u60 (heuristic diodes on; kept as the diode reference) runtime=14min drc=0
+bmi_snn_m12 REJECTED util=50 tag=bmi_snn_m12_5m_u50 runtime=12min drc=NA pass=0
+bmi_fe(v1, free-running 5 MHz) ACCEPTED util=60 tag=bmi_fe_v1_5m_u60 runtime=3min drc=0
+pdk_gf180/bmi_snn_sp REJECTED util=60 tag=bmi_snn_sp_5m_u60 runtime=3min drc=NA pass=0
+bmi_snn_min16 ACCEPTED util=60 tag=bmi_snn_min16_5m_u60 runtime=9min drc=0
+bmi_fe ACCEPTED util=60 tag=bmi_fe_5m_u60 runtime=6min drc=0
+pdk_gf180/bmi_snn_m12 REJECTED util=60 tag=bmi_snn_m12_5m_u60 runtime=7min drc=NA pass=0
+pdk_gf180/bmi_snn_m12 REJECTED util=50 tag=bmi_snn_m12_5m_u50 runtime=15min drc=NA pass=0
+pdk_gf180/bmi_snn_sp ACCEPTED util=50 tag=bmi_snn_sp_5m_u50 runtime=73min drc=0
+pdk_gf180/bmi_snn_m12 REJECTED util=40 tag=bmi_snn_m12_5m_u40 runtime=15min drc=NA pass=0
+bmi_snn_top ACCEPTED util=60 tag=bmi_snn_top_5m_u60 runtime=64min drc=0 die=920x900
+pdk_gf180/bmi_snn_m12 ACCEPTED util=30 tag=bmi_snn_m12_5m_u30 runtime=24min drc=0
+bmi_snn_topg REJECTED util=60 tag=bmi_snn_topg_5m_u60 runtime=14min drc=NA pass=0 die=990x900
+pdk_gf180/bmi_snn_min32 REJECTED util=60 tag=bmi_snn_min32_5m_u60 runtime=6min drc=NA pass=0
+bmi_snn_topg REJECTED util=50 tag=bmi_snn_topg_5m_u50 runtime=6min drc=NA pass=0 die=1060x900
+pdk_gf180/bmi_snn_min32 REJECTED util=50 tag=bmi_snn_min32_5m_u50 runtime=6min drc=NA pass=0
+bmi_snn_topg ACCEPTED util=40 tag=bmi_snn_topg_5m_u40 runtime=15min drc=0 die=1170x900
+pdk_gf180/bmi_snn_min32 ACCEPTED util=40 tag=bmi_snn_min32_5m_u40 runtime=13min drc=0
+bmi_snn_g16p50 ACCEPTED util=60 tag=bmi_snn_g16p50_5m_u60 runtime=138min drc=0
+bmi_snn_sp REJECTED util=50 tag=bmi_snn_sp_5m_u50 runtime=500min drc=NA pass=0 killed="detailed routing hopeless: 4,872 violations after 4 iterations, no progress for 8 h"
+bmi_snn_m12 REJECTED util=40 tag=bmi_snn_m12_5m_u40 runtime=500min drc=NA pass=0 killed="GRT-0097 no global routing found; run stalled after CTS"
+bmi_snn_min32 REJECTED util=60 tag=bmi_snn_min32_5m_u60 runtime=470min drc=NA pass=0 killed="detailed routing hopeless: 100,462 violations after 3 iterations"
+bmi_snn_ming REJECTED util=60 tag=bmi_snn_ming_5m_u60 runtime=470min drc=NA pass=0 killed="detailed routing hopeless: 286,322 violations after 1 iteration"
+bmi_snn_lmin2 REJECTED util=60 tag=bmi_snn_lmin2_5m_u60 runtime=470min drc=NA pass=0 killed="detailed routing: no iteration completed in 3 h (400k instances)"
+bmi_snn_g32p50 REJECTED util=60 tag=bmi_snn_g32p50_5m_u60 runtime=315min drc=NA pass=0 killed="detailed routing hopeless: 58,769 violations after 3 iterations"
+bmi_snn_sp_s622 REJECTED util=60 tag=bmi_snn_sp_s622_5m_u60 runtime=455min drc=NA pass=0 killed="detailed routing hopeless: 121,897 violations after 4 iterations"
+pdk_gf180/bmi_snn_min16 REJECTED util=60 tag=bmi_snn_min16_5m_u60 runtime=350min drc=NA pass=0 killed="detailed routing hopeless: 40,924 violations after 4 iterations"
+pdk_gf180/bmi_snn_min16 ACCEPTED util=50 tag=bmi_snn_min16_5m_u50 runtime=5min drc=0
+pdk_gf180/bmi_snn_lmin2 REJECTED util=30 tag=bmi_snn_lmin2_5m_u30 runtime=5min drc=NA pass=0
+pdk_gf180/bmi_snn_lmin2 REJECTED util=20 tag=bmi_snn_lmin2_5m_u20 runtime=5min drc=NA pass=0
+pdk_gf180/bmi_snn_lmin2: no utilization in the policy list converged

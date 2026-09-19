@@ -1,0 +1,87 @@
+{
+ "o2_50m": {
+  "firmware": "o2",
+  "clock_MHz": 50.0,
+  "cycles_per_bin": 9030.5,
+  "latency_us": 180.61,
+  "power_window_mW": 19.583260000000003,
+  "energy_per_bin_nJ": 3536.932588600001,
+  "energy_per_bin_asgen_nJ": 3575.8757168000006,
+  "leakage_uW": 4.674049999999999,
+  "groups_mW": {
+   "Sequential": 5.215178,
+   "Combinational": 8.504061,
+   "Clock": 5.641743,
+   "Macro": 0.2222857,
+   "Pad": 0.0
+  },
+  "macro_uW": 222.28570000000002,
+  "idle_power_uW": 75.96049000000001,
+  "avg_power_uW_250Hz_clkstopped": 888.9071971500002,
+  "avg_power_uW_250Hz_clkrunning": 960.1936371500003,
+  "avg_power_uW_250Hz_clk32k": 888.9539154313186,
+  "duty_250Hz": 0.0451525,
+  "energy_per_bin_nJ_reference_flow": 2561.0010353000002
+ },
+ "tuned_50m": {
+  "firmware": "tuned",
+  "clock_MHz": 50.0,
+  "cycles_per_bin": 4795.375,
+  "latency_us": 95.9075,
+  "power_window_mW": 21.01061,
+  "energy_per_bin_nJ": 2015.0750785750004,
+  "energy_per_bin_asgen_nJ": 2038.5858431250003,
+  "leakage_uW": 4.67396,
+  "groups_mW": {
+   "Sequential": 5.22464,
+   "Combinational": 9.886565,
+   "Clock": 5.6473629999999995,
+   "Macro": 0.2520652,
+   "Pad": 0.0
+  },
+  "macro_uW": 252.0652,
+  "avg_power_uW_250Hz_clkstopped": 508.4427296437501,
+  "duty_250Hz": 0.023976874999999998,
+  "energy_per_bin_nJ_reference_flow": 1410.478034875
+ },
+ "o2_5m": {
+  "firmware": "o2",
+  "clock_MHz": 5.0,
+  "cycles_per_bin": 4795.375,
+  "latency_us": 959.075,
+  "power_window_mW": 2.088725,
+  "energy_per_bin_nJ": 2003.2439293750003,
+  "energy_per_bin_asgen_nJ": 2027.04912995,
+  "leakage_uW": 4.673948,
+  "groups_mW": {
+   "Sequential": 0.5227707,
+   "Combinational": 0.9817529000000002,
+   "Clock": 0.5544754000000001,
+   "Macro": 0.02972221,
+   "Pad": 0.0
+  },
+  "macro_uW": 29.72221,
+  "avg_power_uW_250Hz_clkstopped": 505.4849303437501,
+  "duty_250Hz": 0.23976875
+ },
+ "tuned_5m": {
+  "firmware": "tuned",
+  "clock_MHz": 5.0,
+  "cycles_per_bin": 4795.375,
+  "latency_us": 959.075,
+  "power_window_mW": 2.088725,
+  "energy_per_bin_nJ": 2003.2439293750003,
+  "energy_per_bin_asgen_nJ": 2027.04912995,
+  "leakage_uW": 4.673948,
+  "groups_mW": {
+   "Sequential": 0.5227707,
+   "Combinational": 0.9817529000000002,
+   "Clock": 0.5544754000000001,
+   "Macro": 0.02972221,
+   "Pad": 0.0
+  },
+  "macro_uW": 29.72221,
+  "avg_power_uW_250Hz_clkstopped": 505.4849303437501,
+  "duty_250Hz": 0.23976875
+ }
+}
