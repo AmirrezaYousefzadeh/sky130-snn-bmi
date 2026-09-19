@@ -37,7 +37,7 @@ def nom_voltage(lib):
     op = gzip.open if lib.endswith(".gz") else open
     with op(lib, "rt", errors="replace") as f:
         head = f.read(200000)
-    m = re.search(r"nom_voltage\s*:\s*([\d.]+)", head); t = re.search(r"nom_temperature\s*:\s*([\d.]+)", head)
+    m = re.search(r"nom_voltage\s*:\s*(-?[\d.]+)", head); t = re.search(r"nom_temperature\s*:\s*(-?[\d.]+)", head)
     return (float(m.group(1)) if m else None), (float(t.group(1)) if t else None)
 PHYS_RE = re.compile(r"(fill|decap|tap|antenna|diode|endcap)", re.I)   # physical-only cells, not counted as standard cells (fillers, decaps, taps, antenna diodes)
 def liberty_areas(lib_paths):

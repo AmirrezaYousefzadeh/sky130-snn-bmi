@@ -41,4 +41,4 @@ DEFAULT_CORNER: nom_ss_n40C_1v28
 TIMING_VIOLATION_CORNERS: ["*"]
 # OpenROAD's timing-driven global placement crashes (silent exit in the resizer reweighting step) with the 1.28 V liberty as the
 # default corner (bmi_snn_sp, 2026-09-19); wire-length-driven placement instead
-PL_TIMING_DRIVEN: false
+PL_TIME_DRIVEN: false

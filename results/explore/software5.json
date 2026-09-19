@@ -47,6 +47,29 @@
   "duty_250Hz": 0.023976874999999998,
   "energy_per_bin_nJ_reference_flow": 1410.478034875
  },
+ "o2_5m": {
+  "firmware": "o2",
+  "clock_MHz": 5.0,
+  "cycles_per_bin": 9021.5,
+  "latency_us": 1804.3,
+  "power_window_mW": 1.951915,
+  "energy_per_bin_nJ": 3521.8402345000004,
+  "energy_per_bin_asgen_nJ": 3561.0548907000007,
+  "leakage_uW": 4.674042,
+  "groups_mW": {
+   "Sequential": 0.5220539,
+   "Combinational": 0.8493359,
+   "Clock": 0.5539163,
+   "Macro": 0.026608310000000003,
+   "Pad": 0.0
+  },
+  "macro_uW": 26.608310000000003,
+  "idle_power_uW": 11.86118,
+  "avg_power_uW_250Hz_clkstopped": 885.1341006250001,
+  "avg_power_uW_250Hz_clkrunning": 892.3212386250001,
+  "avg_power_uW_250Hz_clk32k": 885.1812022525969,
+  "duty_250Hz": 0.45107499999999995
+ },
  "tuned_5m": {
   "firmware": "tuned",
   "clock_MHz": 5.0,
@@ -64,7 +87,10 @@
    "Pad": 0.0
   },
   "macro_uW": 29.72221,
+  "idle_power_uW": 11.86118,
   "avg_power_uW_250Hz_clkstopped": 505.4849303437501,
+  "avg_power_uW_250Hz_clkrunning": 512.6721623437501,
+  "avg_power_uW_250Hz_clk32k": 505.5320325873853,
   "duty_250Hz": 0.23976875
  }
 }

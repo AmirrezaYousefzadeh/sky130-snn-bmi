@@ -14,6 +14,33 @@
     "cycles": 4371
    },
    "e_lowv": null
+  },
+  "lv": {
+   "cells": 32484,
+   "area_um2": 202335,
+   "setup_ws_ns": 112.865894047639,
+   "hold_ws_ns": 0.023998137489801213,
+   "setup_ws_1v28_ns": 113.04627953706807,
+   "hold_ws_1v28_ns": 2.0511415368973194,
+   "setup_ws_tt_ns": 118.76156572093056,
+   "drc": 0,
+   "util_pct": 40,
+   "e_sdf_1v28": {
+    "energy_per_bin_nJ": 1.4314701546000002,
+    "power_uW": 327.49260000000004,
+    "leakage_uW": 0.07268139,
+    "bins": 200,
+    "cycles": 4371
+   },
+   "e_func_1v28": {
+    "energy_per_bin_nJ": 1.17676393984,
+    "power_uW": 282.3872,
+    "leakage_uW": 0.07268276,
+    "bins": 500,
+    "cycles": 10418
+   },
+   "leak_1v28_uW": 0.07316125,
+   "pavg_250Hz_uW": 0.43102878865000005
   }
  },
  "bmi_snn_m12": {

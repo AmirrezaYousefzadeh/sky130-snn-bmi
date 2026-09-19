@@ -35,5 +35,6 @@ bmi_snn_sp_s622 ACCEPTED util=40 tag=bmi_snn_sp_s622_5m_u40 runtime=25min drc=0
 bmi_snn_sp ACCEPTED util=40 tag=bmi_snn_sp_5m_u40 runtime=25min drc=0
 bmi_snn_min32 ACCEPTED util=50 tag=bmi_snn_min32_5m_u50 runtime=45min drc=0
 bmi_snn_sp_s131 ACCEPTED util=40 tag=bmi_snn_sp_s131_5m_u40 runtime=20min drc=0
-bmi_snn_sp LOWV util=40 tag=bmi_snn_sp_5m_lv runtime=0min drc=NA pass=0
-bmi_snn_min32 LOWV util=50 tag=bmi_snn_min32_5m_lv runtime=0min drc=NA pass=0
+bmi_snn_g32p50 ACCEPTED util=50 tag=bmi_snn_g32p50_5m_u50 runtime=140min drc=0
+bmi_snn_sp LOWV util=40 tag=bmi_snn_sp_5m_lv runtime=70min drc=0 pass=1
+bmi_snn_g32p25 ACCEPTED util=50 tag=bmi_snn_g32p25_5m_u50 runtime=25min drc=0

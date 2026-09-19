@@ -206,12 +206,15 @@ results/explore/bootstrap.json.
 ## E5 (continued). Annotated simulation of the GF180 and ASAP7 netlists under Icarus (2026-09-19, 17:00)
 The first annotated runs of both kits did not complete a single bin (ASAP7: 7 h, GF180: 3 h timeout), also with two-bin tests.
 Causes and fixes, each verified with a two-bin bit-exact run of the 5 MHz `bmi_snn_min16` (GF180) and `bmi_snn_sp` (ASAP7):
-- GF180: the timing bodies of the cells build the flip-flops from UDPs (`udp_n_iq_ff`) that take an uninitialized `notifier`
-  and stay X once `-gspecify` enables the specify blocks; the design never leaves reset. With `-DFUNCTIONAL` the cells use their
-  behavioural bodies while the wrappers keep the specify blocks, so the OpenLane SDF annotates the combinational IOPATHs
-  (`SDF_FUNCTIONAL=1` in `sim/run_gls_stream.sh`). Icarus drops the edge-sensitive `ifnone` paths of the GF180 flip-flops and the
-  `S -> Z` paths of the muxes ("sorry: ifnone with an edge-sensitive path is not supported"; 42,154 unmatched of 80,989 IOPATH
-  entries on min16), so the GF180 glitch factor covers the combinational delays only; stated in the table footnote.
+- GF180: with the vendor model files compiled before the testbench (the order of `sim/run_gls_stream.sh`), the clock buffers'
+  outputs resolve to X under `-gspecify` (the netlist and `primitives.v` carry no `timescale directive and inherit Icarus's default
+  time unit; module path delays then never propagate); with a `timescale 1ns/1ps` file compiled first (`sim/timescale_1ns_1ps.v`)
+  the same netlist passes. The vendor timing bodies are used with the `notifier` regs initialized to 0
+  (`/media/pdk/icarus_sdf_models/gf180mcu_fd_sc_mcu7t5v0_sdf.v`; Icarus has no timing checks, an uninitialized notifier drives the
+  flip-flop UDPs to X). Icarus drops the edge-sensitive `ifnone` paths of the xor2/xnor2 cells ("sorry: ifnone with an
+  edge-sensitive path is not supported"): 2,144 of 80,989 IOPATH entries of `bmi_snn_min16` stay unannotated (those cells keep zero
+  delay), all flip-flop, clock-gate and other combinational paths are annotated. A first pass with `-DFUNCTIONAL` (functional
+  wrappers) annotated nothing (glitch factor 1.0007) and was discarded.
 - ASAP7: the vendor SEQ models (`altos_dff` UDPs with `notifier`, clocked from the `delayed_*` nets of `$setuphold`) stay X
   under Icarus; `sim/asap7_seq_icarus.v` provides behavioural DFFHQNx1/2/3, ICGx1 and DHLx1 (RVT and SRAM-Vt names) with the same
   IOPATH paths, the vendor AO/INVBUF/OA/SIMPLE models are kept. The OpenSTA SDF (`write_sdf`, liberty time unit ps, header
@@ -227,3 +230,82 @@ The 200-bin annotated windows of sp, m12, min32 and min16 on GF180, ASAP7 RVT an
 executing resizer for reweighting nets" (silent exit after 26 min, "OpenROAD.GlobalPlacement failed unexpectedly"). The run is
 repeated with `PL_TIMING_DRIVEN: false` (wire-length-driven placement; the later repair steps still use the 1.28 V corner), which
 is recorded in `config_lowv.yaml`; the same setting applies to m12 and min32.
+
+## E8. One state width for every core (optional)
+Not run in this round: the 12/14-bit variants of `bmi_snn_top` and `bmi_snn_lmem2` would each need a new generated RTL, a policy
+hardening of a 400k-instance latch design and the full measurement set; the budget went to E1-E5 and E9. The 12-bit gated
+hardwired cores (m12, sp, the E2 grid) and the 12-bit latch core (lmin2) already cover the state-width comparison for the
+parallel architecture; the sequential SRAM core keeps 20/24 bits.
+
+### E5 interim results (17:35): ASAP7 annotated and low-voltage rows
+ASAP7 RVT / SRAM-Vt at 5 MHz, 60 % (m12: 50 %), 200 annotated bins bit-exact, all SDF paths matched: glitch factors sp 1.074 /
+1.075, m12 1.101 / 1.107, min32 1.076 / 1.076, min16 1.071 / 1.071 (RVT / SRAM-Vt). The SS liberty of ASAP7 is characterized at
+0.63 V and 100 C: the total energy per bin at that corner (RVT sp 0.175 nJ against 0.058 nJ at TT) is dominated by the 100 C
+leakage (46.5 uW against 3.3 uW at 25 C) over the 4.2 us of a decode; the dynamic part falls to 0.038 nJ (-35 %). f_max at the SS
+corner from the worst setup slack at 200 ns: 2.3 GHz (RVT sp), 1.8 GHz (SRAM-Vt sp). GF180 supplies (typical liberties, 25 C):
+sp 23.8 nJ at 5 V, 9.56 nJ at 3.3 V, 2.60 nJ at 1.8 V (f_max 82 MHz), 2.10 nJ at the ss 1.62 V 125 C corner (f_max 33 MHz).
+`results/PDKS5.md` carries the full table; the paper table `pdks_table.tex` lists the dynamic part next to the total at the low
+supply and the corner temperature.
+
+## E2. Training grid (integer-reference R2, 5 seeds x 3 sessions; `sw/run_grid_round5.sh`, `sw/eval_int.py`, `sw/collect_pareto.py`)
+90 trainings (H = 128 dense / 25 % / 12.5 %, H = 32 50 % / 25 %, H = 16 50 %; seeds 0-4; three sessions) finished at 11:54 after 5 h;
+the H = 64 seed models of the previous rounds were re-evaluated with the integer reference so that every row of the grid uses the same
+metric. Mean over sessions, sd over seeds:
+
+| H | synapses | seeds | R2 int mean +- sd | min-max | seed-0 R2 on indy_20160630_01 | hardened core |
+|---|---|---|---|---|---|---|
+| 128 | 100 % | 5 | 0.586 +- 0.00335 | 0.582-0.59 | 0.542 | bmi_snn_g128 |
+| 128 | 25 % | 5 | 0.572 +- 0.00483 | 0.566-0.579 | 0.545 | bmi_snn_g128p25 |
+| 128 | 12.5 % | 5 | 0.546 +- 0.00341 | 0.542-0.551 | 0.525 | bmi_snn_g128p125 |
+| 64 | 100 % | 5 | 0.581 +- 0.00271 | 0.578-0.585 | 0.537 | bmi_snn_m12 |
+| 64 | 50 % | 4 | 0.579 +- 0.00138 | 0.577-0.581 |  | bmi_snn_g64p50 |
+| 64 | 25 % | 4 | 0.572 +- 0.00142 | 0.57-0.573 |  | bmi_snn_sp |
+| 64 | 12.5 % | 4 | 0.527 +- 0.00722 | 0.517-0.533 |  | bmi_snn_g64p125 |
+| 32 | 100 % | 5 | 0.574 +- 0.00359 | 0.571-0.58 | 0.517 | bmi_snn_min32 |
+| 32 | 50 % | 5 | 0.573 +- 0.00372 | 0.569-0.578 | 0.515 | bmi_snn_g32p50 |
+| 32 | 25 % | 5 | 0.556 +- 0.00362 | 0.55-0.561 | 0.514 | bmi_snn_g32p25 |
+| 16 | 100 % | 5 | 0.552 +- 0.00458 | 0.546-0.556 | 0.499 | bmi_snn_min16 |
+| 16 | 50 % | 5 | 0.544 +- 0.0041 | 0.539-0.549 | 0.492 | bmi_snn_g16p50 |
+
+The 128-neuron dense network gains 0.005 over H = 64 dense (0.586 against 0.581) and the 25 % pruned H = 128 matches the dense H = 64;
+H = 32 dense (0.574) sits above the 0.55 threshold with all seeds, H = 16 dense (0.552) and H = 16 50 % (0.544) straddle it. The hardware
+columns of `results/pareto.csv` (energy, area, P_avg of the 12-bit gated hardwired core of each seed-0 model) fill in as the E2 hardenings
+(`bmi_snn_g*`, queue q5) and their measurements complete; figure F1 (`figures/fig_pareto.py`) is regenerated from the same file.
+
+### E5 interim results (17:55): GF180 annotated rows and sky130 low-voltage rows
+GF180 (5 V, 200 annotated bins bit-exact, vendor timing bodies): glitch factors sp 1.078, m12 1.112, min32 1.067, min16 1.060
+(sky130 at 5 MHz: sp 1.18, min32 1.21, min16 1.22; ASAP7 1.07-1.11). sky130 5 MHz netlists re-evaluated with ss_n40C_1v28 on their
+500-bin waveforms: sp E 1.126 nJ (dynamic 1.126), leakage 0.0867 uW at -40 C, setup slack 142.9 ns, f_max 17.5 MHz; min32 E 1.448 nJ (dynamic 1.448), leakage 0.0487 uW at -40 C, setup slack 145.2 ns, f_max 18.2 MHz; min16 E 0.687 nJ (dynamic 0.687), leakage 0.0184 uW at -40 C, setup slack 157.0 ns, f_max 23.3 MHz.
+Note on f_max: the low-voltage slacks come from OpenSTA on the routed netlist with its SPEF and a propagated clock but without the
+flow's input/output delay constraints (OpenLane: 20 % of the period), so they are not the signoff slacks of the hardening (sky130
+sp: 142.9 ns at 1.28 V against a signoff slack of 118 ns at 1.8 V that includes 40 ns of IO delay); f_max = 1 / (200 ns - slack)
+is the register-to-register bound at that corner and is computed the same way for every kit.
+
+## E5 (continued). Latch-memory core on the ORFS kits: out of memory
+`bmi_snn_lmin2` (400k instances) on ASAP7 RVT at 30 %: detailed routing was killed by the kernel (signal 9) at a peak of 19 GB
+after 77 min while the sky130 policy runs, the full-block simulations and the OpenSTA power runs (up to 11 GB each) shared the
+62 GB of the machine; the 20 % attempt follows. The GF180 lmin2 attempts that ended silently after 5 min during global placement
+had the same signature. The ORFS lmin2 rows stay optional in E5 ("attempt"); the sky130 and GF180 lmin2 hardenings run with the
+watchdog and are the ones reported.
+
+### E14 result: bmi_snn_sp hardened at 1.28 V (18:20)
+`bmi_snn_sp_5m_lv` (40 %, ss_n40C_1v28 as default corner, wire-length-driven placement): DRC-clean, timing met at all twelve
+corners (setup +113.0 ns and hold +2.05 ns at nom_ss_n40C_1v28; worst hold over the corner set +0.024 ns at the fast corner),
+32,484 cells / 0.2023 mm2 against 24,546 cells / 0.1761 mm2 for the TT-signoff netlist at the same utilization: the slow-corner
+signoff costs 32 % more cells (hold buffers and upsizing for the 1.28 V paths). Its annotated 200-bin run at the 1.28 V corner
+(`sim/measure_lowv.sh`) runs next; m12 and min32 follow when their 5 MHz TT hardenings are accepted.
+
+### E7 final table (per-pin OpenSTA power over the decoding window, vdd-only SRAM liberty; as-generated liberty in brackets)
+
+| firmware | clock | cycles/bin | latency ms | P window mW | E per bin nJ | idle uW (clock on, asleep) | leakage uW | P_avg 250 bins/s uW: clock stopped / running / 32.768 kHz |
+|---|---|---|---|---|---|---|---|---|
+| o2 | 50 MHz | 9030.5 | 0.181 | 19.583 | 3,537 (3,576) | 76.0 | 4.67 | 889 / 960 / 889 |
+| tuned | 50 MHz | 4795.4 | 0.096 | 21.011 | 2,015 (2,039) | 76.0 | 4.67 | 508 / 580 / 508 |
+| o2 | 5 MHz | 9021.5 | 1.804 | 1.952 | 3,522 (3,561) | 11.9 | 4.67 | 885 / 892 / 885 |
+| tuned | 5 MHz | 4795.4 | 0.959 | 2.089 | 2,003 (2,027) | 11.9 | 4.67 | 505 / 513 / 506 |
+
+The energy per bin is the same at 5 MHz and 50 MHz to within 0.4 % (-O2: 3,522 against 3,537 nJ; tuned: 2,003 against 2,015 nJ):
+the SoC's decode is a fixed number of cycles and its leakage over a 1.8 ms decode is 8 nJ. The clock frequency only matters for the
+idle power with the clock running (76 uW at 50 MHz, 11.9 uW at 5 MHz). Per-pin against the reference flow of the previous rounds:
+-O2 3,537 nJ against 2,561 nJ (ratio 1.38); the reference flow's awake power came from OpenSTA's propagated activities, so the
+software ratios of the paper move from bounds to measurements (macros in `paper/numbers_software5.tex`: `\eCpuOtwoFive`, `\ratioCpuOtwoFiveSp`, ...).

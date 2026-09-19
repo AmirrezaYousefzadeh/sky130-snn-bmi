@@ -19,9 +19,11 @@ with vcd.open(errors="replace") as f:
             if m and int(m.group(1)) == 1 and m.group(3) in want and ".".join(scopes).endswith("u_soc"): ids.setdefault(m.group(2), m.group(3))
         elif line.startswith("$enddefinitions"): break
 pat = "^(#[0-9]+|(" + "|".join("[01]" + re.escape(v) for v in ids) + "))$"
-out = subprocess.run(["grep", "-a", "-E", pat, str(vcd)], capture_output=True, text=True, errors="replace").stdout.splitlines()
+proc = subprocess.Popen(["grep", "-a", "-E", pat, str(vcd)], stdout=subprocess.PIPE, text=True, errors="replace")   # streamed: a 5 GB waveform must not be held in memory
 t = 0; vals = {}; wakes = []; done = None; rises = []
-for line in out:
+for line in proc.stdout:
+    line = line.rstrip("\n")
+    if not line: continue
     if line[0] == "#": t = int(line[1:]); continue
     name = ids[line[1:]]; v = int(line[0]); old = vals.get(name); vals[name] = v
     if name == "clk" and old == 0 and v == 1: rises.append((t, vals.get("sram_clk_en", 0)))

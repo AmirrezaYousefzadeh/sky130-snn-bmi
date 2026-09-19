@@ -1,0 +1,16 @@
+{
+ "vcd": "sim/build_riscv_gls_5m/riscv_gls_5m.vcd",
+ "timescale": "1ns",
+ "begin": 2156500,
+ "end": 31025102,
+ "n_bins": 16,
+ "cycles_in_window": 144344,
+ "awake_cycles_in_window": 144341,
+ "cycles_per_bin": 9021.5,
+ "wakes": [
+  12900,
+  2156500,
+  33025900
+ ],
+ "gpio_done": 31025102
+}

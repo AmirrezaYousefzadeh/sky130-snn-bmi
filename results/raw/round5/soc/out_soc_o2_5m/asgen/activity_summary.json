@@ -1,0 +1,12 @@
+{
+ "tsv": "/home/yousefzadeha/workspace/BCI_paper/power/out_soc_o2_5m/toggles.tsv",
+ "duration_s": 0.028868602,
+ "period_s": 2.0000000000000002e-07,
+ "cycles": 144343.00999999998,
+ "vars_pins": 0,
+ "vars_top": 17748,
+ "skipped": 0,
+ "time_min": 2156500.0,
+ "time_max": 31025102.0,
+ "timescale_s": 1e-09
+}
