@@ -17,12 +17,15 @@ case $C in
   lmin2) VP=v12_; INC=$ROOT/rtl;     LOAD="-DLOAD_PORT -DDUMP_AFTER_LOAD -DHAS_WR_READY" ;;
   *) echo "unknown core $C"; exit 2 ;;
 esac
-TU=1e-9; PERIOD_LIB=200; SDF_SRC=""; LOWV=()
+TU=1e-9; PERIOD_LIB=200; SDF_SRC=""; LOWV=(); VLOG_SDF=""; SDF_FUNC=""
 case $P in
   gf180) RUN=$ROOT/synthesis/pdk_gf180/$D/runs/${D}_5m; NL=$RUN/final/nl/$D.nl.v; SPEF=$RUN/final/spef/nom/$D.nom.spef
          LIBDIR=$PDK/gf180mcuD/libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib; LIB="$LIBDIR/gf180mcu_fd_sc_mcu7t5v0__tt_025C_5v00.lib"
          VLOG="$PDK/gf180mcuD/libs.ref/gf180mcu_fd_sc_mcu7t5v0/verilog/primitives.v $PDK/gf180mcuD/libs.ref/gf180mcu_fd_sc_mcu7t5v0/verilog/gf180mcu_fd_sc_mcu7t5v0.v"
          SDF_SRC="$(find $RUN/final/sdf/nom_tt_025C_5v00 -name '*.sdf' 2>/dev/null | head -1)"
+         # annotated runs: vendor timing bodies with the notifier initialized (Icarus has no timing checks); the models must be compiled after a
+         # `timescale directive (sim/timescale_1ns_1ps.v, run_gls_stream.sh), otherwise the clock buffers resolve to X under -gspecify
+         VLOG_SDF="$PDK/gf180mcuD/libs.ref/gf180mcu_fd_sc_mcu7t5v0/verilog/primitives.v /media/pdk/icarus_sdf_models/gf180mcu_fd_sc_mcu7t5v0_sdf.v"; SDF_FUNC=""
          LOWV=("tt_025C_3v30:$LIBDIR/gf180mcu_fd_sc_mcu7t5v0__tt_025C_3v30.lib" "tt_025C_1v80:$LIBDIR/gf180mcu_fd_sc_mcu7t5v0__tt_025C_1v80.lib" "ss_125C_1v62:$LIBDIR/gf180mcu_fd_sc_mcu7t5v0__ss_125C_1v62.lib") ;;
   nangate45) RUN=$ORFS/results/nangate45/${D}_5m/base; NL=$RUN/6_final.v; SPEF=$RUN/6_final.spef
          LIB="$ORFS/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib"; VLOG="/media/pdk/nangate45_models.v" ;;   # only the typical liberty is characterized
@@ -34,7 +37,10 @@ case $P in
          NL=$RUN/6_final.v; SPEF=$RUN/6_final.spef
          LIB="$(ls $ORFS/platforms/asap7/lib/NLDM/asap7sc7p5t_{AO,INVBUF,OA,SEQ,SIMPLE}_${FL}_TT_nldm_*.lib* | tr '\n' ' ')"
          VLOG="$(ls /media/pdk/asap7sc7p5t_28/Verilog/asap7sc7p5t_{AO,INVBUF,OA,SEQ,SIMPLE}_${FL}_TT_*.v | tr '\n' ' ')"
-         LOWV=("SS:$(ls $ORFS/platforms/asap7/lib/NLDM/asap7sc7p5t_{AO,INVBUF,OA,SEQ,SIMPLE}_${FL}_SS_nldm_*.lib* | tr '\n' ' ')") ;;
+         LOWV=("SS:$(ls $ORFS/platforms/asap7/lib/NLDM/asap7sc7p5t_{AO,INVBUF,OA,SEQ,SIMPLE}_${FL}_SS_nldm_*.lib* | tr '\n' ' ')")
+         # annotated runs: vendor combinational models + behavioural sequential cells with matching specify paths (sim/asap7_seq_icarus.v;
+         # the vendor UDP-based flip-flops stay X under Icarus without timing checks)
+         VLOG_SDF="$(ls /media/pdk/asap7sc7p5t_28/Verilog/asap7sc7p5t_{AO,INVBUF,OA,SIMPLE}_${FL}_TT_*.v | tr '\n' ' ') $ROOT/sim/asap7_seq_icarus.v" ;;
   *) echo "unknown kit $P"; exit 2 ;;
 esac
 [[ -f "$NL" ]] || { echo "no netlist $NL"; exit 1; }; [[ -f "$SPEF" ]] || echo "WARNING: no SPEF $SPEF (power without parasitics)"
@@ -49,7 +55,8 @@ sta_run() { # <toggles.tsv> <out_dir> <liberty list>
 sim_run() { # <tag> <nbins> <gap> <sdf|nosdf>
   local tag=$1 nb=$2 gap=$3 extra=""; [[ $4 == nosdf ]] && extra="--no-sdf"
   echo "==== $P $C $tag ($(date +%H:%M:%S))"
-  PDK_VERILOG="$VLOG" INCDIR=$INC DESIGN=$D DUT=$D LOAD="$LOAD" NETLIST=$NL RUN_DIR=$RUN SDF_SRC="$SDF_SRC" TAG=$tag DUMP_LEVEL=0 CLK_NS=200 \
+  local models="$VLOG" sf=""; [[ $4 == sdf && -n "$VLOG_SDF" ]] && { models="$VLOG_SDF $STUBS"; sf="$SDF_FUNC"; }
+  PDK_VERILOG="$models" SDF_FUNCTIONAL="$sf" INCDIR=$INC DESIGN=$D DUT=$D LOAD="$LOAD" NETLIST=$NL RUN_DIR=$RUN SDF_SRC="$SDF_SRC" TAG=$tag DUMP_LEVEL=0 CLK_NS=200 \
     EXTRA_DEFS="-DTIMEOUT_CYCLES=2000000000" timeout ${SIM_TIMEOUT:-4h} $ROOT/sim/run_gls_stream.sh $VEC $nb 0 $gap $extra > $ROOT/logs/$tag.log 2>&1 || { tail -5 $ROOT/logs/$tag.log; return 1; }
   grep -q "^SUMMARY" $ROOT/sim/build_$tag/vvp.log || { echo "   no SUMMARY (simulation did not finish within ${SIM_TIMEOUT:-4h})"; rm -rf $ROOT/sim/build_$tag; return 1; }
   grep -E "SUMMARY|PASS|FAIL|SDF:" $ROOT/logs/$tag.log | head -3

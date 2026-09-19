@@ -1,0 +1,12 @@
+{
+ "tsv": "/home/yousefzadeha/workspace/BCI_paper/sim/build_pdk5_gf180_sp_idle_full/toggles.tsv",
+ "duration_s": 0.0800109,
+ "period_s": 2.0000000000000002e-07,
+ "cycles": 400054.49999999994,
+ "vars_pins": 64384,
+ "vars_top": 18667,
+ "skipped": 116173,
+ "time_min": 0.0,
+ "time_max": 80010900000.0,
+ "timescale_s": 1e-12
+}

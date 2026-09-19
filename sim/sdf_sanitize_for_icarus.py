@@ -166,6 +166,19 @@ def sanitize(src: Path, dst: Path) -> dict[str, int]:
     if not body.rstrip().endswith(")"):
         body = body.rstrip() + "\n)\n"
 
+    # Round 5: Icarus reads the delay values in the module time unit and ignores a (TIMESCALE 1ps) header (OpenSTA write_sdf for
+    # ASAP7 writes ps: 113 ps flip-flop delays became 113 ns and stalled the core). Rescale any non-ns SDF to ns.
+    m = re.search(r"\(TIMESCALE\s+(\d+)\s*(fs|ps|ns|us)\s*\)", body)
+    if m and not (m.group(1) == "1" and m.group(2) == "ns"):
+        factor = float(m.group(1)) * {"fs": 1e-6, "ps": 1e-3, "ns": 1.0, "us": 1e3}[m.group(2)]
+        def _tri(mm):
+            return "(" + ":".join(f"{float(x) * factor:.6f}" for x in mm.group(1).split(":")) + ")"
+        body = re.sub(r"\((-?\d+\.?\d*:-?\d+\.?\d*:-?\d+\.?\d*)\)", _tri, body)
+        body = body.replace(m.group(0), "(TIMESCALE 1ns)"); stats["rescaled_to_ns"] = 1
+    # empty rise triplets "()" of conditional paths -> zeros (Icarus does not accept an empty rvalue)
+    body, n_empty = re.subn(r"\(IOPATH ([^\n]*?) \(\) ", lambda mm: "(IOPATH " + mm.group(1) + " (0.000000:0.000000:0.000000) ", body)
+    stats["filled_empty_triplets"] = n_empty
+
     dst.parent.mkdir(parents=True, exist_ok=True)
     dst.write_text(body)
     return stats

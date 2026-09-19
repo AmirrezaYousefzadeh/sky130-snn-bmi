@@ -33,3 +33,4 @@ asap7 sram bmi_snn_lmin2 REJECTED util=30 nick=bmi_snn_lmin2_5m_sram_u30 runtime
 asap7 sram bmi_snn_lmin2 REJECTED util=20 nick=bmi_snn_lmin2_5m_sram_u20 runtime=0min rc=2 drc=NA setup=NA hold=NA
 asap7 sram bmi_snn_lmin2: no utilization converged
 ihp-sg13g2 rvt bmi_snn_sp REJECTED util=60 nick=bmi_snn_sp_5m_u60 runtime=490min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_sp REJECTED util=50 nick=bmi_snn_sp_5m_u50 runtime=52min rc=2 drc=NA setup=NA hold=NA

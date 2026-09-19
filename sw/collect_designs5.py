@@ -72,6 +72,10 @@ def collect():
         cu = ROOT / f"synthesis/{name}/config_5mhz_used.yaml"
         if cu.exists():
             mu = re.search(r"^FP_CORE_UTIL:\s*(\d+)", cu.read_text(), flags=re.M); p["util_target_pct"] = int(mu.group(1)) if mu else None
+        if p.get("util_target_pct") is None:                          # absolute-die designs (SRAM cores): target utilization from the accepted run tag
+            try:
+                mt = re.search(r"_u(\d+)$", os.readlink(rd)); p["util_target_pct"] = int(mt.group(1)) if mt else None
+            except OSError: pass
         p["utilization_pct"] = (m.get("design__instance__utilization") or 0) * 100
         nl = rd / f"final/nl/{name}.nl.v"
         if nl.exists():
@@ -105,6 +109,15 @@ def collect():
             for w in ("w5000", "w2000", "w1000", "w500", "w200", "w50", "w20", "full"):
                 es = run_energy(f"{name}{SUF}_sdf_{w}_{s}", TCLK, macro)
                 if es: d["full"].setdefault(s, {})["sdf"] = es; d["full"][s]["sdf_perbin"] = perbin_stats(f"{name}{SUF}_sdf_{w}_{s}"); break
+        # E9: glitch factor of the latch-memory cores from the annotated and zero-delay runs of the same short window (>= 50 bins)
+        if "event_sdf" not in d and "event" in d:
+            for w in ("w50", "w20", "w100"):
+                fz = run_energy(f"{name}{SUF}_func_{w}_indy_20160630_01", TCLK, macro); fs = run_energy(f"{name}{SUF}_sdf_{w}_indy_20160630_01", TCLK, macro)
+                if fz and fs and fz["tb"]["bins"] == fs["tb"]["bins"]:
+                    ratio = fs["energy_per_bin_nJ"] / fz["energy_per_bin_nJ"]
+                    d["glitch"] = {"window": w, "bins": fz["tb"]["bins"], "e_func_nJ": fz["energy_per_bin_nJ"], "e_sdf_nJ": fs["energy_per_bin_nJ"], "ratio": ratio}
+                    d["event_sdf"] = dict(d["event"]); d["event_sdf"]["energy_per_bin_nJ"] = d["event"]["energy_per_bin_nJ"] * ratio; d["event_sdf"]["derived_from_glitch_window"] = w
+                    d["event_sdf"]["tb"] = dict(d["event"]["tb"]); break
         if "event" in d and "idle" in d:
             E = d.get("event_sdf", d["event"])["energy_per_bin_nJ"]; leak = d["idle"]["leakage_uW"]
             idle_dyn = max(d["idle"]["idle_power_uW"] - leak, 0)                   # dynamic part of the idle power with the 5 MHz clock running
@@ -135,7 +148,9 @@ def write_outputs(out):
         mac(f"pavgFifty{sh}", None); mac(f"pavgOne{sh}", None)
         ef = e.get("energy_per_bin_nJ"); es_ = es.get("energy_per_bin_nJ")
         same = es.get("tb", {}).get("bins") == e.get("tb", {}).get("bins")
-        mac(f"sdfRatio{sh}", (es_ / ef) if (ef and es_ and same) else None, 3); mac(f"sdfRatioMixed{sh}", (es_ / ef) if (ef and es_) else None, 3)
+        gl = d.get("glitch")
+        mac(f"sdfRatio{sh}", (gl["ratio"] if gl else ((es_ / ef) if (ef and es_ and same) else None)), 3); mac(f"sdfRatioMixed{sh}", (es_ / ef) if (ef and es_) else None, 3)
+        mac(f"nbGlitch{sh}", gl["bins"] if gl else None, 3)
         for key, suf in (("event", "evWin"), ("event_sdf", "evWinSdf")):
             tb = d.get(key, {}).get("tb", {}); mac(f"{suf}{sh}", (tb["events"] / tb["bins"]) if tb.get("bins") else None, 3); mac(f"nb{suf}{sh}", tb.get("bins"), 4)
         mac(f"evWinF{sh}", None); mac(f"nbevWinF{sh}", None)
@@ -199,6 +214,12 @@ def write_outputs(out):
         p = d["pnr"]; e = d.get("event", {}); ls = d.get("leak_split", {}); fb = [_f(d["full"].get(s, {}).get("func", {}).get("energy_per_bin_nJ")) for s in SESS]
         md.append(f"| {name} | {_f(p.get('util_target_pct'),2)} | {_f(p['instance_area_um2']/1e6)} | {_f(p.get('stdcells'),4)} | {_f(p.get('setup_ws_ns'),3)} | {_f(p.get('hold_ws_ns'),3)} | {_f(e.get('cycles_per_bin'))} | {_f(e.get('energy_per_bin_nJ'))} | {_f(d.get('event_sdf',{}).get('energy_per_bin_nJ'))} | {_f(ls.get('leak_logic_uW'))} | {_f(d.get('idle',{}).get('leakage_uW'))} | {_f(d.get('avg_power_uW_250Hz_clkstopped_sdf'))} | {_f(d.get('avg_power_uW_250Hz_clk32k'))} | {_f(d.get('avg_power_uW_250Hz_clk5MHz'))} | {'/'.join(fb)} |")
     (ROOT / "results/DESIGNS.md").write_text("# Core variants, round 5 (sky130 TT 1.8 V 25 C, 5 MHz, per-pin OpenSTA power)\n\n" + "\n".join(md) + "\n"); print("\n".join(md))
+    # E1: timing at the signoff corners (worst setup / hold slack in ns per corner, 200 ns clock)
+    cm = ["| core | util % | " + " | ".join(c.replace("_", " ") for c in CORNERS) + " |", "|---" * (2 + len(CORNERS)) + "|"]
+    for name, d in out.items():
+        pc = d["pnr"].get("per_corner", {})
+        cm.append(f"| {name} | {_f(d['pnr'].get('util_target_pct'), 2)} | " + " | ".join(f"{_f(pc.get(c, {}).get('setup_ws_ns'), 4)} / {_f(pc.get(c, {}).get('hold_ws_ns'), 3)}" for c in CORNERS) + " |")
+    (ROOT / "results/DESIGNS_corners5.md").write_text("# Signoff timing of the 5 MHz hardenings (setup / hold worst slack, ns; clock 200 ns)\n\n" + "\n".join(cm) + "\n")
 
 def write_compare_50_vs_5(out):
     """E1 point 3: change table against the 50 MHz hardenings (macros of the superseded numbers2.tex) -> results/DESIGNS_50_vs_5.md"""
@@ -215,7 +236,11 @@ def write_compare_50_vs_5(out):
         if not d or "pnr" not in d: continue
         sh = cfg["sh"]; p = d["pnr"]; e = d.get("event", {}); es = d.get("event_sdf", {}); i = d.get("idle", {})
         def pair(a, b, nd=3): return f"{_f(a, nd)} -> {_f(b, nd)}" + (f" ({(b / a - 1) * 100:+.0f} %)" if (a and b) else "")
-        L.append(f"| {name} | {_f(g('util' + sh) or None, 2)} -> {_f(p.get('util_target_pct'), 2)} | {pair(g('area' + sh), p['instance_area_um2'] / 1e6)} | {pair(g('cells' + sh), p.get('stdcells'), 4)} | "
+        u50 = None
+        c50 = ROOT / f"synthesis/{name}/config.yaml"
+        if c50.exists():
+            m50 = re.search(r"^FP_CORE_UTIL:\s*(\d+)", c50.read_text(), flags=re.M); u50 = int(m50.group(1)) if m50 else None
+        L.append(f"| {name} | {_f(u50, 2)} -> {_f(p.get('util_target_pct'), 2)} | {pair(g('area' + sh), p['instance_area_um2'] / 1e6)} | {pair(g('cells' + sh), p.get('stdcells'), 4)} | "
                  f"{pair(g('e' + sh), e.get('energy_per_bin_nJ'))} | {pair(g('eSdf' + sh), es.get('energy_per_bin_nJ'))} | {pair(g('leak' + sh), i.get('leakage_uW'))} | {pair(g('pavgStop' + sh), d.get('avg_power_uW_250Hz_clkstopped'))} |")
     (ROOT / "results/DESIGNS_50_vs_5.md").write_text("# 50 MHz (rounds 1-4) against 5 MHz with the utilization policy (round 5)\n\n" + "\n".join(L) + "\n")
 

@@ -22,6 +22,9 @@ LIB:
 STA_CORNERS: [nom_ss_n40C_1v28, min_ss_n40C_1v28, max_ss_n40C_1v28, nom_tt_025C_1v80, nom_ss_100C_1v60, nom_ff_n40C_1v95, min_tt_025C_1v80, min_ss_100C_1v60, min_ff_n40C_1v95, max_tt_025C_1v80, max_ss_100C_1v60, max_ff_n40C_1v95]
 DEFAULT_CORNER: nom_ss_n40C_1v28
 TIMING_VIOLATION_CORNERS: ["*"]
+# OpenROAD's timing-driven global placement crashes (silent exit in the resizer reweighting step) with the 1.28 V liberty as the
+# default corner (bmi_snn_sp, 2026-09-19); wire-length-driven placement instead
+PL_TIME_DRIVEN: false
 '''
 open(dst, "w").write(s)
 PY

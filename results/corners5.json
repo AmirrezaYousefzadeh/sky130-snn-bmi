@@ -1,11 +1,39 @@
 {
  "bmi_snn_sp": {
-  "label": "hardwired 12-bit, gated, 25\\,\\% synapses"
+  "label": "hardwired 12-bit, gated, 25\\,\\% synapses",
+  "tt": {
+   "cells": 24546,
+   "area_um2": 176120,
+   "setup_ws_ns": 118.11298229338554,
+   "hold_ws_ns": 0.13101831101988531,
+   "e_tt": {
+    "energy_per_bin_nJ": 3.154214133,
+    "power_uW": 721.623,
+    "leakage_uW": 0.2457896,
+    "bins": 200,
+    "cycles": 4371
+   },
+   "e_lowv": null
+  }
  },
  "bmi_snn_m12": {
   "label": "hardwired 12-bit, gated"
  },
  "bmi_snn_min32": {
-  "label": "hardwired 16-bit, $H{=}32$"
+  "label": "hardwired 16-bit, $H{=}32$",
+  "tt": {
+   "cells": 16744,
+   "area_um2": 119411,
+   "setup_ws_ns": 118.1865945228922,
+   "hold_ws_ns": 0.11185852560823847,
+   "e_tt": {
+    "energy_per_bin_nJ": 4.1812212363,
+    "power_uW": 959.2157000000001,
+    "leakage_uW": 0.1446587,
+    "bins": 200,
+    "cycles": 4359
+   },
+   "e_lowv": null
+  }
  }
 }

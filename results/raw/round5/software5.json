@@ -40,29 +40,12 @@
    "Pad": 0.0
   },
   "macro_uW": 252.0652,
+  "idle_power_uW": 75.96049000000001,
   "avg_power_uW_250Hz_clkstopped": 508.4427296437501,
+  "avg_power_uW_250Hz_clkrunning": 579.7292596437501,
+  "avg_power_uW_250Hz_clk32k": 508.4894479840509,
   "duty_250Hz": 0.023976874999999998,
   "energy_per_bin_nJ_reference_flow": 1410.478034875
- },
- "o2_5m": {
-  "firmware": "o2",
-  "clock_MHz": 5.0,
-  "cycles_per_bin": 4795.375,
-  "latency_us": 959.075,
-  "power_window_mW": 2.088725,
-  "energy_per_bin_nJ": 2003.2439293750003,
-  "energy_per_bin_asgen_nJ": 2027.04912995,
-  "leakage_uW": 4.673948,
-  "groups_mW": {
-   "Sequential": 0.5227707,
-   "Combinational": 0.9817529000000002,
-   "Clock": 0.5544754000000001,
-   "Macro": 0.02972221,
-   "Pad": 0.0
-  },
-  "macro_uW": 29.72221,
-  "avg_power_uW_250Hz_clkstopped": 505.4849303437501,
-  "duty_250Hz": 0.23976875
  },
  "tuned_5m": {
   "firmware": "tuned",

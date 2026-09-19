@@ -18,12 +18,13 @@ DEFS=(-DGLS -DGLS_PROGRESS -DN_BINS="$NB" -DMODE_DENSE="$MD" -DIDLE_GAP="$GAP" -
       -DSTAT_FILE="\"$OUT/stats.txt\"" -DDUMP_PATH="\"$FIFO\"" -DDUMP_LEVEL="${DUMP_LEVEL:-0}" -DDUMP_MODULE=tb_bmi_snn.u_dut)
 FLAGS=(-g2012)
 # PDK_VERILOG (round 5, E5): cell simulation models of another kit (space-separated files) replace the sky130 primitives and models
-if [[ -n "${PDK_VERILOG:-}" ]]; then SRCS=($PDK_VERILOG); else SRCS=("$PDK_ROOT/sky130A/libs.ref/$LIB/verilog/primitives.v"); fi
+if [[ -n "${PDK_VERILOG:-}" ]]; then SRCS=("$SIM/timescale_1ns_1ps.v" $PDK_VERILOG); else SRCS=("$PDK_ROOT/sky130A/libs.ref/$LIB/verilog/primitives.v"); fi   # timescale file first: see sim/timescale_1ns_1ps.v
 if [[ "$NOSDF" == "--no-sdf" ]]; then DEFS+=(-DFUNCTIONAL -DUNIT_DELAY='#1')
 else
   SDF_SRC="${SDF_SRC:-$(find "$RUN_DIR/final/sdf/nom_tt_025C_1v80" -name '*.sdf' | head -1)}"
   python3 "$SIM/sdf_sanitize_for_icarus.py" "$SDF_SRC" -o "$OUT/design.icarus.sdf"
   DEFS+=(-DUNIT_DELAY='#1' -DSDF_ANNOTATE="\"$OUT/design.icarus.sdf\""); FLAGS+=(-gspecify -ginterconnect -Ttyp)
+  [[ -n "${SDF_FUNCTIONAL:-}" ]] && DEFS+=(-DFUNCTIONAL)     # round 5 (E5): kits whose UDP-based timing models do not initialize under Icarus (GF180): functional bodies, annotated wrappers
   [[ -z "${PDK_VERILOG:-}" ]] && SRCS+=("$SIM/sky130_timing_icarus_fixes.v")
 fi
 if [[ -z "${PDK_VERILOG:-}" ]]; then

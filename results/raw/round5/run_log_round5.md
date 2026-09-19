@@ -196,3 +196,34 @@ The retargeted `rtl/gen/pdk/*/bmi_snn_lmin2.v` still instantiated the 161 sky130
 (`gf180mcu_fd_sc_mcu7t5v0__icgtp_1`, `sg13g2_lgcp_1`, `CLKGATETST_X1`, `ICGx1_ASAP7_75t_R/_SRAM`) and the GF180 policy run
 restarted at 30 %; the ORFS kits' lmin2 synthesis failures (rc=2 in under a minute) had the same cause and can be retried if time
 allows (`synthesis/run_orfs5.sh <plat> bmi_snn_lmin2 rvt "30 20"`).
+
+## E12. Bootstrap confidence intervals on R2 (`sw/bootstrap_r2.py`)
+Moving-block bootstrap over the test block of each session (block 250 bins = 1 s, 1,000 resamples) of the integer-reference
+prediction of the released H=64 model: 95 % intervals indy_20160622_01 [0.617, 0.664], indy_20160630_01 [0.506, 0.568],
+indy_20170131_02 [0.530, 0.606]; mean over the three sessions [0.564, 0.600] (point estimate 0.5825). `paper/numbers_bootstrap.tex`,
+results/explore/bootstrap.json.
+
+## E5 (continued). Annotated simulation of the GF180 and ASAP7 netlists under Icarus (2026-09-19, 17:00)
+The first annotated runs of both kits did not complete a single bin (ASAP7: 7 h, GF180: 3 h timeout), also with two-bin tests.
+Causes and fixes, each verified with a two-bin bit-exact run of the 5 MHz `bmi_snn_min16` (GF180) and `bmi_snn_sp` (ASAP7):
+- GF180: the timing bodies of the cells build the flip-flops from UDPs (`udp_n_iq_ff`) that take an uninitialized `notifier`
+  and stay X once `-gspecify` enables the specify blocks; the design never leaves reset. With `-DFUNCTIONAL` the cells use their
+  behavioural bodies while the wrappers keep the specify blocks, so the OpenLane SDF annotates the combinational IOPATHs
+  (`SDF_FUNCTIONAL=1` in `sim/run_gls_stream.sh`). Icarus drops the edge-sensitive `ifnone` paths of the GF180 flip-flops and the
+  `S -> Z` paths of the muxes ("sorry: ifnone with an edge-sensitive path is not supported"; 42,154 unmatched of 80,989 IOPATH
+  entries on min16), so the GF180 glitch factor covers the combinational delays only; stated in the table footnote.
+- ASAP7: the vendor SEQ models (`altos_dff` UDPs with `notifier`, clocked from the `delayed_*` nets of `$setuphold`) stay X
+  under Icarus; `sim/asap7_seq_icarus.v` provides behavioural DFFHQNx1/2/3, ICGx1 and DHLx1 (RVT and SRAM-Vt names) with the same
+  IOPATH paths, the vendor AO/INVBUF/OA/SIMPLE models are kept. The OpenSTA SDF (`write_sdf`, liberty time unit ps, header
+  `(TIMESCALE 1ps)`) is read by Icarus in the module time unit (ns), which turns 113 ps flip-flop delays into 113 ns and stalls the
+  core: `sim/sdf_sanitize_for_icarus.py` now rescales any non-ns SDF to ns and fills the empty rise triplets of the conditional
+  ICG paths with zeros. Two bins of `bmi_snn_sp` on ASAP7 RVT then pass bit-exact with all 47,117 INTERCONNECT and all IOPATH
+  entries matched.
+The 200-bin annotated windows of sp, m12, min32 and min16 on GF180, ASAP7 RVT and ASAP7 SRAM-Vt are queued with these fixes
+(`sim/pdk5_queue.sh ... :sdf`).
+
+## E14 (continued). Timing-driven placement crash with the 1.28 V corner
+`bmi_snn_sp_5m_lv` (40 %, ss_n40C_1v28 as DEFAULT_CORNER) died in OpenROAD's timing-driven global placement at "Timing-driven:
+executing resizer for reweighting nets" (silent exit after 26 min, "OpenROAD.GlobalPlacement failed unexpectedly"). The run is
+repeated with `PL_TIMING_DRIVEN: false` (wire-length-driven placement; the later repair steps still use the 1.28 V corner), which
+is recorded in `config_lowv.yaml`; the same setting applies to m12 and min32.

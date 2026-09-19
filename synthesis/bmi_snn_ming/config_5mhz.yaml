@@ -1,4 +1,4 @@
-# Round-5 configuration (E1): common 5 MHz clock, utilization policy; generated from config.yaml by synthesis/harden_policy.sh
+# Round-5 configuration (E1): common 5 MHz clock, utilization policy; generated from config.yaml by synthesis/harden_policy2.sh
 # OpenLane 2 config for bmi_snn_ming (generated flat variant, see sw/gen_variant.py).
 DESIGN_NAME: bmi_snn_ming
 VERILOG_FILES:
@@ -11,8 +11,8 @@ PNR_SDC_FILE: dir::../bmi_snn_min/bmi_snn_min.sdc
 SIGNOFF_SDC_FILE: dir::../bmi_snn_min/bmi_snn_min.sdc
 STD_CELL_LIBRARY: sky130_fd_sc_hd
 FP_SIZING: relative
-FP_CORE_UTIL: 60
-PL_TARGET_DENSITY_PCT: 70
+FP_CORE_UTIL: 40
+PL_TARGET_DENSITY_PCT: 50
 GRT_ALLOW_CONGESTION: true
 ERROR_ON_SYNTH_CHECKS: false
 RUN_LINTER: false
