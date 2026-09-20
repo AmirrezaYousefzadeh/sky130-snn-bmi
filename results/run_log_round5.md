@@ -668,3 +668,76 @@ A 55.4 (9.26 events/bin), B 40.1 (5.56), C 31.9 (3.62) nJ/bin; against the zero-
 glitch factor of the core is 1.21 from the 500/200-bin E1 windows). `bmi_snn_topg` (gated membrane groups): C 21.8 nJ zero-delay (20,000 bins), annotated A 42.9 / B 30.2 / C 23.3 nJ/bin.
 The full B blocks (107,444 bins) of top and topg and topg's A window are still running (top's since 19:00 yesterday: 18 h on the
 loaded machine). `results/explore/transfer5.json`, `paper/numbers_transfer5.tex` updated.
+
+### E1 result: bmi_snn_hw annotated windows (13:11, 20 Sep)
+Hardwired 20-bit core at 5 MHz: 10.2 nJ/bin annotated (glitch factor 1.23; 50 MHz: 12.1), dense mode 45.0 nJ zero-delay / 48.6
+annotated, P_avg 2.98 uW at 250 bins/s with the clock stopped (50 MHz: 3.13). Full block B (107,444 bins) started. F3 now shows the
+core as its own bar (10 bars).
+
+### E1 result: bmi_snn_scmem windows at 5 MHz (13:29, 20 Sep)
+Register-file core (30 %, 2.68 mm2, timing met at all corners): 10.2 nJ/bin zero-delay on the 500-bin window (22.6 cycles/bin,
+latency 1.4 us), dense mode 45.8 nJ, leakage 4.86 uW (1.07 uW in logic cells), idle 9.2 uW with the clock running, P_avg 7.41 uW at
+250 bins/s with the clock stopped. At 50 MHz (timing not met at the slow corner): 11.5 nJ, leakage 5.68 uW, P_avg 8.55 uW, dense
+52.6 nJ. No annotated run (Icarus does not finish the SDF annotation of the 300 k-instance netlist); the 5,000-bin zero-delay windows
+on the three sessions (each with its own weights) are running.
+
+### Policy acceptance: bmi_snn_lmin2 at 20 % with the 1.0 ns hold margin (13:41, 20 Sep)
+The relaunch with the relaxed watchdog closed: router 228 k -> 105 k -> 93 k -> 14 k -> 902 -> 71 -> 15 -> 9 -> 8 -> 4 -> 0 violations
+in eleven iterations (50 min), DRC-clean, hold met at every corner (+0.42 ns at ff_n40C_1v95, +1.00 at TT, +2.63 at
+ss_100C_1v60), setup reported as 0.000 at all corners (latch time borrowing, as in rounds 1-4). 227,127 cells, 1.84 mm2; at 50 MHz
+the core needed 367,376 cells and 2.12 mm2 and failed setup (-1.16 ns) and hold (-2.14 ns). The default watchdog would have killed
+this run at 93 k violations after the third iteration; the run confirms that the memory cores' routers need the relaxed thresholds
+(`WD_VIOL3=400000 WD_VIOL8=60000`). The E9 waiter and the lmin2 pipeline (500-bin windows, idle, then 5,000-bin zero-delay windows
+on the three sessions) start on this netlist.
+
+### E1 result: bmi_snn_lmin2 windows at 5 MHz (14:03, 20 Sep)
+Latch-memory core with gated 12-bit datapath and pipelined W2 read (20 %, 1.84 mm2, hold clean): 6.21 nJ/bin zero-delay on the
+500-bin window (23.8 cycles/bin, latency 1.6 us), leakage 4.38 uW (0.85 uW in logic cells; the 20 % floorplan carries more fill and
+hold buffers than the 22 % / 50 MHz netlist, whose leakage was 3.65 uW), idle 8.7 uW with the clock running, P_avg 5.93 uW at
+250 bins/s with the clock stopped (50 MHz netlist: 6.40 nJ, 5.25 uW). The latch core is the one design whose average power did not
+fall with the clock change: its energy per bin is already dominated by the memory read, and the leakage of the larger, hold-repaired
+netlist outweighs the small dynamic gain. Its 5,000-bin zero-delay windows on the three sessions are running; the E9 annotated
+50-bin run (glitch factor) is compiling.
+
+### E2: bmi_snn_g128 at 30 % restarted with the relaxed watchdog (14:30, 20 Sep)
+The dense H = 128 core at 30 % started detailed routing at 190 k violations (g128p25 at the same utilization started at 29 k and
+closed in seven iterations; g64p50 at 30 % started at 21 k). The default rule would have stopped it at the third iteration, so the
+run was stopped by hand after its first iteration and relaunched with `WD_VIOL3=400000 WD_VIOL8=60000` (list "30 20"); recorded in
+the policy log as a manual rejection. Log `logs/harden_bmi_snn_g128_relaunch2.log`.
+
+### E2/E4 result: bmi_snn_g64p50 full block (14:35, 20 Sep)
+H = 64 at 50 % synapses (30 %): full block B 3.35 nJ/bin over 107,444 bins, bit-exact (500-bin window 3.81; the block runs 12 %
+below the window, as for every core so far, because the first 500 bins of the block carry 5.87 events/bin against the block's
+4.88). Its 5,000-bin annotated window has started.
+
+### E5: IHP SG13G2 bmi_snn_min16 accepted at 30 % (14:45, 20 Sep)
+The parallel IHP run of the H = 16 core closed at 30 % in 115 min: router 10.5 k -> 5.8 k -> ... -> 13 -> 0 violations in 20
+iterations (bounded at 40), DRC-clean, setup slack +119.5 ns at the typical corner (ORFS reports no hold figure), 0.361 mm2
+instance area including fill (logic cells and area are taken from the netlist and liberty by the collector, as for the other kits).
+Measurement started (`sim/measure_pdk5.sh ihp min16 all`: 500-bin zero-delay window, idle, annotated 200-bin window with the IHP
+functional models where the annotation completes, slow 1.08 V / 125 C re-evaluation with f_max); `bmi_snn_min32` started on IHP
+with the list "30 20" in the freed slot. IHP sp at 20 % is at 91 violations after 22 of 40 iterations.
+
+### E4 result: bmi_snn_lmin2 5,000-bin window of session B (14:55, 20 Sep)
+Latch-memory core, weights of indy_20160630_01: 5.72 nJ/bin zero-delay over 5,000 bins at 5.26 events/bin, bit-exact (500-bin
+window 6.21 at 5.87 events/bin). The session-A window (weights of indy_20160622_01) has started; the E9 annotated 50-bin run is
+still simulating (started 13:58).
+
+### E5 result: IHP SG13G2 bmi_snn_min16 at 5 MHz (14:50, 20 Sep)
+11,468 logic cells, 0.121 mm2, setup slack +119.5 ns: 0.936 nJ/bin zero-delay (sky130: 1.69, i.e. 0.55x; in round 2 at 50 MHz the
+ratio was 0.79x), leakage 1.54 uW in logic cells and 16.2 uW in total (the decap/fill cells of the IHP platform dominate, as in
+round 2), P_avg 16.4 uW at 250 bins/s with the clock stopped (1.8 uW with logic leakage only). Slow corner 1.08 V / 125 C:
+0.73 nJ/bin, leakage 10.6 uW, f_max 894 MHz (the small core is far from its speed limit at 200 ns). No annotated run: the kit's
+Verilog on this machine is the functional model set generated in round 2 (no timing checks, so an SDF would annotate nothing);
+an attempt with the IHP-Open-PDK behavioural models is noted as optional. Bit-exact over 500 bins. `results/PDKS5.md`,
+`paper/pdks_table.tex`, `numbers_pdks.tex`, `results/pdks_pavg_vs_rate.csv` refreshed; F2 gains the IHP line once `ihp/sp` exists.
+
+### E5: annotated simulation on IHP SG13G2 now works (15:06, 20 Sep)
+Recipe (mirrors the ASAP7 one): SDF written by OpenSTA from the routed netlist, SPEF and the typical liberty
+(`power/run_write_sdf.sh`, 200 ns propagated clock); cell models = IHP-Open-PDK `sg13g2_udp.v` (combinational UDPs ihp_mux2/4 that
+the cell file references) + `sg13g2_stdcell.v` with its 16 sequential modules removed (`/media/pdk/icarus_sdf_models/
+sg13g2_stdcell_seqstripped.v`) + behavioural sequential cells with the vendor pin names and IOPATHs (`sim/ihp_seq_icarus.v`:
+dfrbp_1/2, dfrbpq_1/2, lgcp_1; the vendor flip-flops take their state from the `delayed_*` nets of `$setuphold` and stay X in Icarus,
+the reason round 2 fell back to functional models). `sim/measure_pdk5.sh ihp <core> sdf` now runs this path.
+bmi_snn_min16 on IHP: 200 annotated bins bit-exact, 35,398 IOPATHs annotated, 0.988 nJ/bin against 0.936 zero-delay, glitch factor
+1.06 (GF180 1.06-1.11, ASAP7 1.07-1.10, sky130 1.18-1.23). sp, m12 and min32 get the same run when their IHP hardenings close.

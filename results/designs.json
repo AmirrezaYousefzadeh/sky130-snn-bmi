@@ -1493,7 +1493,441 @@
    "logic_area_um2": 2548839.539202358,
    "phys_cells": 1423284
   },
-  "full": {}
+  "event": {
+   "tag": "bmi_snn_scmem_5m_md0_full",
+   "tb": {
+    "bins": 500,
+    "events": 2934,
+    "errors": 0,
+    "cycles": 12948,
+    "active_cycles": 12733,
+    "avg_latency_cyc": 7,
+    "max_latency_cyc": 15,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.0004362407,
+     "switching": 3.240362e-05,
+     "leakage": 4.281226e-07,
+     "total": 0.0004690724
+    },
+    "Combinational": {
+     "internal": 0.0002999159,
+     "switching": 0.0006185583,
+     "leakage": 5.695567e-07,
+     "total": 0.0009190437
+    },
+    "Clock": {
+     "internal": 0.0004436907,
+     "switching": 0.0004231996,
+     "leakage": 3.857671e-06,
+     "total": 0.0008707481
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.001179829,
+     "switching": 0.001074151,
+     "leakage": 4.861171e-06,
+     "total": 0.002258841
+    }
+   },
+   "power_avg_uW": 2258.8410000000003,
+   "cycles_meas": 11303,
+   "cycles_per_bin": 22.606,
+   "energy_per_bin_nJ": 10.2126719292,
+   "latency_us": 1.4000000000000001,
+   "leakage_uW": 4.861171,
+   "pass": true
+  },
+  "dense": {
+   "tag": "bmi_snn_scmem_5m_md1_full",
+   "tb": {
+    "bins": 100,
+    "events": 495,
+    "errors": 0,
+    "cycles": 13621,
+    "active_cycles": 13074,
+    "avg_latency_cyc": 102,
+    "max_latency_cyc": 106,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.0004321319,
+     "switching": 6.440928e-05,
+     "leakage": 4.281318e-07,
+     "total": 0.0004969693
+    },
+    "Combinational": {
+     "internal": 0.0002005574,
+     "switching": 0.0003658444,
+     "leakage": 5.756821e-07,
+     "total": 0.0005669774
+    },
+    "Clock": {
+     "internal": 0.0004317109,
+     "switching": 0.0004117144,
+     "leakage": 3.857671e-06,
+     "total": 0.0008472829
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.001064438,
+     "switching": 0.0008419653,
+     "leakage": 4.867397e-06,
+     "total": 0.001911271
+    }
+   },
+   "power_avg_uW": 1911.271,
+   "cycles_meas": 11976,
+   "cycles_per_bin": 119.76,
+   "energy_per_bin_nJ": 45.778762992000004,
+   "latency_us": 20.400000000000002,
+   "leakage_uW": 4.867397,
+   "pass": true
+  },
+  "idle": {
+   "tag": "bmi_snn_scmem_5m_idle_full",
+   "idle_power_uW": 9.218190524513195,
+   "leakage_uW": 4.861377,
+   "groups": {
+    "Sequential": {
+     "internal": 6.290269e-07,
+     "switching": 2.313428e-09,
+     "leakage": 4.277934e-07,
+     "total": 1.059134e-06
+    },
+    "Combinational": {
+     "internal": 2.074345e-08,
+     "switching": 4.137183e-08,
+     "leakage": 5.706908e-07,
+     "total": 6.328061e-07
+    },
+    "Clock": {
+     "internal": 2.967324e-06,
+     "switching": 8.366728e-07,
+     "leakage": 3.856979e-06,
+     "total": 7.660975e-06
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 3.617044e-06,
+     "switching": 8.803585e-07,
+     "leakage": 4.861377e-06,
+     "total": 9.35878e-06
+    }
+   },
+   "idle_raw_uW": 9.35878,
+   "active_share": 6.249468795152412e-05
+  },
+  "leak_split": {
+   "leak_logic_uW": 1.0719031493416251,
+   "leak_phys_uW": 3.8341612043068545,
+   "n_logic": 196307,
+   "n_phys": 1423284,
+   "n_unmatched": 0
+  },
+  "full": {},
+  "avg_power_uW_250Hz_clkstopped": 7.414544982300001,
+  "avg_power_uW_250Hz_clkstopped_sdf": 7.414544982300001,
+  "avg_power_uW_250Hz_clk32k": 7.443097795414251,
+  "avg_power_uW_250Hz_clk5MHz": 11.771358506813197,
+  "avg_power_uW_250Hz_clk50MHz": null,
+  "avg_power_uW_250Hz_clk1MHz": null
+ },
+ "bmi_snn_lmin2": {
+  "label": "latch memory, gated, 12-bit, pipelined W2 read",
+  "tclk_ns": 200.0,
+  "r2": 0.5823437288351232,
+  "family": "prog",
+  "weights": "latches",
+  "lanes": "64 / 1",
+  "bits": "12 / 14",
+  "dense_logic": "no",
+  "pnr": {
+   "instance_area_um2": 1839860,
+   "stdcell_area_um2": 1839860,
+   "macro_area_um2": 0,
+   "instances": 227127,
+   "stdcells": 227127,
+   "macros": 0,
+   "die_area_um2": 6264550,
+   "core_area_um2": 6181140,
+   "setup_ws_ns": 0,
+   "hold_ws_ns": 0.422312419210456,
+   "setup_viol": 0,
+   "hold_viol": 0,
+   "clock_period_ns": null,
+   "wirelength_um": 15483455,
+   "drc": 0,
+   "utilisation": 0.297657,
+   "run_dir": "/home/yousefzadeha/workspace/BCI_paper/synthesis/bmi_snn_lmin2/runs/bmi_snn_lmin2_5m_u20h",
+   "timing_met": true,
+   "per_corner": {
+    "nom_tt_025C_1v80": {
+     "setup_ws_ns": 0,
+     "hold_ws_ns": 1.0005725420299918
+    },
+    "nom_ss_100C_1v60": {
+     "setup_ws_ns": 0,
+     "hold_ws_ns": 2.853332761938534
+    },
+    "nom_ff_n40C_1v95": {
+     "setup_ws_ns": 0,
+     "hold_ws_ns": 0.5122680202802226
+    },
+    "min_tt_025C_1v80": {
+     "setup_ws_ns": 0,
+     "hold_ws_ns": 1.149910865741947
+    },
+    "min_ss_100C_1v60": {
+     "setup_ws_ns": 0,
+     "hold_ws_ns": 3.0353933559145303
+    },
+    "min_ff_n40C_1v95": {
+     "setup_ws_ns": 0,
+     "hold_ws_ns": 0.6159366524487802
+    },
+    "max_tt_025C_1v80": {
+     "setup_ws_ns": 0,
+     "hold_ws_ns": 0.8753900074817932
+    },
+    "max_ss_100C_1v60": {
+     "setup_ws_ns": 0,
+     "hold_ws_ns": 2.632528936021065
+    },
+    "max_ff_n40C_1v95": {
+     "setup_ws_ns": 0,
+     "hold_ws_ns": 0.422312419210456
+    }
+   },
+   "util_target_pct": 20,
+   "utilization_pct": 29.7657,
+   "logic_cells": 139136,
+   "logic_area_um2": 1729698.9183983563,
+   "phys_cells": 1308338
+  },
+  "event": {
+   "tag": "bmi_snn_lmin2_5m_md0_full",
+   "tb": {
+    "bins": 500,
+    "events": 2934,
+    "errors": 0,
+    "cycles": 13562,
+    "active_cycles": 13345,
+    "avg_latency_cyc": 8,
+    "max_latency_cyc": 17,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.0001869069,
+     "switching": 5.8461e-06,
+     "leakage": 4.250534e-07,
+     "total": 0.0001931781
+    },
+    "Combinational": {
+     "internal": 0.0002809437,
+     "switching": 0.0004403839,
+     "leakage": 2.800055e-07,
+     "total": 0.0007216075
+    },
+    "Clock": {
+     "internal": 0.0001519403,
+     "switching": 0.0002326456,
+     "leakage": 3.678848e-06,
+     "total": 0.0003882647
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.0006197846,
+     "switching": 0.0006788749,
+     "leakage": 4.383973e-06,
+     "total": 0.001303043
+    }
+   },
+   "power_avg_uW": 1303.0430000000001,
+   "cycles_meas": 11917,
+   "cycles_per_bin": 23.834,
+   "energy_per_bin_nJ": 6.211345372400001,
+   "latency_us": 1.6,
+   "leakage_uW": 4.383973,
+   "pass": true
+  },
+  "idle": {
+   "tag": "bmi_snn_lmin2_5m_idle_full",
+   "idle_power_uW": 8.715006722788734,
+   "leakage_uW": 4.381624,
+   "groups": {
+    "Sequential": {
+     "internal": 6.147565e-07,
+     "switching": 3.997557e-10,
+     "leakage": 4.248707e-07,
+     "total": 1.040027e-06
+    },
+    "Combinational": {
+     "internal": 1.939192e-08,
+     "switching": 3.011482e-08,
+     "leakage": 2.78415e-07,
+     "total": 3.279217e-07
+    },
+    "Clock": {
+     "internal": 3.059996e-06,
+     "switching": 6.960752e-07,
+     "leakage": 3.678534e-06,
+     "total": 7.434605e-06
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 3.694154e-06,
+     "switching": 7.265893e-07,
+     "leakage": 4.381624e-06,
+     "total": 8.802366e-06
+    }
+   },
+   "idle_raw_uW": 8.802366,
+   "active_share": 6.74939255467008e-05
+  },
+  "leak_split": {
+   "leak_logic_uW": 0.8464715295673659,
+   "leak_phys_uW": 3.5821637210440462,
+   "n_logic": 139136,
+   "n_phys": 1308338,
+   "n_unmatched": 0
+  },
+  "full": {
+   "indy_20160630_01": {
+    "func": {
+     "tag": "bmi_snn_lmin2_5m_func_w5000_indy_20160630_01",
+     "tb": {
+      "bins": 5000,
+      "events": 26317,
+      "errors": 0,
+      "cycles": 115079,
+      "active_cycles": 112925,
+      "avg_latency_cyc": 8,
+      "max_latency_cyc": 23,
+      "pass": true
+     },
+     "groups": {
+      "Sequential": {
+       "internal": 0.0001816762,
+       "switching": 5.640137e-06,
+       "leakage": 4.25048e-07,
+       "total": 0.0001877413
+      },
+      "Combinational": {
+       "internal": 0.0002711148,
+       "switching": 0.0004246359,
+       "leakage": 2.798925e-07,
+       "total": 0.0006960306
+      },
+      "Clock": {
+       "internal": 0.0001471813,
+       "switching": 0.0002251148,
+       "leakage": 3.678844e-06,
+       "total": 0.0003759749
+      },
+      "Macro": {
+       "internal": 0.0,
+       "switching": 0.0,
+       "leakage": 0.0,
+       "total": 0.0
+      },
+      "Pad": {
+       "internal": 0.0,
+       "switching": 0.0,
+       "leakage": 0.0,
+       "total": 0.0
+      },
+      "Total": {
+       "internal": 0.0005999704,
+       "switching": 0.0006553901,
+       "leakage": 4.383797e-06,
+       "total": 0.001259744
+      }
+     },
+     "power_avg_uW": 1259.744,
+     "cycles_meas": 113434,
+     "cycles_per_bin": 22.6868,
+     "energy_per_bin_nJ": 5.71591203584,
+     "latency_us": 1.6,
+     "leakage_uW": 4.383797,
+     "pass": true,
+     "streamed": true
+    },
+    "func_perbin": {
+     "bins": 5000,
+     "e_bin_min_nJ": 1.6080625780711957,
+     "e_bin_max_nJ": 16.348636210390488,
+     "e_bin_mean_nJ": 5.715912035840001,
+     "e_bin_sd_nJ": 2.1845947565656814
+    },
+    "window": "w5000"
+   }
+  },
+  "avg_power_uW_250Hz_clkstopped": 5.9344603431000005,
+  "avg_power_uW_250Hz_clkstopped_sdf": 5.9344603431000005,
+  "avg_power_uW_250Hz_clk32k": 5.962859600112068,
+  "avg_power_uW_250Hz_clk5MHz": 10.267843065888734,
+  "avg_power_uW_250Hz_clk50MHz": null,
+  "avg_power_uW_250Hz_clk1MHz": null
  },
  "bmi_snn_hw": {
   "label": "hardwired weights, parallel",
@@ -1623,6 +2057,64 @@
    "energy_per_bin_nJ": 8.3478195328,
    "latency_us": 1.0,
    "leakage_uW": 0.4180163,
+   "pass": true
+  },
+  "event_sdf": {
+   "tag": "bmi_snn_hw_5m_md0_sdf",
+   "tb": {
+    "bins": 200,
+    "events": 1262,
+    "errors": 0,
+    "cycles": 4470,
+    "active_cycles": 4329,
+    "avg_latency_cyc": 5,
+    "max_latency_cyc": 14,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.0004204164,
+     "switching": 5.070216e-05,
+     "leakage": 1.673784e-08,
+     "total": 0.0004711353
+    },
+    "Combinational": {
+     "internal": 0.0003890306,
+     "switching": 0.0009042938,
+     "leakage": 1.009579e-07,
+     "total": 0.001293425
+    },
+    "Clock": {
+     "internal": 0.0002723604,
+     "switching": 0.000265919,
+     "leakage": 3.005088e-07,
+     "total": 0.0005385799
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.001081801,
+     "switching": 0.00122091,
+     "leakage": 4.18203e-07,
+     "total": 0.00230313
+    }
+   },
+   "power_avg_uW": 2303.13,
+   "cycles_meas": 4446,
+   "cycles_per_bin": 22.23,
+   "energy_per_bin_nJ": 10.23971598,
+   "latency_us": 1.0,
+   "leakage_uW": 0.418203,
    "pass": true
   },
   "dense": {
@@ -1795,9 +2287,9 @@
   },
   "full": {},
   "avg_power_uW_250Hz_clkstopped": 2.5043323832000004,
-  "avg_power_uW_250Hz_clkstopped_sdf": 2.5043323832000004,
-  "avg_power_uW_250Hz_clk32k": 2.5274728145915573,
-  "avg_power_uW_250Hz_clk5MHz": 6.035281997390216,
+  "avg_power_uW_250Hz_clkstopped_sdf": 2.9773064949999997,
+  "avg_power_uW_250Hz_clk32k": 3.0004469263915565,
+  "avg_power_uW_250Hz_clk5MHz": 6.508256109190215,
   "avg_power_uW_250Hz_clk50MHz": null,
   "avg_power_uW_250Hz_clk1MHz": null
  },
@@ -4430,7 +4922,76 @@
    "n_phys": 108305,
    "n_unmatched": 0
   },
-  "full": {},
+  "full": {
+   "indy_20160630_01": {
+    "func": {
+     "tag": "bmi_snn_g64p50_5m_func_full_indy_20160630_01",
+     "tb": {
+      "bins": 107444,
+      "events": 524200,
+      "errors": 0,
+      "cycles": 2034515,
+      "active_cycles": 1970835,
+      "avg_latency_cyc": 5,
+      "max_latency_cyc": 21,
+      "pass": true
+     },
+     "groups": {
+      "Sequential": {
+       "internal": 0.0001441028,
+       "switching": 1.661345e-05,
+       "leakage": 1.244835e-08,
+       "total": 0.0001607287
+      },
+      "Combinational": {
+       "internal": 0.0001593493,
+       "switching": 0.0003770136,
+       "leakage": 7.581516e-08,
+       "total": 0.0005364386
+      },
+      "Clock": {
+       "internal": 0.0001027593,
+       "switching": 8.454052e-05,
+       "leakage": 2.894816e-07,
+       "total": 0.0001875893
+      },
+      "Macro": {
+       "internal": 0.0,
+       "switching": 0.0,
+       "leakage": 0.0,
+       "total": 0.0
+      },
+      "Pad": {
+       "internal": 0.0,
+       "switching": 0.0,
+       "leakage": 0.0,
+       "total": 0.0
+      },
+      "Total": {
+       "internal": 0.0004062117,
+       "switching": 0.0004781674,
+       "leakage": 3.777416e-07,
+       "total": 0.0008847569
+      }
+     },
+     "power_avg_uW": 884.7569,
+     "cycles_meas": 2034491,
+     "cycles_per_bin": 18.935361676780463,
+     "energy_per_bin_nJ": 3.3506383795054173,
+     "latency_us": 1.0,
+     "leakage_uW": 0.37774159999999996,
+     "pass": true,
+     "streamed": true
+    },
+    "func_perbin": {
+     "bins": 107444,
+     "e_bin_min_nJ": 0.9711282705507016,
+     "e_bin_max_nJ": 13.0131188253794,
+     "e_bin_mean_nJ": 3.3506383795054178,
+     "e_bin_sd_nJ": 1.4917691293908684
+    }
+   }
+  },
   "avg_power_uW_250Hz_clkstopped": 1.3292738749799997,
   "avg_power_uW_250Hz_clkstopped_sdf": 1.5781246540000002,
   "avg_power_uW_250Hz_clk32k": 1.6017745069276832,

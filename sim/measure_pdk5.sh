@@ -31,7 +31,10 @@ case $P in
          LIB="$ORFS/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib"; VLOG="/media/pdk/nangate45_models.v" ;;   # only the typical liberty is characterized
   ihp)   RUN=$ORFS/results/ihp-sg13g2/${D}_5m/base; NL=$RUN/6_final.v; SPEF=$RUN/6_final.spef
          LIB="$ORFS/platforms/ihp-sg13g2/lib/sg13g2_stdcell_typ_1p20V_25C.lib"; VLOG="/media/pdk/ihp_sg13g2_models_functional.v"
-         LOWV=("slow_1p08V_125C:$ORFS/platforms/ihp-sg13g2/lib/sg13g2_stdcell_slow_1p08V_125C.lib") ;;
+         LOWV=("slow_1p08V_125C:$ORFS/platforms/ihp-sg13g2/lib/sg13g2_stdcell_slow_1p08V_125C.lib")
+         # annotated runs: IHP-Open-PDK combinational models (sequential cells stripped) + behavioural sequential cells with the vendor
+         # IOPATHs (sim/ihp_seq_icarus.v); the vendor flip-flops take their state from the delayed_* nets of $setuphold and stay X in Icarus
+         VLOG_SDF="/media/pdk/IHP-Open-PDK/ihp-sg13g2/libs.ref/sg13g2_stdcell/verilog/sg13g2_udp.v /media/pdk/icarus_sdf_models/sg13g2_stdcell_seqstripped.v $ROOT/sim/ihp_seq_icarus.v" ;;
   asap7|asap7sram) TU=1e-12; PERIOD_LIB=200000
          if [[ $P == asap7 ]]; then FL=RVT; RUN=$ORFS/results/asap7/${D}_5m/base; else FL=SRAM; RUN=$ORFS/results/asap7/${D}_5m_sram/base; fi
          NL=$RUN/6_final.v; SPEF=$RUN/6_final.spef
@@ -66,7 +69,7 @@ T0=pdk5_${P}_${C}
 if [[ $KIND == func || $KIND == all ]]; then sim_run ${T0}_md0_full 500 0 nosdf; sim_run ${T0}_idle_full 1 400000 nosdf; fi
 if [[ $KIND == sdf || $KIND == all ]]; then
   export SIM_TIMEOUT="${SDF_TIMEOUT:-3h}"     # the annotated ASAP7 vendor models did not progress in Icarus (0 bins in 7 h): bounded
-  if [[ $P == asap7 || $P == asap7sram ]]; then   # SDF from OpenSTA on the routed netlist and parasitics (ASAP7 has no flow-written SDF)
+  if [[ $P == asap7 || $P == asap7sram || $P == ihp ]]; then   # SDF from OpenSTA on the routed netlist and parasitics (the ORFS kits have no flow-written SDF)
     SDF_SRC=$ROOT/sim/build_${T0}_sdf_src/design.sdf; mkdir -p "$(dirname $SDF_SRC)"
     DESIGN=$D RUN_DIR=$RUN LIB_SC="$LIB" NETLIST=$NL SPEF=$SPEF PERIOD_NS=$PERIOD_LIB SDF_OUT=$SDF_SRC $ROOT/power/run_write_sdf.sh > "$(dirname $SDF_SRC)/write_sdf.log" 2>&1 || tail -3 "$(dirname $SDF_SRC)/write_sdf.log"
   fi

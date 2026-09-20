@@ -15,5 +15,5 @@ bmi_snn_ming,"64, 100 %, 16-bit gated",constants,64,1.0,0.582539062849574,0.5825
 bmi_snn_top,"SRAM, event mode",SRAM block,64,1.0,0.582539062849574,0.582539062849574,0.582539062849574,43.394533544999994,annotated,"released seed-0 models, bit-exact"
 bmi_snn_top_dense,"SRAM, dense mode",SRAM block,64,1.0,0.582539062849574,0.582539062849574,0.582539062849574,367.14502293000004,annotated,all synapses visited every bin
 bmi_snn_topg,"SRAM, gated groups",SRAM block,64,1.0,0.582539062849574,0.582539062849574,0.582539062849574,32.919712440000005,annotated,"released seed-0 models, bit-exact"
-bmi_snn_lmin2_50MHz,latch memory (50 MHz),latches,64,1.0,0.5823437288351232,0.5823437288351232,0.5823437288351232,6.396769125600001,zero-delay,50 MHz netlist (rounds 1-4); the 5 MHz hardening did not close
+bmi_snn_lmin2,latch memory,latches,64,1.0,0.5823437288351232,0.5823437288351232,0.5823437288351232,6.211345372400001,zero-delay,"released seed-0 models, bit-exact"
 soc_tuned_5MHz,"software, hand-tuned",software,64,1.0,0.582539062849574,0.582539062849574,0.582539062849574,2003.0,annotated,"RISC-V SoC, decoding window, cell delays annotated"

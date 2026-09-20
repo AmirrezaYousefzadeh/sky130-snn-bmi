@@ -12,7 +12,7 @@ matplotlib.use("Agg"); import matplotlib.pyplot as plt
 sys.path.insert(0, str(ROOT := Path(__file__).resolve().parent.parent) and str(Path(__file__).resolve().parent.parent / "sw"))
 from collect_results import parse_group_table, RATE
 D = json.load(open(ROOT / "results/designs.json"))
-ORDER = [("bmi_snn_top", "SRAM seq."), ("bmi_snn_top", "SRAM seq., dense", "dense"), ("bmi_snn_topg", "SRAM seq. gated"), ("bmi_snn_lmin2", "latch 12-bit"), ("bmi_snn_hw", "hardwired 20-bit"), ("bmi_snn_min", "hw 16-bit"),
+ORDER = [("bmi_snn_top", "SRAM seq."), ("bmi_snn_top", "SRAM seq., dense", "dense"), ("bmi_snn_topg", "SRAM seq. gated"), ("bmi_snn_lmin2", "latch 12-bit"), ("bmi_snn_hw", "hw 20-bit"), ("bmi_snn_min", "hw 16-bit"),
          ("bmi_snn_ming", "hw 16-bit gated"), ("bmi_snn_m12", "hw 12-bit gated"), ("bmi_snn_sp", "pruned 25 %"), ("bmi_snn_min32", "H=32"), ("bmi_snn_min16", "H=16")]
 items = []
 for entry in ORDER:

@@ -360,7 +360,9 @@
   ]
  },
  "sky130/bmi_snn_lmin2": {
-  "accepted": [],
+  "accepted": [
+   20
+  ],
   "attempts": [
    {
     "util": 60,
@@ -389,6 +391,13 @@
     "tag": "bmi_snn_lmin2_5m_u20h",
     "runtime_min": 175,
     "reason": "watchdog: drt 93343 violations after 4 iterations"
+   },
+   {
+    "util": 20,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_lmin2_5m_u20h",
+    "runtime_min": 200,
+    "reason": ""
    }
   ]
  },

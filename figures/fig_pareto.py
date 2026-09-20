@@ -71,7 +71,7 @@ for p in pts:
                     arrowprops=dict(arrowstyle="-", lw=0.4, color="0.55", shrinkA=0, shrinkB=2), zorder=4)
         continue
     dx, dy = (4, 3)
-    if p["name"] in ("bmi_snn_g64p125", "bmi_snn_g128p125"): dx, dy = (-4, 5)
+    if p["name"] in ("bmi_snn_g64p125", "bmi_snn_g128p125", "bmi_snn_g128p25"): dx, dy = (-4, 5)
     if p["name"] == "bmi_snn_topg": dx, dy = (4, -8)
     if p["name"] == "bmi_snn_g64p50": dx, dy = (-4, 4)
     ax.annotate(p["label"], (p["r2"], p["energy_nJ"]), textcoords="offset points", xytext=(dx, dy), fontsize=6, ha="left" if dx > 0 else "right")
