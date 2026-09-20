@@ -873,3 +873,32 @@ dynamic), leakage 30.7 uW, f_max 740 MHz. `results/PDKS5.md`, `paper/pdks_table.
 `results/pdks_pavg_vs_rate.csv` refreshed; F2 now has the IHP line (17 curves), drawn with the total leakage as the request
 specifies, so its floor at 60 uW is a statement about the platform's decap fill at low utilization rather than about the node;
 the logic-only P_avg is in the table.
+
+### E1/E4 result: bmi_snn_min full block (22:21, 20 Sep)
+Hardwired 16-bit core without gating (40 %): 6.74 nJ/bin zero-delay over 107,444 bins, bit-exact (500-bin window 7.62, ratio 0.88;
+19 h streamed simulation). Against the gated cores' blocks (ming 4.54, m12 4.54) the datapath gating saves 33 % over the whole test
+block, the same share as on the windows. Its 5,000-bin annotated window has started.
+
+### E2/E4 result: bmi_snn_g128p25 full block (22:31, 20 Sep)
+H = 128 at 25 % synapses (30 %): 5.08 nJ/bin zero-delay over 107,444 bins, bit-exact (500-bin window 5.74, ratio 0.88). Its
+5,000-bin annotated window has started; it is the last grid pipeline. E9: the annotated 50-bin simulation of lmin2 took 8.5 h
+(227 k instances with cell delays); its per-pin power evaluation is running.
+
+## E9 result: annotated glitch factor of the latch-memory core bmi_snn_lmin2 (22:34, 20 Sep)
+Same 50-bin window of indy_20160630_01 (899 cycles at 200 ns), streamed toggle counts, per-pin OpenSTA power on the 20 % netlist:
+zero-delay 3.95 nJ/bin, with cell delays annotated (Icarus, OpenLane SDF at the typical corner) 4.28 nJ/bin, bit-exact in both
+runs: glitch factor 1.08. The annotated simulation of the 227 k-instance netlist took 8.5 h for 50 bins (the 500-bin window would
+have taken 3.5 days), which is why the factor is measured on 50 bins and applied to the 500-bin window: 6.21 -> 6.72 nJ/bin
+annotated (`results/designs.json` marks the derived value with `derived_from_glitch_window: w50`), P_avg 6.06 uW at 250 bins/s.
+The latch core glitches far less than the hardwired cores (1.18-1.33) and about as much as the other kits' cores: its energy is
+dominated by the latch-row read and the pipelined W2 path, whose signals settle once per cycle, whereas the hardwired
+multiply-free adder trees of the constant-weight cores carry the arithmetic glitches. E9 for lmem2 is running (annotated
+simulation since 17:44).
+
+## E9 result: annotated glitch factor of bmi_snn_lmem2 - E9 complete (22:47, 20 Sep)
+Same 50-bin window (899 cycles): zero-delay 7.60 nJ/bin, annotated 8.33 nJ/bin, bit-exact, glitch factor 1.10 (lmin2: 1.08); the
+annotated simulation of the 209 k-instance netlist took 5.0 h. Applied to the 500-bin window: 10.9 -> 12.0 nJ/bin annotated
+(`derived_from_glitch_window: w50` in `results/designs.json`), P_avg 5.94 uW at 250 bins/s. E9 is complete: both standard-cell
+weight memories carry glitch factors of 1.08-1.10 against 1.18-1.33 for the hardwired constant-weight cores and 1.21 for the SRAM
+core, so the earlier practice of reporting the latch cores zero-delay only understated them by 8-10 %, not by the 20-30 % of the
+hardwired cores.

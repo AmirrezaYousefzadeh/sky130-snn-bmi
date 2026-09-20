@@ -25,7 +25,7 @@ for entry in ORDER:
     l100 = None; f = ROOT / f"power/out_vcd_{name}_5m_idle_full_tt_100C_1v80/power_vcd.rpt"
     if f.exists(): l100 = parse_group_table(f)["Total"]["leakage"] * 1e6
     l37 = (leak * math.exp(math.log(l100 / leak) * (37 - 25) / (100 - 25))) if (leak and l100) else None
-    items.append(dict(name=name + ("" if mode == "event" else "_" + mode), label=label, E=E, annotated=(mode + "_sdf" in d), parts=parts, leak=leak, leak100=l100, leak37=l37, dyn=E * RATE * 1e-3))
+    items.append(dict(name=name + ("" if mode == "event" else "_" + mode), label=label, E=E, annotated=(mode + "_sdf" in d), derived=bool(d.get(mode + "_sdf", {}).get("derived_from_glitch_window")), parts=parts, leak=leak, leak100=l100, leak37=l37, dyn=E * RATE * 1e-3))
 if not items: sys.exit("no 5 MHz measurements yet")
 def sig2(v):
     t = f"{v:.2g}"; return t if ("." in t or v >= 10) else t + ".0"
@@ -35,7 +35,7 @@ x = np.arange(len(items)); cols = {"Clock": "#7f9fbf", "Sequential": "#c0504d", 
 bottom = np.zeros(len(items))
 for k in ("Clock", "Sequential", "Combinational", "Macro"):
     v = np.array([it["parts"][k] * 100 for it in items]); a1.bar(x, v, 0.7, bottom=bottom, color=cols[k], edgecolor="k", linewidth=0.3, label={"Clock": "clock network", "Sequential": "sequential cells", "Combinational": "combinational cells", "Macro": "memory block"}[k]); bottom += v
-for xi, it in zip(x, items): a1.text(xi, 101, (f"{it['E']:.0f}" if it["E"] >= 100 else f"{it['E']:.2g}") + ("" if it["annotated"] else "*"), ha="center", va="bottom", fontsize=6)
+for xi, it in zip(x, items): a1.text(xi, 101, (f"{it['E']:.0f}" if it["E"] >= 100 else f"{it['E']:.2g}") + ("" if it["annotated"] and not it.get("derived") else ("†" if it.get("derived") else "*")), ha="center", va="bottom", fontsize=6)
 a1.set_xticks(x); a1.set_xticklabels([it["label"] for it in items], rotation=35, ha="right", fontsize=6.5); a1.set_ylabel("share of power while decoding (%)\nnumbers: energy per bin in nJ"); a1.set_ylim(0, 112)
 a1.legend(fontsize=6, frameon=False, loc="upper center", ncol=2, bbox_to_anchor=(0.5, -0.42))
 dyn = np.array([it["dyn"] for it in items]); lk = np.array([it["leak"] or 0 for it in items])

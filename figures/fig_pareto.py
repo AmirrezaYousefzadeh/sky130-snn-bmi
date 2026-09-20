@@ -20,7 +20,8 @@ pts = []   # dicts: name, label, storage, H, density, r2, r2_min, r2_max, energy
 
 def e_ann(rec, mode="event"):
     """annotated energy per bin (nJ) of a designs.json record, zero-delay as fallback"""
-    s = rec.get(mode + "_sdf", {}).get("energy_per_bin_nJ"); z = rec.get(mode, {}).get("energy_per_bin_nJ")
+    sd = rec.get(mode + "_sdf", {}); s = sd.get("energy_per_bin_nJ"); z = rec.get(mode, {}).get("energy_per_bin_nJ")
+    if s and sd.get("derived_from_glitch_window"): return (s, f"zero-delay x glitch factor of the {sd['derived_from_glitch_window']} annotated window")
     return (s, "annotated") if s else (z, "zero-delay")
 
 # --- E2 grid (includes the E1 hardwired cores m12, sp, min32, min16 as grid members)
