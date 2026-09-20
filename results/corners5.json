@@ -84,6 +84,26 @@
     "cycles": 4359
    },
    "e_lowv": null
+  },
+  "lv": {
+   "cells": 31632,
+   "area_um2": 175154,
+   "setup_ws_ns": 112.91821841618021,
+   "hold_ws_ns": 0.11001055933148585,
+   "setup_ws_1v28_ns": 113.06991929455539,
+   "hold_ws_1v28_ns": 2.6314675627795054,
+   "setup_ws_tt_ns": 118.85429155056971,
+   "drc": 0,
+   "util_pct": 30,
+   "e_sdf_1v28": null,
+   "e_func_1v28": {
+    "energy_per_bin_nJ": 1.86072429836,
+    "power_uW": 446.8169,
+    "leakage_uW": 0.1223332,
+    "bins": 500,
+    "cycles": 10411
+   },
+   "leak_1v28_uW": 0.1219879
   }
  }
 }

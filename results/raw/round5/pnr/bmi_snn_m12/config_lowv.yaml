@@ -12,8 +12,8 @@ PNR_SDC_FILE: dir::../bmi_snn_min/bmi_snn_min.sdc
 SIGNOFF_SDC_FILE: dir::../bmi_snn_min/bmi_snn_min.sdc
 STD_CELL_LIBRARY: sky130_fd_sc_hd
 FP_SIZING: relative
-FP_CORE_UTIL: 30
-PL_TARGET_DENSITY_PCT: 40
+FP_CORE_UTIL: 20
+PL_TARGET_DENSITY_PCT: 30
 GRT_ALLOW_CONGESTION: true
 ERROR_ON_SYNTH_CHECKS: false
 RUN_LINTER: false
@@ -30,8 +30,9 @@ DIODE_ON_PORTS: in
 PL_RESIZER_HOLD_MAX_BUFFER_PCT: 80
 GRT_RESIZER_HOLD_MAX_BUFFER_PCT: 80
 # policy amendment (EXTRA_YAML)
-PL_RESIZER_HOLD_SLACK_MARGIN: 0.8
-GRT_RESIZER_HOLD_SLACK_MARGIN: 0.8
+# E14 retry amendment (LV_EXTRA_YAML)
+PL_RESIZER_HOLD_SLACK_MARGIN: 2.0
+GRT_RESIZER_HOLD_SLACK_MARGIN: 2.0
 
 # E14: low-voltage signoff corner (ss, -40 C, 1.28 V) as the default corner; the PDK corners are kept
 LIB:

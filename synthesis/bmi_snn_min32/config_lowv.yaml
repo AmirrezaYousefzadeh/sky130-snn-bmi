@@ -12,8 +12,8 @@ PNR_SDC_FILE: dir::bmi_snn_min32.sdc
 SIGNOFF_SDC_FILE: dir::bmi_snn_min32.sdc
 STD_CELL_LIBRARY: sky130_fd_sc_hd
 FP_SIZING: relative
-FP_CORE_UTIL: 40
-PL_TARGET_DENSITY_PCT: 50
+FP_CORE_UTIL: 30
+PL_TARGET_DENSITY_PCT: 40
 GRT_ALLOW_CONGESTION: true
 ERROR_ON_SYNTH_CHECKS: false
 RUN_LINTER: false
@@ -29,6 +29,8 @@ RUN_HEURISTIC_DIODE_INSERTION: false   # round 5: heuristic diodes broke legaliz
 DIODE_ON_PORTS: in
 PL_RESIZER_HOLD_SLACK_MARGIN: 0.1
 GRT_RESIZER_HOLD_SLACK_MARGIN: 0.1
+# E14 retry amendment (LV_EXTRA_YAML)
+SYNTH_STRATEGY: "DELAY 0"
 
 # E14: low-voltage signoff corner (ss, -40 C, 1.28 V) as the default corner; the PDK corners are kept
 LIB:

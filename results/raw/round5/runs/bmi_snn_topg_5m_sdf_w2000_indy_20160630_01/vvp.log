@@ -1,0 +1,31 @@
+SDF: annotated /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_topg_5m_sdf_w2000_indy_20160630_01/design.icarus.sdf onto u_dut
+VCD info: dumpfile /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_topg_5m_sdf_w2000_indy_20160630_01/bmi_snn_topg_5m_sdf_w2000_indy_20160630_01.vcd opened for output.
+WAVEFORM: dumping to /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_topg_5m_sdf_w2000_indy_20160630_01/bmi_snn_topg_5m_sdf_w2000_indy_20160630_01.vcd
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:140: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vecfull_indy_20160630_01/stream.hex): Not enough words in the file for the requested range [0:1399999].
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:141: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vecfull_indy_20160630_01/expect.hex): Too many words in the file for the requested range [0:3999].
+TB: mode_dense=0 n_bins=2000 idle_gap=0 clk=200 ns
+GLS_PROGRESS cycle=20000 max=2000000000
+GLS_PROGRESS cycle=40000 max=2000000000
+GLS_PROGRESS cycle=60000 max=2000000000
+GLS_PROGRESS cycle=80000 max=2000000000
+GLS_PROGRESS cycle=100000 max=2000000000
+GLS_PROGRESS cycle=120000 max=2000000000
+GLS_PROGRESS cycle=140000 max=2000000000
+GLS_PROGRESS cycle=160000 max=2000000000
+GLS_PROGRESS cycle=180000 max=2000000000
+GLS_PROGRESS cycle=200000 max=2000000000
+GLS_PROGRESS cycle=220000 max=2000000000
+GLS_PROGRESS cycle=240000 max=2000000000
+GLS_PROGRESS cycle=260000 max=2000000000
+GLS_PROGRESS cycle=280000 max=2000000000
+GLS_PROGRESS cycle=300000 max=2000000000
+GLS_PROGRESS cycle=320000 max=2000000000
+GLS_PROGRESS cycle=340000 max=2000000000
+SUMMARY: bins=2000 events=11115 errors=0 cycles=358988 active_cycles=358976 avg_latency_cyc=83 max_latency_cyc=85
+MEASURED: cycles_from_dump_start=358964 active_cycles_from_dump_start=358956
+PASS: 2000 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:207: $finish called at 71797500000 (1ps)
+
+real	486m30.659s
+user	171m8.809s
+sys	1m3.605s

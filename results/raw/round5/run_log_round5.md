@@ -399,3 +399,49 @@ window 2.674 nJ, +13 %; per-bin 0.689-9.51 nJ); `bmi_snn_g32p50` 1.570 nJ (windo
 2.209 on 200 bins); `bmi_snn_g32p25` 1.209 nJ (window 1.360; annotated 1.411 against 1.582). The 500-bin window sits 12-13 %
 above the block mean for every core, as the referee expected from its 20 % higher event rate; the annotated 5,000-bin windows
 are 11-12 % below the 200-bin figures for the same reason. The per-bin maximum reaches 4x the mean in bins with event bursts.
+
+### E14 (continued): m12 and min32 at 1.28 V (04:20, 20 Sep)
+Both 1.28 V hardenings stalled in detailed routing with the slow-corner repair: m12 at 30 % wrote no routing iteration in 3.7 h
+(the stalled-start pattern), min32 at 40 % stopped improving at 9,520 violations after five iterations (2.7 h without a new
+iteration). Both were stopped and restarted one policy step lower (m12 20 %, min32 30 %); if these do not converge, E14 stands on
+`bmi_snn_sp` alone and the m12/min32 low-voltage figures remain liberty re-evaluations (E5 rows).
+
+### E3 (continued): bmi_snn_m12_s622 decided (04:50, 20 Sep)
+The 30 % rerun with the 0.8 ns hold margin stalled at the start of detailed routing exactly like the original attempt (no iteration
+in 3 h) and was ended by the watchdog; the policy's 20 % netlist (accepted at 00:54, original hold margin, timing met) is the
+measured one. The three per-session m12 netlists therefore sit at 30 % (m12, m12_s131, with the larger hold margin) and 20 %
+(m12_s622); the utilization enters the comparison through area only.
+
+### E4 results (04:45, 20 Sep): bmi_snn_sp complete
+`bmi_snn_sp` 5,000 annotated bins of indy_20160630_01: 2.802 nJ per bin (bit-exact) against 3.154 nJ on the 200-bin window and
+2.365 nJ zero-delay on the full block; glitch factor on the long window 1.18, as on the short one. IHP `bmi_snn_sp` at 20 %:
+routing converging (844 violations in the twelfth iteration after 65k at 60 %, 41k at 40 %, 20k at 30 %).
+
+### E14 (continued): bmi_snn_min32 at 1.28 V, 30 % (05:20, 20 Sep)
+Routed DRC-clean in 36 min and holds at every corner, but the register-to-register critical path arrives at 287.7 ns at
+nom_ss_n40C_1v28 (slack -78.9 ns; -94.7 ns at the max RC corner): the 16-bit dense accumulate of the H=32 core is a 342-cell-deep
+chain whose 80 ns at TT 1.8 V become 3.6x longer at 1.28 V / -40 C; the flow's setup repair did not shorten it. The pruned
+12-bit core (sp) met 200 ns at 1.28 V with a 47 ns data path. One retry with delay-oriented synthesis (`SYNTH_STRATEGY: "DELAY 0"`,
+`LV_EXTRA_YAML`); if that fails, the H=32 core keeps its liberty re-evaluation row (1.45 nJ, f_max 18.2 MHz at 1.28 V) and E14
+reports that it needs a pipelined accumulate to be hardened at 1.28 V.
+
+### E1 (continued): bmi_snn_lmem (05:30, 20 Sep)
+The optional 20-bit latch-memory core (about 400k instances) did not route at 5 MHz within the policy: 30 % aborted at 26,272
+violations after 4 iterations (8 h), 20 % at 92,394 after 3 iterations (4.5 h; the lower density spreads the latch rows and
+lengthens the row-select and read wiring). As E1 allows for the optional cores, `bmi_snn_lmem` keeps its 50 MHz figures in the
+tables, marked as such; `bmi_snn_scmem` (register file, 600k instances) is the last optional attempt in that queue.
+
+### E14 (continued): bmi_snn_m12 at 1.28 V, 20 % (06:00, 20 Sep)
+Routed DRC-clean in 75 min, setup met at every corner including 1.28 V (+112.8 ns), but hold fails by 1.36 ns on 19 endpoints at
+max_ss_n40C_1v28 (and by 0.23 ns at max_ff): the clock through the nested clock gates arrives late at the slow corner and the
+0.8 ns hold margin of the TT hardening is not enough there; 48,208 cells against 30,957 for the TT netlist. One retry with a
+2.0 ns hold-repair margin at the same utilization.
+
+### E14 result: bmi_snn_min32 hardened at 1.28 V (06:10, 20 Sep)
+With delay-oriented synthesis (`SYNTH_STRATEGY: "DELAY 0"`) at 30 % the H=32 core meets 200 ns at 1.28 V / -40 C (setup and hold
+positive at all twelve corners, DRC-clean, 64 min): the accumulate chain that arrived at 288 ns with the area-oriented netlist is
+restructured; cell count and area against the TT netlist below. The annotated 200-bin measurement at the 1.28 V corner follows
+(`sim/measure_lowv.sh`).
+Figures: setup +113.1 ns at nom_ss_n40C_1v28 (data path 87 ns against 288 ns before), hold +2.63 ns there and +0.114 ns at
+max_ff; 31,632 cells / 0.1752 mm2 against 16,744 cells / 0.1194 mm2 for the TT-signoff netlist (+89 % cells, +47 % area): the
+1.28 V signoff of the dense 16-bit core is paid in restructured, upsized logic.
