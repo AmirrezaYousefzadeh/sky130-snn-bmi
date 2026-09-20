@@ -781,3 +781,60 @@ ss_100C_1v60), setup reported 0.000 (latch borrowing). 208,689 cells, 1.82 mm2; 
 ablation, kept at 50 MHz) and `bmi_snn_g128` (in progress) has a timing-clean 5 MHz netlist. The lmem2 pipeline (500-bin
 windows, idle, 5,000-bin windows on the three sessions) starts automatically, and the E9 annotated 50-bin run for lmem2 was
 launched (`sim/e9_lmin2.sh bmi_snn_lmem2 50`, log `logs/e9_lmem2.log`; the lmin2 one has been simulating since 13:58).
+
+### E2: bmi_snn_g128 at 30 % stopped, policy steps to 20 % (17:40, 20 Sep)
+With the relaxed watchdog the 30 % route ran five iterations of about an hour each: 190 k -> 145 k -> 143 k -> 124 k -> 114 k
+violations, a 10 % decrease per iteration and none of the 5-10x collapse that every accepted core showed between its second and
+third iteration (g128p25 at 30 %: 29 k -> 16 k -> 15 k -> 2.7 k; lmin2 at 20 %: 228 k -> 105 k -> 93 k -> 14 k). At that rate the
+64-iteration bound would take more than two days, so the flow was stopped by hand (reason recorded in the run's WATCHDOG_KILLED
+file and the policy log) and the policy instance continues with 20 %, its last utilization.
+
+### E1 result: bmi_snn_lmem2 windows at 5 MHz (17:56, 20 Sep)
+Latch-memory core, 16-bit state, pipelined W2 read (30 %, 1.82 mm2, hold clean): 10.9 nJ/bin zero-delay on the 500-bin window
+(23.8 cycles/bin, latency 1.6 us), dense mode 50.1 nJ, leakage 2.95 uW (0.85 uW in logic cells), idle 7.3 uW with the clock
+running, P_avg 5.68 uW at 250 bins/s with the clock stopped. At 50 MHz (input-port hold flag): 12.0 nJ, leakage 3.40 uW, P_avg
+6.39 uW, dense 52.8 nJ. Against lmin2 (gated 12-bit datapath, same memory): 10.9 vs 6.2 nJ, so the datapath gating and the
+12-bit state save 43 % of the latch core's energy at equal memory. The 5,000-bin windows on the three sessions are running.
+
+### E2/E4 result: bmi_snn_g128p125 pipeline complete (18:11, 20 Sep)
+H = 128 at 12.5 % synapses: 5,000-bin annotated window 3.91 nJ/bin (full block zero-delay 3.38, ratio 1.16). Grid pipelines
+complete: g16p50, g32p25, g32p50, g64p125, g64p50, g128p125; running: g128p25 (full block); g128 hardening at 20 %.
+
+### E3 result: bmi_snn_min32_s622 full block of session A (18:41, 20 Sep)
+Session-A netlist of the H = 32 core (50 %): 132,745 bins at 7.93 events/bin, 4.28 nJ/bin zero-delay, bit-exact (17 h streamed
+simulation). The H = 32 per-session set (zero-delay, own weights): A 4.28 (7.93 events/bin), B 3.07 (4.88), C 2.57 (3.71) nJ/bin,
+a straight line of 1.08 nJ + 0.40 nJ per event through the three netlists (pruned core: 0.59 + 0.34). The 5,000-bin annotated
+window of A has started; the m12 session-A block is the last per-session block still running.
+
+### E4 result: bmi_snn_lmem2 5,000-bin window of session B (19:02, 20 Sep)
+Latch-memory core (16-bit state), weights of indy_20160630_01: 10.22 nJ/bin zero-delay at 5.26 events/bin (500-bin window 10.91 at 5.87; lmin2 on the
+same window 5.72), bit-exact. Sessions A and C follow.
+
+### E1/E4 result: bmi_snn_ming pipeline complete (19:21, 20 Sep)
+Hardwired 16-bit gated core: 5,000-bin annotated window 5.86 nJ/bin (full block zero-delay 4.54, ratio 1.29; the 500/200-bin E1
+windows gave 5.19 / 6.71, ratio 1.29 as well). Pipelines complete so far: sp, min32, min16, sp_s131, min32_s131, m12_s131, sp_s622,
+g16p50, g32p25, g32p50, g64p125, g64p50, g128p125, ming, lmin2; running: hw, scmem, lmem2, m12, min, g128p25, m12_s622, min32_s622,
+top/topg blocks.
+
+### E1/E3/E4 result: bmi_snn_m12 full block of session B (19:30, 20 Sep)
+12-bit gated core (30 %): 4.54 nJ/bin zero-delay over 107,444 bins, bit-exact (500-bin window 5.20, ratio 0.87), after a 19 h
+streamed simulation; the same value as the 16-bit gated core's block (4.54): at zero delay the 12-bit state saves nothing over the
+16-bit one, its advantage (6.90 vs 6.71 annotated, i.e. none either) lies only in area (0.24 vs 0.25 mm2). Its 5,000-bin annotated
+window has started; the m12 session-A block (m12_s622) is the last per-session block running.
+
+### E2: bmi_snn_g128 at 20 % routes clean but fails hold; rerun with the hold margin (19:35, 20 Sep)
+The dense H = 128 core at 20 %: router 50 k -> 23 k -> 10 k -> 4.2 k -> 2.3 k -> ... -> 0 (DRC-clean in 120 min), setup +117.9 ns,
+but hold -0.70 ns at ff_n40C_1v95 and -0.33 ns at TT (64,088 cells, 0.42 mm2) - the same failure mode as lmin2 at 20 % (the
+hold repair after CTS did not cover the gated-clock paths of a large low-density floorplan). Relaunched at 20 % with the 1.0 ns
+hold-repair margin (tag `_u20h`, relaxed watchdog), like lmin2 and lmem2. Log `logs/harden_bmi_snn_g128_20h.log`.
+
+### E4 result: bmi_snn_lmem2 5,000-bin window of session A (20:17, 20 Sep)
+16-bit latch-memory core with the weights of indy_20160622_01: 13.75 nJ/bin zero-delay at 8.38 events/bin, bit-exact (B: 10.22 at
+5.26). The two points give 4.3 nJ + 1.13 nJ per event, against 1.5 + 0.81 for the gated 12-bit latch core (lmin2): the datapath
+gating removes two thirds of the fixed per-bin cost and 30 % of the per-event cost. The session-C window has started.
+
+### E3 complete for the H = 32 core (20:22, 20 Sep)
+bmi_snn_min32_s622 annotated 5,000-bin window of session A: 5.27 nJ/bin (block zero-delay 4.28, ratio 1.23). The H = 32 core is now
+complete on the three sessions with its own weights (full block zero-delay / 5,000-bin annotated): A 4.28 / 5.27 (7.93 events/bin),
+B 3.07 / 3.71 (4.88), C 2.57 / 3.08 (3.71). Per-session sets complete: sp, min32; m12 waits for its session-A block and B/C
+annotated windows.

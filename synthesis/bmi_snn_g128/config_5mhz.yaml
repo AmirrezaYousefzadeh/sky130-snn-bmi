@@ -11,8 +11,8 @@ PNR_SDC_FILE: dir::../bmi_snn_min/bmi_snn_min.sdc
 SIGNOFF_SDC_FILE: dir::../bmi_snn_min/bmi_snn_min.sdc
 STD_CELL_LIBRARY: sky130_fd_sc_hd
 FP_SIZING: relative
-FP_CORE_UTIL: 30
-PL_TARGET_DENSITY_PCT: 40
+FP_CORE_UTIL: 20
+PL_TARGET_DENSITY_PCT: 30
 GRT_ALLOW_CONGESTION: true
 ERROR_ON_SYNTH_CHECKS: false
 RUN_LINTER: false
@@ -26,5 +26,6 @@ RUN_IRDROP_REPORT: false
 RUN_ANTENNA_REPAIR: false
 RUN_HEURISTIC_DIODE_INSERTION: false   # round 5: heuristic diodes broke legalization at 50-60 % utilization; diodes on input ports only
 DIODE_ON_PORTS: in
-PL_RESIZER_HOLD_SLACK_MARGIN: 0.3
-GRT_RESIZER_HOLD_SLACK_MARGIN: 0.3
+# policy amendment (EXTRA_YAML)
+PL_RESIZER_HOLD_SLACK_MARGIN: 1.0
+GRT_RESIZER_HOLD_SLACK_MARGIN: 1.0
