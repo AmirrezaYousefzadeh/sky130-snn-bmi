@@ -59,7 +59,13 @@
    "area_um2": 239629,
    "setup_ws_ns": 118.0770714625046,
    "hold_ws_ns": 0.20241386917286938,
-   "e_tt": null,
+   "e_tt": {
+    "energy_per_bin_nJ": 6.903824382000001,
+    "power_uW": 1552.817,
+    "leakage_uW": 0.36378289999999996,
+    "bins": 200,
+    "cycles": 4446
+   },
    "e_lowv": null
   }
  },

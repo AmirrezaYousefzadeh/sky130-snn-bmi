@@ -381,3 +381,21 @@ copied and the two policies restart at 50 %. `bmi_snn_m12_s131` was accepted at 
 `bmi_snn_m12` at 30 % with the 0.8 ns hold margin: DRC-clean, timing met at all corners (105 min, tag `bmi_snn_m12_5m_u30h`);
 its 500/200-bin windows, full block and 5,000 annotated bins start (`sim/pipeline5.sh`), and the 1.28 V hardening (E14) at the
 same utilization is launched (a stale waiter still carrying the wrong OpenLane key had to be replaced).
+
+### E3 (continued): bmi_snn_m12_s622 (00:15, 20 Sep)
+The 30 % attempt with the original hold margin stalled at the start of detailed routing (no iteration in 3 h, 240 min in total) and
+was ended by the watchdog; it is repeated at 30 % with the 0.8 ns hold margin used for m12 and m12_s131 (both converged at 30 %
+with it), 20 % as the fallback step.
+
+### E3 (continued): bmi_snn_m12_s622 (00:55, 20 Sep)
+The original policy instance had survived the queue kill and, after its stalled 30 % attempt, converged at 20 % with the original
+hold margin (40 min, DRC-clean, timing met): the policy's own answer for this core. The 30 % rerun with the 0.8 ns hold margin
+(as accepted for m12 and m12_s131) runs in parallel; if it converges it replaces the 20 % netlist for a like-for-like comparison
+of the three per-session m12 netlists, otherwise the 20 % result stands. The measurement pipeline started on the 20 % netlist.
+
+### E4 results (02:45, 20 Sep): sp, g32p50, g32p25 full blocks
+Full test block of indy_20160630_01 (107,444 bins, 4.88 events per bin, all bit-exact): `bmi_snn_sp` 2.365 nJ per bin (500-bin
+window 2.674 nJ, +13 %; per-bin 0.689-9.51 nJ); `bmi_snn_g32p50` 1.570 nJ (window 1.780; 5,000 annotated bins 1.952 against
+2.209 on 200 bins); `bmi_snn_g32p25` 1.209 nJ (window 1.360; annotated 1.411 against 1.582). The 500-bin window sits 12-13 %
+above the block mean for every core, as the referee expected from its 20 % higher event rate; the annotated 5,000-bin windows
+are 11-12 % below the 200-bin figures for the same reason. The per-bin maximum reaches 4x the mean in bins with event bursts.

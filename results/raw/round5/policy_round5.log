@@ -55,3 +55,13 @@ bmi_snn_m12_s131 ACCEPTED util=30 tag=bmi_snn_m12_s131_5m_u30h runtime=90min drc
 pdk_gf180/bmi_snn_lmin2 REJECTED util=20 tag=bmi_snn_lmin2_5m_u20 runtime=5min drc=NA pass=0 killed="hold failure at 30 % (-0.127 ns at max_ff_n40C_5v50) is not a utilization problem; rerun at 30 % with hold margin 0.8 ns"
 bmi_snn_m12 ACCEPTED util=30 tag=bmi_snn_m12_5m_u30h runtime=105min drc=0
 bmi_snn_g64p50 REJECTED util=40 tag=bmi_snn_g64p50_5m_u40 runtime=220min drc=NA pass=0 watchdog="drt no completed iteration for 3 h (at 0)"
+bmi_snn_m12_s622 REJECTED util=30 tag=bmi_snn_m12_s622_5m_u30 runtime=240min drc=NA pass=0 watchdog="drt no completed iteration for 3 h (at 0)"
+bmi_snn_min32_s622 ACCEPTED util=50 tag=bmi_snn_min32_s622_5m_u50 runtime=95min drc=0
+bmi_snn_lmem REJECTED util=30 tag=bmi_snn_lmem_5m_u30 runtime=490min drc=NA pass=0 watchdog="drt 26272 violations after 4 iterations"
+bmi_snn_g64p50 ACCEPTED util=30 tag=bmi_snn_g64p50_5m_u30 runtime=55min drc=0
+bmi_snn_m12_s622 ACCEPTED util=20 tag=bmi_snn_m12_s622_5m_u20 runtime=40min drc=0
+bmi_snn_g64p125 ACCEPTED util=50 tag=bmi_snn_g64p125_5m_u50 runtime=25min drc=0
+bmi_snn_min32_s131 ACCEPTED util=50 tag=bmi_snn_min32_s131_5m_u50 runtime=80min drc=0
+bmi_snn_min ACCEPTED util=40 tag=bmi_snn_min_5m_u40 runtime=285min drc=0
+bmi_snn_g128p125 ACCEPTED util=50 tag=bmi_snn_g128p125_5m_u50 runtime=65min drc=0
+bmi_snn_lmin2 REJECTED util=30 tag=bmi_snn_lmin2_5m_u30 runtime=665min drc=NA pass=0 watchdog="drt 145347 violations after 3 iterations"

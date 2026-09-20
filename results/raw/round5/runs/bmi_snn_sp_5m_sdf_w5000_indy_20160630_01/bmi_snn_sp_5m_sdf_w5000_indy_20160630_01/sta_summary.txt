@@ -1,0 +1,1 @@
+toggles_to_activity: annotated 65522 pins, 56 input ports and 18895 nets (driver pins)
