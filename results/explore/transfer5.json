@@ -1,9 +1,27 @@
 {
  "bmi_snn_top": {
-  "points": []
+  "points": [
+   {
+    "ev_per_bin": 3.7823,
+    "e_nJ": 28.583231632004,
+    "cyc": 149.29955,
+    "bins": 20000,
+    "stream": "C"
+   }
+  ],
+  "window500": {
+   "ev_per_bin": 5.868,
+   "e_nJ": 35.862035477560006,
+   "bins": 500
+  }
  },
  "bmi_snn_topg": {
-  "points": []
+  "points": [],
+  "window500": {
+   "ev_per_bin": 5.868,
+   "e_nJ": 26.507748254120003,
+   "bins": 500
+  }
  },
  "bmi_snn_lmin2": {
   "points": []

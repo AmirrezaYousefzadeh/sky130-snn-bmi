@@ -484,7 +484,7 @@ At 20 % with a 2.0 ns hold-repair margin the 12-bit gated core meets 200 ns at 1
 min32 30 % with delay synthesis, m12 20 % with the larger hold margin); m12's annotated measurement at the 1.28 V corner follows.
 | netlist | util | cells | area (um^2) | setup slack ss_n40C_1v28 (ns) | hold slack ff_n40C_1v95 (ns) |
 |---|---|---|---|---|---|
-| bmi_snn_m12_5m (TT signoff) | 30 % | 32,603 | 239,629 | - (fails at 1.28 V, see corner table) | - |
+| bmi_snn_m12_5m (1.8 V signoff) | 30 % | 32,603 | 239,629 | +125.8 (re-evaluated with the 1.28 V liberty) | +0.20 |
 | bmi_snn_m12_5m_lv (1.28 V signoff) | 20 % | 55,518 | 375,337 | +89.8 | +1.17 |
 
 The 1.28 V netlist has 70 % more cells and 57 % more area than the TT netlist (hold buffers dominate: a 2.0 ns margin was
@@ -513,3 +513,68 @@ queue and starts at 50 %.
   appears once E9 delivers its annotated 5 MHz run; totals printed above the 37 C marker.
 - All scripts now write PDF and PNG both to `paper/figures/` (used by the manuscript) and to `figures/` (deliverable folder,
   next to the CSVs). `sw/fig_accuracy.py` (F5) does the same for `r2.pdf`.
+
+## E1/E5 (continued). Policy bookkeeping (2026-09-20, 08:40)
+`sw/policy_summary5.py` (called by `sw/refresh_round5.sh`) parses `logs/policy_round5.log` and `logs/orfs5_policy.log` into
+`results/POLICY5.md` / `results/policy5.json`: the accepted utilization of every kit/design pair, the full attempt sequence
+(utilization: outcome, `h` = hold-margin rerun, `lv` = 1.28 V signoff) and, per attempt, runtime and the reason for a rejection
+(watchdog message, DRC, timing). At the time of writing: 46 kit/design pairs, 40 with an accepted run, 116 attempts. The stray
+`0` lines in the policy log came from `grep -c ... || echo 0` printing twice when no PASS line exists (fixed in the three policy
+scripts; the summariser ignores such lines).
+
+### E3 result: bmi_snn_min32_s131 pipeline complete (08:31, 20 Sep)
+Session C netlist of the H = 32 core (50 %): full block 52,116 bins, 3.71 events/bin, 2.57 nJ/bin zero-delay (16.6 cycles/bin);
+annotated 5,000-bin window 3.08 nJ/bin; bit-exact. Compare the session-B netlist: 3.07 / 3.71 nJ at 4.88 events/bin. The
+per-session table (`results/per_session.csv`, `paper/numbers_persession.tex`) now has B and C complete for sp and min32; the
+session-A blocks (132,745 bins) and the m12 blocks are still running.
+
+### E3/E4 result: bmi_snn_sp_s622 full block of session A (08:50, 20 Sep)
+Session-A netlist of the pruned core (40 %): whole test block, 132,745 bins at 7.93 events/bin, 3.25 nJ/bin zero-delay, bit-exact
+(16 h streamed simulation on the loaded machine). The 50 MHz transfer model of the earlier rounds predicted 3.59 nJ at this
+session's mean rate; scaled by the 50 -> 5 MHz change of the pruned core (2.93 -> 2.67 nJ, 0.91x) it gives 3.27 nJ, within 1 % of
+the measurement. The three-session set of the pruned core (zero-delay, own weights): A 3.25 (7.93 ev/bin), B 2.36 (4.88), C 1.77
+(3.71) nJ/bin; a straight line through the three (different netlists, so indicative only) gives 0.59 nJ + 0.34 nJ per event.
+The 5,000-bin annotated window of A has started.
+
+### E14 result: bmi_snn_m12 measured at 1.28 V (08:55, 20 Sep)
+The 1.28 V netlist (20 %, 2.0 ns hold margin, 55,518 cells) decodes bit-exactly (200 annotated bins, 500 zero-delay bins) at
+ss_n40C_1v28: 4.42 nJ/bin annotated (3.05 zero-delay), leakage 0.195 uW, P_avg at 250 bins/s (clock
+stopped) 1.30 uW. Against the same core at 1.8 V (30 %, 32,603 cells): 6.90 nJ annotated (5.20 zero-delay), leakage
+0.362 uW, P_avg 2.09 uW, i.e. 1.56x less energy per bin and 1.61x less average power. The gain is smaller than for sp
+(2.2x) and min32 (1.76x) because the 2.0 ns hold margin needed at the fast corner added 70 % cells, mostly hold buffers on the
+gated clock paths, whose switching is charged to the annotated energy. E14 is complete for the three requested cores:
+
+| core | 1.8 V netlist: util / cells / E_ann nJ / P_avg uW | 1.28 V netlist: util / cells / E_ann nJ / leak uW / P_avg uW | energy ratio |
+|---|---|---|---|
+| bmi_snn_sp | 40 % / 24,546 / 3.15 / 1.03 | 40 % / 32,484 / 1.43 / 0.073 / 0.43 | 2.2x |
+| bmi_snn_min32 | 50 % / 16,744 / 4.18 / 1.19 | 30 % (delay synthesis) / 31,632 / 2.37 / 0.122 / 0.71 | 1.76x |
+| bmi_snn_m12 | 30 % / 32,603 / 6.90 / 2.09 | 20 % (hold margin 2.0 ns) / 55,518 / 4.42 / 0.195 / 1.30 | 1.56x |
+
+### E2/E4 result: bmi_snn_g64p125 pipeline complete (08:57, 20 Sep)
+H = 64 at 12.5 % synapses (50 %): full block B 1.58 nJ/bin over 107,444 bins, annotated 5,000-bin window 1.82 nJ/bin
+(500-bin window 1.76, 200-bin annotated 2.02). Mean R2 0.528 (5 seeds), below the 0.55 gate: the cheapest H = 64 point but not
+a usable one. Grid cores with complete pipelines: g16p50, g32p25, g32p50, g64p125; running: g64p50, g128p125, g128p25; g128 hardening.
+
+### E2 result: bmi_snn_g128p25 windows (08:59, 20 Sep)
+H = 128 at 25 % synapses (30 %, 51,113 cells, 0.356 mm2): 5.74 nJ/bin zero-delay, 7.0 nJ annotated (glitch factor 1.22), leakage
+0.668 uW, P_avg 2.42 uW at 250 bins/s; mean R2 0.572 (5 seeds), the same accuracy as the H = 64 / 25 % core (0.573) at 2.2x its
+energy, so it does not reach the front. Its full block B (107,444 bins) has started. F1 refreshed (18 points).
+
+### E14 finding: re-evaluation against re-hardening at 1.28 V (09:05, 20 Sep)
+With the m12 measurement in, all three cores can be compared both ways. The netlists signed off at 1.8 V (nine corners) also meet
+200 ns when re-evaluated with the ss_n40C_1v28 liberty, with room to spare, and their hold slack at that corner is positive:
+
+| core | 1.8 V netlist re-evaluated at 1.28 V: setup / hold slack (ns), f_max (MHz), E_ann (nJ), leak (uW) | netlist hardened with 1.28 V signoff: E_ann (nJ), leak (uW), cells vs 1.8 V netlist | hardened / re-evaluated |
+|---|---|---|---|
+| bmi_snn_sp | +142.9 / +2.42, 17.5, 1.34, 0.086 | 1.43, 0.073, +32 % | 1.07x |
+| bmi_snn_min32 | +145.2 / +2.80, 18.2, 1.78, 0.049 | 2.37, 0.122, +89 % | 1.33x |
+| bmi_snn_m12 | +125.8 / +2.99, 13.5, 3.13, 0.136 | 4.42, 0.195, +70 % | 1.41x |
+
+The re-hardened netlists are 7-41 % more expensive in energy per bin (and up to 2.5x in leakage) than the re-evaluated ones. The
+extra cost is not the 1.28 V corner itself but the hold repair the twelve-corner signoff demanded: the fast corner (ff_n40C_1v95)
+combined with the slow 1.28 V clock tree forces hold buffers on the gated clock paths (sp needed the default margin, min32 delay
+synthesis, m12 a 2.0 ns margin before the run converged), and their switching is charged to the annotated energy. Since the 1.8 V
+netlists already pass every characterised corner including ff_n40C_1v95, the re-evaluated numbers are legitimate operating points of
+a netlist that works at both supplies, and the re-hardened numbers are the conservative bound for a part designed for 1.28 V only
+under this flow's signoff set. Both are kept: `results/corners5.json` (`tt.e_lowv` re-evaluated, `lv.e_sdf_1v28` re-hardened),
+`paper/corners_table5.tex` / `numbers_corners5.tex`; F2 draws the re-hardened (conservative) 1.28 V line and says so in its CSV.

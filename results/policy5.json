@@ -1,0 +1,1127 @@
+{
+ "sky130/bmi_snn_sp": {
+  "accepted": [
+   40,
+   40
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_sp_5m_u60",
+    "runtime_min": 5,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_sp_5m_u50",
+    "runtime_min": 500,
+    "reason": "killed: detailed routing hopeless: 4,872 violations after 4 iterations, no progress for 8 h"
+   },
+   {
+    "util": 40,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_sp_5m_u40",
+    "runtime_min": 25,
+    "reason": ""
+   },
+   {
+    "util": 40,
+    "outcome": "ACCEPTED (1.28 V signoff)",
+    "tag": "bmi_snn_sp_5m_lv",
+    "runtime_min": 70,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_m12": {
+  "accepted": [
+   30,
+   20
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u60",
+    "runtime_min": 9,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u50",
+    "runtime_min": 12,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u40",
+    "runtime_min": 500,
+    "reason": "killed: GRT-0097 no global routing found; run stalled after CTS"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u40",
+    "runtime_min": 215,
+    "reason": "watchdog: drt no completed iteration for 3 h (at 0)"
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u30",
+    "runtime_min": 80,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u20",
+    "runtime_min": 10,
+    "reason": "killed: hold failure at 30 % is not a utilization problem; rerun at 30 % with hold margin 0.8 ns"
+   },
+   {
+    "util": 30,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_m12_5m_u30h",
+    "runtime_min": 105,
+    "reason": ""
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED (1.28 V signoff)",
+    "tag": "bmi_snn_m12_5m_lv",
+    "runtime_min": 300,
+    "reason": "killed: detailed routing wrote no iteration in 3.7 h (stalled start); repeated at 20 %"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED (1.28 V signoff)",
+    "tag": "bmi_snn_m12_5m_lv",
+    "runtime_min": 75,
+    "reason": ""
+   },
+   {
+    "util": 20,
+    "outcome": "ACCEPTED (1.28 V signoff)",
+    "tag": "bmi_snn_m12_5m_lv",
+    "runtime_min": 135,
+    "reason": ""
+   }
+  ]
+ },
+ "gf180/bmi_snn_sp": {
+  "accepted": [
+   50
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_sp_5m_u60",
+    "runtime_min": 3,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 50,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_sp_5m_u50",
+    "runtime_min": 73,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_min16": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min16_5m_u60",
+    "runtime_min": 9,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_fe": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_fe_5m_u60",
+    "runtime_min": 6,
+    "reason": ""
+   }
+  ]
+ },
+ "gf180/bmi_snn_m12": {
+  "accepted": [
+   30
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u60",
+    "runtime_min": 7,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u50",
+    "runtime_min": 15,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u40",
+    "runtime_min": 15,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 30,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_m12_5m_u30",
+    "runtime_min": 24,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_top": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_top_5m_u60",
+    "runtime_min": 64,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_topg": {
+  "accepted": [
+   40
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_topg_5m_u60",
+    "runtime_min": 14,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_topg_5m_u50",
+    "runtime_min": 6,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 40,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_topg_5m_u40",
+    "runtime_min": 15,
+    "reason": ""
+   }
+  ]
+ },
+ "gf180/bmi_snn_min32": {
+  "accepted": [
+   40
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_min32_5m_u60",
+    "runtime_min": 6,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_min32_5m_u50",
+    "runtime_min": 6,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 40,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min32_5m_u40",
+    "runtime_min": 13,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_g16p50": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g16p50_5m_u60",
+    "runtime_min": 138,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_min32": {
+  "accepted": [
+   50,
+   30
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_min32_5m_u60",
+    "runtime_min": 470,
+    "reason": "killed: detailed routing hopeless: 100,462 violations after 3 iterations"
+   },
+   {
+    "util": 50,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min32_5m_u50",
+    "runtime_min": 45,
+    "reason": ""
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED (1.28 V signoff)",
+    "tag": "bmi_snn_min32_5m_lv",
+    "runtime_min": 330,
+    "reason": "killed: detailed routing 58,294 -> 45,169 violations over 4 iterations with the 1.28 V repair; repeated at 40 %"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED (1.28 V signoff)",
+    "tag": "bmi_snn_min32_5m_lv",
+    "runtime_min": 330,
+    "reason": "killed: detailed routing stalled at 9,520 violations after 5 iterations (no progress for 2.7 h); repeated at 30 %"
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED (1.28 V signoff)",
+    "tag": "bmi_snn_min32_5m_lv",
+    "runtime_min": 36,
+    "reason": ""
+   },
+   {
+    "util": 30,
+    "outcome": "ACCEPTED (1.28 V signoff)",
+    "tag": "bmi_snn_min32_5m_lv",
+    "runtime_min": 64,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_ming": {
+  "accepted": [
+   30
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_ming_5m_u60",
+    "runtime_min": 470,
+    "reason": "killed: detailed routing hopeless: 286,322 violations after 1 iteration"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_ming_5m_u40",
+    "runtime_min": 175,
+    "reason": "watchdog: drt 4211 violations after 8 iterations"
+   },
+   {
+    "util": 30,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_ming_5m_u30",
+    "runtime_min": 45,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_lmin2": {
+  "accepted": [],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u60",
+    "runtime_min": 470,
+    "reason": "killed: detailed routing: no iteration completed in 3 h (400k instances)"
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u30",
+    "runtime_min": 665,
+    "reason": "watchdog: drt 145347 violations after 3 iterations"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u20",
+    "runtime_min": 265,
+    "reason": "timing/hold failure"
+   }
+  ]
+ },
+ "sky130/bmi_snn_g32p50": {
+  "accepted": [
+   50
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_5m_u60",
+    "runtime_min": 315,
+    "reason": "killed: detailed routing hopeless: 58,769 violations after 3 iterations"
+   },
+   {
+    "util": 50,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g32p50_5m_u50",
+    "runtime_min": 140,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_sp_s622": {
+  "accepted": [
+   40
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_sp_s622_5m_u60",
+    "runtime_min": 455,
+    "reason": "killed: detailed routing hopeless: 121,897 violations after 4 iterations"
+   },
+   {
+    "util": 40,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_sp_s622_5m_u40",
+    "runtime_min": 25,
+    "reason": ""
+   }
+  ]
+ },
+ "gf180/bmi_snn_min16": {
+  "accepted": [
+   50
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_min16_5m_u60",
+    "runtime_min": 350,
+    "reason": "killed: detailed routing hopeless: 40,924 violations after 4 iterations"
+   },
+   {
+    "util": 50,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min16_5m_u50",
+    "runtime_min": 5,
+    "reason": ""
+   }
+  ]
+ },
+ "gf180/bmi_snn_lmin2": {
+  "accepted": [
+   30
+  ],
+  "attempts": [
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u30",
+    "runtime_min": 5,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u20",
+    "runtime_min": 5,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u30",
+    "runtime_min": 395,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u20",
+    "runtime_min": 5,
+    "reason": "killed: hold failure at 30 % (-0.127 ns at max_ff_n40C_5v50) is not a utilization problem; rerun at 30 % with hold margin 0.8 ns"
+   },
+   {
+    "util": 30,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_lmin2_5m_u30h",
+    "runtime_min": 480,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_sp_s131": {
+  "accepted": [
+   40
+  ],
+  "attempts": [
+   {
+    "util": 40,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_sp_s131_5m_u40",
+    "runtime_min": 20,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_g32p25": {
+  "accepted": [
+   50
+  ],
+  "attempts": [
+   {
+    "util": 50,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g32p25_5m_u50",
+    "runtime_min": 25,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_min": {
+  "accepted": [
+   40
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_min_5m_u60",
+    "runtime_min": 225,
+    "reason": "watchdog: drt 290,447 violations after 1 iteration (killed by hand ahead of the watchdog)"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_min_5m_u50",
+    "runtime_min": 100,
+    "reason": "watchdog: drt 77045 violations after 3 iterations"
+   },
+   {
+    "util": 40,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min_5m_u40",
+    "runtime_min": 285,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_g64p50": {
+  "accepted": [
+   30
+  ],
+  "attempts": [
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g64p50_5m_u50",
+    "runtime_min": 80,
+    "reason": "watchdog: drt 87987 violations after 3 iterations"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g64p50_5m_u40",
+    "runtime_min": 220,
+    "reason": "watchdog: drt no completed iteration for 3 h (at 0)"
+   },
+   {
+    "util": 30,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g64p50_5m_u30",
+    "runtime_min": 55,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_m12_s622": {
+  "accepted": [
+   20
+  ],
+  "attempts": [
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_s622_5m_u40",
+    "runtime_min": 215,
+    "reason": "watchdog: drt no completed iteration for 3 h (at 0)"
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_s622_5m_u30",
+    "runtime_min": 240,
+    "reason": "watchdog: drt no completed iteration for 3 h (at 0)"
+   },
+   {
+    "util": 20,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_m12_s622_5m_u20",
+    "runtime_min": 40,
+    "reason": ""
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_s622_5m_u30h",
+    "runtime_min": 250,
+    "reason": "watchdog: drt no completed iteration for 3 h (at 0)"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_s622_5m_u20h",
+    "runtime_min": 5,
+    "reason": "killed: duplicate of the accepted 20 % run; the 30 % rerun with the 0.8 ns margin stalled like the original"
+   }
+  ]
+ },
+ "sky130/bmi_snn_m12_s131": {
+  "accepted": [
+   30
+  ],
+  "attempts": [
+   {
+    "util": 30,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_m12_s131_5m_u30h",
+    "runtime_min": 90,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_min32_s622": {
+  "accepted": [
+   50
+  ],
+  "attempts": [
+   {
+    "util": 50,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min32_s622_5m_u50",
+    "runtime_min": 95,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_lmem": {
+  "accepted": [],
+  "attempts": [
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmem_5m_u30",
+    "runtime_min": 490,
+    "reason": "watchdog: drt 26272 violations after 4 iterations"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmem_5m_u20",
+    "runtime_min": 270,
+    "reason": "watchdog: drt 92394 violations after 3 iterations"
+   }
+  ]
+ },
+ "sky130/bmi_snn_g64p125": {
+  "accepted": [
+   50
+  ],
+  "attempts": [
+   {
+    "util": 50,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g64p125_5m_u50",
+    "runtime_min": 25,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_min32_s131": {
+  "accepted": [
+   50
+  ],
+  "attempts": [
+   {
+    "util": 50,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min32_s131_5m_u50",
+    "runtime_min": 80,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_g128p125": {
+  "accepted": [
+   50
+  ],
+  "attempts": [
+   {
+    "util": 50,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g128p125_5m_u50",
+    "runtime_min": 65,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_hw": {
+  "accepted": [],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_hw_5m_u60",
+    "runtime_min": 165,
+    "reason": "watchdog: drt 121933 violations after 3 iterations"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_hw_5m_u50",
+    "runtime_min": 140,
+    "reason": "watchdog: drt 23294 violations after 4 iterations"
+   }
+  ]
+ },
+ "sky130/bmi_snn_g128p25": {
+  "accepted": [
+   30
+  ],
+  "attempts": [
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g128p25_5m_u50",
+    "runtime_min": 165,
+    "reason": "watchdog: drt 44899 violations after 4 iterations"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g128p25_5m_u40",
+    "runtime_min": 150,
+    "reason": "watchdog: drt 20089 violations after 4 iterations"
+   },
+   {
+    "util": 30,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g128p25_5m_u30",
+    "runtime_min": 35,
+    "reason": ""
+   }
+  ]
+ },
+ "nangate45/bmi_snn_sp": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_sp_5m_u60",
+    "runtime_min": 13,
+    "reason": ""
+   }
+  ]
+ },
+ "asap7/bmi_snn_sp": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_sp_5m_u60",
+    "runtime_min": 15,
+    "reason": ""
+   }
+  ]
+ },
+ "nangate45/bmi_snn_m12": {
+  "accepted": [
+   40
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u60",
+    "runtime_min": 13,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u50",
+    "runtime_min": 10,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 40,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_m12_5m_u40",
+    "runtime_min": 23,
+    "reason": ""
+   }
+  ]
+ },
+ "asap7sram/bmi_snn_sp": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_sp_5m_sram_u60",
+    "runtime_min": 16,
+    "reason": ""
+   }
+  ]
+ },
+ "asap7/bmi_snn_m12": {
+  "accepted": [
+   50
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u60",
+    "runtime_min": 19,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 50,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_m12_5m_u50",
+    "runtime_min": 30,
+    "reason": ""
+   }
+  ]
+ },
+ "asap7sram/bmi_snn_m12": {
+  "accepted": [
+   50
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_sram_u60",
+    "runtime_min": 24,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 50,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_m12_5m_sram_u50",
+    "runtime_min": 31,
+    "reason": ""
+   }
+  ]
+ },
+ "nangate45/bmi_snn_min32": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min32_5m_u60",
+    "runtime_min": 16,
+    "reason": ""
+   }
+  ]
+ },
+ "nangate45/bmi_snn_min16": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min16_5m_u60",
+    "runtime_min": 9,
+    "reason": ""
+   }
+  ]
+ },
+ "nangate45/bmi_snn_lmin2": {
+  "accepted": [
+   30
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u60",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u50",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u40",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u30",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u20",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 30,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_lmin2_5m_u30",
+    "runtime_min": 107,
+    "reason": ""
+   }
+  ]
+ },
+ "asap7/bmi_snn_min32": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min32_5m_u60",
+    "runtime_min": 23,
+    "reason": ""
+   }
+  ]
+ },
+ "asap7/bmi_snn_min16": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min16_5m_u60",
+    "runtime_min": 14,
+    "reason": ""
+   }
+  ]
+ },
+ "asap7/bmi_snn_lmin2": {
+  "accepted": [],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u60",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u50",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u40",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u30",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u20",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u30",
+    "runtime_min": 77,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u20",
+    "runtime_min": 61,
+    "reason": "flow exit / route did not finish"
+   }
+  ]
+ },
+ "asap7sram/bmi_snn_min32": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min32_5m_sram_u60",
+    "runtime_min": 19,
+    "reason": ""
+   }
+  ]
+ },
+ "asap7sram/bmi_snn_min16": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min16_5m_sram_u60",
+    "runtime_min": 10,
+    "reason": ""
+   }
+  ]
+ },
+ "asap7sram/bmi_snn_lmin2": {
+  "accepted": [],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_sram_u60",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_sram_u50",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_sram_u40",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_sram_u30",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_sram_u20",
+    "runtime_min": 0,
+    "reason": "flow exit / route did not finish"
+   }
+  ]
+ },
+ "ihp/bmi_snn_sp": {
+  "accepted": [],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_sp_5m_u60",
+    "runtime_min": 490,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_sp_5m_u50",
+    "runtime_min": 52,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_sp_5m_u40",
+    "runtime_min": 46,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_sp_5m_u30",
+    "runtime_min": 214,
+    "reason": "flow exit / route did not finish"
+   }
+  ]
+ }
+}
