@@ -51,7 +51,7 @@ for U in $UTILS; do
   FP=$!; watch "$DES/runs/$TAG" $FP; wait $FP 2>/dev/null
   SR="$DES/runs/$TAG/synthesis_results.txt"; MJ="$DES/runs/$TAG/final/metrics.json"
   DRC=$(python3 -c "import json,sys; m=json.load(open('$MJ')); print(m.get('route__drc_errors','NA'))" 2>/dev/null || echo NA)
-  PASS=$(grep -c "RESULT: PASS" "$SR" 2>/dev/null || echo 0)
+  PASS=$(grep -c "RESULT: PASS" "$SR" 2>/dev/null || true); PASS=${PASS:-0}
   DT=$(( ($(date +%s) - T0) / 60 )); WD=""; [[ -f "$DES/runs/$TAG/WATCHDOG_KILLED" ]] && WD=" watchdog=\"$(cat "$DES/runs/$TAG/WATCHDOG_KILLED")\""
   grep -E "setup slack|hold slack|RESULT" "$SR" 2>/dev/null | sed 's/^/   /'
   echo "   drc_errors=$DRC timing_pass=$PASS runtime=${DT}min$WD"

@@ -193,7 +193,12 @@ Everything of round 5 hangs off a common 5 MHz clock (200 ns; 9,030 SoC cycles p
 - Collectors: `sw/collect_designs5.py` (numbers2.tex, designs_table.tex, DESIGNS_50_vs_5.md), `sw/collect_pdks5.py`
   (pdks_table.tex, numbers_pdks.tex, pdks_pavg_vs_rate.csv), `sw/collect_pareto.py` (pareto.csv, E2), `sw/collect_persession.py`
   (per_session.csv, E3), `sw/collect_software5.py` (E7), `sw/collect_frontend.py` (E10), `sw/collect_seeds.py` (grid seeds),
-  `sw/bootstrap_r2.py` (E12). Figures: `figures/fig_pareto.py`, `figures/fig_pavg_vs_rate.py`, `figures/fig_power_breakdown5.py`.
+  `sw/bootstrap_r2.py` (E12). Figures: `figures/fig_pareto.py` (F1), `figures/fig_pavg_vs_rate.py` (F2),
+  `figures/fig_power_breakdown5.py` (F3), `sw/fig_accuracy.py` (F5); each writes PDF and PNG to `figures/` (next to the CSV
+  of the plotted data) and to the manuscript's figure folder.
+- Annotated simulation on the other kits (Icarus): compile `sim/timescale_1ns_1ps.v` first, use the notifier-initialised
+  sequential-cell copies and `sim/asap7_seq_icarus.v`, and pass the SDF through `sim/sdf_sanitize_for_icarus.py` (unit rescaling,
+  empty triplets); `sim/run_gls_stream.sh` does this when `PDK_VERILOG`/`SDF_SRC` are set (details in the run log).
 - Raw reports: `sw/snapshot_raw5.sh` -> `results/raw/round5/`. Run log: `results/run_log_round5.md`.
 
 ## Measurement recipe (for comparable future work)

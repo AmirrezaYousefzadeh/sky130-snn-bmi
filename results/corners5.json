@@ -67,6 +67,20 @@
     "cycles": 4446
    },
    "e_lowv": null
+  },
+  "lv": {
+   "cells": 55518,
+   "area_um2": 375337,
+   "setup_ws_ns": 87.98579180941822,
+   "hold_ws_ns": 1.1703081057718387,
+   "setup_ws_1v28_ns": 89.82314879464748,
+   "hold_ws_1v28_ns": 15.304440814508483,
+   "setup_ws_tt_ns": 118.38053006267542,
+   "drc": 0,
+   "util_pct": 20,
+   "e_sdf_1v28": null,
+   "e_func_1v28": null,
+   "leak_1v28_uW": null
   }
  },
  "bmi_snn_min32": {
@@ -83,7 +97,16 @@
     "bins": 200,
     "cycles": 4359
    },
-   "e_lowv": null
+   "e_lowv": {
+    "energy_per_bin_nJ": 1.7785644108,
+    "power_uW": 408.0212,
+    "leakage_uW": 0.04888517,
+    "bins": 200,
+    "cycles": 4359,
+    "setup_ws_ns": 145.18543878239143,
+    "hold_ws_ns": 2.7991369222490903,
+    "fmax_MHz": 18.24332764482225
+   }
   },
   "lv": {
    "cells": 31632,
@@ -95,7 +118,13 @@
    "setup_ws_tt_ns": 118.85429155056971,
    "drc": 0,
    "util_pct": 30,
-   "e_sdf_1v28": null,
+   "e_sdf_1v28": {
+    "energy_per_bin_nJ": 2.3686034457000007,
+    "power_uW": 543.3823,
+    "leakage_uW": 0.12233839999999999,
+    "bins": 200,
+    "cycles": 4359
+   },
    "e_func_1v28": {
     "energy_per_bin_nJ": 1.86072429836,
     "power_uW": 446.8169,
@@ -103,7 +132,8 @@
     "bins": 500,
     "cycles": 10411
    },
-   "leak_1v28_uW": 0.1219879
+   "leak_1v28_uW": 0.1219879,
+   "pavg_250Hz_uW": 0.7141387614250002
   }
  }
 }

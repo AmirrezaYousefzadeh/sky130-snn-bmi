@@ -39,7 +39,9 @@ for xi, v in zip(x + 2 * w, r2):
 ax.set_xticks(x); ax.set_xticklabels([s.replace("indy_", "") for s in SESS]); ax.set_ylabel("test $R^2$ (NeuroBench)")
 ax.set_ylim(0, 0.95); ax.axhline(0.55, ls="--", lw=0.8, color="k", label="accuracy threshold used in this work (0.55)")
 ax.legend(fontsize=6.2, loc="upper center", frameon=False, ncol=2, bbox_to_anchor=(0.5, -0.16))
-fig.tight_layout(); fig.savefig(FIG / "r2.pdf", bbox_inches="tight"); fig.savefig(FIG / "r2.png", dpi=200, bbox_inches="tight")
+fig.tight_layout()
+for out in (FIG, FIG.parent.parent / "figures"):
+    out.mkdir(exist_ok=True); fig.savefig(out / "r2.pdf", bbox_inches="tight"); fig.savefig(out / "r2.png", dpi=200, bbox_inches="tight")
 print("mean R2 ours", np.mean(r2), "SNN2", np.mean(NB["SNN2 streaming (NeuroBench)"]), "SNN3", np.mean(NB["SNN3 (NeuroBench)"]))
 # ---- trace figure
 s = "indy_20160630_01"

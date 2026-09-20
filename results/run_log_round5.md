@@ -445,3 +445,71 @@ restructured; cell count and area against the TT netlist below. The annotated 20
 Figures: setup +113.1 ns at nom_ss_n40C_1v28 (data path 87 ns against 288 ns before), hold +2.63 ns there and +0.114 ns at
 max_ff; 31,632 cells / 0.1752 mm2 against 16,744 cells / 0.1194 mm2 for the TT-signoff netlist (+89 % cells, +47 % area): the
 1.28 V signoff of the dense 16-bit core is paid in restructured, upsized logic.
+
+### E5 result: GF180 latch-memory core hardened (06:50, 20 Sep)
+`pdk_gf180/bmi_snn_lmin2` at 30 % with the 0.8 ns hold margin: DRC-clean after 8 h (routing 26,518 -> 758 -> 11 -> 0 violations),
+timing met at every corner (hold +0.093 ns worst), 208,138 cells / 5.15 mm2. Its 500-bin zero-delay window and idle run start
+(`sim/measure_pdk5.sh gf180 lmin2 func`); an annotated run of this size is attempted only if the sky130 E9 run shows that Icarus
+can handle the annotated latch memory within the budget.
+
+### E14 measurement (07:05, 20 Sep): bmi_snn_min32 hardened at 1.28 V
+Annotated 200-bin run at nom_ss_n40C_1v28 (bit-exact): 2.37 nJ per bin against 4.18 nJ for the TT netlist at 1.8 V (1.77x);
+leakage 0.122 uW at -40 C, average power at 250 bins/s 0.714 uW. The TT netlist re-evaluated at 1.28 V on its annotated window
+gives 1.78 nJ (setup slack 145 ns, f_max 18 MHz without IO constraints): the timing-safe 1.28 V hardening costs 33 % more energy
+than the liberty swap because of its 89 % more cells. Together with sp (1.43 nJ against 3.15 nJ, 2.2x) the two hardened
+low-voltage cores confirm the direction of Table A2 but with a smaller gain than the swaps suggested. m12 at 1.28 V (20 %, 2.0 ns
+hold margin) is the last E14 run in flow.
+
+### E5 result: GF180 latch-memory core measured (07:20, 20 Sep)
+500-bin window of indy_20160630_01 bit-exact: 42.2 nJ per bin at 5 V (sp on the same kit: 23.8 nJ), leakage 49.6 uW (the
+latch array: 134,639 logic cells against 18,951 for sp; 4.83 mm2), average power at 250 bins/s 60.2 uW, i.e. the leakage of the
+standard-cell weight memory dominates at 5 V just as the 1.3 uW of the sky130 latch memory did at 1.8 V. Supply re-evaluations
+(3.3 V, 1.8 V, ss 1.62 V) follow.
+(Leakage split of the GF180 latch core: 32.5 uW in the logic cells, 17.1 uW in fillers and taps; 23.8 cycles per bin.)
+
+### E1/E9 (continued): sky130 latch-memory core at 20 % (07:50, 20 Sep)
+`bmi_snn_lmin2` at 20 % routed DRC-clean (265 min, 220,358 cells / 1.77 mm2) and meets setup, but 394 endpoints fail hold
+(-0.475 ns at max_ff, -0.304 ns at nom_tt, -0.079 ns at max_ss) with the 0.3 ns hold margin of its 50 MHz configuration: the
+161 row clock gates of the latch memory put every row's write path one clock-gate delay behind the data. Repeated at 20 % with a
+1.0 ns hold margin (tag `bmi_snn_lmin2_5m_u20h`; the GF180 latch core passed with 0.8 ns); the E9 annotated glitch run waits for it.
+
+### E4 / E5 results (07:50, 20 Sep): min32 complete, GF180 latch core at other supplies
+`bmi_snn_min32`: full block 3.068 nJ per bin (window 3.457, +13 %), 5,000 annotated bins 3.709 nJ (200-bin window 4.181),
+per-bin 0.90-11.8 nJ, all bit-exact. GF180 `bmi_snn_lmin2` re-evaluated: 17.1 nJ at 3.3 V (leakage 22.9 uW), 4.67 nJ at 1.8 V
+(7.86 uW, f_max 78 MHz), 4.17 nJ at the ss 1.62 V / 125 C corner (dynamic 3.70 nJ, leakage 98.5 uW at 125 C).
+
+### E14 result: bmi_snn_m12 hardened at 1.28 V (08:00, 20 Sep)
+At 20 % with a 2.0 ns hold-repair margin the 12-bit gated core meets 200 ns at 1.28 V / -40 C with positive hold at every corner
+(135 min, DRC-clean); figures below against the TT netlist (30 %). All three E14 cores are now hardened at 1.28 V (sp 40 %,
+min32 30 % with delay synthesis, m12 20 % with the larger hold margin); m12's annotated measurement at the 1.28 V corner follows.
+| netlist | util | cells | area (um^2) | setup slack ss_n40C_1v28 (ns) | hold slack ff_n40C_1v95 (ns) |
+|---|---|---|---|---|---|
+| bmi_snn_m12_5m (TT signoff) | 30 % | 32,603 | 239,629 | - (fails at 1.28 V, see corner table) | - |
+| bmi_snn_m12_5m_lv (1.28 V signoff) | 20 % | 55,518 | 375,337 | +89.8 | +1.17 |
+
+The 1.28 V netlist has 70 % more cells and 57 % more area than the TT netlist (hold buffers dominate: a 2.0 ns margin was
+needed for the fast corner). The setup slack is comfortable (90 ns of 200 ns), so the core would also close at 1.28 V at a
+higher clock; only the hold repair drives the area.
+
+### Policy acceptance: bmi_snn_g128p25 at 30 % (07:54, 20 Sep)
+50 % and 40 % were stopped by the watchdog (detail route at 44 and 20 k violations after four iterations); 30 % closed in 35 min,
+DRC-clean, 51,113 cells, 356,233 um^2, worst setup slack +117.5 ns (ss_100C_1v60), hold +0.093 ns (ff_n40C_1v95). The pipeline
+(full block B, then 20,000-bin A/C blocks) starts automatically. `bmi_snn_g128` (dense H = 128) is the last core in the grid
+queue and starts at 50 %.
+
+## Figures (continued): F1-F3 brought to the requested layout (2026-09-20, 08:20)
+- F1 `figures/fig_pareto.py`: x = three-session mean R2 (linear 0.50-0.62), y = annotated energy per bin (log 1-3000 nJ); marker
+  shape = weight storage (constants / latches / SRAM block / software), colour = H; labels "64, 25 %"; horizontal min-max bars over
+  the five seeds; a line per H across densities and a dashed line through the dense cores across H; vertical lines at 0.55 and
+  0.593 (NeuroBench SNN2). Reference points: SRAM core in event and dense mode, gated SRAM core, the 16-bit hardwired cores, the
+  latch-memory core (50 MHz netlist until the 5 MHz hardening closes, marked in the label) and the hand-tuned software at 5 MHz.
+  18 points with g128p25 (zero-delay until its annotated run finishes). Data: `figures/pareto_points.csv`.
+- F2 `figures/fig_pavg_vs_rate.py`: two panels (sp, min32), one line per kit and flavour: sky130 1.8 V, sky130 1.8 V with the
+  interpolated 37 C leakage (dotted), sky130 1.28 V (E14 netlist, annotated, -40 C slow liberty), GF180MCU 5 V and 1.8 V
+  (re-evaluated netlist, zero-delay energy times the kit glitch factor 1.08), NanGate45 (zero-delay), ASAP7 SRAM-Vt and RVT; IHP
+  is added automatically once `ihp/sp` exists in pdks5.json. Vertical dashed line and a marker on every line at 250 bins/s.
+  Data: `figures/pavg_vs_rate.csv` (energy kind stated per row).
+- F3 `figures/fig_power_breakdown5.py`: added the SRAM core's dense mode (367 nJ annotated) as its own bar; the latch core
+  appears once E9 delivers its annotated 5 MHz run; totals printed above the 37 C marker.
+- All scripts now write PDF and PNG both to `paper/figures/` (used by the manuscript) and to `figures/` (deliverable folder,
+  next to the CSVs). `sw/fig_accuracy.py` (F5) does the same for `r2.pdf`.

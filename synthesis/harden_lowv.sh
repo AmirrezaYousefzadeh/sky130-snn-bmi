@@ -44,7 +44,7 @@ echo "==== $D: 5 MHz, utilization $U %, signoff ss_n40C_1v28, run tag $TAG ($(da
 DESIGN=$D CFG="$CFG" RUN_TAG=$TAG "$ROOT/synthesis/run_synthesis.sh" > "$ROOT/logs/openlane_$TAG.log" 2>&1
 SR="$DES/runs/$TAG/synthesis_results.txt"; MJ="$DES/runs/$TAG/final/metrics.json"
 DRC=$(python3 -c "import json; m=json.load(open('$MJ')); print(m.get('route__drc_errors','NA'))" 2>/dev/null || echo NA)
-PASS=$(grep -c "RESULT: PASS" "$SR" 2>/dev/null || echo 0); DT=$(( ($(date +%s) - T0) / 60 ))
+PASS=$(grep -c "RESULT: PASS" "$SR" 2>/dev/null || true); PASS=${PASS:-0}; DT=$(( ($(date +%s) - T0) / 60 ))
 grep -E "setup slack|hold slack|RESULT" "$SR" 2>/dev/null | sed 's/^/   /'
 echo "   drc_errors=$DRC timing_pass=$PASS runtime=${DT}min"
 echo "$D LOWV util=$U tag=$TAG runtime=${DT}min drc=$DRC pass=$PASS" >> "$ROOT/logs/policy_round5.log"

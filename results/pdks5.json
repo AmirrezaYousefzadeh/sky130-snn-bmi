@@ -2046,6 +2046,197 @@
   "avg_power_uW_250Hz_clkstopped_best": 6.804906866750001,
   "bit_exact_500": true
  },
+ "gf180/lmin2": {
+  "label": "GlobalFoundries GF180MCU",
+  "node": "180 nm",
+  "lib": "gf180mcu\\_fd\\_sc\\_mcu7t5v0",
+  "flow": "OpenLane",
+  "sh": "Gf",
+  "fab": true,
+  "core": "lmin2",
+  "core_sh": "LmMinP",
+  "core_label": "latch memory, 12-bit gated, pipelined",
+  "voltage": 5.0,
+  "temperature": 25.0,
+  "pnr": {
+   "instance_area_um2": 4826917.715202012,
+   "stdcell_area_um2": 5149610,
+   "macro_area_um2": 0,
+   "instances": 208138,
+   "stdcells": 134639,
+   "macros": 0,
+   "die_area_um2": 11190000,
+   "core_area_um2": 11031400,
+   "setup_ws_ns": 0,
+   "hold_ws_ns": 0.0927427050296102,
+   "setup_viol": 0,
+   "hold_viol": 0,
+   "clock_period_ns": null,
+   "wirelength_um": 20873533,
+   "drc": 0,
+   "utilisation": 0.466812,
+   "timing_met": true,
+   "util_target_pct": 30,
+   "stdcells_netlist": 134639,
+   "instance_area_netlist_um2": 4826917.715202012,
+   "phys_cells": 341990,
+   "netlist": "/home/yousefzadeha/workspace/BCI_paper/synthesis/pdk_gf180/bmi_snn_lmin2/runs/bmi_snn_lmin2_5m/final/nl/bmi_snn_lmin2.nl.v"
+  },
+  "event": {
+   "tag": "pdk5_gf180_lmin2_md0_full",
+   "tb": {
+    "bins": 500,
+    "events": 2934,
+    "errors": 0,
+    "cycles": 13562,
+    "active_cycles": 13345,
+    "avg_latency_cyc": 8,
+    "max_latency_cyc": 17,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.002559879,
+     "switching": 0.0005634348,
+     "leakage": 1.748687e-05,
+     "total": 0.003140801
+    },
+    "Combinational": {
+     "internal": 1.07179e-06,
+     "switching": 3.215607e-07,
+     "leakage": 9.965365e-06,
+     "total": 1.135872e-05
+    },
+    "Clock": {
+     "internal": 0.002920592,
+     "switching": 0.002754324,
+     "leakage": 2.218465e-05,
+     "total": 0.005697101
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.005481537,
+     "switching": 0.00331808,
+     "leakage": 4.968225e-05,
+     "total": 0.008849299
+    }
+   },
+   "power_avg_uW": 8849.298999999999,
+   "cycles_meas": 11917,
+   "cycles_per_bin": 23.834,
+   "energy_per_bin_nJ": 42.18283847320001,
+   "latency_us": 1.6,
+   "leakage_uW": 49.68225,
+   "pass": true
+  },
+  "idle": {
+   "tag": "pdk5_gf180_lmin2_idle_full",
+   "idle_power_uW": 124.99866272258875,
+   "leakage_uW": 49.615759999999995,
+   "groups": {
+    "Sequential": {
+     "internal": 7.672315e-06,
+     "switching": 3.957955e-08,
+     "leakage": 1.744756e-05,
+     "total": 2.515946e-05
+    },
+    "Combinational": {
+     "internal": 8.969249e-11,
+     "switching": 2.385093e-11,
+     "leakage": 9.948817e-06,
+     "total": 9.948931e-06
+    },
+    "Clock": {
+     "internal": 5.664595e-05,
+     "switching": 1.161374e-05,
+     "leakage": 2.218128e-05,
+     "total": 9.044097e-05
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 6.431836e-05,
+     "switching": 1.165334e-05,
+     "leakage": 4.961576e-05,
+     "total": 0.0001255875
+    }
+   },
+   "idle_raw_uW": 125.5875,
+   "active_share": 6.74939255467008e-05
+  },
+  "leak_split": {
+   "leak_logic_uW": 32.50806471600523,
+   "leak_phys_uW": 17.104418515023454,
+   "n_logic": 134639,
+   "n_phys": 341990,
+   "n_unmatched": 0
+  },
+  "volt": {
+   "tt_025C_3v30": {
+    "voltage": 3.3,
+    "temperature": 25.0,
+    "energy_per_bin_nJ": 17.046887156,
+    "leakage_uW": 22.87153,
+    "energy_dyn_per_bin_nJ": 16.937708464136005,
+    "setup_ws_ns": 195.07569959387183,
+    "hold_ws_ns": 3.7041831824069504,
+    "fmax_MHz": 203.07453191838684,
+    "timing_met": true,
+    "avg_power_uW_250Hz_clkstopped": 27.133251789
+   },
+   "tt_025C_1v80": {
+    "voltage": 1.8,
+    "temperature": 25.0,
+    "energy_per_bin_nJ": 4.673054681160001,
+    "leakage_uW": 7.859435,
+    "energy_dyn_per_bin_nJ": 4.635529702239601,
+    "setup_ws_ns": 187.0958357130803,
+    "hold_ws_ns": 9.55640899746868,
+    "fmax_MHz": 77.49436366163208,
+    "timing_met": true,
+    "avg_power_uW_250Hz_clkstopped": 9.02769867029
+   },
+   "ss_125C_1v62": {
+    "voltage": 1.62,
+    "temperature": 125.0,
+    "energy_per_bin_nJ": 4.16654833688,
+    "leakage_uW": 98.54414,
+    "energy_dyn_per_bin_nJ": 3.6966854805640006,
+    "setup_ws_ns": 167.40837338602432,
+    "hold_ws_ns": 23.919412228678993,
+    "fmax_MHz": 30.68272755589278,
+    "timing_met": true,
+    "avg_power_uW_250Hz_clkstopped": 99.58577708422
+   }
+  },
+  "avg_power_uW_250Hz_clkstopped": 60.161469618299996,
+  "energy_dyn_per_bin_nJ": 41.94633006843199,
+  "avg_power_uW_250Hz_clkstopped_logic": 43.05377433430523,
+  "glitch_factor": null,
+  "avg_power_uW_250Hz_clkstopped_best": 60.161469618299996,
+  "bit_exact_500": true
+ },
  "nangate45/sp": {
   "label": "NanGate45 / FreePDK45",
   "node": "45 nm",

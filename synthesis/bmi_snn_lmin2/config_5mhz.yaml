@@ -26,6 +26,7 @@ RUN_IRDROP_REPORT: false
 RUN_ANTENNA_REPAIR: false
 RUN_HEURISTIC_DIODE_INSERTION: false   # round 5: heuristic diodes broke legalization at 50-60 % utilization; diodes on input ports only
 DIODE_ON_PORTS: in
-PL_RESIZER_HOLD_SLACK_MARGIN: 0.3
-GRT_RESIZER_HOLD_SLACK_MARGIN: 0.3
 IO_DELAY_CONSTRAINT: 20
+# policy amendment (EXTRA_YAML)
+PL_RESIZER_HOLD_SLACK_MARGIN: 1.0
+GRT_RESIZER_HOLD_SLACK_MARGIN: 1.0

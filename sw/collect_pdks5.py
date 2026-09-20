@@ -25,7 +25,7 @@ VOLT_LIBS = {   # low-voltage re-evaluations of sim/measure_pdk5.sh: corner -> l
     "sky130": {"ss_n40C_1v28": ["/media/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ss_n40C_1v28.lib"], "ss_100C_1v40": ["/media/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ss_100C_1v40.lib"]},
 }
 def util_of_link(link):
-    try: m = re.search(r"_u(\d+)$", os.readlink(link)); return int(m.group(1)) if m else None
+    try: m = re.search(r"_u(\d+)h?$", os.readlink(link)); return int(m.group(1)) if m else None   # h: hold-margin amendment tag
     except OSError: return None
 def slack_of(d):
     f = ROOT / d / "slack.txt"
