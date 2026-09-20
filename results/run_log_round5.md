@@ -838,3 +838,38 @@ bmi_snn_min32_s622 annotated 5,000-bin window of session A: 5.27 nJ/bin (block z
 complete on the three sessions with its own weights (full block zero-delay / 5,000-bin annotated): A 4.28 / 5.27 (7.93 events/bin),
 B 3.07 / 3.71 (4.88), C 2.57 / 3.08 (3.71). Per-session sets complete: sp, min32; m12 waits for its session-A block and B/C
 annotated windows.
+
+### E4 result: bmi_snn_lmem2 pipeline complete (21:00, 20 Sep)
+Session-C window: 8.76 nJ/bin at 3.93 events/bin, bit-exact. The three windows (A 13.75 at 8.38, B 10.22 at 5.26, C 8.76 at
+3.93 events/bin) fit 4.33 nJ + 1.12 nJ per event (largest residual 0.3 %), and the 500-bin E1 window (10.91 nJ) is predicted at
+10.92 (-0.1 %). Both latch cores are linear in the event count to within 0.2 %, like the SRAM core; only their E9 annotated
+50-bin runs are still simulating.
+
+### E1/E3/E4 result: bmi_snn_m12 pipeline complete (21:20, 20 Sep)
+12-bit gated core, session B: 5,000-bin annotated window 6.04 nJ/bin (block zero-delay 4.54, ratio 1.33, the same glitch factor as its
+500/200-bin windows and its session-C netlist). The m12 per-session set now lacks only the session-A block (m12_s622, running since
+02:29) and its annotated window.
+
+### E5: IHP SG13G2 bmi_snn_sp accepted at 20 % after 24.4 h (21:35, 20 Sep)
+The pruned core on IHP closed at 20 % in 1,464 min: 60/50/40/30 % did not route (flat 40 k violations), the 20 % router went
+1,164 -> 720 -> 569 -> 476 -> 313 -> 193 -> 187 -> 144 -> 113 -> 91 -> 73 -> 42 -> 16 -> 14 -> 6 -> 6 -> 6 -> 0 violations in 34
+of the 40 permitted iterations, the late ones taking one to three hours each in a single-threaded phase (see the scheduling
+note). DRC-clean, setup slack +119.5 ns at the typical corner; 100,071 instances / 1.19 mm2 including fill and decap (logic cells
+and area from the netlist and liberty follow in the table). Measurement started (`sim/measure_pdk5.sh ihp sp all`: zero-delay
+window, idle, annotated window with the new IHP model set, 1.08 V / 125 C re-evaluation); `bmi_snn_m12` started on IHP with the
+list "30 20" in the freed slot. IHP min32 at 30 % is at 16.5 k violations after 11 of 40 iterations and will step to 20 %.
+
+### E2: bmi_snn_g128 at 20 % with the 1.0 ns hold margin misses hold by 0.03 ns; rerun with 1.5 ns (21:35, 20 Sep)
+DRC-clean in 115 min, setup +117.9 ns, hold -0.027 ns at max_ff_n40C_1v95 only (72,065 cells against 64,088 without the margin).
+Relaunched at 20 % with a 1.5 ns margin (tag `_u20h2`), relaxed watchdog. Log `logs/harden_bmi_snn_g128_20h2.log`.
+
+### E5 result: IHP SG13G2 bmi_snn_sp at 5 MHz (21:48, 20 Sep)
+23,453 logic cells, 0.275 mm2 (logic area from netlist and liberty; 1.19 mm2 instance area with the decap/fill of the 20 %
+floorplan), setup slack +119.5 ns. 1.86 nJ/bin zero-delay, 1.97 nJ annotated (200 bins bit-exact with the new IHP model set,
+glitch factor 1.06; sky130: 2.67 / 3.15, so IHP costs 0.62x the sky130 energy per bin), leakage 3.66 uW in logic cells and
+59.5 uW in total (the decap cells that fill the 80 % empty area of the 20 % floorplan dominate, as they did for min16), P_avg
+60 uW at 250 bins/s with the clock stopped (4.2 uW with logic leakage only). Slow corner 1.08 V / 125 C: 1.40 nJ/bin (1.27
+dynamic), leakage 30.7 uW, f_max 740 MHz. `results/PDKS5.md`, `paper/pdks_table.tex`, `numbers_pdks.tex`,
+`results/pdks_pavg_vs_rate.csv` refreshed; F2 now has the IHP line (17 curves), drawn with the total leakage as the request
+specifies, so its floor at 60 uW is a statement about the platform's decap fill at low utilization rather than about the node;
+the logic-only P_avg is in the table.
