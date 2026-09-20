@@ -741,3 +741,43 @@ dfrbp_1/2, dfrbpq_1/2, lgcp_1; the vendor flip-flops take their state from the `
 the reason round 2 fell back to functional models). `sim/measure_pdk5.sh ihp <core> sdf` now runs this path.
 bmi_snn_min16 on IHP: 200 annotated bins bit-exact, 35,398 IOPATHs annotated, 0.988 nJ/bin against 0.936 zero-delay, glitch factor
 1.06 (GF180 1.06-1.11, ASAP7 1.07-1.10, sky130 1.18-1.23). sp, m12 and min32 get the same run when their IHP hardenings close.
+
+### E4 results: bmi_snn_topg session-A window, bmi_snn_g64p50 annotated window (16:00-16:22, 20 Sep)
+- `bmi_snn_topg` (gated SRAM core) 20,000-bin zero-delay window of session A: 36.4 nJ/bin at 8.48 events/bin (229 cycles/bin),
+  bit-exact; with C (21.8 at 3.78) the line is 10.0 nJ + 3.11 nJ per event (top: 13.5 + 4.00), and the 500-bin B window (26.5) lies
+  7 % below the line's prediction. The gating saves 3.5 nJ of the fixed cost and 0.9 nJ per event. Full B blocks of top and topg
+  still running (top 21 h, topg 20 h).
+- `bmi_snn_g64p50` 5,000-bin annotated window: 4.24 nJ/bin (full block zero-delay 3.35, ratio 1.27). Pipeline complete.
+
+### E2/E4 result: bmi_snn_g128p125 full block (16:24, 20 Sep)
+H = 128 at 12.5 % synapses (50 %): full block B 3.38 nJ/bin over 107,444 bins, bit-exact (500-bin window 3.78, ratio 0.89); its
+5,000-bin annotated window has started.
+
+### E4 result: bmi_snn_lmin2 5,000-bin window of session A (16:30, 20 Sep)
+Latch-memory core with the weights of indy_20160622_01: 8.22 nJ/bin zero-delay at 8.38 events/bin, bit-exact (session B: 5.72 at
+5.26). The two points give 1.5 nJ + 0.80 nJ per event for the latch core (the SRAM core: 13.5 + 4.00; the pruned hardwired core across
+its per-session netlists: 0.6 + 0.34). The session-C window has started.
+
+### Scheduling note (17:00, 20 Sep)
+The IHP sp router (20 h in, 73 violations left after 24 iterations) has been in a single-threaded phase since 15:16 and gets about a
+third of a core at load 67; the two OpenLane routers (g128, lmem2) run 24 threads each. Both were reniced by +3 so that the
+long-running IHP job and the simulators get their share; nothing was stopped.
+
+### E1/E4 result: bmi_snn_ming full block (17:15, 20 Sep)
+Hardwired 16-bit gated core (30 %): full block B 4.54 nJ/bin over 107,444 bins, bit-exact (500-bin window 5.20, ratio 0.87), after
+a 20 h streamed simulation. Its 5,000-bin annotated window has started.
+
+### E4 result: bmi_snn_lmin2 pipeline complete (17:29, 20 Sep)
+Session-C window (weights of indy_20170131_02): 4.63 nJ/bin at 3.93 events/bin, bit-exact. The three 5,000-bin windows
+(A 8.22 at 8.38, B 5.72 at 5.26, C 4.63 at 3.93 events/bin) fit 1.47 nJ + 0.806 nJ per event
+(largest residual 0.1 %); the 500-bin E1 window (6.21 nJ at 5.87 events/bin) is predicted at 6.20 nJ (+0.2 %). The latch
+core's zero-delay pipeline is complete; only the E9 annotated 50-bin run is still simulating.
+
+### Policy acceptance: bmi_snn_lmem2 at 30 % with the 1.0 ns hold margin (17:35, 20 Sep)
+Latch-memory core with 16-bit state and the pipelined W2 read: router 275 k -> 137 k -> 127 k -> ... -> 2 -> 1 -> 1 -> 1 -> 0 in
+24 iterations (290 min in total), DRC-clean, hold met at every corner (+0.99 ns at ff_n40C_1v95, +1.66 at TT, +3.54 at
+ss_100C_1v60), setup reported 0.000 (latch borrowing). 208,689 cells, 1.82 mm2; at 50 MHz the core needed 385,176 cells and
+2.29 mm2 and carried an input-port hold flag. With this, every core of the project except `bmi_snn_lmem` (unpipelined latch
+ablation, kept at 50 MHz) and `bmi_snn_g128` (in progress) has a timing-clean 5 MHz netlist. The lmem2 pipeline (500-bin
+windows, idle, 5,000-bin windows on the three sessions) starts automatically, and the E9 annotated 50-bin run for lmem2 was
+launched (`sim/e9_lmin2.sh bmi_snn_lmem2 50`, log `logs/e9_lmem2.log`; the lmin2 one has been simulating since 13:58).

@@ -807,11 +807,20 @@
     "tag": "bmi_snn_g128_5m_u50",
     "runtime_min": 215,
     "reason": "killed: manual: drt 769k violations, no completed iteration for 2 h; relaunched with 30 20"
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g128_5m_u30",
+    "runtime_min": 120,
+    "reason": "killed: manual: 190k violations after iteration 1, relaunched at 30 20 with WD_VIOL3=400000 WD_VIOL8=60000"
    }
   ]
  },
  "sky130/bmi_snn_lmem2": {
-  "accepted": [],
+  "accepted": [
+   30
+  ],
   "attempts": [
    {
     "util": 30,
@@ -826,6 +835,13 @@
     "tag": "bmi_snn_lmem2_5m_u20",
     "runtime_min": 1,
     "reason": "killed: aborted at start: the 30 % run was killed by the default watchdog on the same routing shape that converged for lmin2; relaunched at 30 % with hold margin 1.0 ns and relaxed watchdog"
+   },
+   {
+    "util": 30,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_lmem2_5m_u30h",
+    "runtime_min": 290,
+    "reason": ""
    }
   ]
  },
@@ -1198,6 +1214,20 @@
     "tag": "bmi_snn_sp_5m_u30",
     "runtime_min": 214,
     "reason": "flow exit / route did not finish"
+   }
+  ]
+ },
+ "ihp/bmi_snn_min16": {
+  "accepted": [
+   30
+  ],
+  "attempts": [
+   {
+    "util": 30,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min16_5m_u30",
+    "runtime_min": 115,
+    "reason": ""
    }
   ]
  }
