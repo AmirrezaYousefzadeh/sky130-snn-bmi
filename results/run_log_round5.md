@@ -578,3 +578,93 @@ netlists already pass every characterised corner including ff_n40C_1v95, the re-
 a netlist that works at both supplies, and the re-hardened numbers are the conservative bound for a part designed for 1.28 V only
 under this flow's signoff set. Both are kept: `results/corners5.json` (`tt.e_lowv` re-evaluated, `lv.e_sdf_1v28` re-hardened),
 `paper/corners_table5.tex` / `numbers_corners5.tex`; F2 draws the re-hardened (conservative) 1.28 V line and says so in its CSV.
+
+### E1: bmi_snn_scmem at 40 % stopped by the watchdog (09:25, 20 Sep)
+The register-file core (flip-flop weight memory, 88 k logic cells) at 40 %: detailed routing 214 k -> 101 k -> 94 k violations after
+four iterations, aborted by the watchdog after 250 min; the policy continues at 30 % and 20 %. In rounds 1-4 this core only routed at
+25 % with a 34 % placement density and missed the slow corner by 2.6 ns at 20 ns; at 200 ns timing is not the issue, pin access in the
+weight array is. `bmi_snn_hw` (hardwired 20-bit) at 40 % is converging: 95 violations after 13 router iterations.
+
+### E3 result: bmi_snn_m12_s131 full block of session C (10:00, 20 Sep)
+Session-C netlist of the 12-bit gated core (30 %): 52,116 bins at 3.71 events/bin, 3.65 nJ/bin zero-delay, bit-exact. Its 500-bin
+window on the same session (3.63 events/bin) gave 3.60 nJ, so the whole block confirms the window within 1.5 %; the session-B
+netlist on its own stream costs 5.20 nJ at 5.87 events/bin (500-bin window), the session-A netlist 6.31 nJ at 7.47 events/bin.
+The 5,000-bin annotated window of C has started.
+
+### E1/E9: bmi_snn_lmin2 hold-margin rerun killed by the watchdog, relaunched with relaxed thresholds (10:15, 20 Sep)
+The 20 % rerun with a 1.0 ns hold-repair margin was stopped by the watchdog at 93 k violations after four router iterations
+(228 k -> 105 k -> 93 k). The earlier 20 % run without the margin had the same start (224 k -> 102 k -> 92 k) and then converged
+(15 k -> 1.2 k -> 82 -> ... -> 0 after 21 iterations, DRC-clean but hold -0.48 ns at the fast corner), so the rule "more than 20 k
+violations after three iterations" is wrong for this 220 k-cell latch array: its first iterations only tidy the row and column
+buses. The thresholds are now environment variables (`WD_VIOL3`, `WD_VIOL8`; defaults unchanged) and the run was relaunched with
+`WD_VIOL3=400000 WD_VIOL8=60000` (the 3 h no-progress rule stays); log `logs/harden_bmi_snn_lmin2_20h_retry.log`. The E9
+waiter picks the accepted run up automatically. The same watchdog shape stopped `bmi_snn_scmem` at 40 % (214 k -> 101 k -> 94 k);
+its policy continues at 30 % and 20 % with the default thresholds, and the register-file core keeps its 50 MHz figures if those fail.
+
+### E3 complete for the pruned core (10:47, 20 Sep)
+bmi_snn_sp_s622 annotated 5,000-bin window of session A: 3.86 nJ/bin (full block zero-delay 3.25, ratio 1.19, the usual sky130
+glitch factor). The pruned core is now complete on all three sessions with its own weights (full block zero-delay / 5,000-bin
+annotated): A 3.25 / 3.86 (7.93 events/bin), B 2.36 / 2.80 (4.88), C 1.77 / 2.04 (3.71); `results/per_session.csv`,
+`paper/numbers_persession.tex` updated. Pipelines still running: min32_s622 (A), m12 (B), m12_s622 (A), m12_s131 (C annotated),
+g64p50, g128p125, g128p25, ming, min, top/topg blocks.
+
+### Policy acceptance: bmi_snn_hw at 40 % (12:00, 20 Sep)
+The hardwired 20-bit core (64 lanes, dense logic kept) closed at 40 % after 290 min: the router went 42 k -> 8 k -> 1.2 k -> 95
+violations in 13 iterations, then sat on a single violation from iteration 25 to 39 and cleared it at iteration 40 (each late
+iteration took about 30 min). DRC-clean, 40,562 cells, 0.286 mm2, worst setup slack +116.8 ns (ss_100C_1v60), hold +0.316 ns
+(ff_n40C_1v95); at 50 MHz the same core needed 88,404 cells and 0.441 mm2 (28 % utilization hedge run). 60 % and 50 % were
+stopped by the watchdog (122 k and 23 k violations after 3-4 iterations). Its pipeline (500/200-bin windows, idle, full block B,
+5,000-bin annotated) started at 12:01.
+
+### E2: bmi_snn_g128 at 50 % stopped, policy relaunched at 30 and 20 % (12:27, 20 Sep)
+The dense H = 128 core at 50 % never finished its second router iteration: 728 k violations after iteration 0, 769 k at 50 % of
+iteration 1 with no output for two hours while the machine ran four routers and 19 simulators (load 90, 14 GB free). The run was
+stopped by hand (recorded in the policy log as a rejection with the reason) and the policy relaunched with the list "30 20": the
+25 %-synapse H = 128 core needed 30 %, and a 40 % attempt of a core with twice its synapse logic would only have cost another
+watchdog cycle. This is the one deliberate deviation from the 60 -> 20 stepping; `results/POLICY5.md` shows it.
+
+### E1 result: bmi_snn_hw windows at 5 MHz (12:34, 20 Sep)
+Hardwired 20-bit core (40 %): 8.35 nJ/bin zero-delay on the 500-bin window (21.0 cycles/bin, latency 1.0 us), leakage 0.417 uW,
+idle 3.95 uW with the clock running, P_avg 2.50 uW at 250 bins/s with the clock stopped. At 50 MHz: 9.81 nJ zero-delay
+(12.1 annotated), leakage 0.674 uW. The annotated windows (event and dense mode) and the full block B are running.
+
+### E1/E9: bmi_snn_lmem2 at 30 % stopped by the default watchdog, relaunched with the relaxed thresholds (12:45, 20 Sep)
+The latch-memory core with the pipelined W2 read (lmem2, 16-bit state) at 30 %: 268 k -> 136 k -> 126 k violations after three
+router iterations, killed by the default rule after 310 min. This is the same routing shape as lmin2 at 20 % (224 k -> 102 k -> 92 k,
+then converging to 0 in 21 iterations), so the policy instance (which would have stepped to 20 % with the same thresholds) was
+stopped and relaunched at 30 % then 20 % with `WD_VIOL3=400000 WD_VIOL8=60000` and the 1.0 ns hold-repair margin from the start
+(tag suffix `h`; lmin2 without the margin failed hold by 0.48 ns at the fast corner). Log `logs/harden_bmi_snn_lmem2_30h_retry.log`;
+the lmem2 pipeline waiter picks the accepted run up.
+
+### E3 result: bmi_snn_m12_s131 pipeline complete (12:49, 20 Sep)
+Session-C netlist of the 12-bit gated core: annotated 5,000-bin window 4.84 nJ/bin (full block zero-delay 3.65, ratio 1.33, the same
+glitch factor as the session-B netlist's 500/200-bin windows, 6.90 / 5.20; the gated 12-bit datapath glitches more than the pruned core's 1.19).
+
+### Policy acceptance: bmi_snn_scmem at 30 % (12:50, 20 Sep)
+The register-file core (flip-flop weight memory) closed at 30 % in 215 min: router 164 k -> 69 k -> 64 k -> 5.4 k -> 308 -> 22 -> 0
+violations in seven iterations, DRC-clean, timing met at all nine corners (worst setup slack +77.4 ns at ss_100C_1v60, hold
++0.516 ns at ff_n40C_1v95): 301,258 cells, 2.68 mm2. At 50 MHz this core needed 511,493 cells and 3.23 mm2 and missed the slow
+corner by 2.6 ns; at 200 ns it is the first fully timing-clean register-file netlist of the project. Its pipeline (500-bin windows,
+idle, then 5,000-bin zero-delay windows on the three sessions with each session's weights; no SDF, the annotation of the
+flip-flop memory does not complete in Icarus) started at 12:51. Note for the watchdog: with 64 k violations after three
+iterations this run sat above the default 20 k rule and survived only because the fourth iteration (5.4 k) finished within the
+5-minute polling interval; the relaxed thresholds introduced for lmin2/lmem2 are the right setting for the memory cores.
+
+### E5: IHP driver split (13:00, 20 Sep)
+The sequential IHP driver (sp -> m12 -> min32 -> min16 -> lmin2) has spent 11 h on sp at 20 % (router at 187 violations after 19 of
+40 iterations, still falling). With the machine load back to 40 after the g128 and lmem2 restarts, the driver loop was stopped (the
+sp run itself continues as its own process) and `bmi_snn_min16` was started in parallel with the list "30 20" (sp needed 20 %;
+the smaller core may close at 30 %). m12 and min32 follow the same way when a slot frees; IHP lmin2 is not attempted (the ORFS
+latch-memory runs ran out of memory on NanGate45/ASAP7, see above). Log `logs/orfs5_ihp_min16_driver.log`.
+
+### E4 interim: SRAM cores across the three sessions (13:00, 20 Sep)
+`bmi_snn_top` (event mode, weights of each session loaded), 5 MHz, vdd-only SRAM liberty: 20,000-bin zero-delay windows A 47.4 nJ/bin
+at 8.48 events/bin (229 cycles/bin), C 28.6 nJ at 3.78 events/bin (149 cycles/bin); the 500-bin window of B (35.9 nJ at 5.87
+events/bin) lies 3 % below the straight line through A and C (predicted 36.9). The line is 13.5 nJ + 4.00 nJ per event: the same
+slope as the 50 MHz transfer model of the earlier rounds (16.8 + 4.00 n_ev) with the intercept lowered by the clock change, i.e.
+the per-event cost of the sequential core is clock-independent and the fixed per-bin cost fell by 20 %. Annotated 2,000-bin windows:
+A 55.4 (9.26 events/bin), B 40.1 (5.56), C 31.9 (3.62) nJ/bin; against the zero-delay windows of the same sessions the ratios are
+1.12-1.17, indicative only because the 2,000-bin windows have a different event rate than the 20,000-bin ones (the same-window
+glitch factor of the core is 1.21 from the 500/200-bin E1 windows). `bmi_snn_topg` (gated membrane groups): C 21.8 nJ zero-delay (20,000 bins), annotated A 42.9 / B 30.2 / C 23.3 nJ/bin.
+The full B blocks (107,444 bins) of top and topg and topg's A window are still running (top's since 19:00 yesterday: 18 h on the
+loaded machine). `results/explore/transfer5.json`, `paper/numbers_transfer5.tex` updated.

@@ -28,7 +28,8 @@ if extra:
 s = "# Round-5 configuration (E1): common 5 MHz clock, utilization policy; generated from config.yaml by synthesis/harden_policy2.sh\n" + s
 open(dst + ".tmpl", "w").write(s)
 PY
-watch() { # <run dir> <flow pid>: kill the flow when routing is hopeless; prints the reason
+watch() { # <run dir> <flow pid>: kill the flow when routing is hopeless; prints the reason. Thresholds WD_VIOL3 (default 20000 after 3
+          # iterations) and WD_VIOL8 (3000 after 8) can be raised for the large latch/register-file cores whose routing starts at >200k violations.
   local rd=$1 fp=$2 last_it=-1 last_t=$(date +%s)
   while kill -0 $fp 2>/dev/null; do
     sleep 300
@@ -36,8 +37,8 @@ watch() { # <run dir> <flow pid>: kill the flow when routing is hopeless; prints
     local it viol; it=$(grep -c "Completing 100%" "$log"); viol=$(grep "Number of violations" "$log" | tail -n 1 | awk '{print $NF}' | tr -d .)
     if [[ "$it" != "$last_it" ]]; then last_it=$it; last_t=$(date +%s); fi
     local reason=""
-    [[ -n "$viol" && $it -ge 3 && $viol -gt 20000 ]] && reason="drt $viol violations after $it iterations"
-    [[ -n "$viol" && $it -ge 8 && $viol -gt 3000 ]] && reason="drt $viol violations after $it iterations"
+    [[ -n "$viol" && $it -ge 3 && $viol -gt ${WD_VIOL3:-20000} ]] && reason="drt $viol violations after $it iterations"
+    [[ -n "$viol" && $it -ge 8 && $viol -gt ${WD_VIOL8:-3000} ]] && reason="drt $viol violations after $it iterations"
     [[ $(( $(date +%s) - last_t )) -gt 10800 ]] && reason="drt no completed iteration for 3 h (at $it)"
     if [[ -n "$reason" ]]; then echo "   WATCHDOG: $reason -> killing the run"; echo "$reason" > "$rd/WATCHDOG_KILLED"; pkill -P $fp; kill $fp 2>/dev/null; sleep 2; pkill -f "runs/$(basename $rd)/" ; return; fi
   done

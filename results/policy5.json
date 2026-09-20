@@ -382,6 +382,13 @@
     "tag": "bmi_snn_lmin2_5m_u20",
     "runtime_min": 265,
     "reason": "timing/hold failure"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmin2_5m_u20h",
+    "runtime_min": 175,
+    "reason": "watchdog: drt 93343 violations after 4 iterations"
    }
   ]
  },
@@ -706,7 +713,9 @@
   ]
  },
  "sky130/bmi_snn_hw": {
-  "accepted": [],
+  "accepted": [
+   40
+  ],
   "attempts": [
    {
     "util": 60,
@@ -721,6 +730,13 @@
     "tag": "bmi_snn_hw_5m_u50",
     "runtime_min": 140,
     "reason": "watchdog: drt 23294 violations after 4 iterations"
+   },
+   {
+    "util": 40,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_hw_5m_u40",
+    "runtime_min": 290,
+    "reason": ""
    }
   ]
  },
@@ -749,6 +765,58 @@
     "tag": "bmi_snn_g128p25_5m_u30",
     "runtime_min": 35,
     "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_scmem": {
+  "accepted": [
+   30
+  ],
+  "attempts": [
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_scmem_5m_u40",
+    "runtime_min": 250,
+    "reason": "watchdog: drt 93733 violations after 4 iterations"
+   },
+   {
+    "util": 30,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_scmem_5m_u30",
+    "runtime_min": 215,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_g128": {
+  "accepted": [],
+  "attempts": [
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g128_5m_u50",
+    "runtime_min": 215,
+    "reason": "killed: manual: drt 769k violations, no completed iteration for 2 h; relaunched with 30 20"
+   }
+  ]
+ },
+ "sky130/bmi_snn_lmem2": {
+  "accepted": [],
+  "attempts": [
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmem2_5m_u30",
+    "runtime_min": 310,
+    "reason": "watchdog: drt 125966 violations after 3 iterations"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_lmem2_5m_u20",
+    "runtime_min": 1,
+    "reason": "killed: aborted at start: the 30 % run was killed by the default watchdog on the same routing shape that converged for lmin2; relaunched at 30 % with hold margin 1.0 ns and relaxed watchdog"
    }
   ]
  },

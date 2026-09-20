@@ -1,18 +1,18 @@
 # Round-5 configuration (E1): common 5 MHz clock, utilization policy; generated from config.yaml by synthesis/harden_policy2.sh
-# OpenLane 2 config for bmi_snn_g128 (round 5; generated flat variant, see sw/gen_variant.py; ROM in rtl/g128)
-DESIGN_NAME: bmi_snn_g128
+# OpenLane 2 config for bmi_snn_hw: parallel core with hardwired weights, no macro.
+DESIGN_NAME: bmi_snn_hw
 VERILOG_FILES:
-  - dir::../../rtl/gen/bmi_snn_g128.v
+  - dir::../../rtl/gen/bmi_snn_hw.v
 VERILOG_INCLUDE_DIRS:
-  - dir::../../rtl/g128
+  - dir::../../rtl
 CLOCK_PORT: clk
 CLOCK_PERIOD: 200
-PNR_SDC_FILE: dir::../bmi_snn_min/bmi_snn_min.sdc
-SIGNOFF_SDC_FILE: dir::../bmi_snn_min/bmi_snn_min.sdc
+PNR_SDC_FILE: dir::bmi_snn_hw.sdc
+SIGNOFF_SDC_FILE: dir::bmi_snn_hw.sdc
 STD_CELL_LIBRARY: sky130_fd_sc_hd
 FP_SIZING: relative
-FP_CORE_UTIL: 30
-PL_TARGET_DENSITY_PCT: 40
+FP_CORE_UTIL: 40
+PL_TARGET_DENSITY_PCT: 50
 GRT_ALLOW_CONGESTION: true
 ERROR_ON_SYNTH_CHECKS: false
 RUN_LINTER: false
