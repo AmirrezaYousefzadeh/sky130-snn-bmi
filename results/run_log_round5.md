@@ -902,3 +902,25 @@ annotated simulation of the 209 k-instance netlist took 5.0 h. Applied to the 50
 weight memories carry glitch factors of 1.08-1.10 against 1.18-1.33 for the hardwired constant-weight cores and 1.21 for the SRAM
 core, so the earlier practice of reporting the latch cores zero-delay only understated them by 8-10 %, not by the 20-30 % of the
 hardwired cores.
+
+### E5: IHP min32 and m12 at 30 % stopped, drivers step to 20 % (23:05, 20 Sep)
+IHP min32 at 30 %: 23.7 k -> 20.1 k -> 19.2 k -> 18.7 k -> 18.2 k -> 17.9 k -> 17.4 k -> 16.5 k violations over eleven iterations
+(the last one running for 1.5 h); IHP m12 at 30 %: 151 k after four iterations. Neither shows the convergence of sp at 20 %
+(which reached zero from 1.2 k) or min16 at 30 % (10.5 k -> 0 in 20 iterations); the 40-iteration bound would have cost another
+day each. Both routers were stopped so that `run_orfs5.sh` records the rejection and continues with 20 %, the utilization sp
+needed on this kit.
+
+### E5: IHP m12 at 20 % flat at 113 k violations, relaunched at 10 % (00:35, 21 Sep)
+The dense 12-bit core on IHP at 20 %: 101 k -> 114 k -> 113 k violations over four iterations (the fifth running for half an hour),
+no decrease at all, where sp at the same utilization went 1.2 k -> 0 and min32 at 20 % is converging (15 k -> 5.2 k in eight
+iterations). The router was stopped (rejection recorded) and the core relaunched with the list "10": the flat count points to
+pin-access congestion of the synapse adder trees rather than to wiring density, and the larger die of a 10 % floorplan is the only
+lever left inside the policy (cell padding was the round-2 remedy; it is kept at 1 here). Log `logs/orfs5_ihp_m12_driver10.log`.
+
+### Policy acceptance: bmi_snn_g128 at 20 % with the 1.5 ns hold margin - the grid is complete (00:40, 21 Sep)
+Dense H = 128 core: router 184 k -> 71 k -> 58 k -> ... -> 2 -> 0 in 21 iterations (175 min in total), DRC-clean, hold +0.48 ns at
+ff_n40C_1v95 and +1.43 at TT, setup +117.6 ns; 78,735 cells, 0.567 mm2 (against 64,088 cells without a margin and 72,065 with 1.0
+ns, both of which failed hold by 0.70 and 0.03 ns). Attempt history: 50 % and 30 % stopped by hand (no convergence), 20 % clean but
+hold, 20 % + 1.0 ns hold by 0.03 ns, 20 % + 1.5 ns accepted. With this every core of round 5 except the unpipelined latch ablation
+`bmi_snn_lmem` has a timing-clean 5 MHz netlist on sky130 (`results/POLICY5.md`: 52 kit/design pairs, 47 accepted). Its pipeline
+(windows, full block B, 5,000-bin annotated) starts automatically; measured mean R2 of the H = 128 dense model is 0.583 (5 seeds).

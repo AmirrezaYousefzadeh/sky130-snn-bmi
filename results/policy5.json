@@ -799,7 +799,9 @@
   ]
  },
  "sky130/bmi_snn_g128": {
-  "accepted": [],
+  "accepted": [
+   20
+  ],
   "attempts": [
    {
     "util": 50,
@@ -814,6 +816,34 @@
     "tag": "bmi_snn_g128_5m_u30",
     "runtime_min": 120,
     "reason": "killed: manual: 190k violations after iteration 1, relaunched at 30 20 with WD_VIOL3=400000 WD_VIOL8=60000"
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g128_5m_u30",
+    "runtime_min": 195,
+    "reason": "watchdog: manual: 190k -> 145k -> 143k -> 124k -> 114k violations after five iterations of about an hour each, no collapse (the accepted grid cores dropped by 5-10x between iterations 2 and 3); stopped so that the policy steps to 20 %"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g128_5m_u20",
+    "runtime_min": 120,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g128_5m_u20h",
+    "runtime_min": 115,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 20,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g128_5m_u20h2",
+    "runtime_min": 175,
+    "reason": ""
    }
   ]
  },
@@ -1185,7 +1215,9 @@
   ]
  },
  "ihp/bmi_snn_sp": {
-  "accepted": [],
+  "accepted": [
+   20
+  ],
   "attempts": [
    {
     "util": 60,
@@ -1214,6 +1246,13 @@
     "tag": "bmi_snn_sp_5m_u30",
     "runtime_min": 214,
     "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 20,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_sp_5m_u20",
+    "runtime_min": 1464,
+    "reason": ""
    }
   ]
  },
@@ -1228,6 +1267,37 @@
     "tag": "bmi_snn_min16_5m_u30",
     "runtime_min": 115,
     "reason": ""
+   }
+  ]
+ },
+ "ihp/bmi_snn_min32": {
+  "accepted": [],
+  "attempts": [
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_min32_5m_u30",
+    "runtime_min": 493,
+    "reason": "flow exit / route did not finish"
+   }
+  ]
+ },
+ "ihp/bmi_snn_m12": {
+  "accepted": [],
+  "attempts": [
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u30",
+    "runtime_min": 81,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u20",
+    "runtime_min": 90,
+    "reason": "flow exit / route did not finish"
    }
   ]
  }

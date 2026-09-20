@@ -37,7 +37,7 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | SkyWater sky130 (OpenLane) | bmi_snn_hw | 40 | 60: x; 50: x; 40: ok | 9.9 |
 | SkyWater sky130 (OpenLane) | bmi_snn_g128p25 | 30 | 50: x; 40: x; 30: ok | 5.8 |
 | SkyWater sky130 (OpenLane) | bmi_snn_scmem | 30 | 40: x; 30: ok | 7.8 |
-| SkyWater sky130 (OpenLane) | bmi_snn_g128 | none | 50: x; 30: x | 5.6 |
+| SkyWater sky130 (OpenLane) | bmi_snn_g128 | 20 | 50: x; 30: x; 30: x; 20: x; 20h: x; 20: ok | 15.7 |
 | SkyWater sky130 (OpenLane) | bmi_snn_lmem2 | 30h | 30: x; 20: x; 30h: ok | 10.0 |
 | NanGate45 (ORFS) | bmi_snn_sp | 60 | 60: ok | 0.2 |
 | ASAP7 RVT (ORFS) | bmi_snn_sp | 60 | 60: ok | 0.2 |
@@ -54,8 +54,10 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | ASAP7 SRAM-Vt (ORFS) | bmi_snn_min32 | 60 | 60: ok | 0.3 |
 | ASAP7 SRAM-Vt (ORFS) | bmi_snn_min16 | 60 | 60: ok | 0.2 |
 | ASAP7 SRAM-Vt (ORFS) | bmi_snn_lmin2 | none | 60: x; 50: x; 40: x; 30: x; 20: x | 0.0 |
-| IHP SG13G2 (ORFS) | bmi_snn_sp | none | 60: x; 50: x; 40: x; 30: x | 13.4 |
+| IHP SG13G2 (ORFS) | bmi_snn_sp | 20 | 60: x; 50: x; 40: x; 30: x; 20: ok | 37.8 |
 | IHP SG13G2 (ORFS) | bmi_snn_min16 | 30 | 30: ok | 1.9 |
+| IHP SG13G2 (ORFS) | bmi_snn_min32 | none | 30: x | 8.2 |
+| IHP SG13G2 (ORFS) | bmi_snn_m12 | none | 30: x; 20: x | 2.9 |
 
 ## Every attempt
 
@@ -146,6 +148,10 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | SkyWater sky130 (OpenLane) | bmi_snn_scmem | 30 | ACCEPTED | 215 |  | `bmi_snn_scmem_5m_u30` |
 | SkyWater sky130 (OpenLane) | bmi_snn_g128 | 50 | REJECTED | 215 | killed: manual: drt 769k violations, no completed iteration for 2 h; relaunched with 30 20 | `bmi_snn_g128_5m_u50` |
 | SkyWater sky130 (OpenLane) | bmi_snn_g128 | 30 | REJECTED | 120 | killed: manual: 190k violations after iteration 1, relaunched at 30 20 with WD_VIOL3=400000 WD_VIOL8=60000 | `bmi_snn_g128_5m_u30` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g128 | 30 | REJECTED | 195 | watchdog: manual: 190k -> 145k -> 143k -> 124k -> 114k violations after five iterations of about an hour each, no collapse (the accepted grid cores dropped by 5-10x between iterations 2 and 3); stopped so that the policy steps to 20 % | `bmi_snn_g128_5m_u30` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g128 | 20 | REJECTED | 120 | timing/hold failure | `bmi_snn_g128_5m_u20` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g128 | 20 | REJECTED | 115 | timing/hold failure | `bmi_snn_g128_5m_u20h` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g128 | 20 | ACCEPTED | 175 |  | `bmi_snn_g128_5m_u20h2` |
 | SkyWater sky130 (OpenLane) | bmi_snn_lmem2 | 30 | REJECTED | 310 | watchdog: drt 125966 violations after 3 iterations | `bmi_snn_lmem2_5m_u30` |
 | SkyWater sky130 (OpenLane) | bmi_snn_lmem2 | 20 | REJECTED | 1 | killed: aborted at start: the 30 % run was killed by the default watchdog on the same routing shape that converged for lmin2; relaunched at 30 % with hold margin 1.0 ns and relaxed watchdog | `bmi_snn_lmem2_5m_u20` |
 | SkyWater sky130 (OpenLane) | bmi_snn_lmem2 | 30 | ACCEPTED | 290 |  | `bmi_snn_lmem2_5m_u30h` |
@@ -187,4 +193,8 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | IHP SG13G2 (ORFS) | bmi_snn_sp | 50 | REJECTED | 52 | flow exit / route did not finish | `bmi_snn_sp_5m_u50` |
 | IHP SG13G2 (ORFS) | bmi_snn_sp | 40 | REJECTED | 46 | flow exit / route did not finish | `bmi_snn_sp_5m_u40` |
 | IHP SG13G2 (ORFS) | bmi_snn_sp | 30 | REJECTED | 214 | flow exit / route did not finish | `bmi_snn_sp_5m_u30` |
+| IHP SG13G2 (ORFS) | bmi_snn_sp | 20 | ACCEPTED | 1464 |  | `bmi_snn_sp_5m_u20` |
 | IHP SG13G2 (ORFS) | bmi_snn_min16 | 30 | ACCEPTED | 115 |  | `bmi_snn_min16_5m_u30` |
+| IHP SG13G2 (ORFS) | bmi_snn_min32 | 30 | REJECTED | 493 | flow exit / route did not finish | `bmi_snn_min32_5m_u30` |
+| IHP SG13G2 (ORFS) | bmi_snn_m12 | 30 | REJECTED | 81 | flow exit / route did not finish | `bmi_snn_m12_5m_u30` |
+| IHP SG13G2 (ORFS) | bmi_snn_m12 | 20 | REJECTED | 90 | flow exit / route did not finish | `bmi_snn_m12_5m_u20` |
