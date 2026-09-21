@@ -1052,8 +1052,8 @@ bit-exact; tables `results/DESIGNS.md`, `paper/designs_table.tex`, `paper/number
 core lmin2 is the exception with +13 % P_avg, its leakage grew with the 20 % floorplan). Failures: the hold-repair margin was needed at low
 utilization for the gated-clock cores (m12, lmin2, lmem2, g128, m12_s622), the default watchdog thresholds killed convergent
 memory-core routes twice (lmin2, lmem2) before they were relaxed, g128 needed three reruns (hold -0.70, -0.03, then clean),
-the stray `0` lines in the policy log came from a `grep -c || echo 0` and were fixed. Still running at the time of writing: the
-scmem 5,000-bin windows on the three sessions (16 h each on the 300 k-instance netlist).
+the stray `0` lines in the policy log came from a `grep -c || echo 0` and were fixed. The scmem 5,000-bin window of session B was
+the last measurement (27 h on the 300 k-instance netlist); its A and C windows were dropped (see 16:45, 21 Sep).
 
 ## E5. Cross-node study
 Settings: sp, m12, min32, min16 (and lmin2 where the flow allowed) on GF180MCU (OpenLane, 5 V), IHP SG13G2, NanGate45, ASAP7
@@ -1074,7 +1074,7 @@ full block B and a 5,000-bin annotated window. Result: 10 grid points (`results/
 Front (energy against mean R2): g16p50 (1.10 nJ ann., 0.544), g32p25 (1.58, 0.556), g32p50 (2.21, 0.573), sp = H64 25 % (3.15,
 0.573), g64p50 (4.81, 0.578), m12 = H64 dense (6.90, 0.581), g128 (18.7, 0.586). H = 64 at 12.5 % (0.528) and H = 128 at 12.5 %
 (0.546) fall below the 0.55 gate; H = 128 at 25 % (0.572) costs 2.2x the H = 64 / 25 % energy for the same accuracy. Failures:
-none in measurement; g128 needed the policy deviations described above. Running: the g128 full block.
+none in measurement; g128 needed the policy deviations described above. Complete (g128 block 11.2 nJ, annotated window 16.3).
 
 ## E3. Per-session netlists
 Complete, nine netlists, table above (04:05, 21 Sep): block energies linear in the session's event rate within each core, glitch
@@ -1136,3 +1136,18 @@ P_avg 49.9 uW at 250 bins/s with the clock stopped (3.5 uW with logic leakage on
 leakage 25.3 uW, f_max 1.05 GHz. The IHP rows for sp, min32 and min16 are complete with annotated energy; m12 stays empty
 (not routable under this flow, see above). F2 panel (b) now carries the IHP line (18 curves). `results/POLICY5.md`: 52 kit/design
 pairs, 48 accepted, 138 attempts.
+
+### E2/E4 result: bmi_snn_g128 full block (14:24, 21 Sep)
+Dense H = 128 core (20 %): 11.2 nJ/bin zero-delay over 107,444 bins, bit-exact (500-bin window 12.8, ratio 0.87; 12.5 h streamed
+simulation). Its 5,000-bin annotated window has started (the last grid measurement); scmem's first 5,000-bin window is the only
+other job still running.
+
+### E2 complete: bmi_snn_g128 annotated window (16:41, 21 Sep)
+Dense H = 128 core: 5,000-bin annotated window 16.3 nJ/bin (full block zero-delay 11.2, ratio 1.46, the same glitch factor as its
+500/200-bin windows). Every grid core now has the full E1 + E4 measurement set; the E2 table and F1 are final.
+
+### E1: scmem per-session windows cut to session B (16:45, 21 Sep)
+The register-file core's 5,000-bin zero-delay window of session B has been simulating for 27 h (300 k instances); the A and C
+windows would take two more days for a core whose argument (the flip-flop weight memory against latches) is already made by
+its E1 windows and its area and leakage. The pipeline is therefore stopped after the B window; the A and C windows of scmem are
+the only planned measurements of round 5 not taken, and the E4 table marks the core with its single session.
