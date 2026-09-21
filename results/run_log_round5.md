@@ -1030,3 +1030,96 @@ denser in events than average (5.87 against 4.88) but cheaper per event than the
 understates the per-event cost. Both SRAM cores now have: full block B, 20,000-bin windows of A and C, 2,000-bin annotated
 windows of all three sessions, and the transfer model at 5 MHz (`results/explore/transfer5.json`, `paper/numbers_transfer5.tex`).
 The gating saves 3.5 nJ of the SRAM core's fixed cost and 0.9 nJ per event at every rate (top: 14.1 + 3.94).
+
+# Closing summary, one section per experiment (written 21 Sep, 08:45; the last three jobs are noted where they matter)
+
+Numbers-only companion: `results/ROUND5_CLOSING.md` (generated). Every attempt of the utilization policy: `results/POLICY5.md`.
+
+## E1. Common clock and utilization policy
+Settings: 5 MHz (200 ns) for every core and the SoC; policy 60 -> 20 % core utilization in steps of 10 %, placement density
+utilization + 10 %, heuristic antenna diodes off (diodes on input ports), first run that is DRC-clean and meets setup and hold at all
+nine sky130 signoff corners accepted (twelve corners for the 1.28 V netlists); a watchdog aborts hopeless detailed routing
+(> 20 k violations after 3 iterations, > 3 k after 8, no completed iteration in 3 h; raised to 400 k / 60 k for the memory cores
+and the dense H = 128 core, whose routers start above 180 k violations and collapse only at the third or fourth iteration).
+Result: 21 sky130 cores plus the front end and the SoC hardened at 5 MHz: top 60 %, topg 40, min 40, ming 30, m12 30 (hold
+margin), sp 40, min32 50, min16 60, hw 40, scmem 30, lmin2 20 (hold margin 1.0 ns), lmem2 30 (1.0 ns), g16p50 60, g32p50 50,
+g32p25 50, g64p50 30, g64p125 50, g128p125 50, g128p25 30, g128 20 (1.5 ns), sp/min32/m12 per-session netlists 40/50/30-20.
+`bmi_snn_lmem` (unpipelined latch ablation) did not route at 30 or 20 % and keeps its 50 MHz figures, as E1 allows for the optional
+cores. Runtime: 135 attempts, 3-1,464 min each (`POLICY5.md`). Measurements: 500/200-bin windows, idle run, both leakage
+conventions (total and logic-cell-only, `leak_split`), P_avg at 250 bins/s for clock stopped / 32.768 kHz / 5 MHz / 50 MHz, all
+bit-exact; tables `results/DESIGNS.md`, `paper/designs_table.tex`, `paper/numbers2.tex`; change against 50 MHz in
+`results/DESIGNS_50_vs_5.md` (area -4 to -35 %, cells -36 to -55 %, zero-delay energy 0 to -24 %, P_avg -3 to -20 %; the latch
+core lmin2 is the exception with +13 % P_avg, its leakage grew with the 20 % floorplan). Failures: the hold-repair margin was needed at low
+utilization for the gated-clock cores (m12, lmin2, lmem2, g128, m12_s622), the default watchdog thresholds killed convergent
+memory-core routes twice (lmin2, lmem2) before they were relaxed, g128 needed three reruns (hold -0.70, -0.03, then clean),
+the stray `0` lines in the policy log came from a `grep -c || echo 0` and were fixed. Still running at the time of writing: the
+scmem 5,000-bin windows on the three sessions (16 h each on the 300 k-instance netlist).
+
+## E5. Cross-node study
+Settings: sp, m12, min32, min16 (and lmin2 where the flow allowed) on GF180MCU (OpenLane, 5 V), IHP SG13G2, NanGate45, ASAP7
+RVT and ASAP7 SRAM-Vt (OpenROAD-flow-scripts), same 200 ns clock and policy; zero-delay 500-bin window, idle run, annotated
+200-bin window where the kit's models allow (GF180 vendor bodies with notifier-initialised copies and timescale-first compile;
+ASAP7 and IHP with behavioural sequential cells and OpenSTA-written SDF), lowest characterised supply re-evaluated with f_max;
+logic-only and total leakage. Result: 25 kit/core rows (`results/PDKS5.md`, `paper/pdks_table.tex`, `numbers_pdks.tex`,
+`pdks_pavg_vs_rate.csv`, figure F2). Glitch factors: sky130 1.18-1.33 (dense H = 128: 1.45), GF180 1.06-1.11, IHP 1.06, ASAP7
+1.07-1.10, latch cores 1.08 on both kits; NanGate45 zero-delay only (no timing models). Failures: IHP m12 does not route under
+this flow (flat violation counts at 30, 20 and 10 % and with cell padding 2, four attempts), so its row is empty; the latch core
+ran out of memory in the ORFS flow on NanGate45/ASAP7 (GF180 lmin2 hardened and annotated). IHP min32 is in the router tail of
+its 20 % run at the time of writing (55 violations at iteration 25 of 40) and gets `measure_pdk5.sh ihp min32 all` on acceptance.
+
+## E2. Training grid and iso-accuracy rows
+Settings: H in {16, 32, 64, 128} x synapse density in {100, 50, 25, 12.5 %} where trained, 5 seeds x 3 sessions each, integer
+reference; every configuration hardened as a 12-bit gated hardwired core with the session-B weights and measured as in E1 plus the
+full block B and a 5,000-bin annotated window. Result: 10 grid points (`results/pareto.csv`, `paper/numbers_pareto.tex`, F1).
+Front (energy against mean R2): g16p50 (1.10 nJ ann., 0.544), g32p25 (1.58, 0.556), g32p50 (2.21, 0.573), sp = H64 25 % (3.15,
+0.573), g64p50 (4.81, 0.578), m12 = H64 dense (6.90, 0.581), g128 (18.7, 0.586). H = 64 at 12.5 % (0.528) and H = 128 at 12.5 %
+(0.546) fall below the 0.55 gate; H = 128 at 25 % (0.572) costs 2.2x the H = 64 / 25 % energy for the same accuracy. Failures:
+none in measurement; g128 needed the policy deviations described above. Running: the g128 full block.
+
+## E3. Per-session netlists
+Complete, nine netlists, table above (04:05, 21 Sep): block energies linear in the session's event rate within each core, glitch
+factors a property of the architecture, areas within 8 % across sessions.
+
+## E4. Full test blocks and long windows
+Settings: whole test block of the core's own session (hardwired cores), full block B + 20,000-bin A/C windows + 2,000-bin annotated
+windows of all sessions (SRAM cores), 5,000-bin windows on the three sessions (memory cores), 5,000-bin annotated windows;
+streamed toggle counting (`tools/vcd_toggles`, `power/toggles_to_activity.py`) so that no VCD is stored; runtime 13-35 h per
+block. Result: 36 whole-block or long-window measurements, all bit-exact (`ROUND5_CLOSING.md`, E4 table). The whole block runs
+11-13 % below the 500-bin E1 window for every hardwired core (the window's first 500 bins carry 5.87 events/bin against the
+block's 4.88), and the transfer models of the programmable cores are linear to 0.1-1.6 %: top 14.1 + 3.94 n_ev, topg 10.0 +
+3.11, lmin2 1.47 + 0.81, lmem2 4.33 + 1.12 nJ. Per-bin statistics (mean, sd, min, max) are in `results/designs.json`
+(`full.<session>.func_perbin`). Failures: none; the streamed method replaced VCD storage after OpenSTA read 11-22 GB per VCD.
+
+## E9. Annotated glitch factor of the standard-cell weight memories
+Complete: lmin2 1.08 (8.5 h for 50 annotated bins), lmem2 1.10 (5.0 h); applied to the E1 windows (6.72 and 12.0 nJ annotated).
+
+## E7. Software baseline, per-pin method
+Complete (see the E7 sections): decoding-window per-pin power of the RISC-V SoC at 50 MHz (-O2 3,537 nJ/bin, hand-tuned 2,015)
+and at 5 MHz (-O2 3,522, tuned 2,003), idle 76 uW with the clock running; `paper/numbers_software5.tex`.
+
+## E10. Digital front end
+Complete: `rtl/bmi_fe.v` v2 with the enable handshake, 0.691 uW at 250 bins/s after the root-clock correction (OpenSTA charges the
+root clock network at the clock definition's rate; `power/root_clock_correction.py`); `paper/numbers_frontend.tex`.
+
+## E14. Low-voltage cores hardened rather than re-evaluated
+Complete for sp, min32, m12: the 1.28 V-signoff netlists cost 1.07x, 1.33x and 1.41x the energy of the 1.8 V netlists re-evaluated at
+1.28 V, because the twelve-corner signoff forces hold repair on the gated clock paths (sp default margin, min32 delay synthesis,
+m12 a 2.0 ns margin); the re-evaluated netlists pass every characterised corner, so both are legitimate operating points and both
+are kept (`paper/corners_table5.tex`, `numbers_corners5.tex`). Against 1.8 V: 2.2x, 1.76x, 1.56x less energy per bin.
+
+## E11, E12, E8
+E11 SRAM22 per-access figures and the published comparison: done (sections above). E12 bootstrap intervals: done
+(`numbers_bootstrap.tex`; the NeuroBench SNN2 per-bin outputs were not re-run, so no paired difference). E8 (one state width
+for every core) was not run; the section above records the reasoning: the 12-bit hardwired and latch cores already cover the
+state-width comparison for the parallel architecture, the SRAM core keeps 20/24 bits, and the 12/14-bit variants of top and
+lmem2 would have needed new RTL, a hardening of a 400 k-instance latch design and the full measurement set.
+
+## Figures and files
+F1-F3 and F5 regenerated to the requested layout (`figures/`, PDF + PNG + CSV, scripts next to them), F4 as `arch-improved.tikz`
+with the four-line caption, F6 reduced to the energy panel. Regenerated numbers and tables: `numbers.tex`, `numbers2.tex`,
+`numbers_corners5.tex` (the 5 MHz counterpart of `numbers_corners.tex`, which keeps the 50 MHz macros), `numbers_pdks.tex`,
+`numbers_seeds.tex`, `numbers_software5.tex`, `numbers_transfer5.tex`, `numbers_persession.tex`, `numbers_frontend.tex`,
+`numbers_pareto.tex`, `numbers_bootstrap.tex`; `designs_table.tex`, `pdks_table.tex`, `corners_table5.tex`, `seeds_table.tex`.
+JSON/CSV: `results/designs.json`, `pareto.csv`, `per_session.csv`, `pdks_pavg_vs_rate.csv` (+ `pdks5.json`, `corners5.json`,
+`policy5.json`, `explore/transfer5.json`). Raw reports: `results/raw/round5/` (snapshot at the end). Previous versions:
+`_superseded/2026-09-19_before_round5/` in the manuscript folder. The manuscript compiles with every new input.
