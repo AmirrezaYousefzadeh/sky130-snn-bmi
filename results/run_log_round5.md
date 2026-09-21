@@ -987,3 +987,37 @@ as the sky130 latch core's E9 value (1.08), confirming that the latch-memory arc
 rows of the cross-node table are now complete (sp, m12, min32, min16, lmin2, all with annotated energy and the two leakage
 conventions); the empty annotated cells that remain are NanGate45 (no timing models on the kit) and the ASAP7/NanGate latch cores
 (out of memory in the flow).
+
+## E3 complete: per-session netlists of the hardwired cores (04:05, 21 Sep)
+All nine netlists (sp, min32, m12 x sessions A = indy_20160622_01, B = indy_20160630_01, C = indy_20170131_02), each hardened at
+5 MHz with the policy and measured on its own session's whole test block (zero-delay, streamed toggles) and a 5,000-bin annotated
+window; every run bit-exact. `results/per_session.csv`, `paper/numbers_persession.tex` (69 macros).
+
+| core | session | util % | area mm2 | cells | R2 (int) | bins | events/bin | E block zero-delay (nJ) | cycles/bin | E 5,000-bin annotated (nJ) | ann./zero | leak uW |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| sp | 20160622_01 | 40 | 0.175 | 24,347 | 0.574 | 132,745 | 7.93 | 3.25 | 24.9 | 3.86 | 1.19 | 0.241 |
+| sp | 20160630_01 | 40 | 0.176 | 24,546 | 0.574 | 107,444 | 4.88 | 2.36 | 18.9 | 2.80 | 1.19 | 0.243 |
+| sp | 20170131_02 | 40 | 0.163 | 23,089 | 0.574 | 52,116 | 3.71 | 1.77 | 16.6 | 2.04 | 1.15 | 0.229 |
+| min32 | 20160622_01 | 50 | 0.121 | 17,033 | 0.572 | 132,745 | 7.93 | 4.28 | 24.8 | 5.27 | 1.23 | 0.145 |
+| min32 | 20160630_01 | 50 | 0.119 | 16,744 | 0.572 | 107,444 | 4.88 | 3.07 | 18.8 | 3.71 | 1.21 | 0.144 |
+| min32 | 20170131_02 | 50 | 0.12 | 16,930 | 0.572 | 52,116 | 3.71 | 2.57 | 16.6 | 3.08 | 1.20 | 0.144 |
+| m12 | 20160622_01 | 30 | 0.237 | 35,560 | 0.582 | 132,745 | 7.93 | 6.62 | 25.0 | 8.62 | 1.30 | 0.605 |
+| m12 | 20160630_01 | 30 | 0.24 | 32,603 | 0.582 | 107,444 | 4.88 | 4.54 | 19.0 | 6.04 | 1.33 | 0.362 |
+| m12 | 20170131_02 | 30 | 0.24 | 32,707 | 0.582 | 52,116 | 3.71 | 3.65 | 17.0 | 4.84 | 1.33 | 0.366 |
+
+Reading: within each core the block energy is linear in the session's event rate (sp 0.59 + 0.34 nJ/event, min32 1.09 + 0.40,
+m12 1.09 + 0.70 across the three netlists), the annotated/zero-delay ratio is a property of the architecture (1.15-1.23 for the
+pruned and H = 32 cores, 1.30-1.33 for the dense 12-bit core) and not of the session, and the per-session netlists differ in area
+by less than 8 % (sp 0.163-0.176 mm2) because the constant-weight logic is dominated by the synapse count, not by the values.
+
+## E4 result: bmi_snn_top full block of session B - the SRAM core's transfer model at 5 MHz (04:14, 21 Sep)
+The sequential SRAM core (event mode, vdd-only SRAM liberty) over the whole test block of indy_20160630_01: 33.9 nJ/bin at
+4.88 events/bin (168 cycles/bin), 107,444 bins, bit-exact, after a 33 h streamed simulation. With the 20,000-bin windows
+of A (47.4 at 8.48) and C (28.6 at 3.78) the transfer model is E_bin = 14.1 nJ + 3.94 nJ x n_ev (largest
+residual 0.56 nJ, 1.6 %); the 500-bin E1 window (35.9 nJ at 5.87 events/bin) sits 3.8 % below the model. The 50 MHz model
+of the earlier rounds was 16.8 + 4.00 n_ev: the per-event cost is unchanged by the clock (the SRAM read and the membrane update per
+event are fixed work), the fixed cost fell by 16 %. `results/explore/transfer5.json`, `paper/numbers_transfer5.tex` updated;
+topg's full block is still running (31 h).
+
+### E1/E4 result: bmi_snn_hw pipeline complete (04:28, 21 Sep)
+Hardwired 20-bit core: 5,000-bin annotated window 9.02 nJ/bin (full block zero-delay 7.39, ratio 1.22; E1 windows 8.35 / 10.2, ratio 1.23).
