@@ -11,6 +11,7 @@ $PY sw/collect_frontend.py > logs/refresh_frontend.log 2>&1 && echo "frontend ok
 $PY sw/collect_corners5.py > logs/refresh_corners5.log 2>&1 && echo "corners5 ok" || echo "corners5 FAILED"
 $PY sw/collect_transfer5.py > logs/refresh_transfer5.log 2>&1 && echo "transfer5 ok" || echo "transfer5 FAILED"
 $PY sw/policy_summary5.py > logs/refresh_policy5.log 2>&1 && echo "policy summary ok" || echo "policy summary FAILED"
+$PY sw/closing_round5.py > logs/refresh_closing5.log 2>&1 && echo "closing tables ok" || echo "closing tables FAILED"
 $PY sw/fig_accuracy.py > logs/refresh_fig_accuracy.log 2>&1 && echo "fig accuracy ok" || echo "fig accuracy FAILED"
 for s in figures/fig_pareto.py figures/fig_pavg_vs_rate.py figures/fig_power_breakdown5.py; do $PY $s > logs/refresh_$(basename $s .py).log 2>&1 && echo "$s ok" || echo "$s FAILED (see logs)"; done
 ./sw/snapshot_raw5.sh > logs/refresh_snapshot5.log 2>&1 && echo "snapshot ok"
