@@ -56,8 +56,8 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | ASAP7 SRAM-Vt (ORFS) | bmi_snn_lmin2 | none | 60: x; 50: x; 40: x; 30: x; 20: x | 0.0 |
 | IHP SG13G2 (ORFS) | bmi_snn_sp | 20 | 60: x; 50: x; 40: x; 30: x; 20: ok | 37.8 |
 | IHP SG13G2 (ORFS) | bmi_snn_min16 | 30 | 30: ok | 1.9 |
-| IHP SG13G2 (ORFS) | bmi_snn_min32 | none | 30: x | 8.2 |
-| IHP SG13G2 (ORFS) | bmi_snn_m12 | none | 30: x; 20: x | 2.9 |
+| IHP SG13G2 (ORFS) | bmi_snn_min32 | 20 | 30: x; 20: ok | 22.9 |
+| IHP SG13G2 (ORFS) | bmi_snn_m12 | none | 30: x; 20: x; 10: x; 20: x | 3.8 |
 
 ## Every attempt
 
@@ -196,5 +196,8 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | IHP SG13G2 (ORFS) | bmi_snn_sp | 20 | ACCEPTED | 1464 |  | `bmi_snn_sp_5m_u20` |
 | IHP SG13G2 (ORFS) | bmi_snn_min16 | 30 | ACCEPTED | 115 |  | `bmi_snn_min16_5m_u30` |
 | IHP SG13G2 (ORFS) | bmi_snn_min32 | 30 | REJECTED | 493 | flow exit / route did not finish | `bmi_snn_min32_5m_u30` |
+| IHP SG13G2 (ORFS) | bmi_snn_min32 | 20 | ACCEPTED | 884 |  | `bmi_snn_min32_5m_u20` |
 | IHP SG13G2 (ORFS) | bmi_snn_m12 | 30 | REJECTED | 81 | flow exit / route did not finish | `bmi_snn_m12_5m_u30` |
 | IHP SG13G2 (ORFS) | bmi_snn_m12 | 20 | REJECTED | 90 | flow exit / route did not finish | `bmi_snn_m12_5m_u20` |
+| IHP SG13G2 (ORFS) | bmi_snn_m12 | 10 | REJECTED | 30 | flow exit / route did not finish | `bmi_snn_m12_5m_u10` |
+| IHP SG13G2 (ORFS) | bmi_snn_m12 | 20 | REJECTED | 28 | flow exit / route did not finish | `bmi_snn_m12_5m_pad2_u20` |

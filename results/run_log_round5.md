@@ -1123,3 +1123,16 @@ with the four-line caption, F6 reduced to the energy panel. Regenerated numbers 
 JSON/CSV: `results/designs.json`, `pareto.csv`, `per_session.csv`, `pdks_pavg_vs_rate.csv` (+ `pdks5.json`, `corners5.json`,
 `policy5.json`, `explore/transfer5.json`). Raw reports: `results/raw/round5/` (snapshot at the end). Previous versions:
 `_superseded/2026-09-19_before_round5/` in the manuscript folder. The manuscript compiles with every new input.
+
+### E5: IHP SG13G2 bmi_snn_min32 accepted at 20 % after 14.7 h (13:45, 21 Sep)
+The H = 32 core on IHP: 30 % did not converge (16.5 k violations after eleven iterations, stopped), 20 % went 24.7 k -> 16 k ->
+9.7 k -> ... -> 15 (flat for four iterations) -> 5 -> 3 -> 1 -> 1 -> 0 in 39 of the 40 permitted iterations, DRC-clean, setup slack
++119.5 ns; 84,534 instances / 0.99 mm2 including fill and decap. Measurement started (`measure_pdk5.sh ihp min32 all`).
+
+### E5 result: IHP SG13G2 bmi_snn_min32 at 5 MHz - E5 complete except IHP m12 (13:52, 21 Sep)
+20,603 logic cells, 0.223 mm2, setup slack +119.5 ns: 2.11 nJ/bin zero-delay, 2.23 nJ annotated (200 bins bit-exact, glitch factor
+1.06; sky130: 3.46 / 4.18, so 0.53x), leakage 2.98 uW in logic cells and 49.4 uW in total (decap fill of the 20 % floorplan),
+P_avg 49.9 uW at 250 bins/s with the clock stopped (3.5 uW with logic leakage only). Slow corner 1.08 V / 125 C: 1.61 nJ/bin,
+leakage 25.3 uW, f_max 1.05 GHz. The IHP rows for sp, min32 and min16 are complete with annotated energy; m12 stays empty
+(not routable under this flow, see above). F2 panel (b) now carries the IHP line (18 curves). `results/POLICY5.md`: 52 kit/design
+pairs, 48 accepted, 138 attempts.

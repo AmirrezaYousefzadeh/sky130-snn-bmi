@@ -1271,7 +1271,9 @@
   ]
  },
  "ihp/bmi_snn_min32": {
-  "accepted": [],
+  "accepted": [
+   20
+  ],
   "attempts": [
    {
     "util": 30,
@@ -1279,6 +1281,13 @@
     "tag": "bmi_snn_min32_5m_u30",
     "runtime_min": 493,
     "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 20,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_min32_5m_u20",
+    "runtime_min": 884,
+    "reason": ""
    }
   ]
  },
@@ -1297,6 +1306,20 @@
     "outcome": "REJECTED",
     "tag": "bmi_snn_m12_5m_u20",
     "runtime_min": 90,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 10,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_u10",
+    "runtime_min": 30,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 20,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_m12_5m_pad2_u20",
+    "runtime_min": 28,
     "reason": "flow exit / route did not finish"
    }
   ]
