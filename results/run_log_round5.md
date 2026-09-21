@@ -923,4 +923,67 @@ ff_n40C_1v95 and +1.43 at TT, setup +117.6 ns; 78,735 cells, 0.567 mm2 (against 
 ns, both of which failed hold by 0.70 and 0.03 ns). Attempt history: 50 % and 30 % stopped by hand (no convergence), 20 % clean but
 hold, 20 % + 1.0 ns hold by 0.03 ns, 20 % + 1.5 ns accepted. With this every core of round 5 except the unpipelined latch ablation
 `bmi_snn_lmem` has a timing-clean 5 MHz netlist on sky130 (`results/POLICY5.md`: 52 kit/design pairs, 47 accepted). Its pipeline
-(windows, full block B, 5,000-bin annotated) starts automatically; measured mean R2 of the H = 128 dense model is 0.583 (5 seeds).
+(windows, full block B, 5,000-bin annotated) starts automatically; the H = 128 dense model's mean R2 is 0.586 over 5 seeds (0.582-0.590), the highest of the grid, so this core
+sets the upper end of the accuracy axis in F1.
+
+### E2/E4 result: bmi_snn_g128p25 pipeline complete (00:46, 21 Sep)
+H = 128 at 25 % synapses: 5,000-bin annotated window 6.19 nJ/bin (full block zero-delay 5.08, ratio 1.22). All grid pipelines but
+the dense H = 128 core's (started 00:40) are complete; F1 refreshed.
+
+### E2 result: bmi_snn_g128 windows (00:54, 21 Sep)
+Dense H = 128 core (20 %, 78,735 cells, 0.567 mm2): 12.8 nJ/bin zero-delay (22.0 cycles/bin), leakage 1.09 uW (0.24 uW in logic
+cells), P_avg 4.30 uW at 250 bins/s with the clock stopped; mean R2 0.586 (5 seeds), the most accurate core of the grid and a
+point on the front by accuracy (H = 64 dense: 0.581 at 5.2 nJ; the 0.005 R2 cost 2.5x the energy). Annotated windows and the full
+block follow. F1 refreshed: the dense line now runs H = 16 -> 32 -> 64 -> 128.
+
+### E1/E4 result: bmi_snn_min pipeline complete (00:57, 21 Sep)
+Hardwired 16-bit core without gating: 5,000-bin annotated window 8.33 nJ/bin (full block zero-delay 6.74, ratio 1.24; the E1
+windows gave 7.62 / 9.47, ratio 1.24). Pipelines still running: hw (annotated + block), scmem (5,000-bin windows), g128, m12_s622, top/topg
+blocks.
+
+### E5: IHP m12 flat at 10 % as well; one more attempt with cell padding 2 at 20 % (01:10, 21 Sep)
+At 10 % the dense 12-bit core still sat at 55 k -> 52 k -> 52 k violations: the count does not depend on the floorplan density,
+so the problem is pin access of the synapse-tree cells, the round-2 diagnosis for this kit (remedied then with cell padding 4/2 at
+25 %). `synthesis/run_orfs5.sh` got an `IHP_CELL_PAD` override (run nick suffix `_pad<N>`, the accepted-run link unchanged) and
+m12 was relaunched at 20 % with padding 2 (`logs/orfs5_ihp_m12_driver_pad2.log`). If this fails too, the IHP row of m12 stays
+empty and the table says so, as it does for the latch core on the ORFS kits. IHP min32 at 20 % keeps converging (4.0 k after ten
+iterations).
+
+### E5: IHP m12 does not route under this flow; attempts closed (01:35, 21 Sep)
+With cell padding 2 at 20 % the dense 12-bit core sat at 70 k -> 77 k -> 75 k violations after four iterations, the same flat
+behaviour as at 30 % (151 k), 20 % (113 k) and 10 % (52 k) without padding: the count depends neither on the floorplan density
+nor on the placement padding, so it is not a wiring-resource problem that the policy's levers reach (the pruned core with a
+quarter of the synapses and the H = 32 core route on the same kit). The router was stopped and the attempts closed; the IHP
+row of m12 stays empty in `results/PDKS5.md` / `paper/pdks_table.tex`, the caption's footnote says why, and the four IHP attempts
+are in `results/POLICY5.md`. Round 2's IHP result for min16 needed 25 % with padding 4/2 and a bounded router; a matching
+investigation for m12 (per-layer DRC classes of the leftover markers, wider pin-access tracks) is out of this round's scope.
+
+### E2 result: bmi_snn_g128 annotated windows (01:53, 21 Sep)
+Dense H = 128 core: 18.7 nJ/bin annotated against 12.8 zero-delay, glitch factor 1.45, the largest of the study (dense H = 64: 1.33;
+pruned cores 1.18-1.22; SRAM core 1.21; latch cores 1.08-1.10): the 128-input adder trees of the dense core are the deepest
+combinational paths of any variant and carry the most arithmetic glitching. P_avg 5.75 uW annotated at 250 bins/s. Its full block B
+(107,444 bins) has started; F1 refreshed with the annotated point.
+
+### E5 (optional): annotated run of the GF180 latch-memory core started (02:05, 21 Sep)
+With the machine at load 12 the optional annotated window of `pdk_gf180/bmi_snn_lmin2` (200 bins, GF180 timing bodies, 30 h budget)
+was started: `logs/pdk5_gf180_lmin2_sdf.log`. It fills the last empty annotated cell of the GF180 rows if it finishes; the
+zero-delay figures (42.2 nJ/bin, 49.6 uW leakage) stand either way.
+
+### E3 result: bmi_snn_m12_s622 full block of session A - all per-session blocks done (02:40, 21 Sep)
+Session-A netlist of the 12-bit gated core (30 %): 132,745 bins at 7.93 events/bin, 6.62 nJ/bin zero-delay, bit-exact (24 h
+streamed simulation, the longest of the round). The dense 12-bit per-session set (zero-delay, own weights): A 6.62 (7.93
+events/bin), B 4.54 (4.88), C 3.65 (3.71) nJ/bin, a line of 1.09 nJ + 0.70 nJ per event through the three netlists (H = 32: 1.09 +
+0.40; pruned: 0.59 + 0.34). All nine per-session full blocks are measured; the last annotated window (m12 A) is running.
+
+### E1/E4 result: bmi_snn_hw full block (03:06, 21 Sep)
+Hardwired 20-bit core (40 %): 7.39 nJ/bin zero-delay over 107,444 bins, bit-exact (500-bin window 8.35, ratio 0.89). Its 5,000-bin
+annotated window has started. Full blocks measured so far for every hardwired sky130 core except g128 (running) and every SRAM
+core's block still running (top 32 h, topg 30 h).
+
+### E5 result: GF180 latch-memory core annotated (03:25, 21 Sep)
+`pdk_gf180/bmi_snn_lmin2` (30 % with hold margin, 134,639 cells, 4.83 mm2 at 5 V): 200 annotated bins bit-exact in 81 min (GF180
+timing bodies with the notifier-initialised copies), 45.4 nJ/bin annotated against 42.2 zero-delay, glitch factor 1.08 - the same
+as the sky130 latch core's E9 value (1.08), confirming that the latch-memory architecture glitches little on either kit. The GF180
+rows of the cross-node table are now complete (sp, m12, min32, min16, lmin2, all with annotated energy and the two leakage
+conventions); the empty annotated cells that remain are NanGate45 (no timing models on the kit) and the ASAP7/NanGate latch cores
+(out of memory in the flow).
