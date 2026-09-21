@@ -1021,3 +1021,12 @@ topg's full block is still running (31 h).
 
 ### E1/E4 result: bmi_snn_hw pipeline complete (04:28, 21 Sep)
 Hardwired 20-bit core: 5,000-bin annotated window 9.02 nJ/bin (full block zero-delay 7.39, ratio 1.22; E1 windows 8.35 / 10.2, ratio 1.23).
+
+## E4 result: bmi_snn_topg full block - E4 complete for the SRAM cores (08:21, 21 Sep)
+The gated SRAM core over the whole test block of indy_20160630_01: 25.2 nJ/bin at 4.88 events/bin, 107,444 bins, bit-exact (35 h
+streamed simulation). With the A and C windows the transfer model is E_bin = 10.0 nJ + 3.11 nJ x n_ev, largest residual 0.03 nJ
+(0.1 %); the 500-bin E1 window (26.5 nJ) sits 6.6 % below the model, as for top (3.8 %): the first 500 bins of session B are
+denser in events than average (5.87 against 4.88) but cheaper per event than the whole block, so the short window slightly
+understates the per-event cost. Both SRAM cores now have: full block B, 20,000-bin windows of A and C, 2,000-bin annotated
+windows of all three sessions, and the transfer model at 5 MHz (`results/explore/transfer5.json`, `paper/numbers_transfer5.tex`).
+The gating saves 3.5 nJ of the SRAM core's fixed cost and 0.9 nJ per event at every rate (top: 14.1 + 3.94).
