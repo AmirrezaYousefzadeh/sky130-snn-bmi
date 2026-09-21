@@ -445,3 +445,694 @@ restructured; cell count and area against the TT netlist below. The annotated 20
 Figures: setup +113.1 ns at nom_ss_n40C_1v28 (data path 87 ns against 288 ns before), hold +2.63 ns there and +0.114 ns at
 max_ff; 31,632 cells / 0.1752 mm2 against 16,744 cells / 0.1194 mm2 for the TT-signoff netlist (+89 % cells, +47 % area): the
 1.28 V signoff of the dense 16-bit core is paid in restructured, upsized logic.
+
+### E5 result: GF180 latch-memory core hardened (06:50, 20 Sep)
+`pdk_gf180/bmi_snn_lmin2` at 30 % with the 0.8 ns hold margin: DRC-clean after 8 h (routing 26,518 -> 758 -> 11 -> 0 violations),
+timing met at every corner (hold +0.093 ns worst), 208,138 cells / 5.15 mm2. Its 500-bin zero-delay window and idle run start
+(`sim/measure_pdk5.sh gf180 lmin2 func`); an annotated run of this size is attempted only if the sky130 E9 run shows that Icarus
+can handle the annotated latch memory within the budget.
+
+### E14 measurement (07:05, 20 Sep): bmi_snn_min32 hardened at 1.28 V
+Annotated 200-bin run at nom_ss_n40C_1v28 (bit-exact): 2.37 nJ per bin against 4.18 nJ for the TT netlist at 1.8 V (1.77x);
+leakage 0.122 uW at -40 C, average power at 250 bins/s 0.714 uW. The TT netlist re-evaluated at 1.28 V on its annotated window
+gives 1.78 nJ (setup slack 145 ns, f_max 18 MHz without IO constraints): the timing-safe 1.28 V hardening costs 33 % more energy
+than the liberty swap because of its 89 % more cells. Together with sp (1.43 nJ against 3.15 nJ, 2.2x) the two hardened
+low-voltage cores confirm the direction of Table A2 but with a smaller gain than the swaps suggested. m12 at 1.28 V (20 %, 2.0 ns
+hold margin) is the last E14 run in flow.
+
+### E5 result: GF180 latch-memory core measured (07:20, 20 Sep)
+500-bin window of indy_20160630_01 bit-exact: 42.2 nJ per bin at 5 V (sp on the same kit: 23.8 nJ), leakage 49.6 uW (the
+latch array: 134,639 logic cells against 18,951 for sp; 4.83 mm2), average power at 250 bins/s 60.2 uW, i.e. the leakage of the
+standard-cell weight memory dominates at 5 V just as the 1.3 uW of the sky130 latch memory did at 1.8 V. Supply re-evaluations
+(3.3 V, 1.8 V, ss 1.62 V) follow.
+(Leakage split of the GF180 latch core: 32.5 uW in the logic cells, 17.1 uW in fillers and taps; 23.8 cycles per bin.)
+
+### E1/E9 (continued): sky130 latch-memory core at 20 % (07:50, 20 Sep)
+`bmi_snn_lmin2` at 20 % routed DRC-clean (265 min, 220,358 cells / 1.77 mm2) and meets setup, but 394 endpoints fail hold
+(-0.475 ns at max_ff, -0.304 ns at nom_tt, -0.079 ns at max_ss) with the 0.3 ns hold margin of its 50 MHz configuration: the
+161 row clock gates of the latch memory put every row's write path one clock-gate delay behind the data. Repeated at 20 % with a
+1.0 ns hold margin (tag `bmi_snn_lmin2_5m_u20h`; the GF180 latch core passed with 0.8 ns); the E9 annotated glitch run waits for it.
+
+### E4 / E5 results (07:50, 20 Sep): min32 complete, GF180 latch core at other supplies
+`bmi_snn_min32`: full block 3.068 nJ per bin (window 3.457, +13 %), 5,000 annotated bins 3.709 nJ (200-bin window 4.181),
+per-bin 0.90-11.8 nJ, all bit-exact. GF180 `bmi_snn_lmin2` re-evaluated: 17.1 nJ at 3.3 V (leakage 22.9 uW), 4.67 nJ at 1.8 V
+(7.86 uW, f_max 78 MHz), 4.17 nJ at the ss 1.62 V / 125 C corner (dynamic 3.70 nJ, leakage 98.5 uW at 125 C).
+
+### E14 result: bmi_snn_m12 hardened at 1.28 V (08:00, 20 Sep)
+At 20 % with a 2.0 ns hold-repair margin the 12-bit gated core meets 200 ns at 1.28 V / -40 C with positive hold at every corner
+(135 min, DRC-clean); figures below against the TT netlist (30 %). All three E14 cores are now hardened at 1.28 V (sp 40 %,
+min32 30 % with delay synthesis, m12 20 % with the larger hold margin); m12's annotated measurement at the 1.28 V corner follows.
+| netlist | util | cells | area (um^2) | setup slack ss_n40C_1v28 (ns) | hold slack ff_n40C_1v95 (ns) |
+|---|---|---|---|---|---|
+| bmi_snn_m12_5m (1.8 V signoff) | 30 % | 32,603 | 239,629 | +125.8 (re-evaluated with the 1.28 V liberty) | +0.20 |
+| bmi_snn_m12_5m_lv (1.28 V signoff) | 20 % | 55,518 | 375,337 | +89.8 | +1.17 |
+
+The 1.28 V netlist has 70 % more cells and 57 % more area than the TT netlist (hold buffers dominate: a 2.0 ns margin was
+needed for the fast corner). The setup slack is comfortable (90 ns of 200 ns), so the core would also close at 1.28 V at a
+higher clock; only the hold repair drives the area.
+
+### Policy acceptance: bmi_snn_g128p25 at 30 % (07:54, 20 Sep)
+50 % and 40 % were stopped by the watchdog (detail route at 44 and 20 k violations after four iterations); 30 % closed in 35 min,
+DRC-clean, 51,113 cells, 356,233 um^2, worst setup slack +117.5 ns (ss_100C_1v60), hold +0.093 ns (ff_n40C_1v95). The pipeline
+(full block B, then 20,000-bin A/C blocks) starts automatically. `bmi_snn_g128` (dense H = 128) is the last core in the grid
+queue and starts at 50 %.
+
+## Figures (continued): F1-F3 brought to the requested layout (2026-09-20, 08:20)
+- F1 `figures/fig_pareto.py`: x = three-session mean R2 (linear 0.50-0.62), y = annotated energy per bin (log 1-3000 nJ); marker
+  shape = weight storage (constants / latches / SRAM block / software), colour = H; labels "64, 25 %"; horizontal min-max bars over
+  the five seeds; a line per H across densities and a dashed line through the dense cores across H; vertical lines at 0.55 and
+  0.593 (NeuroBench SNN2). Reference points: SRAM core in event and dense mode, gated SRAM core, the 16-bit hardwired cores, the
+  latch-memory core (50 MHz netlist until the 5 MHz hardening closes, marked in the label) and the hand-tuned software at 5 MHz.
+  18 points with g128p25 (zero-delay until its annotated run finishes). Data: `figures/pareto_points.csv`.
+- F2 `figures/fig_pavg_vs_rate.py`: two panels (sp, min32), one line per kit and flavour: sky130 1.8 V, sky130 1.8 V with the
+  interpolated 37 C leakage (dotted), sky130 1.28 V (E14 netlist, annotated, -40 C slow liberty), GF180MCU 5 V and 1.8 V
+  (re-evaluated netlist, zero-delay energy times the kit glitch factor 1.08), NanGate45 (zero-delay), ASAP7 SRAM-Vt and RVT; IHP
+  is added automatically once `ihp/sp` exists in pdks5.json. Vertical dashed line and a marker on every line at 250 bins/s.
+  Data: `figures/pavg_vs_rate.csv` (energy kind stated per row).
+- F3 `figures/fig_power_breakdown5.py`: added the SRAM core's dense mode (367 nJ annotated) as its own bar; the latch core
+  appears once E9 delivers its annotated 5 MHz run; totals printed above the 37 C marker.
+- All scripts now write PDF and PNG both to `paper/figures/` (used by the manuscript) and to `figures/` (deliverable folder,
+  next to the CSVs). `sw/fig_accuracy.py` (F5) does the same for `r2.pdf`.
+
+## E1/E5 (continued). Policy bookkeeping (2026-09-20, 08:40)
+`sw/policy_summary5.py` (called by `sw/refresh_round5.sh`) parses `logs/policy_round5.log` and `logs/orfs5_policy.log` into
+`results/POLICY5.md` / `results/policy5.json`: the accepted utilization of every kit/design pair, the full attempt sequence
+(utilization: outcome, `h` = hold-margin rerun, `lv` = 1.28 V signoff) and, per attempt, runtime and the reason for a rejection
+(watchdog message, DRC, timing). At the time of writing: 46 kit/design pairs, 40 with an accepted run, 116 attempts. The stray
+`0` lines in the policy log came from `grep -c ... || echo 0` printing twice when no PASS line exists (fixed in the three policy
+scripts; the summariser ignores such lines).
+
+### E3 result: bmi_snn_min32_s131 pipeline complete (08:31, 20 Sep)
+Session C netlist of the H = 32 core (50 %): full block 52,116 bins, 3.71 events/bin, 2.57 nJ/bin zero-delay (16.6 cycles/bin);
+annotated 5,000-bin window 3.08 nJ/bin; bit-exact. Compare the session-B netlist: 3.07 / 3.71 nJ at 4.88 events/bin. The
+per-session table (`results/per_session.csv`, `paper/numbers_persession.tex`) now has B and C complete for sp and min32; the
+session-A blocks (132,745 bins) and the m12 blocks are still running.
+
+### E3/E4 result: bmi_snn_sp_s622 full block of session A (08:50, 20 Sep)
+Session-A netlist of the pruned core (40 %): whole test block, 132,745 bins at 7.93 events/bin, 3.25 nJ/bin zero-delay, bit-exact
+(16 h streamed simulation on the loaded machine). The 50 MHz transfer model of the earlier rounds predicted 3.59 nJ at this
+session's mean rate; scaled by the 50 -> 5 MHz change of the pruned core (2.93 -> 2.67 nJ, 0.91x) it gives 3.27 nJ, within 1 % of
+the measurement. The three-session set of the pruned core (zero-delay, own weights): A 3.25 (7.93 ev/bin), B 2.36 (4.88), C 1.77
+(3.71) nJ/bin; a straight line through the three (different netlists, so indicative only) gives 0.59 nJ + 0.34 nJ per event.
+The 5,000-bin annotated window of A has started.
+
+### E14 result: bmi_snn_m12 measured at 1.28 V (08:55, 20 Sep)
+The 1.28 V netlist (20 %, 2.0 ns hold margin, 55,518 cells) decodes bit-exactly (200 annotated bins, 500 zero-delay bins) at
+ss_n40C_1v28: 4.42 nJ/bin annotated (3.05 zero-delay), leakage 0.195 uW, P_avg at 250 bins/s (clock
+stopped) 1.30 uW. Against the same core at 1.8 V (30 %, 32,603 cells): 6.90 nJ annotated (5.20 zero-delay), leakage
+0.362 uW, P_avg 2.09 uW, i.e. 1.56x less energy per bin and 1.61x less average power. The gain is smaller than for sp
+(2.2x) and min32 (1.76x) because the 2.0 ns hold margin needed at the fast corner added 70 % cells, mostly hold buffers on the
+gated clock paths, whose switching is charged to the annotated energy. E14 is complete for the three requested cores:
+
+| core | 1.8 V netlist: util / cells / E_ann nJ / P_avg uW | 1.28 V netlist: util / cells / E_ann nJ / leak uW / P_avg uW | energy ratio |
+|---|---|---|---|
+| bmi_snn_sp | 40 % / 24,546 / 3.15 / 1.03 | 40 % / 32,484 / 1.43 / 0.073 / 0.43 | 2.2x |
+| bmi_snn_min32 | 50 % / 16,744 / 4.18 / 1.19 | 30 % (delay synthesis) / 31,632 / 2.37 / 0.122 / 0.71 | 1.76x |
+| bmi_snn_m12 | 30 % / 32,603 / 6.90 / 2.09 | 20 % (hold margin 2.0 ns) / 55,518 / 4.42 / 0.195 / 1.30 | 1.56x |
+
+### E2/E4 result: bmi_snn_g64p125 pipeline complete (08:57, 20 Sep)
+H = 64 at 12.5 % synapses (50 %): full block B 1.58 nJ/bin over 107,444 bins, annotated 5,000-bin window 1.82 nJ/bin
+(500-bin window 1.76, 200-bin annotated 2.02). Mean R2 0.528 (5 seeds), below the 0.55 gate: the cheapest H = 64 point but not
+a usable one. Grid cores with complete pipelines: g16p50, g32p25, g32p50, g64p125; running: g64p50, g128p125, g128p25; g128 hardening.
+
+### E2 result: bmi_snn_g128p25 windows (08:59, 20 Sep)
+H = 128 at 25 % synapses (30 %, 51,113 cells, 0.356 mm2): 5.74 nJ/bin zero-delay, 7.0 nJ annotated (glitch factor 1.22), leakage
+0.668 uW, P_avg 2.42 uW at 250 bins/s; mean R2 0.572 (5 seeds), the same accuracy as the H = 64 / 25 % core (0.573) at 2.2x its
+energy, so it does not reach the front. Its full block B (107,444 bins) has started. F1 refreshed (18 points).
+
+### E14 finding: re-evaluation against re-hardening at 1.28 V (09:05, 20 Sep)
+With the m12 measurement in, all three cores can be compared both ways. The netlists signed off at 1.8 V (nine corners) also meet
+200 ns when re-evaluated with the ss_n40C_1v28 liberty, with room to spare, and their hold slack at that corner is positive:
+
+| core | 1.8 V netlist re-evaluated at 1.28 V: setup / hold slack (ns), f_max (MHz), E_ann (nJ), leak (uW) | netlist hardened with 1.28 V signoff: E_ann (nJ), leak (uW), cells vs 1.8 V netlist | hardened / re-evaluated |
+|---|---|---|---|
+| bmi_snn_sp | +142.9 / +2.42, 17.5, 1.34, 0.086 | 1.43, 0.073, +32 % | 1.07x |
+| bmi_snn_min32 | +145.2 / +2.80, 18.2, 1.78, 0.049 | 2.37, 0.122, +89 % | 1.33x |
+| bmi_snn_m12 | +125.8 / +2.99, 13.5, 3.13, 0.136 | 4.42, 0.195, +70 % | 1.41x |
+
+The re-hardened netlists are 7-41 % more expensive in energy per bin (and up to 2.5x in leakage) than the re-evaluated ones. The
+extra cost is not the 1.28 V corner itself but the hold repair the twelve-corner signoff demanded: the fast corner (ff_n40C_1v95)
+combined with the slow 1.28 V clock tree forces hold buffers on the gated clock paths (sp needed the default margin, min32 delay
+synthesis, m12 a 2.0 ns margin before the run converged), and their switching is charged to the annotated energy. Since the 1.8 V
+netlists already pass every characterised corner including ff_n40C_1v95, the re-evaluated numbers are legitimate operating points of
+a netlist that works at both supplies, and the re-hardened numbers are the conservative bound for a part designed for 1.28 V only
+under this flow's signoff set. Both are kept: `results/corners5.json` (`tt.e_lowv` re-evaluated, `lv.e_sdf_1v28` re-hardened),
+`paper/corners_table5.tex` / `numbers_corners5.tex`; F2 draws the re-hardened (conservative) 1.28 V line and says so in its CSV.
+
+### E1: bmi_snn_scmem at 40 % stopped by the watchdog (09:25, 20 Sep)
+The register-file core (flip-flop weight memory, 88 k logic cells) at 40 %: detailed routing 214 k -> 101 k -> 94 k violations after
+four iterations, aborted by the watchdog after 250 min; the policy continues at 30 % and 20 %. In rounds 1-4 this core only routed at
+25 % with a 34 % placement density and missed the slow corner by 2.6 ns at 20 ns; at 200 ns timing is not the issue, pin access in the
+weight array is. `bmi_snn_hw` (hardwired 20-bit) at 40 % is converging: 95 violations after 13 router iterations.
+
+### E3 result: bmi_snn_m12_s131 full block of session C (10:00, 20 Sep)
+Session-C netlist of the 12-bit gated core (30 %): 52,116 bins at 3.71 events/bin, 3.65 nJ/bin zero-delay, bit-exact. Its 500-bin
+window on the same session (3.63 events/bin) gave 3.60 nJ, so the whole block confirms the window within 1.5 %; the session-B
+netlist on its own stream costs 5.20 nJ at 5.87 events/bin (500-bin window), the session-A netlist 6.31 nJ at 7.47 events/bin.
+The 5,000-bin annotated window of C has started.
+
+### E1/E9: bmi_snn_lmin2 hold-margin rerun killed by the watchdog, relaunched with relaxed thresholds (10:15, 20 Sep)
+The 20 % rerun with a 1.0 ns hold-repair margin was stopped by the watchdog at 93 k violations after four router iterations
+(228 k -> 105 k -> 93 k). The earlier 20 % run without the margin had the same start (224 k -> 102 k -> 92 k) and then converged
+(15 k -> 1.2 k -> 82 -> ... -> 0 after 21 iterations, DRC-clean but hold -0.48 ns at the fast corner), so the rule "more than 20 k
+violations after three iterations" is wrong for this 220 k-cell latch array: its first iterations only tidy the row and column
+buses. The thresholds are now environment variables (`WD_VIOL3`, `WD_VIOL8`; defaults unchanged) and the run was relaunched with
+`WD_VIOL3=400000 WD_VIOL8=60000` (the 3 h no-progress rule stays); log `logs/harden_bmi_snn_lmin2_20h_retry.log`. The E9
+waiter picks the accepted run up automatically. The same watchdog shape stopped `bmi_snn_scmem` at 40 % (214 k -> 101 k -> 94 k);
+its policy continues at 30 % and 20 % with the default thresholds, and the register-file core keeps its 50 MHz figures if those fail.
+
+### E3 complete for the pruned core (10:47, 20 Sep)
+bmi_snn_sp_s622 annotated 5,000-bin window of session A: 3.86 nJ/bin (full block zero-delay 3.25, ratio 1.19, the usual sky130
+glitch factor). The pruned core is now complete on all three sessions with its own weights (full block zero-delay / 5,000-bin
+annotated): A 3.25 / 3.86 (7.93 events/bin), B 2.36 / 2.80 (4.88), C 1.77 / 2.04 (3.71); `results/per_session.csv`,
+`paper/numbers_persession.tex` updated. Pipelines still running: min32_s622 (A), m12 (B), m12_s622 (A), m12_s131 (C annotated),
+g64p50, g128p125, g128p25, ming, min, top/topg blocks.
+
+### Policy acceptance: bmi_snn_hw at 40 % (12:00, 20 Sep)
+The hardwired 20-bit core (64 lanes, dense logic kept) closed at 40 % after 290 min: the router went 42 k -> 8 k -> 1.2 k -> 95
+violations in 13 iterations, then sat on a single violation from iteration 25 to 39 and cleared it at iteration 40 (each late
+iteration took about 30 min). DRC-clean, 40,562 cells, 0.286 mm2, worst setup slack +116.8 ns (ss_100C_1v60), hold +0.316 ns
+(ff_n40C_1v95); at 50 MHz the same core needed 88,404 cells and 0.441 mm2 (28 % utilization hedge run). 60 % and 50 % were
+stopped by the watchdog (122 k and 23 k violations after 3-4 iterations). Its pipeline (500/200-bin windows, idle, full block B,
+5,000-bin annotated) started at 12:01.
+
+### E2: bmi_snn_g128 at 50 % stopped, policy relaunched at 30 and 20 % (12:27, 20 Sep)
+The dense H = 128 core at 50 % never finished its second router iteration: 728 k violations after iteration 0, 769 k at 50 % of
+iteration 1 with no output for two hours while the machine ran four routers and 19 simulators (load 90, 14 GB free). The run was
+stopped by hand (recorded in the policy log as a rejection with the reason) and the policy relaunched with the list "30 20": the
+25 %-synapse H = 128 core needed 30 %, and a 40 % attempt of a core with twice its synapse logic would only have cost another
+watchdog cycle. This is the one deliberate deviation from the 60 -> 20 stepping; `results/POLICY5.md` shows it.
+
+### E1 result: bmi_snn_hw windows at 5 MHz (12:34, 20 Sep)
+Hardwired 20-bit core (40 %): 8.35 nJ/bin zero-delay on the 500-bin window (21.0 cycles/bin, latency 1.0 us), leakage 0.417 uW,
+idle 3.95 uW with the clock running, P_avg 2.50 uW at 250 bins/s with the clock stopped. At 50 MHz: 9.81 nJ zero-delay
+(12.1 annotated), leakage 0.674 uW. The annotated windows (event and dense mode) and the full block B are running.
+
+### E1/E9: bmi_snn_lmem2 at 30 % stopped by the default watchdog, relaunched with the relaxed thresholds (12:45, 20 Sep)
+The latch-memory core with the pipelined W2 read (lmem2, 16-bit state) at 30 %: 268 k -> 136 k -> 126 k violations after three
+router iterations, killed by the default rule after 310 min. This is the same routing shape as lmin2 at 20 % (224 k -> 102 k -> 92 k,
+then converging to 0 in 21 iterations), so the policy instance (which would have stepped to 20 % with the same thresholds) was
+stopped and relaunched at 30 % then 20 % with `WD_VIOL3=400000 WD_VIOL8=60000` and the 1.0 ns hold-repair margin from the start
+(tag suffix `h`; lmin2 without the margin failed hold by 0.48 ns at the fast corner). Log `logs/harden_bmi_snn_lmem2_30h_retry.log`;
+the lmem2 pipeline waiter picks the accepted run up.
+
+### E3 result: bmi_snn_m12_s131 pipeline complete (12:49, 20 Sep)
+Session-C netlist of the 12-bit gated core: annotated 5,000-bin window 4.84 nJ/bin (full block zero-delay 3.65, ratio 1.33, the same
+glitch factor as the session-B netlist's 500/200-bin windows, 6.90 / 5.20; the gated 12-bit datapath glitches more than the pruned core's 1.19).
+
+### Policy acceptance: bmi_snn_scmem at 30 % (12:50, 20 Sep)
+The register-file core (flip-flop weight memory) closed at 30 % in 215 min: router 164 k -> 69 k -> 64 k -> 5.4 k -> 308 -> 22 -> 0
+violations in seven iterations, DRC-clean, timing met at all nine corners (worst setup slack +77.4 ns at ss_100C_1v60, hold
++0.516 ns at ff_n40C_1v95): 301,258 cells, 2.68 mm2. At 50 MHz this core needed 511,493 cells and 3.23 mm2 and missed the slow
+corner by 2.6 ns; at 200 ns it is the first fully timing-clean register-file netlist of the project. Its pipeline (500-bin windows,
+idle, then 5,000-bin zero-delay windows on the three sessions with each session's weights; no SDF, the annotation of the
+flip-flop memory does not complete in Icarus) started at 12:51. Note for the watchdog: with 64 k violations after three
+iterations this run sat above the default 20 k rule and survived only because the fourth iteration (5.4 k) finished within the
+5-minute polling interval; the relaxed thresholds introduced for lmin2/lmem2 are the right setting for the memory cores.
+
+### E5: IHP driver split (13:00, 20 Sep)
+The sequential IHP driver (sp -> m12 -> min32 -> min16 -> lmin2) has spent 11 h on sp at 20 % (router at 187 violations after 19 of
+40 iterations, still falling). With the machine load back to 40 after the g128 and lmem2 restarts, the driver loop was stopped (the
+sp run itself continues as its own process) and `bmi_snn_min16` was started in parallel with the list "30 20" (sp needed 20 %;
+the smaller core may close at 30 %). m12 and min32 follow the same way when a slot frees; IHP lmin2 is not attempted (the ORFS
+latch-memory runs ran out of memory on NanGate45/ASAP7, see above). Log `logs/orfs5_ihp_min16_driver.log`.
+
+### E4 interim: SRAM cores across the three sessions (13:00, 20 Sep)
+`bmi_snn_top` (event mode, weights of each session loaded), 5 MHz, vdd-only SRAM liberty: 20,000-bin zero-delay windows A 47.4 nJ/bin
+at 8.48 events/bin (229 cycles/bin), C 28.6 nJ at 3.78 events/bin (149 cycles/bin); the 500-bin window of B (35.9 nJ at 5.87
+events/bin) lies 3 % below the straight line through A and C (predicted 36.9). The line is 13.5 nJ + 4.00 nJ per event: the same
+slope as the 50 MHz transfer model of the earlier rounds (16.8 + 4.00 n_ev) with the intercept lowered by the clock change, i.e.
+the per-event cost of the sequential core is clock-independent and the fixed per-bin cost fell by 20 %. Annotated 2,000-bin windows:
+A 55.4 (9.26 events/bin), B 40.1 (5.56), C 31.9 (3.62) nJ/bin; against the zero-delay windows of the same sessions the ratios are
+1.12-1.17, indicative only because the 2,000-bin windows have a different event rate than the 20,000-bin ones (the same-window
+glitch factor of the core is 1.21 from the 500/200-bin E1 windows). `bmi_snn_topg` (gated membrane groups): C 21.8 nJ zero-delay (20,000 bins), annotated A 42.9 / B 30.2 / C 23.3 nJ/bin.
+The full B blocks (107,444 bins) of top and topg and topg's A window are still running (top's since 19:00 yesterday: 18 h on the
+loaded machine). `results/explore/transfer5.json`, `paper/numbers_transfer5.tex` updated.
+
+### E1 result: bmi_snn_hw annotated windows (13:11, 20 Sep)
+Hardwired 20-bit core at 5 MHz: 10.2 nJ/bin annotated (glitch factor 1.23; 50 MHz: 12.1), dense mode 45.0 nJ zero-delay / 48.6
+annotated, P_avg 2.98 uW at 250 bins/s with the clock stopped (50 MHz: 3.13). Full block B (107,444 bins) started. F3 now shows the
+core as its own bar (10 bars).
+
+### E1 result: bmi_snn_scmem windows at 5 MHz (13:29, 20 Sep)
+Register-file core (30 %, 2.68 mm2, timing met at all corners): 10.2 nJ/bin zero-delay on the 500-bin window (22.6 cycles/bin,
+latency 1.4 us), dense mode 45.8 nJ, leakage 4.86 uW (1.07 uW in logic cells), idle 9.2 uW with the clock running, P_avg 7.41 uW at
+250 bins/s with the clock stopped. At 50 MHz (timing not met at the slow corner): 11.5 nJ, leakage 5.68 uW, P_avg 8.55 uW, dense
+52.6 nJ. No annotated run (Icarus does not finish the SDF annotation of the 300 k-instance netlist); the 5,000-bin zero-delay windows
+on the three sessions (each with its own weights) are running.
+
+### Policy acceptance: bmi_snn_lmin2 at 20 % with the 1.0 ns hold margin (13:41, 20 Sep)
+The relaunch with the relaxed watchdog closed: router 228 k -> 105 k -> 93 k -> 14 k -> 902 -> 71 -> 15 -> 9 -> 8 -> 4 -> 0 violations
+in eleven iterations (50 min), DRC-clean, hold met at every corner (+0.42 ns at ff_n40C_1v95, +1.00 at TT, +2.63 at
+ss_100C_1v60), setup reported as 0.000 at all corners (latch time borrowing, as in rounds 1-4). 227,127 cells, 1.84 mm2; at 50 MHz
+the core needed 367,376 cells and 2.12 mm2 and failed setup (-1.16 ns) and hold (-2.14 ns). The default watchdog would have killed
+this run at 93 k violations after the third iteration; the run confirms that the memory cores' routers need the relaxed thresholds
+(`WD_VIOL3=400000 WD_VIOL8=60000`). The E9 waiter and the lmin2 pipeline (500-bin windows, idle, then 5,000-bin zero-delay windows
+on the three sessions) start on this netlist.
+
+### E1 result: bmi_snn_lmin2 windows at 5 MHz (14:03, 20 Sep)
+Latch-memory core with gated 12-bit datapath and pipelined W2 read (20 %, 1.84 mm2, hold clean): 6.21 nJ/bin zero-delay on the
+500-bin window (23.8 cycles/bin, latency 1.6 us), leakage 4.38 uW (0.85 uW in logic cells; the 20 % floorplan carries more fill and
+hold buffers than the 22 % / 50 MHz netlist, whose leakage was 3.65 uW), idle 8.7 uW with the clock running, P_avg 5.93 uW at
+250 bins/s with the clock stopped (50 MHz netlist: 6.40 nJ, 5.25 uW). The latch core is the one design whose average power did not
+fall with the clock change: its energy per bin is already dominated by the memory read, and the leakage of the larger, hold-repaired
+netlist outweighs the small dynamic gain. Its 5,000-bin zero-delay windows on the three sessions are running; the E9 annotated
+50-bin run (glitch factor) is compiling.
+
+### E2: bmi_snn_g128 at 30 % restarted with the relaxed watchdog (14:30, 20 Sep)
+The dense H = 128 core at 30 % started detailed routing at 190 k violations (g128p25 at the same utilization started at 29 k and
+closed in seven iterations; g64p50 at 30 % started at 21 k). The default rule would have stopped it at the third iteration, so the
+run was stopped by hand after its first iteration and relaunched with `WD_VIOL3=400000 WD_VIOL8=60000` (list "30 20"); recorded in
+the policy log as a manual rejection. Log `logs/harden_bmi_snn_g128_relaunch2.log`.
+
+### E2/E4 result: bmi_snn_g64p50 full block (14:35, 20 Sep)
+H = 64 at 50 % synapses (30 %): full block B 3.35 nJ/bin over 107,444 bins, bit-exact (500-bin window 3.81; the block runs 12 %
+below the window, as for every core so far, because the first 500 bins of the block carry 5.87 events/bin against the block's
+4.88). Its 5,000-bin annotated window has started.
+
+### E5: IHP SG13G2 bmi_snn_min16 accepted at 30 % (14:45, 20 Sep)
+The parallel IHP run of the H = 16 core closed at 30 % in 115 min: router 10.5 k -> 5.8 k -> ... -> 13 -> 0 violations in 20
+iterations (bounded at 40), DRC-clean, setup slack +119.5 ns at the typical corner (ORFS reports no hold figure), 0.361 mm2
+instance area including fill (logic cells and area are taken from the netlist and liberty by the collector, as for the other kits).
+Measurement started (`sim/measure_pdk5.sh ihp min16 all`: 500-bin zero-delay window, idle, annotated 200-bin window with the IHP
+functional models where the annotation completes, slow 1.08 V / 125 C re-evaluation with f_max); `bmi_snn_min32` started on IHP
+with the list "30 20" in the freed slot. IHP sp at 20 % is at 91 violations after 22 of 40 iterations.
+
+### E4 result: bmi_snn_lmin2 5,000-bin window of session B (14:55, 20 Sep)
+Latch-memory core, weights of indy_20160630_01: 5.72 nJ/bin zero-delay over 5,000 bins at 5.26 events/bin, bit-exact (500-bin
+window 6.21 at 5.87 events/bin). The session-A window (weights of indy_20160622_01) has started; the E9 annotated 50-bin run is
+still simulating (started 13:58).
+
+### E5 result: IHP SG13G2 bmi_snn_min16 at 5 MHz (14:50, 20 Sep)
+11,468 logic cells, 0.121 mm2, setup slack +119.5 ns: 0.936 nJ/bin zero-delay (sky130: 1.69, i.e. 0.55x; in round 2 at 50 MHz the
+ratio was 0.79x), leakage 1.54 uW in logic cells and 16.2 uW in total (the decap/fill cells of the IHP platform dominate, as in
+round 2), P_avg 16.4 uW at 250 bins/s with the clock stopped (1.8 uW with logic leakage only). Slow corner 1.08 V / 125 C:
+0.73 nJ/bin, leakage 10.6 uW, f_max 894 MHz (the small core is far from its speed limit at 200 ns). No annotated run: the kit's
+Verilog on this machine is the functional model set generated in round 2 (no timing checks, so an SDF would annotate nothing);
+an attempt with the IHP-Open-PDK behavioural models is noted as optional. Bit-exact over 500 bins. `results/PDKS5.md`,
+`paper/pdks_table.tex`, `numbers_pdks.tex`, `results/pdks_pavg_vs_rate.csv` refreshed; F2 gains the IHP line once `ihp/sp` exists.
+
+### E5: annotated simulation on IHP SG13G2 now works (15:06, 20 Sep)
+Recipe (mirrors the ASAP7 one): SDF written by OpenSTA from the routed netlist, SPEF and the typical liberty
+(`power/run_write_sdf.sh`, 200 ns propagated clock); cell models = IHP-Open-PDK `sg13g2_udp.v` (combinational UDPs ihp_mux2/4 that
+the cell file references) + `sg13g2_stdcell.v` with its 16 sequential modules removed (`/media/pdk/icarus_sdf_models/
+sg13g2_stdcell_seqstripped.v`) + behavioural sequential cells with the vendor pin names and IOPATHs (`sim/ihp_seq_icarus.v`:
+dfrbp_1/2, dfrbpq_1/2, lgcp_1; the vendor flip-flops take their state from the `delayed_*` nets of `$setuphold` and stay X in Icarus,
+the reason round 2 fell back to functional models). `sim/measure_pdk5.sh ihp <core> sdf` now runs this path.
+bmi_snn_min16 on IHP: 200 annotated bins bit-exact, 35,398 IOPATHs annotated, 0.988 nJ/bin against 0.936 zero-delay, glitch factor
+1.06 (GF180 1.06-1.11, ASAP7 1.07-1.10, sky130 1.18-1.23). sp, m12 and min32 get the same run when their IHP hardenings close.
+
+### E4 results: bmi_snn_topg session-A window, bmi_snn_g64p50 annotated window (16:00-16:22, 20 Sep)
+- `bmi_snn_topg` (gated SRAM core) 20,000-bin zero-delay window of session A: 36.4 nJ/bin at 8.48 events/bin (229 cycles/bin),
+  bit-exact; with C (21.8 at 3.78) the line is 10.0 nJ + 3.11 nJ per event (top: 13.5 + 4.00), and the 500-bin B window (26.5) lies
+  7 % below the line's prediction. The gating saves 3.5 nJ of the fixed cost and 0.9 nJ per event. Full B blocks of top and topg
+  still running (top 21 h, topg 20 h).
+- `bmi_snn_g64p50` 5,000-bin annotated window: 4.24 nJ/bin (full block zero-delay 3.35, ratio 1.27). Pipeline complete.
+
+### E2/E4 result: bmi_snn_g128p125 full block (16:24, 20 Sep)
+H = 128 at 12.5 % synapses (50 %): full block B 3.38 nJ/bin over 107,444 bins, bit-exact (500-bin window 3.78, ratio 0.89); its
+5,000-bin annotated window has started.
+
+### E4 result: bmi_snn_lmin2 5,000-bin window of session A (16:30, 20 Sep)
+Latch-memory core with the weights of indy_20160622_01: 8.22 nJ/bin zero-delay at 8.38 events/bin, bit-exact (session B: 5.72 at
+5.26). The two points give 1.5 nJ + 0.80 nJ per event for the latch core (the SRAM core: 13.5 + 4.00; the pruned hardwired core across
+its per-session netlists: 0.6 + 0.34). The session-C window has started.
+
+### Scheduling note (17:00, 20 Sep)
+The IHP sp router (20 h in, 73 violations left after 24 iterations) has been in a single-threaded phase since 15:16 and gets about a
+third of a core at load 67; the two OpenLane routers (g128, lmem2) run 24 threads each. Both were reniced by +3 so that the
+long-running IHP job and the simulators get their share; nothing was stopped.
+
+### E1/E4 result: bmi_snn_ming full block (17:15, 20 Sep)
+Hardwired 16-bit gated core (30 %): full block B 4.54 nJ/bin over 107,444 bins, bit-exact (500-bin window 5.20, ratio 0.87), after
+a 20 h streamed simulation. Its 5,000-bin annotated window has started.
+
+### E4 result: bmi_snn_lmin2 pipeline complete (17:29, 20 Sep)
+Session-C window (weights of indy_20170131_02): 4.63 nJ/bin at 3.93 events/bin, bit-exact. The three 5,000-bin windows
+(A 8.22 at 8.38, B 5.72 at 5.26, C 4.63 at 3.93 events/bin) fit 1.47 nJ + 0.806 nJ per event
+(largest residual 0.1 %); the 500-bin E1 window (6.21 nJ at 5.87 events/bin) is predicted at 6.20 nJ (+0.2 %). The latch
+core's zero-delay pipeline is complete; only the E9 annotated 50-bin run is still simulating.
+
+### Policy acceptance: bmi_snn_lmem2 at 30 % with the 1.0 ns hold margin (17:35, 20 Sep)
+Latch-memory core with 16-bit state and the pipelined W2 read: router 275 k -> 137 k -> 127 k -> ... -> 2 -> 1 -> 1 -> 1 -> 0 in
+24 iterations (290 min in total), DRC-clean, hold met at every corner (+0.99 ns at ff_n40C_1v95, +1.66 at TT, +3.54 at
+ss_100C_1v60), setup reported 0.000 (latch borrowing). 208,689 cells, 1.82 mm2; at 50 MHz the core needed 385,176 cells and
+2.29 mm2 and carried an input-port hold flag. With this, every core of the project except `bmi_snn_lmem` (unpipelined latch
+ablation, kept at 50 MHz) and `bmi_snn_g128` (in progress) has a timing-clean 5 MHz netlist. The lmem2 pipeline (500-bin
+windows, idle, 5,000-bin windows on the three sessions) starts automatically, and the E9 annotated 50-bin run for lmem2 was
+launched (`sim/e9_lmin2.sh bmi_snn_lmem2 50`, log `logs/e9_lmem2.log`; the lmin2 one has been simulating since 13:58).
+
+### E2: bmi_snn_g128 at 30 % stopped, policy steps to 20 % (17:40, 20 Sep)
+With the relaxed watchdog the 30 % route ran five iterations of about an hour each: 190 k -> 145 k -> 143 k -> 124 k -> 114 k
+violations, a 10 % decrease per iteration and none of the 5-10x collapse that every accepted core showed between its second and
+third iteration (g128p25 at 30 %: 29 k -> 16 k -> 15 k -> 2.7 k; lmin2 at 20 %: 228 k -> 105 k -> 93 k -> 14 k). At that rate the
+64-iteration bound would take more than two days, so the flow was stopped by hand (reason recorded in the run's WATCHDOG_KILLED
+file and the policy log) and the policy instance continues with 20 %, its last utilization.
+
+### E1 result: bmi_snn_lmem2 windows at 5 MHz (17:56, 20 Sep)
+Latch-memory core, 16-bit state, pipelined W2 read (30 %, 1.82 mm2, hold clean): 10.9 nJ/bin zero-delay on the 500-bin window
+(23.8 cycles/bin, latency 1.6 us), dense mode 50.1 nJ, leakage 2.95 uW (0.85 uW in logic cells), idle 7.3 uW with the clock
+running, P_avg 5.68 uW at 250 bins/s with the clock stopped. At 50 MHz (input-port hold flag): 12.0 nJ, leakage 3.40 uW, P_avg
+6.39 uW, dense 52.8 nJ. Against lmin2 (gated 12-bit datapath, same memory): 10.9 vs 6.2 nJ, so the datapath gating and the
+12-bit state save 43 % of the latch core's energy at equal memory. The 5,000-bin windows on the three sessions are running.
+
+### E2/E4 result: bmi_snn_g128p125 pipeline complete (18:11, 20 Sep)
+H = 128 at 12.5 % synapses: 5,000-bin annotated window 3.91 nJ/bin (full block zero-delay 3.38, ratio 1.16). Grid pipelines
+complete: g16p50, g32p25, g32p50, g64p125, g64p50, g128p125; running: g128p25 (full block); g128 hardening at 20 %.
+
+### E3 result: bmi_snn_min32_s622 full block of session A (18:41, 20 Sep)
+Session-A netlist of the H = 32 core (50 %): 132,745 bins at 7.93 events/bin, 4.28 nJ/bin zero-delay, bit-exact (17 h streamed
+simulation). The H = 32 per-session set (zero-delay, own weights): A 4.28 (7.93 events/bin), B 3.07 (4.88), C 2.57 (3.71) nJ/bin,
+a straight line of 1.08 nJ + 0.40 nJ per event through the three netlists (pruned core: 0.59 + 0.34). The 5,000-bin annotated
+window of A has started; the m12 session-A block is the last per-session block still running.
+
+### E4 result: bmi_snn_lmem2 5,000-bin window of session B (19:02, 20 Sep)
+Latch-memory core (16-bit state), weights of indy_20160630_01: 10.22 nJ/bin zero-delay at 5.26 events/bin (500-bin window 10.91 at 5.87; lmin2 on the
+same window 5.72), bit-exact. Sessions A and C follow.
+
+### E1/E4 result: bmi_snn_ming pipeline complete (19:21, 20 Sep)
+Hardwired 16-bit gated core: 5,000-bin annotated window 5.86 nJ/bin (full block zero-delay 4.54, ratio 1.29; the 500/200-bin E1
+windows gave 5.19 / 6.71, ratio 1.29 as well). Pipelines complete so far: sp, min32, min16, sp_s131, min32_s131, m12_s131, sp_s622,
+g16p50, g32p25, g32p50, g64p125, g64p50, g128p125, ming, lmin2; running: hw, scmem, lmem2, m12, min, g128p25, m12_s622, min32_s622,
+top/topg blocks.
+
+### E1/E3/E4 result: bmi_snn_m12 full block of session B (19:30, 20 Sep)
+12-bit gated core (30 %): 4.54 nJ/bin zero-delay over 107,444 bins, bit-exact (500-bin window 5.20, ratio 0.87), after a 19 h
+streamed simulation; the same value as the 16-bit gated core's block (4.54): at zero delay the 12-bit state saves nothing over the
+16-bit one, its advantage (6.90 vs 6.71 annotated, i.e. none either) lies only in area (0.24 vs 0.25 mm2). Its 5,000-bin annotated
+window has started; the m12 session-A block (m12_s622) is the last per-session block running.
+
+### E2: bmi_snn_g128 at 20 % routes clean but fails hold; rerun with the hold margin (19:35, 20 Sep)
+The dense H = 128 core at 20 %: router 50 k -> 23 k -> 10 k -> 4.2 k -> 2.3 k -> ... -> 0 (DRC-clean in 120 min), setup +117.9 ns,
+but hold -0.70 ns at ff_n40C_1v95 and -0.33 ns at TT (64,088 cells, 0.42 mm2) - the same failure mode as lmin2 at 20 % (the
+hold repair after CTS did not cover the gated-clock paths of a large low-density floorplan). Relaunched at 20 % with the 1.0 ns
+hold-repair margin (tag `_u20h`, relaxed watchdog), like lmin2 and lmem2. Log `logs/harden_bmi_snn_g128_20h.log`.
+
+### E4 result: bmi_snn_lmem2 5,000-bin window of session A (20:17, 20 Sep)
+16-bit latch-memory core with the weights of indy_20160622_01: 13.75 nJ/bin zero-delay at 8.38 events/bin, bit-exact (B: 10.22 at
+5.26). The two points give 4.3 nJ + 1.13 nJ per event, against 1.5 + 0.81 for the gated 12-bit latch core (lmin2): the datapath
+gating removes two thirds of the fixed per-bin cost and 30 % of the per-event cost. The session-C window has started.
+
+### E3 complete for the H = 32 core (20:22, 20 Sep)
+bmi_snn_min32_s622 annotated 5,000-bin window of session A: 5.27 nJ/bin (block zero-delay 4.28, ratio 1.23). The H = 32 core is now
+complete on the three sessions with its own weights (full block zero-delay / 5,000-bin annotated): A 4.28 / 5.27 (7.93 events/bin),
+B 3.07 / 3.71 (4.88), C 2.57 / 3.08 (3.71). Per-session sets complete: sp, min32; m12 waits for its session-A block and B/C
+annotated windows.
+
+### E4 result: bmi_snn_lmem2 pipeline complete (21:00, 20 Sep)
+Session-C window: 8.76 nJ/bin at 3.93 events/bin, bit-exact. The three windows (A 13.75 at 8.38, B 10.22 at 5.26, C 8.76 at
+3.93 events/bin) fit 4.33 nJ + 1.12 nJ per event (largest residual 0.3 %), and the 500-bin E1 window (10.91 nJ) is predicted at
+10.92 (-0.1 %). Both latch cores are linear in the event count to within 0.2 %, like the SRAM core; only their E9 annotated
+50-bin runs are still simulating.
+
+### E1/E3/E4 result: bmi_snn_m12 pipeline complete (21:20, 20 Sep)
+12-bit gated core, session B: 5,000-bin annotated window 6.04 nJ/bin (block zero-delay 4.54, ratio 1.33, the same glitch factor as its
+500/200-bin windows and its session-C netlist). The m12 per-session set now lacks only the session-A block (m12_s622, running since
+02:29) and its annotated window.
+
+### E5: IHP SG13G2 bmi_snn_sp accepted at 20 % after 24.4 h (21:35, 20 Sep)
+The pruned core on IHP closed at 20 % in 1,464 min: 60/50/40/30 % did not route (flat 40 k violations), the 20 % router went
+1,164 -> 720 -> 569 -> 476 -> 313 -> 193 -> 187 -> 144 -> 113 -> 91 -> 73 -> 42 -> 16 -> 14 -> 6 -> 6 -> 6 -> 0 violations in 34
+of the 40 permitted iterations, the late ones taking one to three hours each in a single-threaded phase (see the scheduling
+note). DRC-clean, setup slack +119.5 ns at the typical corner; 100,071 instances / 1.19 mm2 including fill and decap (logic cells
+and area from the netlist and liberty follow in the table). Measurement started (`sim/measure_pdk5.sh ihp sp all`: zero-delay
+window, idle, annotated window with the new IHP model set, 1.08 V / 125 C re-evaluation); `bmi_snn_m12` started on IHP with the
+list "30 20" in the freed slot. IHP min32 at 30 % is at 16.5 k violations after 11 of 40 iterations and will step to 20 %.
+
+### E2: bmi_snn_g128 at 20 % with the 1.0 ns hold margin misses hold by 0.03 ns; rerun with 1.5 ns (21:35, 20 Sep)
+DRC-clean in 115 min, setup +117.9 ns, hold -0.027 ns at max_ff_n40C_1v95 only (72,065 cells against 64,088 without the margin).
+Relaunched at 20 % with a 1.5 ns margin (tag `_u20h2`), relaxed watchdog. Log `logs/harden_bmi_snn_g128_20h2.log`.
+
+### E5 result: IHP SG13G2 bmi_snn_sp at 5 MHz (21:48, 20 Sep)
+23,453 logic cells, 0.275 mm2 (logic area from netlist and liberty; 1.19 mm2 instance area with the decap/fill of the 20 %
+floorplan), setup slack +119.5 ns. 1.86 nJ/bin zero-delay, 1.97 nJ annotated (200 bins bit-exact with the new IHP model set,
+glitch factor 1.06; sky130: 2.67 / 3.15, so IHP costs 0.62x the sky130 energy per bin), leakage 3.66 uW in logic cells and
+59.5 uW in total (the decap cells that fill the 80 % empty area of the 20 % floorplan dominate, as they did for min16), P_avg
+60 uW at 250 bins/s with the clock stopped (4.2 uW with logic leakage only). Slow corner 1.08 V / 125 C: 1.40 nJ/bin (1.27
+dynamic), leakage 30.7 uW, f_max 740 MHz. `results/PDKS5.md`, `paper/pdks_table.tex`, `numbers_pdks.tex`,
+`results/pdks_pavg_vs_rate.csv` refreshed; F2 now has the IHP line (17 curves), drawn with the total leakage as the request
+specifies, so its floor at 60 uW is a statement about the platform's decap fill at low utilization rather than about the node;
+the logic-only P_avg is in the table.
+
+### E1/E4 result: bmi_snn_min full block (22:21, 20 Sep)
+Hardwired 16-bit core without gating (40 %): 6.74 nJ/bin zero-delay over 107,444 bins, bit-exact (500-bin window 7.62, ratio 0.88;
+19 h streamed simulation). Against the gated cores' blocks (ming 4.54, m12 4.54) the datapath gating saves 33 % over the whole test
+block, the same share as on the windows. Its 5,000-bin annotated window has started.
+
+### E2/E4 result: bmi_snn_g128p25 full block (22:31, 20 Sep)
+H = 128 at 25 % synapses (30 %): 5.08 nJ/bin zero-delay over 107,444 bins, bit-exact (500-bin window 5.74, ratio 0.88). Its
+5,000-bin annotated window has started; it is the last grid pipeline. E9: the annotated 50-bin simulation of lmin2 took 8.5 h
+(227 k instances with cell delays); its per-pin power evaluation is running.
+
+## E9 result: annotated glitch factor of the latch-memory core bmi_snn_lmin2 (22:34, 20 Sep)
+Same 50-bin window of indy_20160630_01 (899 cycles at 200 ns), streamed toggle counts, per-pin OpenSTA power on the 20 % netlist:
+zero-delay 3.95 nJ/bin, with cell delays annotated (Icarus, OpenLane SDF at the typical corner) 4.28 nJ/bin, bit-exact in both
+runs: glitch factor 1.08. The annotated simulation of the 227 k-instance netlist took 8.5 h for 50 bins (the 500-bin window would
+have taken 3.5 days), which is why the factor is measured on 50 bins and applied to the 500-bin window: 6.21 -> 6.72 nJ/bin
+annotated (`results/designs.json` marks the derived value with `derived_from_glitch_window: w50`), P_avg 6.06 uW at 250 bins/s.
+The latch core glitches far less than the hardwired cores (1.18-1.33) and about as much as the other kits' cores: its energy is
+dominated by the latch-row read and the pipelined W2 path, whose signals settle once per cycle, whereas the hardwired
+multiply-free adder trees of the constant-weight cores carry the arithmetic glitches. E9 for lmem2 is running (annotated
+simulation since 17:44).
+
+## E9 result: annotated glitch factor of bmi_snn_lmem2 - E9 complete (22:47, 20 Sep)
+Same 50-bin window (899 cycles): zero-delay 7.60 nJ/bin, annotated 8.33 nJ/bin, bit-exact, glitch factor 1.10 (lmin2: 1.08); the
+annotated simulation of the 209 k-instance netlist took 5.0 h. Applied to the 500-bin window: 10.9 -> 12.0 nJ/bin annotated
+(`derived_from_glitch_window: w50` in `results/designs.json`), P_avg 5.94 uW at 250 bins/s. E9 is complete: both standard-cell
+weight memories carry glitch factors of 1.08-1.10 against 1.18-1.33 for the hardwired constant-weight cores and 1.21 for the SRAM
+core, so the earlier practice of reporting the latch cores zero-delay only understated them by 8-10 %, not by the 20-30 % of the
+hardwired cores.
+
+### E5: IHP min32 and m12 at 30 % stopped, drivers step to 20 % (23:05, 20 Sep)
+IHP min32 at 30 %: 23.7 k -> 20.1 k -> 19.2 k -> 18.7 k -> 18.2 k -> 17.9 k -> 17.4 k -> 16.5 k violations over eleven iterations
+(the last one running for 1.5 h); IHP m12 at 30 %: 151 k after four iterations. Neither shows the convergence of sp at 20 %
+(which reached zero from 1.2 k) or min16 at 30 % (10.5 k -> 0 in 20 iterations); the 40-iteration bound would have cost another
+day each. Both routers were stopped so that `run_orfs5.sh` records the rejection and continues with 20 %, the utilization sp
+needed on this kit.
+
+### E5: IHP m12 at 20 % flat at 113 k violations, relaunched at 10 % (00:35, 21 Sep)
+The dense 12-bit core on IHP at 20 %: 101 k -> 114 k -> 113 k violations over four iterations (the fifth running for half an hour),
+no decrease at all, where sp at the same utilization went 1.2 k -> 0 and min32 at 20 % is converging (15 k -> 5.2 k in eight
+iterations). The router was stopped (rejection recorded) and the core relaunched with the list "10": the flat count points to
+pin-access congestion of the synapse adder trees rather than to wiring density, and the larger die of a 10 % floorplan is the only
+lever left inside the policy (cell padding was the round-2 remedy; it is kept at 1 here). Log `logs/orfs5_ihp_m12_driver10.log`.
+
+### Policy acceptance: bmi_snn_g128 at 20 % with the 1.5 ns hold margin - the grid is complete (00:40, 21 Sep)
+Dense H = 128 core: router 184 k -> 71 k -> 58 k -> ... -> 2 -> 0 in 21 iterations (175 min in total), DRC-clean, hold +0.48 ns at
+ff_n40C_1v95 and +1.43 at TT, setup +117.6 ns; 78,735 cells, 0.567 mm2 (against 64,088 cells without a margin and 72,065 with 1.0
+ns, both of which failed hold by 0.70 and 0.03 ns). Attempt history: 50 % and 30 % stopped by hand (no convergence), 20 % clean but
+hold, 20 % + 1.0 ns hold by 0.03 ns, 20 % + 1.5 ns accepted. With this every core of round 5 except the unpipelined latch ablation
+`bmi_snn_lmem` has a timing-clean 5 MHz netlist on sky130 (`results/POLICY5.md`: 52 kit/design pairs, 47 accepted). Its pipeline
+(windows, full block B, 5,000-bin annotated) starts automatically; the H = 128 dense model's mean R2 is 0.586 over 5 seeds (0.582-0.590), the highest of the grid, so this core
+sets the upper end of the accuracy axis in F1.
+
+### E2/E4 result: bmi_snn_g128p25 pipeline complete (00:46, 21 Sep)
+H = 128 at 25 % synapses: 5,000-bin annotated window 6.19 nJ/bin (full block zero-delay 5.08, ratio 1.22). All grid pipelines but
+the dense H = 128 core's (started 00:40) are complete; F1 refreshed.
+
+### E2 result: bmi_snn_g128 windows (00:54, 21 Sep)
+Dense H = 128 core (20 %, 78,735 cells, 0.567 mm2): 12.8 nJ/bin zero-delay (22.0 cycles/bin), leakage 1.09 uW (0.24 uW in logic
+cells), P_avg 4.30 uW at 250 bins/s with the clock stopped; mean R2 0.586 (5 seeds), the most accurate core of the grid and a
+point on the front by accuracy (H = 64 dense: 0.581 at 5.2 nJ; the 0.005 R2 cost 2.5x the energy). Annotated windows and the full
+block follow. F1 refreshed: the dense line now runs H = 16 -> 32 -> 64 -> 128.
+
+### E1/E4 result: bmi_snn_min pipeline complete (00:57, 21 Sep)
+Hardwired 16-bit core without gating: 5,000-bin annotated window 8.33 nJ/bin (full block zero-delay 6.74, ratio 1.24; the E1
+windows gave 7.62 / 9.47, ratio 1.24). Pipelines still running: hw (annotated + block), scmem (5,000-bin windows), g128, m12_s622, top/topg
+blocks.
+
+### E5: IHP m12 flat at 10 % as well; one more attempt with cell padding 2 at 20 % (01:10, 21 Sep)
+At 10 % the dense 12-bit core still sat at 55 k -> 52 k -> 52 k violations: the count does not depend on the floorplan density,
+so the problem is pin access of the synapse-tree cells, the round-2 diagnosis for this kit (remedied then with cell padding 4/2 at
+25 %). `synthesis/run_orfs5.sh` got an `IHP_CELL_PAD` override (run nick suffix `_pad<N>`, the accepted-run link unchanged) and
+m12 was relaunched at 20 % with padding 2 (`logs/orfs5_ihp_m12_driver_pad2.log`). If this fails too, the IHP row of m12 stays
+empty and the table says so, as it does for the latch core on the ORFS kits. IHP min32 at 20 % keeps converging (4.0 k after ten
+iterations).
+
+### E5: IHP m12 does not route under this flow; attempts closed (01:35, 21 Sep)
+With cell padding 2 at 20 % the dense 12-bit core sat at 70 k -> 77 k -> 75 k violations after four iterations, the same flat
+behaviour as at 30 % (151 k), 20 % (113 k) and 10 % (52 k) without padding: the count depends neither on the floorplan density
+nor on the placement padding, so it is not a wiring-resource problem that the policy's levers reach (the pruned core with a
+quarter of the synapses and the H = 32 core route on the same kit). The router was stopped and the attempts closed; the IHP
+row of m12 stays empty in `results/PDKS5.md` / `paper/pdks_table.tex`, the caption's footnote says why, and the four IHP attempts
+are in `results/POLICY5.md`. Round 2's IHP result for min16 needed 25 % with padding 4/2 and a bounded router; a matching
+investigation for m12 (per-layer DRC classes of the leftover markers, wider pin-access tracks) is out of this round's scope.
+
+### E2 result: bmi_snn_g128 annotated windows (01:53, 21 Sep)
+Dense H = 128 core: 18.7 nJ/bin annotated against 12.8 zero-delay, glitch factor 1.45, the largest of the study (dense H = 64: 1.33;
+pruned cores 1.18-1.22; SRAM core 1.21; latch cores 1.08-1.10): the 128-input adder trees of the dense core are the deepest
+combinational paths of any variant and carry the most arithmetic glitching. P_avg 5.75 uW annotated at 250 bins/s. Its full block B
+(107,444 bins) has started; F1 refreshed with the annotated point.
+
+### E5 (optional): annotated run of the GF180 latch-memory core started (02:05, 21 Sep)
+With the machine at load 12 the optional annotated window of `pdk_gf180/bmi_snn_lmin2` (200 bins, GF180 timing bodies, 30 h budget)
+was started: `logs/pdk5_gf180_lmin2_sdf.log`. It fills the last empty annotated cell of the GF180 rows if it finishes; the
+zero-delay figures (42.2 nJ/bin, 49.6 uW leakage) stand either way.
+
+### E3 result: bmi_snn_m12_s622 full block of session A - all per-session blocks done (02:40, 21 Sep)
+Session-A netlist of the 12-bit gated core (30 %): 132,745 bins at 7.93 events/bin, 6.62 nJ/bin zero-delay, bit-exact (24 h
+streamed simulation, the longest of the round). The dense 12-bit per-session set (zero-delay, own weights): A 6.62 (7.93
+events/bin), B 4.54 (4.88), C 3.65 (3.71) nJ/bin, a line of 1.09 nJ + 0.70 nJ per event through the three netlists (H = 32: 1.09 +
+0.40; pruned: 0.59 + 0.34). All nine per-session full blocks are measured; the last annotated window (m12 A) is running.
+
+### E1/E4 result: bmi_snn_hw full block (03:06, 21 Sep)
+Hardwired 20-bit core (40 %): 7.39 nJ/bin zero-delay over 107,444 bins, bit-exact (500-bin window 8.35, ratio 0.89). Its 5,000-bin
+annotated window has started. Full blocks measured so far for every hardwired sky130 core except g128 (running) and every SRAM
+core's block still running (top 32 h, topg 30 h).
+
+### E5 result: GF180 latch-memory core annotated (03:25, 21 Sep)
+`pdk_gf180/bmi_snn_lmin2` (30 % with hold margin, 134,639 cells, 4.83 mm2 at 5 V): 200 annotated bins bit-exact in 81 min (GF180
+timing bodies with the notifier-initialised copies), 45.4 nJ/bin annotated against 42.2 zero-delay, glitch factor 1.08 - the same
+as the sky130 latch core's E9 value (1.08), confirming that the latch-memory architecture glitches little on either kit. The GF180
+rows of the cross-node table are now complete (sp, m12, min32, min16, lmin2, all with annotated energy and the two leakage
+conventions); the empty annotated cells that remain are NanGate45 (no timing models on the kit) and the ASAP7/NanGate latch cores
+(out of memory in the flow).
+
+## E3 complete: per-session netlists of the hardwired cores (04:05, 21 Sep)
+All nine netlists (sp, min32, m12 x sessions A = indy_20160622_01, B = indy_20160630_01, C = indy_20170131_02), each hardened at
+5 MHz with the policy and measured on its own session's whole test block (zero-delay, streamed toggles) and a 5,000-bin annotated
+window; every run bit-exact. `results/per_session.csv`, `paper/numbers_persession.tex` (69 macros).
+
+| core | session | util % | area mm2 | cells | R2 (int) | bins | events/bin | E block zero-delay (nJ) | cycles/bin | E 5,000-bin annotated (nJ) | ann./zero | leak uW |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| sp | 20160622_01 | 40 | 0.175 | 24,347 | 0.574 | 132,745 | 7.93 | 3.25 | 24.9 | 3.86 | 1.19 | 0.241 |
+| sp | 20160630_01 | 40 | 0.176 | 24,546 | 0.574 | 107,444 | 4.88 | 2.36 | 18.9 | 2.80 | 1.19 | 0.243 |
+| sp | 20170131_02 | 40 | 0.163 | 23,089 | 0.574 | 52,116 | 3.71 | 1.77 | 16.6 | 2.04 | 1.15 | 0.229 |
+| min32 | 20160622_01 | 50 | 0.121 | 17,033 | 0.572 | 132,745 | 7.93 | 4.28 | 24.8 | 5.27 | 1.23 | 0.145 |
+| min32 | 20160630_01 | 50 | 0.119 | 16,744 | 0.572 | 107,444 | 4.88 | 3.07 | 18.8 | 3.71 | 1.21 | 0.144 |
+| min32 | 20170131_02 | 50 | 0.12 | 16,930 | 0.572 | 52,116 | 3.71 | 2.57 | 16.6 | 3.08 | 1.20 | 0.144 |
+| m12 | 20160622_01 | 30 | 0.237 | 35,560 | 0.582 | 132,745 | 7.93 | 6.62 | 25.0 | 8.62 | 1.30 | 0.605 |
+| m12 | 20160630_01 | 30 | 0.24 | 32,603 | 0.582 | 107,444 | 4.88 | 4.54 | 19.0 | 6.04 | 1.33 | 0.362 |
+| m12 | 20170131_02 | 30 | 0.24 | 32,707 | 0.582 | 52,116 | 3.71 | 3.65 | 17.0 | 4.84 | 1.33 | 0.366 |
+
+Reading: within each core the block energy is linear in the session's event rate (sp 0.59 + 0.34 nJ/event, min32 1.09 + 0.40,
+m12 1.09 + 0.70 across the three netlists), the annotated/zero-delay ratio is a property of the architecture (1.15-1.23 for the
+pruned and H = 32 cores, 1.30-1.33 for the dense 12-bit core) and not of the session, and the per-session netlists differ in area
+by less than 8 % (sp 0.163-0.176 mm2) because the constant-weight logic is dominated by the synapse count, not by the values.
+
+## E4 result: bmi_snn_top full block of session B - the SRAM core's transfer model at 5 MHz (04:14, 21 Sep)
+The sequential SRAM core (event mode, vdd-only SRAM liberty) over the whole test block of indy_20160630_01: 33.9 nJ/bin at
+4.88 events/bin (168 cycles/bin), 107,444 bins, bit-exact, after a 33 h streamed simulation. With the 20,000-bin windows
+of A (47.4 at 8.48) and C (28.6 at 3.78) the transfer model is E_bin = 14.1 nJ + 3.94 nJ x n_ev (largest
+residual 0.56 nJ, 1.6 %); the 500-bin E1 window (35.9 nJ at 5.87 events/bin) sits 3.8 % below the model. The 50 MHz model
+of the earlier rounds was 16.8 + 4.00 n_ev: the per-event cost is unchanged by the clock (the SRAM read and the membrane update per
+event are fixed work), the fixed cost fell by 16 %. `results/explore/transfer5.json`, `paper/numbers_transfer5.tex` updated;
+topg's full block is still running (31 h).
+
+### E1/E4 result: bmi_snn_hw pipeline complete (04:28, 21 Sep)
+Hardwired 20-bit core: 5,000-bin annotated window 9.02 nJ/bin (full block zero-delay 7.39, ratio 1.22; E1 windows 8.35 / 10.2, ratio 1.23).
+
+## E4 result: bmi_snn_topg full block - E4 complete for the SRAM cores (08:21, 21 Sep)
+The gated SRAM core over the whole test block of indy_20160630_01: 25.2 nJ/bin at 4.88 events/bin, 107,444 bins, bit-exact (35 h
+streamed simulation). With the A and C windows the transfer model is E_bin = 10.0 nJ + 3.11 nJ x n_ev, largest residual 0.03 nJ
+(0.1 %); the 500-bin E1 window (26.5 nJ) sits 6.6 % below the model, as for top (3.8 %): the first 500 bins of session B are
+denser in events than average (5.87 against 4.88) but cheaper per event than the whole block, so the short window slightly
+understates the per-event cost. Both SRAM cores now have: full block B, 20,000-bin windows of A and C, 2,000-bin annotated
+windows of all three sessions, and the transfer model at 5 MHz (`results/explore/transfer5.json`, `paper/numbers_transfer5.tex`).
+The gating saves 3.5 nJ of the SRAM core's fixed cost and 0.9 nJ per event at every rate (top: 14.1 + 3.94).
+
+# Closing summary, one section per experiment (written 21 Sep, 08:45; the last three jobs are noted where they matter)
+
+Numbers-only companion: `results/ROUND5_CLOSING.md` (generated). Every attempt of the utilization policy: `results/POLICY5.md`.
+
+## E1. Common clock and utilization policy
+Settings: 5 MHz (200 ns) for every core and the SoC; policy 60 -> 20 % core utilization in steps of 10 %, placement density
+utilization + 10 %, heuristic antenna diodes off (diodes on input ports), first run that is DRC-clean and meets setup and hold at all
+nine sky130 signoff corners accepted (twelve corners for the 1.28 V netlists); a watchdog aborts hopeless detailed routing
+(> 20 k violations after 3 iterations, > 3 k after 8, no completed iteration in 3 h; raised to 400 k / 60 k for the memory cores
+and the dense H = 128 core, whose routers start above 180 k violations and collapse only at the third or fourth iteration).
+Result: 21 sky130 cores plus the front end and the SoC hardened at 5 MHz: top 60 %, topg 40, min 40, ming 30, m12 30 (hold
+margin), sp 40, min32 50, min16 60, hw 40, scmem 30, lmin2 20 (hold margin 1.0 ns), lmem2 30 (1.0 ns), g16p50 60, g32p50 50,
+g32p25 50, g64p50 30, g64p125 50, g128p125 50, g128p25 30, g128 20 (1.5 ns), sp/min32/m12 per-session netlists 40/50/30-20.
+`bmi_snn_lmem` (unpipelined latch ablation) did not route at 30 or 20 % and keeps its 50 MHz figures, as E1 allows for the optional
+cores. Runtime: 135 attempts, 3-1,464 min each (`POLICY5.md`). Measurements: 500/200-bin windows, idle run, both leakage
+conventions (total and logic-cell-only, `leak_split`), P_avg at 250 bins/s for clock stopped / 32.768 kHz / 5 MHz / 50 MHz, all
+bit-exact; tables `results/DESIGNS.md`, `paper/designs_table.tex`, `paper/numbers2.tex`; change against 50 MHz in
+`results/DESIGNS_50_vs_5.md` (area -4 to -35 %, cells -36 to -55 %, zero-delay energy 0 to -24 %, P_avg -3 to -20 %; the latch
+core lmin2 is the exception with +13 % P_avg, its leakage grew with the 20 % floorplan). Failures: the hold-repair margin was needed at low
+utilization for the gated-clock cores (m12, lmin2, lmem2, g128, m12_s622), the default watchdog thresholds killed convergent
+memory-core routes twice (lmin2, lmem2) before they were relaxed, g128 needed three reruns (hold -0.70, -0.03, then clean),
+the stray `0` lines in the policy log came from a `grep -c || echo 0` and were fixed. Still running at the time of writing: the
+scmem 5,000-bin windows on the three sessions (16 h each on the 300 k-instance netlist).
+
+## E5. Cross-node study
+Settings: sp, m12, min32, min16 (and lmin2 where the flow allowed) on GF180MCU (OpenLane, 5 V), IHP SG13G2, NanGate45, ASAP7
+RVT and ASAP7 SRAM-Vt (OpenROAD-flow-scripts), same 200 ns clock and policy; zero-delay 500-bin window, idle run, annotated
+200-bin window where the kit's models allow (GF180 vendor bodies with notifier-initialised copies and timescale-first compile;
+ASAP7 and IHP with behavioural sequential cells and OpenSTA-written SDF), lowest characterised supply re-evaluated with f_max;
+logic-only and total leakage. Result: 25 kit/core rows (`results/PDKS5.md`, `paper/pdks_table.tex`, `numbers_pdks.tex`,
+`pdks_pavg_vs_rate.csv`, figure F2). Glitch factors: sky130 1.18-1.33 (dense H = 128: 1.45), GF180 1.06-1.11, IHP 1.06, ASAP7
+1.07-1.10, latch cores 1.08 on both kits; NanGate45 zero-delay only (no timing models). Failures: IHP m12 does not route under
+this flow (flat violation counts at 30, 20 and 10 % and with cell padding 2, four attempts), so its row is empty; the latch core
+ran out of memory in the ORFS flow on NanGate45/ASAP7 (GF180 lmin2 hardened and annotated). IHP min32 is in the router tail of
+its 20 % run at the time of writing (55 violations at iteration 25 of 40) and gets `measure_pdk5.sh ihp min32 all` on acceptance.
+
+## E2. Training grid and iso-accuracy rows
+Settings: H in {16, 32, 64, 128} x synapse density in {100, 50, 25, 12.5 %} where trained, 5 seeds x 3 sessions each, integer
+reference; every configuration hardened as a 12-bit gated hardwired core with the session-B weights and measured as in E1 plus the
+full block B and a 5,000-bin annotated window. Result: 10 grid points (`results/pareto.csv`, `paper/numbers_pareto.tex`, F1).
+Front (energy against mean R2): g16p50 (1.10 nJ ann., 0.544), g32p25 (1.58, 0.556), g32p50 (2.21, 0.573), sp = H64 25 % (3.15,
+0.573), g64p50 (4.81, 0.578), m12 = H64 dense (6.90, 0.581), g128 (18.7, 0.586). H = 64 at 12.5 % (0.528) and H = 128 at 12.5 %
+(0.546) fall below the 0.55 gate; H = 128 at 25 % (0.572) costs 2.2x the H = 64 / 25 % energy for the same accuracy. Failures:
+none in measurement; g128 needed the policy deviations described above. Running: the g128 full block.
+
+## E3. Per-session netlists
+Complete, nine netlists, table above (04:05, 21 Sep): block energies linear in the session's event rate within each core, glitch
+factors a property of the architecture, areas within 8 % across sessions.
+
+## E4. Full test blocks and long windows
+Settings: whole test block of the core's own session (hardwired cores), full block B + 20,000-bin A/C windows + 2,000-bin annotated
+windows of all sessions (SRAM cores), 5,000-bin windows on the three sessions (memory cores), 5,000-bin annotated windows;
+streamed toggle counting (`tools/vcd_toggles`, `power/toggles_to_activity.py`) so that no VCD is stored; runtime 13-35 h per
+block. Result: 36 whole-block or long-window measurements, all bit-exact (`ROUND5_CLOSING.md`, E4 table). The whole block runs
+11-13 % below the 500-bin E1 window for every hardwired core (the window's first 500 bins carry 5.87 events/bin against the
+block's 4.88), and the transfer models of the programmable cores are linear to 0.1-1.6 %: top 14.1 + 3.94 n_ev, topg 10.0 +
+3.11, lmin2 1.47 + 0.81, lmem2 4.33 + 1.12 nJ. Per-bin statistics (mean, sd, min, max) are in `results/designs.json`
+(`full.<session>.func_perbin`). Failures: none; the streamed method replaced VCD storage after OpenSTA read 11-22 GB per VCD.
+
+## E9. Annotated glitch factor of the standard-cell weight memories
+Complete: lmin2 1.08 (8.5 h for 50 annotated bins), lmem2 1.10 (5.0 h); applied to the E1 windows (6.72 and 12.0 nJ annotated).
+
+## E7. Software baseline, per-pin method
+Complete (see the E7 sections): decoding-window per-pin power of the RISC-V SoC at 50 MHz (-O2 3,537 nJ/bin, hand-tuned 2,015)
+and at 5 MHz (-O2 3,522, tuned 2,003), idle 76 uW with the clock running; `paper/numbers_software5.tex`.
+
+## E10. Digital front end
+Complete: `rtl/bmi_fe.v` v2 with the enable handshake, 0.691 uW at 250 bins/s after the root-clock correction (OpenSTA charges the
+root clock network at the clock definition's rate; `power/root_clock_correction.py`); `paper/numbers_frontend.tex`.
+
+## E14. Low-voltage cores hardened rather than re-evaluated
+Complete for sp, min32, m12: the 1.28 V-signoff netlists cost 1.07x, 1.33x and 1.41x the energy of the 1.8 V netlists re-evaluated at
+1.28 V, because the twelve-corner signoff forces hold repair on the gated clock paths (sp default margin, min32 delay synthesis,
+m12 a 2.0 ns margin); the re-evaluated netlists pass every characterised corner, so both are legitimate operating points and both
+are kept (`paper/corners_table5.tex`, `numbers_corners5.tex`). Against 1.8 V: 2.2x, 1.76x, 1.56x less energy per bin.
+
+## E11, E12, E8
+E11 SRAM22 per-access figures and the published comparison: done (sections above). E12 bootstrap intervals: done
+(`numbers_bootstrap.tex`; the NeuroBench SNN2 per-bin outputs were not re-run, so no paired difference). E8 (one state width
+for every core) was not run; the section above records the reasoning: the 12-bit hardwired and latch cores already cover the
+state-width comparison for the parallel architecture, the SRAM core keeps 20/24 bits, and the 12/14-bit variants of top and
+lmem2 would have needed new RTL, a hardening of a 400 k-instance latch design and the full measurement set.
+
+## Figures and files
+F1-F3 and F5 regenerated to the requested layout (`figures/`, PDF + PNG + CSV, scripts next to them), F4 as `arch-improved.tikz`
+with the four-line caption, F6 reduced to the energy panel. Regenerated numbers and tables: `numbers.tex`, `numbers2.tex`,
+`numbers_corners5.tex` (the 5 MHz counterpart of `numbers_corners.tex`, which keeps the 50 MHz macros), `numbers_pdks.tex`,
+`numbers_seeds.tex`, `numbers_software5.tex`, `numbers_transfer5.tex`, `numbers_persession.tex`, `numbers_frontend.tex`,
+`numbers_pareto.tex`, `numbers_bootstrap.tex`; `designs_table.tex`, `pdks_table.tex`, `corners_table5.tex`, `seeds_table.tex`.
+JSON/CSV: `results/designs.json`, `pareto.csv`, `per_session.csv`, `pdks_pavg_vs_rate.csv` (+ `pdks5.json`, `corners5.json`,
+`policy5.json`, `explore/transfer5.json`). Raw reports: `results/raw/round5/` (snapshot at the end). Previous versions:
+`_superseded/2026-09-19_before_round5/` in the manuscript folder. The manuscript compiles with every new input.
+
+### E5: IHP SG13G2 bmi_snn_min32 accepted at 20 % after 14.7 h (13:45, 21 Sep)
+The H = 32 core on IHP: 30 % did not converge (16.5 k violations after eleven iterations, stopped), 20 % went 24.7 k -> 16 k ->
+9.7 k -> ... -> 15 (flat for four iterations) -> 5 -> 3 -> 1 -> 1 -> 0 in 39 of the 40 permitted iterations, DRC-clean, setup slack
++119.5 ns; 84,534 instances / 0.99 mm2 including fill and decap. Measurement started (`measure_pdk5.sh ihp min32 all`).
+
+### E5 result: IHP SG13G2 bmi_snn_min32 at 5 MHz - E5 complete except IHP m12 (13:52, 21 Sep)
+20,603 logic cells, 0.223 mm2, setup slack +119.5 ns: 2.11 nJ/bin zero-delay, 2.23 nJ annotated (200 bins bit-exact, glitch factor
+1.06; sky130: 3.46 / 4.18, so 0.53x), leakage 2.98 uW in logic cells and 49.4 uW in total (decap fill of the 20 % floorplan),
+P_avg 49.9 uW at 250 bins/s with the clock stopped (3.5 uW with logic leakage only). Slow corner 1.08 V / 125 C: 1.61 nJ/bin,
+leakage 25.3 uW, f_max 1.05 GHz. The IHP rows for sp, min32 and min16 are complete with annotated energy; m12 stays empty
+(not routable under this flow, see above). F2 panel (b) now carries the IHP line (18 curves). `results/POLICY5.md`: 52 kit/design
+pairs, 48 accepted, 138 attempts.

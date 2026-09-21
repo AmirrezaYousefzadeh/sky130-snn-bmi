@@ -78,3 +78,28 @@ bmi_snn_lmem: no utilization in the policy list converged
 bmi_snn_m12 LOWV util=20 tag=bmi_snn_m12_5m_lv runtime=75min drc=0 pass=0
 0
 bmi_snn_min32 LOWV util=30 tag=bmi_snn_min32_5m_lv runtime=64min drc=0 pass=1
+pdk_gf180/bmi_snn_lmin2 ACCEPTED util=30 tag=bmi_snn_lmin2_5m_u30h runtime=480min drc=0
+bmi_snn_hw REJECTED util=50 tag=bmi_snn_hw_5m_u50 runtime=140min drc=NA pass=0 watchdog="drt 23294 violations after 4 iterations"
+bmi_snn_g128p25 REJECTED util=40 tag=bmi_snn_g128p25_5m_u40 runtime=150min drc=NA pass=0 watchdog="drt 20089 violations after 4 iterations"
+bmi_snn_lmin2 REJECTED util=20 tag=bmi_snn_lmin2_5m_u20 runtime=265min drc=0 pass=0
+0
+bmi_snn_lmin2: no utilization in the policy list converged
+bmi_snn_m12 LOWV util=20 tag=bmi_snn_m12_5m_lv runtime=135min drc=0 pass=1
+bmi_snn_g128p25 ACCEPTED util=30 tag=bmi_snn_g128p25_5m_u30 runtime=35min drc=0
+bmi_snn_scmem REJECTED util=40 tag=bmi_snn_scmem_5m_u40 runtime=250min drc=NA pass=0 watchdog="drt 93733 violations after 4 iterations"
+bmi_snn_lmin2 REJECTED util=20 tag=bmi_snn_lmin2_5m_u20h runtime=175min drc=NA pass=0 watchdog="drt 93343 violations after 4 iterations"
+bmi_snn_lmin2: no utilization in the policy list converged
+bmi_snn_hw ACCEPTED util=40 tag=bmi_snn_hw_5m_u40 runtime=290min drc=0
+bmi_snn_g128 REJECTED util=50 tag=bmi_snn_g128_5m_u50 runtime=215min drc=NA pass=0 killed="manual: drt 769k violations, no completed iteration for 2 h; relaunched with 30 20"
+bmi_snn_lmem2 REJECTED util=30 tag=bmi_snn_lmem2_5m_u30 runtime=310min drc=NA pass=0 watchdog="drt 125966 violations after 3 iterations"
+bmi_snn_lmem2 REJECTED util=20 tag=bmi_snn_lmem2_5m_u20 runtime=1min drc=NA pass=0 killed="aborted at start: the 30 % run was killed by the default watchdog on the same routing shape that converged for lmin2; relaunched at 30 % with hold margin 1.0 ns and relaxed watchdog"
+bmi_snn_scmem ACCEPTED util=30 tag=bmi_snn_scmem_5m_u30 runtime=215min drc=0
+bmi_snn_lmin2 ACCEPTED util=20 tag=bmi_snn_lmin2_5m_u20h runtime=200min drc=0
+bmi_snn_g128 REJECTED util=30 tag=bmi_snn_g128_5m_u30 runtime=120min drc=NA pass=0 killed="manual: 190k violations after iteration 1, relaunched at 30 20 with WD_VIOL3=400000 WD_VIOL8=60000"
+bmi_snn_lmem2 ACCEPTED util=30 tag=bmi_snn_lmem2_5m_u30h runtime=290min drc=0
+bmi_snn_g128 REJECTED util=30 tag=bmi_snn_g128_5m_u30 runtime=195min drc=NA pass=0 watchdog="manual: 190k -> 145k -> 143k -> 124k -> 114k violations after five iterations of about an hour each, no collapse (the accepted grid cores dropped by 5-10x between iterations 2 and 3); stopped so that the policy steps to 20 %"
+bmi_snn_g128 REJECTED util=20 tag=bmi_snn_g128_5m_u20 runtime=120min drc=0 pass=0
+bmi_snn_g128: no utilization in the policy list converged
+bmi_snn_g128 REJECTED util=20 tag=bmi_snn_g128_5m_u20h runtime=115min drc=0 pass=0
+bmi_snn_g128: no utilization in the policy list converged
+bmi_snn_g128 ACCEPTED util=20 tag=bmi_snn_g128_5m_u20h2 runtime=175min drc=0

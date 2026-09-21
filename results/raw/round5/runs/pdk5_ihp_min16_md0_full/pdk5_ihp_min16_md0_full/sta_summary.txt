@@ -1,0 +1,4 @@
+CLK_STOP_ICG: 1 clock-gate outputs
+toggles_to_activity: annotated 37317 pins, 56 input ports and 11922 nets (driver pins)
+WORST_SETUP_SLACK 1.9930034511617123e-7
+WORST_HOLD_SLACK 6.197948820840793e-10

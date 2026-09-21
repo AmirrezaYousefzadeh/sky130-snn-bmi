@@ -40,3 +40,14 @@ nangate45 rvt bmi_snn_lmin2 ACCEPTED util=30 nick=bmi_snn_lmin2_5m_u30 runtime=1
 asap7 rvt bmi_snn_lmin2 REJECTED util=20 nick=bmi_snn_lmin2_5m_u20 runtime=61min rc=2 drc=NA setup=NA hold=NA
 asap7 rvt bmi_snn_lmin2: no utilization converged
 ihp-sg13g2 rvt bmi_snn_sp REJECTED util=30 nick=bmi_snn_sp_5m_u30 runtime=214min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_min16 ACCEPTED util=30 nick=bmi_snn_min16_5m_u30 runtime=115min setup=119.505 hold=NA
+ihp-sg13g2 rvt bmi_snn_sp ACCEPTED util=20 nick=bmi_snn_sp_5m_u20 runtime=1464min setup=119.454 hold=NA
+ihp-sg13g2 rvt bmi_snn_min32 REJECTED util=30 nick=bmi_snn_min32_5m_u30 runtime=493min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_m12 REJECTED util=30 nick=bmi_snn_m12_5m_u30 runtime=81min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_m12 REJECTED util=20 nick=bmi_snn_m12_5m_u20 runtime=90min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_m12: no utilization converged
+ihp-sg13g2 rvt bmi_snn_m12 REJECTED util=10 nick=bmi_snn_m12_5m_u10 runtime=30min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_m12: no utilization converged
+ihp-sg13g2 rvt bmi_snn_m12 REJECTED util=20 nick=bmi_snn_m12_5m_pad2_u20 runtime=28min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_m12: no utilization converged
+ihp-sg13g2 rvt bmi_snn_min32 ACCEPTED util=20 nick=bmi_snn_min32_5m_u20 runtime=884min setup=119.475 hold=NA
