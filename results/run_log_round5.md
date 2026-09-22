@@ -1052,8 +1052,8 @@ bit-exact; tables `results/DESIGNS.md`, `paper/designs_table.tex`, `paper/number
 core lmin2 is the exception with +13 % P_avg, its leakage grew with the 20 % floorplan). Failures: the hold-repair margin was needed at low
 utilization for the gated-clock cores (m12, lmin2, lmem2, g128, m12_s622), the default watchdog thresholds killed convergent
 memory-core routes twice (lmin2, lmem2) before they were relaxed, g128 needed three reruns (hold -0.70, -0.03, then clean),
-the stray `0` lines in the policy log came from a `grep -c || echo 0` and were fixed. The scmem 5,000-bin window of session B was
-the last measurement (27 h on the 300 k-instance netlist); its A and C windows were dropped (see 16:45, 21 Sep).
+the stray `0` lines in the policy log came from a `grep -c || echo 0` and were fixed; the streamed runs of the register-file core
+were built without the write-port weight load until 22 Sep (see the bug entry), which cost 46 h of simulation and no results.
 
 ## E5. Cross-node study
 Settings: sp, m12, min32, min16 (and lmin2 where the flow allowed) on GF180MCU (OpenLane, 5 V), IHP SG13G2, NanGate45, ASAP7
@@ -1146,8 +1146,13 @@ other job still running.
 Dense H = 128 core: 5,000-bin annotated window 16.3 nJ/bin (full block zero-delay 11.2, ratio 1.46, the same glitch factor as its
 500/200-bin windows). Every grid core now has the full E1 + E4 measurement set; the E2 table and F1 are final.
 
-### E1: scmem per-session windows cut to session B (16:45, 21 Sep)
-The register-file core's 5,000-bin zero-delay window of session B has been simulating for 27 h (300 k instances); the A and C
-windows would take two more days for a core whose argument (the flip-flop weight memory against latches) is already made by
-its E1 windows and its area and leakage. The pipeline is therefore stopped after the B window; the A and C windows of scmem are
-the only planned measurements of round 5 not taken, and the E4 table marks the core with its single session.
+### Bug found: the register-file core's long windows were built without the weight load (16:00, 22 Sep)
+The scmem 5,000-bin window of session B ran for 46 h without finishing and was stopped. Diagnosis: `sim/measure_full.sh` grouped
+`bmi_snn_scmem` with `bmi_snn_hw` in its design case (`LOAD=""`), so the streamed runs of the register-file core compiled without
+`-DLOAD_PORT -DDUMP_AFTER_LOAD -DHAS_WR_READY`; its weights were never written through the port (`sim/measure_design.sh`, which
+produced the correct E1 windows, has the defines). The core then never completed a bin: the log shows the testbench past cycle
+146,000,000 where 115,000 suffice for 5,000 bins, and the "weights loaded through the write port" line never appears. No wrong
+number entered the results: the run produced no SUMMARY and nothing was collected. The case was split (scmem now carries the
+load defines) and the three 5,000-bin windows were relaunched at 16:04; the correct 500-bin window of the same netlist takes
+13 min, so each 5,000-bin window is about 2 h, not the two days assumed when the A and C windows were dropped - that decision is
+therefore reversed and all three sessions are measured.
