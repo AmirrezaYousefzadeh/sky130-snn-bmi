@@ -1052,8 +1052,9 @@ bit-exact; tables `results/DESIGNS.md`, `paper/designs_table.tex`, `paper/number
 core lmin2 is the exception with +13 % P_avg, its leakage grew with the 20 % floorplan). Failures: the hold-repair margin was needed at low
 utilization for the gated-clock cores (m12, lmin2, lmem2, g128, m12_s622), the default watchdog thresholds killed convergent
 memory-core routes twice (lmin2, lmem2) before they were relaxed, g128 needed three reruns (hold -0.70, -0.03, then clean),
-the stray `0` lines in the policy log came from a `grep -c || echo 0` and were fixed. The scmem 5,000-bin window of session B was
-the last measurement (27 h on the 300 k-instance netlist); its A and C windows were dropped (see 16:45, 21 Sep).
+the stray `0` lines in the policy log came from a `grep -c || echo 0` and were fixed; the streamed runs of the register-file core
+were built without the write-port weight load until 22 Sep (see the bug entry), which cost 46 h of simulation and no results; with
+the fix the three windows took 14-16 min each and E1/E4 are complete for every core.
 
 ## E5. Cross-node study
 Settings: sp, m12, min32, min16 (and lmin2 where the flow allowed) on GF180MCU (OpenLane, 5 V), IHP SG13G2, NanGate45, ASAP7
@@ -1084,10 +1085,10 @@ factors a property of the architecture, areas within 8 % across sessions.
 Settings: whole test block of the core's own session (hardwired cores), full block B + 20,000-bin A/C windows + 2,000-bin annotated
 windows of all sessions (SRAM cores), 5,000-bin windows on the three sessions (memory cores), 5,000-bin annotated windows;
 streamed toggle counting (`tools/vcd_toggles`, `power/toggles_to_activity.py`) so that no VCD is stored; runtime 13-35 h per
-block. Result: 36 whole-block or long-window measurements, all bit-exact (`ROUND5_CLOSING.md`, E4 table). The whole block runs
+block. Result: 39 whole-block or long-window measurements, all bit-exact (`ROUND5_CLOSING.md`, E4 table). The whole block runs
 11-13 % below the 500-bin E1 window for every hardwired core (the window's first 500 bins carry 5.87 events/bin against the
 block's 4.88), and the transfer models of the programmable cores are linear to 0.1-1.6 %: top 14.1 + 3.94 n_ev, topg 10.0 +
-3.11, lmin2 1.47 + 0.81, lmem2 4.33 + 1.12 nJ. Per-bin statistics (mean, sd, min, max) are in `results/designs.json`
+3.11, scmem 3.81 + 1.09, lmem2 4.33 + 1.12, lmin2 1.47 + 0.81 nJ. Per-bin statistics (mean, sd, min, max) are in `results/designs.json`
 (`full.<session>.func_perbin`). Failures: none; the streamed method replaced VCD storage after OpenSTA read 11-22 GB per VCD.
 
 ## E9. Annotated glitch factor of the standard-cell weight memories
@@ -1146,8 +1147,24 @@ other job still running.
 Dense H = 128 core: 5,000-bin annotated window 16.3 nJ/bin (full block zero-delay 11.2, ratio 1.46, the same glitch factor as its
 500/200-bin windows). Every grid core now has the full E1 + E4 measurement set; the E2 table and F1 are final.
 
-### E1: scmem per-session windows cut to session B (16:45, 21 Sep)
-The register-file core's 5,000-bin zero-delay window of session B has been simulating for 27 h (300 k instances); the A and C
-windows would take two more days for a core whose argument (the flip-flop weight memory against latches) is already made by
-its E1 windows and its area and leakage. The pipeline is therefore stopped after the B window; the A and C windows of scmem are
-the only planned measurements of round 5 not taken, and the E4 table marks the core with its single session.
+### Bug found: the register-file core's long windows were built without the weight load (16:00, 22 Sep)
+The scmem 5,000-bin window of session B ran for 46 h without finishing and was stopped. Diagnosis: `sim/measure_full.sh` grouped
+`bmi_snn_scmem` with `bmi_snn_hw` in its design case (`LOAD=""`), so the streamed runs of the register-file core compiled without
+`-DLOAD_PORT -DDUMP_AFTER_LOAD -DHAS_WR_READY`; its weights were never written through the port (`sim/measure_design.sh`, which
+produced the correct E1 windows, has the defines). The core then never completed a bin: the log shows the testbench past cycle
+146,000,000 where 115,000 suffice for 5,000 bins, and the "weights loaded through the write port" line never appears. No wrong
+number entered the results: the run produced no SUMMARY and nothing was collected. The case was split (scmem now carries the
+load defines) and the three 5,000-bin windows were relaunched at 16:04; the correct 500-bin window of the same netlist takes
+13 min, so each 5,000-bin window is about 2 h, not the two days assumed when the A and C windows were dropped - that decision is
+therefore reversed and all three sessions are measured.
+
+### E4 result: bmi_snn_scmem 5,000-bin window of session B (16:21, 22 Sep)
+With the weight load in place the window finished in 16 min (against 46 h of the mis-built run): 9.54 nJ/bin zero-delay at 5.26
+events/bin, 21.4 cycles/bin, bit-exact (500-bin E1 window 10.21 at 5.87 events/bin). Sessions A and C are running.
+
+## E4 complete: bmi_snn_scmem across the three sessions (16:56, 22 Sep)
+Register-file core, weights of each session written through the port: A 12.99 nJ/bin at 8.38 events/bin, B 9.54 at 5.26,
+C 8.13 at 3.93, every window 5,000 bins and bit-exact, 14-16 min each. Transfer model 3.81 nJ + 1.09 nJ per event
+(largest residual 0.3 %); the 500-bin E1 window (10.21 nJ) is predicted at 10.24 (-0.2 %). The four programmable cores now have
+the same treatment; their per-event costs order as the weight fetch does: SRAM block 3.94 nJ (gated 3.11), register file 1.09,
+16-bit latch memory 1.12, gated 12-bit latch memory 0.81 nJ per event. E4 is complete; no measurement of round 5 is outstanding.
