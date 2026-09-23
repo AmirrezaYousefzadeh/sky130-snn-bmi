@@ -9,9 +9,10 @@ FE_NL="${FE_NL:-$ROOT/synthesis/bmi_fe/runs/bmi_fe_5m/final/nl/bmi_fe.nl.v}"; CO
 OUT="$ROOT/sim/build_$TAG"; rm -rf "$OUT"; mkdir -p "$OUT"; cd "$OUT"
 DEFS=(-DN_BINS=$NB -DSTREAM_HEX="\"$VEC/stream.hex\"" -DEXPECT_HEX="\"$VEC/expect.hex\"" -DFUNCTIONAL -DUNIT_DELAY='#1' ${EXTRA_DEFS:-})
 [[ "$MODE" == "--stream" ]] && { FIFO="$OUT/$TAG.vcd"; mkfifo "$FIFO"; DEFS+=(-DDUMP_PATH="\"$FIFO\""); }
-SRCS=("$PDK_ROOT/sky130A/libs.ref/$LIB/verilog/primitives.v" "$PDK_ROOT/sky130A/libs.ref/$LIB/verilog/$LIB.v" "$FE_NL" "$CORE_NL" "$ROOT/rtl/bmi_sys.v" "$ROOT/sim/tb_bmi_sys.v")
+SYS_RTL="${SYS_RTL:-$ROOT/rtl/bmi_sys.v}"   # round 7: rtl/bmi_sys_lmin2.v for the latch core (with -DSYS_CORE_LOAD -DWEIGHTS_HEX=... in EXTRA_DEFS)
+SRCS=("$PDK_ROOT/sky130A/libs.ref/$LIB/verilog/primitives.v" "$PDK_ROOT/sky130A/libs.ref/$LIB/verilog/$LIB.v" "$FE_NL" "$CORE_NL" "$SYS_RTL" "$ROOT/sim/tb_bmi_sys.v")
 iverilog -g2012 -o sys.vvp "${DEFS[@]}" "${SRCS[@]}" 2> iverilog_warn.log || { tail -20 iverilog_warn.log; exit 1; }
 if [[ "$MODE" == "--stream" ]]; then "$ROOT/tools/vcd_toggles" -o "$OUT/toggles.tsv" "$FIFO" 2> toggles.log & TPID=$!; fi
 echo "==> running $TAG ($NB bins, $(date +%H:%M:%S))"; ( time vvp -n sys.vvp ) > vvp.log 2>&1 || true
 [[ "$MODE" == "--stream" ]] && { wait $TPID; rm -f "$FIFO"; cat toggles.log; }
-grep -E "SUMMARY|PASS|FAIL|MISMATCH|real" vvp.log | head -n 12
+grep -E "SUMMARY|PASS|FAIL|MISMATCH|real|TB: weights" vvp.log | head -n 12

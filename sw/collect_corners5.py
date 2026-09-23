@@ -13,7 +13,8 @@ ROOT = Path(__file__).resolve().parent.parent
 TCLK = 200.0
 CORES = [("bmi_snn_sp", "Sp", "hardwired 12-bit, gated, 25\\,\\% synapses"), ("bmi_snn_m12", "MinT", "hardwired 12-bit, gated"), ("bmi_snn_min32", "MinH", "hardwired 16-bit, $H{=}32$"),
          ("bmi_snn_g32p50", "GcHalf", "hardwired 12-bit, gated, $H{=}32$, 50\\,\\% synapses")]   # round 6 (E4b)
-def f(x, nd=3): return "--" if x is None else (f"{x:,.0f}" if abs(x) >= 1000 else f"{x:.{nd}g}")
+from fmt3 import sig as _sig
+def f(x, nd=3): return _sig(x, nd)   # round 7
 def slack_txt(d):
     p = ROOT / d / "slack.txt"
     if not p.exists(): return None, None

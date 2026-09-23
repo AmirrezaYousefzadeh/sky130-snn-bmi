@@ -213,9 +213,8 @@ def main():
     make_figures(R)
 
 def _fmt(x, nd=3):
-    if x is None or (isinstance(x, float) and not np.isfinite(x)): return "?"
-    if abs(x) >= 100: return f"{x:,.0f}"
-    return f"{x:.{nd}g}"
+    from fmt3 import sig as _sig                         # round 7: three significant digits with trailing zeros
+    return _sig(x, nd, none="?")
 
 def write_numbers_tex(R):
     """LaTeX macros with the measured numbers (paper/numbers.tex)."""

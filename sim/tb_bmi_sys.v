@@ -23,8 +23,18 @@ module tb_bmi_sys;
   wire osc_en; wire clk5 = osc & osc_en;
   reg  [95:0] spike_pulse = 0;
   wire awake, bin_done, out_valid, core_clk, ev_valid, ev_ready, tick; wire [6:0] ev_ch; wire [23:0] y0, y1;
+`ifdef SYS_CORE_LOAD
+  // round 7 (fix 7): programmable core (bmi_snn_lmin2 through rtl/bmi_sys_lmin2.v): weights loaded through the write port while the
+  // front end is held in reset (its clock gate is open during reset), the dump starts after the load
+  reg core_reset = 1, wr_en = 0; reg [10:0] wr_addr = 0; reg [31:0] wr_data = 0; wire wr_ready;
+  reg [31:0] weights [0:2047];
+  bmi_sys_lmin2 u_sys (.clk32k(clk32k), .clk5(clk5), .reset(reset), .core_reset(core_reset), .spike_pulse(spike_pulse), .wr_en(wr_en), .wr_addr(wr_addr),
+                       .wr_data(wr_data), .wr_ready(wr_ready), .osc_en(osc_en), .awake(awake), .bin_done(bin_done), .out_valid(out_valid), .y0(y0), .y1(y1),
+                       .core_clk(core_clk), .ev_valid(ev_valid), .ev_ch(ev_ch), .ev_ready(ev_ready), .tick(tick));
+`else
   bmi_sys u_sys (.clk32k(clk32k), .clk5(clk5), .reset(reset), .spike_pulse(spike_pulse), .osc_en(osc_en), .awake(awake), .bin_done(bin_done),
                  .out_valid(out_valid), .y0(y0), .y1(y1), .core_clk(core_clk), .ev_valid(ev_valid), .ev_ch(ev_ch), .ev_ready(ev_ready), .tick(tick));
+`endif
   // ---- recorded stream: channel tokens terminated by ff per bin; expected outputs
   reg [7:0] stream [0:`MAX_TOKENS-1];
   reg [31:0] expect_y [0:2*`N_BINS-1];
@@ -79,10 +89,29 @@ module tb_bmi_sys;
   integer cyc5 = 0; always @(posedge clk5) cyc5 = cyc5 + 1;
   real osc_on = 0; always @(posedge osc) if (osc_en) osc_on = osc_on + 1;
   initial begin
+`ifdef SYS_CORE_LOAD
+    $readmemh(`WEIGHTS_HEX, weights);
+    repeat (3) @(posedge clk32k); @(negedge clk32k); core_reset = 0;          // core out of reset, front end still in reset: core clock runs
+    repeat (4) @(posedge core_clk);
+    for (i = 0; i < 1664; i = i + 1) begin                                     // W1 rows 0..96 (words 0..1551) and W2 (1600..1663), as tb_bmi_snn
+      if (i < 1552 || i >= 1600) begin
+        @(negedge core_clk); wr_en = 1'b1; wr_addr = i[10:0]; wr_data = weights[i];
+        @(posedge core_clk); while (wr_ready !== 1'b1) @(posedge core_clk);
+      end
+    end
+    @(negedge core_clk); wr_en = 1'b0;
+    repeat (4) @(posedge core_clk);
+    $display("TB: weights loaded through the write port at t=%0t (core clock cycles %0d)", $time, ncore);
+    ncore = 0; cyc5 = 0; osc_on = 0;                                          // the power window starts here
+`endif
 `ifdef DUMP_PATH
     $dumpfile(`DUMP_PATH); $dumpvars(0, tb_bmi_sys.u_sys);
 `endif
+`ifdef SYS_CORE_LOAD
+    @(negedge clk32k); reset = 0;
+`else
     repeat (3) @(posedge clk32k); @(negedge clk32k); reset = 0;
+`endif
 `ifdef SYS_DEBUG
     $display("t=%0t reset released; osc_en=%b awake=%b core_clk=%b", $time, osc_en, awake, core_clk);
 `endif
@@ -94,5 +123,5 @@ module tb_bmi_sys;
     else $display("FAIL: errors=%0d out_errors=%0d out_bins=%0d events=%0d recorded=%0d ticks=%0d", errors, oerrors, obin, nev, nrec, nticks);
     $finish;
   end
-  initial begin #(4.2e6 * (`N_BINS + 3)); $display("FAIL: timeout (bins done %0d)", gbin); $finish; end
+  initial begin #(4.2e6 * (`N_BINS + 6)); $display("FAIL: timeout (bins done %0d)", gbin); $finish; end
 endmodule

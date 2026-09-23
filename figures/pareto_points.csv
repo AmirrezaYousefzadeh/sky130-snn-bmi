@@ -20,6 +20,6 @@ bmi_snn_ming,"64, 100 %, 16-bit gated",constants,64,1.0,0.582539062849574,0.5825
 bmi_snn_top,"SRAM, event mode",SRAM block,64,1.0,0.582539062849574,0.582539062849574,0.582539062849574,40.0802331092,"annotated (2,000 bins)","released seed-0 models, bit-exact"
 bmi_snn_top_dense,"SRAM, dense mode",SRAM block,64,1.0,0.582539062849574,0.582539062849574,0.582539062849574,367.14502293000004,annotated,all synapses visited every bin
 bmi_snn_topg,"SRAM, gated groups",SRAM block,64,1.0,0.582539062849574,0.582539062849574,0.582539062849574,30.17429487196,"annotated (2,000 bins)","released seed-0 models, bit-exact"
-bmi_snn_lmin2,latch memory,latches,64,1.0,0.5823437288351232,0.5823437288351232,0.5823437288351232,4.276564576000001,annotated (50 bins),"released seed-0 models, bit-exact"
+bmi_snn_lmin2,latch memory,latches,64,1.0,0.5823437288351232,0.5823437288351232,0.5823437288351232,6.182313723044278,zero-delay block x glitch factor 1.08 (50-bin annotated window),"released seed-0 models, bit-exact"
 soc_tuned_5MHz,"software, hand-tuned
 (100-bin decoding window)",software,64,1.0,0.582539062849574,0.582539062849574,0.582539062849574,2276.4319130800004,annotated,"RISC-V SoC, hand-tuned, 100-bin decoding window, cell delays annotated"

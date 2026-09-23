@@ -245,6 +245,12 @@ ihp,min16,tap,0,0.0
 ihp,min16,diode,386,0.001668
 ihp,min16,endcap,0,0.0
 ihp,min16,logic,11468,1.535292
+ihp,g32p50,decap,43976,33.317753
+ihp,g32p50,fill,9005,0.0
+ihp,g32p50,tap,0,0.0
+ihp,g32p50,diode,1085,0.004687
+ihp,g32p50,endcap,0,0.0
+ihp,g32p50,logic,14452,2.238293
 nangate45,sp,decap,0,0.0
 nangate45,sp,fill,13253,0.0
 nangate45,sp,tap,378,0.0

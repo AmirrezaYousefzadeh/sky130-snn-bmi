@@ -9,7 +9,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from collect_results import parse_group_table, RATE
 ROOT = Path(__file__).resolve().parent.parent
-def _f(x, nd=3): return "--" if x is None else (f"{x:,.0f}" if abs(x) >= 1000 else f"{x:.{nd}g}")
+from fmt3 import sig as _sig
+def _f(x, nd=3): return _sig(x, nd)   # round 7
 out = {}
 m = json.load(open(ROOT / "synthesis/bmi_fe/runs/bmi_fe_5m/final/metrics.json"))
 out["pnr"] = {"cells": m.get("design__instance__count__stdcell"), "area_um2": m.get("design__instance__area"), "setup_ws_ns": m.get("timing__setup__ws"),
@@ -67,10 +68,14 @@ for core, sh in (("bmi_snn_sp", "Sp"), ("bmi_snn_lmin2", "LmMinP"), ("bmi_snn_m1
     e = d.get("event_sdf", d["event"])["energy_per_bin_nJ"]; leak = d["idle"]["leakage_uW"]
     pc = e * RATE * 1e-3 + leak; comb[sh] = {"core_uW": pc, "frontend_uW": out["power"]["total_uW"], "total_uW": pc + out["power"]["total_uW"], "frontend_share": out["power"]["total_uW"] / (pc + out["power"]["total_uW"])}
 out["combined_250Hz"] = comb
-# ---- round 6 (E6): front end + pruned core co-simulated over the routed netlists (sim/measure_sys.sh), 500 bins in real time
-SYS = ROOT / "power/out_vcd_sys_sp_gls_5m"; sysd = None
-if (SYS / "root_clock_correction.json").exists():
-    slog = (ROOT / "sim/build_sys_sp_gls_5m/vvp.log").read_text()
+# ---- round 6 (E6): front end + core co-simulated over the routed netlists (sim/measure_sys.sh), 500 bins in real time;
+#      round 7 (fix 7): also the gated 12-bit latch core (CORE=lmin2, weights loaded through the write port before the power window)
+SYS_CORES = (("sp", "Sp", "bmi_snn_sp"), ("lmin2", "LmMinP", "bmi_snn_lmin2"))
+out["system_cosim"] = {}; sysd = None
+for core, csh, dname in SYS_CORES:
+    SYS = ROOT / f"power/out_vcd_sys_{core}_gls_5m"
+    if not (SYS / "root_clock_correction.json").exists(): continue
+    slog = (ROOT / f"sim/build_sys_{core}_gls_5m/vvp.log").read_text()
     ss = re.search(r"SUMMARY: bins=(\d+) events=(\d+) recorded=(\d+) ticks=(\d+) errors=(\d+) out_bins=(\d+) out_errors=(\d+) clk5_cycles=(\d+) core_clk_cycles=(\d+) slow_cycles=(\d+) osc_on_cycles=(\d+)", slog)
     stb = dict(zip(["bins", "events", "recorded", "ticks", "errors", "out_bins", "out_errors", "clk5_cycles", "core_clk_cycles", "slow_cycles", "osc_on_cycles"], map(int, ss.groups()))); stb["pass"] = "PASS" in slog
     inst = {}
@@ -81,23 +86,26 @@ if (SYS / "root_clock_correction.json").exists():
             except ValueError: pass
     src = json.load(open(SYS / "root_clock_correction.json"))
     fe_cor = src["corrected"]["Total"]["total"] * 1e6                       # front end after the root-clock correction (its clk5 root network)
-    core = inst["u_core"]; T_sim = stb["bins"] * T_bin
-    sysd = dict(tb=stb, osc_duty=src["duty"], frontend_reported_uW=inst["u_fe"]["total_uW"], frontend_uW=fe_cor, core_uW=core["total_uW"], core_leakage_uW=core["leakage_uW"],
-                core_dyn_uW=core["total_uW"] - core["leakage_uW"], core_energy_per_bin_nJ=(core["total_uW"] - core["leakage_uW"]) * 1e-6 * T_sim / stb["bins"] * 1e9,
-                total_uW=fe_cor + core["total_uW"], core_clk_per_bin=stb["core_clk_cycles"] / stb["bins"], bins_per_s=1 / T_bin)
-    # the same core measured alone (results/designs.json: 200-bin zero-delay window, 5,000-bin annotated block) at the co-simulation's rate
-    dsp = D.get("bmi_snn_sp", {})
-    if dsp.get("event") and dsp.get("idle"):
-        sysd["core_alone_uW_func"] = dsp["event"]["energy_per_bin_nJ"] * sysd["bins_per_s"] * 1e-6 * 1e6 * 1e-3 + dsp["idle"]["leakage_uW"]
-        fb = dsp.get("full", {}).get("indy_20160630_01", {}).get("sdf")
-        if fb: sysd["core_alone_uW_sdf_w5000"] = fb["energy_per_bin_nJ"] * sysd["bins_per_s"] * 1e-3 + dsp["idle"]["leakage_uW"]
-        w500 = ROOT / "power/out_bmi_snn_sp_5m_func_w500_indy_20160630_01/power_vcd.rpt"
+    cr = inst["u_core"]; T_sim = stb["bins"] * T_bin
+    sd = dict(core=dname, tb=stb, osc_duty=src["duty"], frontend_reported_uW=inst["u_fe"]["total_uW"], frontend_uW=fe_cor, core_uW=cr["total_uW"], core_leakage_uW=cr["leakage_uW"],
+              core_dyn_uW=cr["total_uW"] - cr["leakage_uW"], core_energy_per_bin_nJ=(cr["total_uW"] - cr["leakage_uW"]) * 1e-6 * T_sim / stb["bins"] * 1e9,
+              total_uW=fe_cor + cr["total_uW"], core_clk_per_bin=stb["core_clk_cycles"] / stb["bins"], bins_per_s=1 / T_bin)
+    # the same core measured alone (results/designs.json: 500-bin zero-delay window; 5,000-bin annotated block where measured) at the co-simulation's rate
+    dc = D.get(dname, {})
+    if dc.get("event") and dc.get("idle"):
+        sd["core_alone_uW_func"] = dc["event"]["energy_per_bin_nJ"] * sd["bins_per_s"] * 1e-3 + dc["idle"]["leakage_uW"]
+        sd["core_alone_energy_per_bin_nJ_func"] = dc["event"]["energy_per_bin_nJ"]
+        fb = dc.get("full", {}).get("indy_20160630_01", {}).get("sdf")
+        if fb: sd["core_alone_uW_sdf_w5000"] = fb["energy_per_bin_nJ"] * sd["bins_per_s"] * 1e-3 + dc["idle"]["leakage_uW"]
+        w500 = ROOT / f"power/out_{dname}_5m_func_w500_indy_20160630_01/power_vcd.rpt"
         if w500.exists():
             from collect_designs5 import run_energy
-            e5 = run_energy("bmi_snn_sp_5m_func_w500_indy_20160630_01", 200.0, None)
-            if e5: sysd["core_alone_energy_per_bin_nJ_func_w500"] = e5["energy_per_bin_nJ"]; sysd["core_alone_uW_func_w500"] = e5["energy_per_bin_nJ"] * sysd["bins_per_s"] * 1e-3 + dsp["idle"]["leakage_uW"]
-    sysd["sum_separate_uW"] = out["power"]["total_uW"] + sysd.get("core_alone_uW_func", 0)
-    out["system_cosim"] = sysd
+            e5 = run_energy(f"{dname}_5m_func_w500_indy_20160630_01", 200.0, None)
+            if e5: sd["core_alone_energy_per_bin_nJ_func_w500"] = e5["energy_per_bin_nJ"]; sd["core_alone_uW_func_w500"] = e5["energy_per_bin_nJ"] * sd["bins_per_s"] * 1e-3 + dc["idle"]["leakage_uW"]
+        sd["sum_separate_uW"] = out["power"]["total_uW"] + sd["core_alone_uW_func"]
+        sd["sum_separate_ann_uW"] = out["power"]["total_uW"] + (sd.get("core_alone_uW_sdf_w5000") or sd["core_alone_uW_func"])   # the paper's sum (front end + annotated block energy x rate + leakage)
+    out["system_cosim"][core] = sd
+    if core == "sp": sysd = sd
 json.dump(out, open(ROOT / "results/frontend.json", "w"), indent=1)
 L = ["% auto-generated by sw/collect_frontend.py (round 5, E10)"]
 def mac(n, v, nd=3): L.append(f"\\newcommand{{\\{n}}}{{{_f(v, nd)}}}")
@@ -111,11 +119,18 @@ mac("fePowerVone", out["power_v1_freerunning"]["total_uW"], 3); mac("feClkVone",
 mac("fePowerReported", rep["total_uW"], 3); mac("feRootRemoved", rc["removed_W"] * 1e6, 3)
 for sh, c in comb.items(): mac(f"feWith{sh}", c["total_uW"], 3); mac(f"feShare{sh}Pct", c["frontend_share"] * 100, 3); mac(f"coreOnly{sh}", c["core_uW"], 3)
 mac("fePowerVtwo", out.get("power_v2_total_uW"), 3)
-if sysd:                                                                  # round 6 (E6)
-    mac("pSysSp", sysd["total_uW"], 3); mac("pSysFeSp", sysd["frontend_uW"], 3); mac("pSysCoreSp", sysd["core_uW"], 3); mac("pSysCoreDynSp", sysd["core_dyn_uW"], 3)
-    mac("eSysCoreSp", sysd["core_energy_per_bin_nJ"], 3); mac("sysBins", sysd["tb"]["bins"], 3); mac("sysEvents", sysd["tb"]["events"], 4); mac("sysCoreClkPerBin", sysd["core_clk_per_bin"], 3)
-    mac("pSysSumSeparateSp", sysd["sum_separate_uW"], 3); mac("pSysCoreAloneSp", sysd.get("core_alone_uW_func"), 3); mac("pSysCoreAloneWFiveSp", sysd.get("core_alone_uW_func_w500"), 3)
-    mac("eSysCoreAloneWFiveSp", sysd.get("core_alone_energy_per_bin_nJ_func_w500"), 3); mac("sysOscDutyPct", sysd["osc_duty"] * 100, 3)
-    mac("pSysVsSumPct", (sysd["total_uW"] / sysd["sum_separate_uW"] - 1) * 100 if sysd["sum_separate_uW"] else None, 2)
+for core, csh, dname in SYS_CORES:                                        # round 6 (E6) / round 7 (fix 7)
+    sd = out["system_cosim"].get(core)
+    if not sd: continue
+    mac(f"pSys{csh}", sd["total_uW"], 3); mac(f"pSysFe{csh}", sd["frontend_uW"], 3); mac(f"pSysCore{csh}", sd["core_uW"], 3); mac(f"pSysCoreDyn{csh}", sd["core_dyn_uW"], 3)
+    mac(f"eSysCore{csh}", sd["core_energy_per_bin_nJ"], 3); mac(f"sysCoreClkPerBin{csh}", sd["core_clk_per_bin"], 3)
+    mac(f"pSysSumSeparate{csh}", sd.get("sum_separate_uW"), 3); mac(f"pSysSumSeparateAnn{csh}", sd.get("sum_separate_ann_uW"), 3)
+    mac(f"pSysCoreAlone{csh}", sd.get("core_alone_uW_func"), 3); mac(f"eSysCoreAlone{csh}", sd.get("core_alone_energy_per_bin_nJ_func"), 3)
+    mac(f"pSysCoreAloneWFive{csh}", sd.get("core_alone_uW_func_w500"), 3); mac(f"eSysCoreAloneWFive{csh}", sd.get("core_alone_energy_per_bin_nJ_func_w500"), 3)
+    mac(f"pSysVsSumPct{csh}", (sd["total_uW"] / sd["sum_separate_uW"] - 1) * 100 if sd.get("sum_separate_uW") else None, 2)
+    mac(f"pSysVsSumAnnPct{csh}", (sd["total_uW"] / sd["sum_separate_ann_uW"] - 1) * 100 if sd.get("sum_separate_ann_uW") else None, 2)
+    if core == "sp":                                                       # round-6 names kept
+        mac("sysBins", sd["tb"]["bins"], 3); mac("sysEvents", sd["tb"]["events"], 4); mac("sysCoreClkPerBin", sd["core_clk_per_bin"], 3)
+        mac("sysOscDutyPct", sd["osc_duty"] * 100, 3); mac("pSysVsSumPct", (sd["total_uW"] / sd["sum_separate_uW"] - 1) * 100 if sd.get("sum_separate_uW") else None, 2)
 (ROOT / "paper/numbers_frontend.tex").write_text("\n".join(L) + "\n")
 print(json.dumps({k: v for k, v in out.items() if k != "tb"}, indent=1)); print("bins", tb["bins"], "pass", tb["pass"])

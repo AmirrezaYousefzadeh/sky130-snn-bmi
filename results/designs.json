@@ -1999,6 +1999,26 @@
     },
     "window": "w5000",
     "sdf": {
+     "energy_per_bin_nJ": 10.540056864186408,
+     "tb": {
+      "bins": 5000,
+      "events": 26317,
+      "errors": 0,
+      "cycles": 108874,
+      "active_cycles": 106729,
+      "avg_latency_cyc": 7,
+      "max_latency_cyc": 22,
+      "pass": true
+     },
+     "derived_from_glitch_window": "w50",
+     "glitch_ratio": 1.1044681174917506,
+     "short_window_bins": 50,
+     "short_window_energy_per_bin_nJ": 7.817664316,
+     "leakage_uW": 4.861146,
+     "pass": true,
+     "derived": true
+    },
+    "sdf_short": {
      "tag": "bmi_snn_scmem_5m_sdf_w50_indy_20160630_01",
      "tb": {
       "bins": 50,
@@ -2057,7 +2077,7 @@
      "pass": true,
      "streamed": true
     },
-    "sdf_perbin": {
+    "sdf_short_perbin": {
      "bins": 50,
      "e_bin_min_nJ": 2.9762681406091374,
      "e_bin_max_nJ": 14.881340703045687,
@@ -2587,6 +2607,26 @@
     },
     "window": "w5000",
     "sdf": {
+     "energy_per_bin_nJ": 11.202342926666288,
+     "tb": {
+      "bins": 5000,
+      "events": 26317,
+      "errors": 0,
+      "cycles": 115054,
+      "active_cycles": 112909,
+      "avg_latency_cyc": 8,
+      "max_latency_cyc": 24,
+      "pass": true
+     },
+     "derived_from_glitch_window": "w50",
+     "glitch_ratio": 1.0966237566326331,
+     "short_window_bins": 50,
+     "short_window_energy_per_bin_nJ": 8.33416152,
+     "leakage_uW": 2.951847,
+     "pass": true,
+     "derived": true
+    },
+    "sdf_short": {
      "tag": "bmi_snn_lmem2_5m_sdf_w50_indy_20160630_01",
      "tb": {
       "bins": 50,
@@ -2645,7 +2685,7 @@
      "pass": true,
      "streamed": true
     },
-    "sdf_perbin": {
+    "sdf_short_perbin": {
      "bins": 50,
      "e_bin_min_nJ": 2.9764862571428568,
      "e_bin_max_nJ": 15.87459337142857,
@@ -3117,6 +3157,26 @@
     },
     "window": "w5000",
     "sdf": {
+     "energy_per_bin_nJ": 6.182313723044278,
+     "tb": {
+      "bins": 5000,
+      "events": 26317,
+      "errors": 0,
+      "cycles": 115079,
+      "active_cycles": 112925,
+      "avg_latency_cyc": 8,
+      "max_latency_cyc": 23,
+      "pass": true
+     },
+     "derived_from_glitch_window": "w50",
+     "glitch_ratio": 1.0815970722222175,
+     "short_window_bins": 50,
+     "short_window_energy_per_bin_nJ": 4.276564576000001,
+     "leakage_uW": 4.383797,
+     "pass": true,
+     "derived": true
+    },
+    "sdf_short": {
      "tag": "bmi_snn_lmin2_5m_sdf_w50_indy_20160630_01",
      "tb": {
       "bins": 50,
@@ -3175,7 +3235,7 @@
      "pass": true,
      "streamed": true
     },
-    "sdf_perbin": {
+    "sdf_short_perbin": {
      "bins": 50,
      "e_bin_min_nJ": 1.5273444914285714,
      "e_bin_max_nJ": 8.145837287619047,

@@ -425,7 +425,7 @@ ihp g32p50 all` + `w5000` and the collectors when it does.
 | E3 leakage split, decap-free fill | fill / decap / tap / diode; sky130 + IHP without decaps | done (E3a table, E3b sp on both kits) | `results/leak_split6.{csv,json}`, `\pdkleak<Fill|Decap|Tap|Diode>*`, `\pdkleakNoDecap<Sky|Ihp>Sp`, `\pdkpavgNoDecap*` |
 | E4a g32p50 per session | s622 / s131 netlists | done, full blocks + 5,000-bin annotated | `\ePerSessGcHalf*`, appendix table tab:persession |
 | E4b g32p50 at 1.28 V | hardening + measurement | done | `\cnrFive*GcHalf`, corners_table5 |
-| E4c g32p50 on the kits | GF180, IHP, NanGate45, ASAP7 x2 | done on four kits (decode, idle, corners, 5,000 bins, hold); IHP still routing at 30 % after 8 h | kit table GcHalf rows |
+| E4c g32p50 on the kits | GF180, IHP, NanGate45, ASAP7 x2 | done on all five kits (decode, idle, corners, 5,000 bins, hold); IHP accepted at 20 % after the 30 % attempt failed by one DRC violation in 13.4 h | kit table GcHalf rows |
 | E4d grid points | H 48 dense / 50 / 25 %, H 32 / 12.5 % | trained (5 seeds x 3 sessions), evaluated, hardened, measured (200-bin, full block, 5,000-bin annotated) | `results/pareto.csv`, `\rsqGrid<GeDense|GeHalf|GeQuarter|GcEighth>`, designs table, F1 |
 | E5 register-file core annotated | 50-bin window | done, glitch 1.10 | `\sdfRatioRf`, `\eSdfRf`, `\pavgStopSdfRf` |
 | E6 front end + core co-simulated | system power | done (v3 front end after the interface bug; 1.51 uW system) | `\pSysSp`, `\pSysFeSp`, `\pSysCoreSp`, `\eSysCoreSp`, `\pSysSumSeparateSp`, `\pSysVsSumPct` |
@@ -437,8 +437,7 @@ power (clock-gate stop in the toggle path); all kit reports were re-annotated, t
 cores most), the paper's kit ratios and glitch factors are macros now, and the 1.9x "flow settings" discrepancy of the ASAP7
 16-neuron core disappeared (1.05x). The sky130 numbers of rounds 1-5 are unaffected.
 Not done / reasons: (1) a 500-bin software window - impossible in one image (memory); the 100-bin window carries the referee's point
-(events per bin 4.95 vs 3.94, ratio 850x vs 635x). (2) IHP g32p50 - the hardening has not converged yet (routing at 30 %); the
-other four kits carry the comparison. (3) The scmem 5,000-bin annotated window - not attempted (the 50-bin window took 8.6 h; E9's
+(events per bin 4.95 vs 3.94, ratio 850x vs 635x). (2) - (IHP g32p50 finished after the closing summary was first written, see below). (3) The scmem 5,000-bin annotated window - not attempted (the 50-bin window took 8.6 h; E9's
 50-bin rule applies to the memory cores, and the glitch factor is what the referee asked for). (4) The abstract's "about three times
 the average power" for the ASAP7 regular-threshold flavor is still typed in (3.2x with the corrected numbers, unchanged in
 substance); every other kit ratio in the text is a macro.
@@ -446,3 +445,15 @@ Two mistakes of this round, both caught by the checks and repeated correctly: th
 clock (relaunched at 200 ns), and two window scripts lost their power step to a log-name clash (rerun by hand).
 Machine time: about 9 h wall-clock with up to 60 concurrent processes on 24 cores; the SoC waveforms (38 + 27 GB) are kept in
 `sim/build_riscv_gls_5m_*_100/` until the paper is accepted.
+
+## E4c addendum. IHP g32p50 - complete (23 Sep 16:22, logged 20:30 after the terminal session dropped)
+The 30 % attempt ran 806 min of detailed routing and ended with one DRC violation (rejected by the policy); the 20 % attempt routed
+clean in 38 min (setup slack 119.5 ns; hold +0.150 ns at the fast corner from the OpenSTA check). The detached follow-up
+(`sim/ihp_g32p50_followup6.sh`) measured it and re-ran the refresh at 16:22 (all steps ok, paper compiles):
+| kit | util | cells | area mm2 | E zero-delay 500 bins nJ | E ann. 200 bins | E ann. 5,000 bins | glitch | leakage uW (logic) | P_avg 250 bins/s uW |
+|---|---|---|---|---|---|---|---|---|---|
+| IHP SG13G2 | 20 % | 14,452 | 0.164 | 1.69 | 1.94 | 1.72 | 1.15 | 35.6 (2.24) | 36.0 |
+All five kits now carry the H = 32 / 50 % core (E4c table above plus this row). As for the pruned H = 64 core on IHP, the
+20 % floorplan's decap fill dominates the leakage (35.6 uW total against 2.24 uW of logic); E3b's decap-free figure applies in
+proportion. Everything of round 6 is complete; the terminal session that drove the round was cut at about 13:30 and the detached
+jobs finished on their own.

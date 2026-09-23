@@ -128,11 +128,8 @@ def collect():
     return out
 
 def _f(x, nd=3):
-    if x is None: return "--"
-    if isinstance(x, str): return x
-    if abs(x) >= 1000: return f"{x:,.0f}"
-    return f"{x:.{nd}g}"
-
+    from fmt3 import sig as _sig                          # round 7: three significant digits with trailing zeros
+    return _sig(x, nd)
 ROWS = [  # (label, key(d), digits)
     ("area, cells + macro (mm²)", lambda d: d["pnr"]["instance_area_um2"] / 1e6 if "pnr" in d else None, 3),
     ("std-cell area (mm²)", lambda d: d["pnr"]["stdcell_area_um2"] / 1e6 if "pnr" in d else None, 3),

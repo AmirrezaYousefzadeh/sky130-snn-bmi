@@ -66,7 +66,7 @@ seen = {r["kit"] + r["linestyle"] for r in rows}
 handles = []
 for kit, label, col, lowc, lowlabel in KITS:
     if kit + "-" in seen: handles.append(Line2D([], [], color=col, lw=1.3, label=label))
-    if kit + ":" in seen: handles.append(Line2D([], [], color=col, lw=1.1, ls=":", label="sky130, 1.8 V, leakage at 37 °C"))
+    if kit == "sky130" and kit + ":" in seen: handles.append(Line2D([], [], color=col, lw=1.1, ls=":", label="sky130, 1.8 V, leakage at 37 °C"))   # round 7: was added for every kit with a dotted line (duplicate)
     if kit + "--" in seen: handles.append(Line2D([], [], color=col, lw=1.1, ls="--", label=lowlabel))
     if kit == "ihp" and kit + ":" in seen: handles.append(Line2D([], [], color=col, lw=1.1, ls=":", label="IHP SG13G2, logic-cell leakage only"))
     if kit == "ihp" and kit + "-." in seen: handles.append(Line2D([], [], color=col, lw=1.1, ls="-.", label="IHP SG13G2, fill without decap cells"))

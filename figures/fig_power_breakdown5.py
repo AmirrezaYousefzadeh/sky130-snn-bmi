@@ -23,22 +23,22 @@ for entry in ORDER:
     parts = {k: g.get(k, {}).get("total", 0) / tot for k in ("Clock", "Sequential", "Combinational", "Macro")}
     leak = d.get("idle", {}).get("leakage_uW"); E = e["energy_per_bin_nJ"]
     fb = d.get("full", {}).get("indy_20160630_01", {}).get("sdf") if mode == "event" else None
-    if fb: E = fb["energy_per_bin_nJ"]                                     # round 6: 5,000-bin annotated window, the same as Table 3
+    if fb: E = fb["energy_per_bin_nJ"]                                     # round 6: 5,000-bin annotated window, the same as Table 3 (round 7: derived for the memory cores)
     l100 = None; f = ROOT / f"power/out_vcd_{name}_5m_idle_full_tt_100C_1v80/power_vcd.rpt"
     if f.exists(): l100 = parse_group_table(f)["Total"]["leakage"] * 1e6
     l37 = (leak * math.exp(math.log(l100 / leak) * (37 - 25) / (100 - 25))) if (leak and l100) else None
-    items.append(dict(name=name + ("" if mode == "event" else "_" + mode), label=label, E=E, annotated=(mode + "_sdf" in d), derived=bool(d.get(mode + "_sdf", {}).get("derived_from_glitch_window")), parts=parts, leak=leak, leak100=l100, leak37=l37, dyn=E * RATE * 1e-3))
+    items.append(dict(name=name + ("" if mode == "event" else "_" + mode), label=label, E=E, annotated=(mode + "_sdf" in d), derived=bool(d.get(mode + "_sdf", {}).get("derived_from_glitch_window")) or bool((fb or {}).get("derived")), parts=parts, leak=leak, leak100=l100, leak37=l37, dyn=E * RATE * 1e-3))
 if not items: sys.exit("no 5 MHz measurements yet")
 def sig2(v):
     t = f"{v:.2g}"; return t if ("." in t or v >= 10) else t + ".0"
 plt.rcParams.update({"font.size": 8, "axes.spines.top": False, "axes.spines.right": False})
-fig, (a1, a2) = plt.subplots(1, 2, figsize=(7.0, 3.0), gridspec_kw={"width_ratios": [1.15, 1]})
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(7.0, 3.3), gridspec_kw={"width_ratios": [1.15, 1]})
 x = np.arange(len(items)); cols = {"Clock": "#7f9fbf", "Sequential": "#c0504d", "Combinational": "#e8c9a0", "Macro": "#777777"}
 bottom = np.zeros(len(items))
 for k in ("Clock", "Sequential", "Combinational", "Macro"):
     v = np.array([it["parts"][k] * 100 for it in items]); a1.bar(x, v, 0.7, bottom=bottom, color=cols[k], edgecolor="k", linewidth=0.3, label={"Clock": "clock network", "Sequential": "sequential cells", "Combinational": "combinational cells", "Macro": "memory block"}[k]); bottom += v
-for xi, it in zip(x, items): a1.text(xi, 101, (f"{it['E']:.0f}" if it["E"] >= 100 else f"{it['E']:.2g}") + ("" if it["annotated"] and not it.get("derived") else ("†" if it.get("derived") else "*")), ha="center", va="bottom", fontsize=6)
-a1.set_xticks(x); a1.set_xticklabels([it["label"] for it in items], rotation=35, ha="right", fontsize=6.5); a1.set_ylabel("share of decode-time power (%)"); a1.set_ylim(0, 112)
+for xi, it in zip(x, items): a1.text(xi, 101, (f"{it['E']:.0f}" if it["E"] >= 100 else sig2(it["E"])) + ("" if it["annotated"] and not it.get("derived") else ("†" if it.get("derived") else "*")), ha="center", va="bottom", fontsize=6)
+a1.set_xticks(x); a1.set_xticklabels([it["label"] for it in items], rotation=35, ha="right", fontsize=6.5); a1.set_ylabel("decode-time power share (%)"); a1.set_ylim(0, 112)
 a1.legend(fontsize=6, frameon=False, loc="upper center", ncol=2, bbox_to_anchor=(0.5, -0.42))
 dyn = np.array([it["dyn"] for it in items]); lk = np.array([it["leak"] or 0 for it in items])
 a2.bar(x, dyn, 0.7, color="#c0504d", edgecolor="k", linewidth=0.3, label="dynamic (E$_{bin}$ x 250/s)"); a2.bar(x, lk, 0.7, bottom=dyn, color="#dddddd", edgecolor="k", linewidth=0.3, label="leakage, 25 °C")
@@ -46,7 +46,7 @@ for xi, it in zip(x, items):
     if it["leak37"]: a2.plot([xi], [it["dyn"] + it["leak37"]], marker="_", color="k", ms=9, mew=1.2)
     a2.text(xi, max(it["dyn"] + (it["leak"] or 0), it["dyn"] + (it["leak37"] or 0)) * 1.12, sig2(it['dyn'] + (it['leak'] or 0)), ha="center", va="bottom", fontsize=6)
 a2.plot([], [], marker="_", color="k", ls="", ms=9, mew=1.2, label="total with leakage at 37 °C")
-a2.set_xticks(x); a2.set_xticklabels([it["label"] for it in items], rotation=35, ha="right", fontsize=6.5); a2.set_ylabel("average power at 250 bins/s (µW)"); a2.set_yscale("log")
+a2.set_xticks(x); a2.set_xticklabels([it["label"] for it in items], rotation=35, ha="right", fontsize=6.5); a2.set_ylabel("$P_{\\mathrm{avg}}$ at 250 bins/s (µW)"); a2.set_yscale("log")
 a2.legend(fontsize=6, frameon=False, loc="upper center", ncol=2, bbox_to_anchor=(0.5, -0.42))
 fig.tight_layout()
 for out in (ROOT / "paper/figures", ROOT / "figures"):

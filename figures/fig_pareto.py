@@ -29,13 +29,18 @@ def e_ann(rec, mode="event"):
 # --- E2 grid (includes the E1 hardwired cores m12, sp, min32, min16 as grid members)
 D = json.load(open(ROOT / "results/designs.json"))
 def block_ann(name):
-    """round 6 (F1): the 5,000-bin annotated window of the test block (the energy of Table 3), None if not measured yet"""
+    """round 6 (F1): the 5,000-bin annotated window of the test block (the energy of Table 3), None if not measured yet.
+    Round 7: for the memory cores the collector derives it (zero-delay block x glitch factor of the 50-bin annotated window)."""
     fb = D.get(name, {}).get("full", {}).get("indy_20160630_01", {}).get("sdf")
     return fb["energy_per_bin_nJ"] if fb else None
+def block_kind(name):
+    fb = D.get(name, {}).get("full", {}).get("indy_20160630_01", {}).get("sdf") or {}
+    if fb.get("derived"): return f"zero-delay block x glitch factor {fb['glitch_ratio']:.2f} ({fb['short_window_bins']}-bin annotated window)"
+    return "annotated (5,000 bins)" if fb.get("tb", {}).get("bins", 0) >= 5000 else f"annotated ({fb.get('tb', {}).get('bins', 0):,} bins)"
 for r in csv.DictReader(open(ROOT / "results/pareto.csv")):
     if not (r["r2_int_mean"] and (r["energy_per_bin_sdf_nJ"] or r["energy_per_bin_nJ"])): continue
     e, kind = (float(r["energy_per_bin_sdf_nJ"]), "annotated (200 bins)") if r["energy_per_bin_sdf_nJ"] else (float(r["energy_per_bin_nJ"]), "zero-delay")
-    if block_ann(r["core"]): e, kind = block_ann(r["core"]), "annotated (5,000 bins)"
+    if block_ann(r["core"]): e, kind = block_ann(r["core"]), block_kind(r["core"])
     H, d = int(r["H"]), float(r["density"])
     pts.append(dict(name=r["core"], label=f"{H}, {d*100:g} %", storage="constants", H=H, density=d, r2=float(r["r2_int_mean"]),
                     r2_min=float(r["r2_int_min"] or r["r2_int_mean"]), r2_max=float(r["r2_int_max"] or r["r2_int_mean"]), energy_nJ=e, energy_kind=kind,
@@ -44,7 +49,7 @@ for r in csv.DictReader(open(ROOT / "results/pareto.csv")):
 def add_ref(name, label, storage, H, density, mode="event", note=""):
     if name not in D: return
     e, kind = e_ann(D[name], mode)
-    if mode == "event" and block_ann(name): e, kind = block_ann(name), "annotated (5,000 bins)" if D[name]["full"]["indy_20160630_01"]["sdf"]["tb"]["bins"] >= 5000 else f"annotated ({D[name]['full']['indy_20160630_01']['sdf']['tb']['bins']:,} bins)"
+    if mode == "event" and block_ann(name): e, kind = block_ann(name), block_kind(name)
     if not e: return
     r2 = D[name]["r2"]
     pts.append(dict(name=name + ("" if mode == "event" else "_" + mode), label=label, storage=storage, H=H, density=density, r2=r2, r2_min=r2, r2_max=r2,

@@ -141,6 +141,15 @@ def collect():
                     d["glitch"] = {"window": w, "bins": fz["tb"]["bins"], "e_func_nJ": fz["energy_per_bin_nJ"], "e_sdf_nJ": fs["energy_per_bin_nJ"], "ratio": ratio}
                     d["event_sdf"] = dict(d["event"]); d["event_sdf"]["energy_per_bin_nJ"] = d["event"]["energy_per_bin_nJ"] * ratio; d["event_sdf"]["derived_from_glitch_window"] = w
                     d["event_sdf"]["tb"] = dict(d["event"]["tb"]); break
+        # round 7 (fix 1): a memory core's annotated run is a short window (50 bins), not the block. The block's annotated energy is
+        # the zero-delay block energy x the glitch factor (the paper's \eSdfBlk rule); the short window is kept as "sdf_short".
+        for s, fb in d.get("full", {}).items():
+            fe_, fs_ = fb.get("func"), fb.get("sdf")
+            if fe_ and fs_ and fs_.get("tb", {}).get("bins") and fe_.get("tb", {}).get("bins") and fs_["tb"]["bins"] < fe_["tb"]["bins"] and d.get("glitch"):
+                fb["sdf_short"] = fs_; fb["sdf_short_perbin"] = fb.pop("sdf_perbin", None)
+                fb["sdf"] = {"energy_per_bin_nJ": fe_["energy_per_bin_nJ"] * d["glitch"]["ratio"], "tb": dict(fe_["tb"]), "derived_from_glitch_window": d["glitch"]["window"],
+                             "glitch_ratio": d["glitch"]["ratio"], "short_window_bins": fs_["tb"]["bins"], "short_window_energy_per_bin_nJ": fs_["energy_per_bin_nJ"],
+                             "leakage_uW": fe_.get("leakage_uW"), "pass": fs_.get("pass"), "derived": True}
         if "event" in d and "idle" in d:
             E = d.get("event_sdf", d["event"])["energy_per_bin_nJ"]; leak = d["idle"]["leakage_uW"]
             idle_dyn = max(d["idle"]["idle_power_uW"] - leak, 0)                   # dynamic part of the idle power with the 5 MHz clock running
@@ -185,6 +194,9 @@ def write_outputs(out):
             pb = f.get("func_perbin") or {}; mac(f"eFullMin{sh}{ss}", pb.get("e_bin_min_nJ"), 3); mac(f"eFullMax{sh}{ss}", pb.get("e_bin_max_nJ"), 3)
             mac(f"eSdfW{sh}{ss}", f.get("sdf", {}).get("energy_per_bin_nJ"), 3); mac(f"nbSdfW{sh}{ss}", f.get("sdf", {}).get("tb", {}).get("bins"), 5)
             tbs = f.get("sdf", {}).get("tb", {}); mac(f"evSdfW{sh}{ss}", (tbs["events"] / tbs["bins"]) if tbs.get("bins") else None, 3)
+            sh_ = f.get("sdf_short") or {}                        # round 7: the short annotated window itself (memory cores), under its own name
+            mac(f"eSdfShort{sh}{ss}", sh_.get("energy_per_bin_nJ"), 3); mac(f"nbSdfShort{sh}{ss}", sh_.get("tb", {}).get("bins"), 5)
+            tbq = sh_.get("tb", {}); mac(f"evSdfShort{sh}{ss}", (tbq["events"] / tbq["bins"]) if tbq.get("bins") else None, 3)
             ffe = f.get("func", {}).get("energy_per_bin_nJ"); fse = f.get("sdf", {}).get("energy_per_bin_nJ")
             mac(f"gFull{sh}{ss}", None)
         fs = [v["func"]["energy_per_bin_nJ"] for v in d.get("full", {}).values() if "func" in v]
