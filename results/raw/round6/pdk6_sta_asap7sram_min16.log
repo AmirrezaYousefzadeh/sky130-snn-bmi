@@ -1,0 +1,17 @@
+8 physical-only cell types stubbed: ['DECAPx10_ASAP7_75t_SRAM', 'DECAPx1_ASAP7_75t_SRAM', 'DECAPx2_ASAP7_75t_SRAM', 'DECAPx4_ASAP7_75t_SRAM', 'DECAPx6_ASAP7_75t_SRAM', 'FILLER_ASAP7_75t_SRAM'] ...
+==== asap7sram min16 pdk5_asap7sram_min16_md0_full re-annotated (02:44:42)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_min16_md0_full/power_vcd.rpt:Total                6.998686e-06 5.139166e-06 2.383762e-07 1.237623e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_min16_md0_full/sta.log:WORST_SETUP_SLACK 1.9901095527075086e-7
+==== asap7sram min16 pdk5_asap7sram_min16_md0_full at SS re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_min16_md0_full_SS/power_vcd.rpt:Total                5.474051e-06 3.961344e-06 3.017332e-06 1.245273e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_min16_md0_full_SS/sta.log:WORST_SETUP_SLACK 1.9848533838739968e-7
+==== asap7sram min16 pdk5_asap7sram_min16_md0_sdf re-annotated (02:44:58)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_min16_md0_sdf/power_vcd.rpt:Total                8.230372e-06 6.056680e-06 2.372361e-07 1.452429e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_min16_md0_sdf/sta.log:WORST_SETUP_SLACK 1.9901095527075086e-7
+==== asap7sram min16 pdk5_asap7sram_min16_idle_full re-annotated (02:45:05)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_min16_idle_full/power_vcd.rpt:Total                1.858850e-07 3.521347e-08 3.434486e-07 5.645471e-07 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_min16_idle_full/sta.log:WORST_SETUP_SLACK 1.9901095527075086e-7
+==== asap7sram min16 pdk5_asap7sram_min16_idle_full at SS re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_min16_idle_full_SS/power_vcd.rpt:Total                1.428229e-07 2.679427e-08 4.530903e-06 4.700520e-06 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_min16_idle_full_SS/sta.log:WORST_SETUP_SLACK 1.9848533838739968e-7
+==== asap7sram min16 sta done (02:45:18)

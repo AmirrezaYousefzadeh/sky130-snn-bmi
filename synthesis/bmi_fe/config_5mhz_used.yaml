@@ -1,4 +1,4 @@
-# Round-5 configuration (E1): common 5 MHz clock, utilization policy; generated from config.yaml by synthesis/harden_policy.sh
+# Round-5 configuration (E1): common 5 MHz clock, utilization policy; generated from config.yaml by synthesis/harden_policy2.sh
 # OpenLane 2 config for the minimal digital front end bmi_fe (round 5, E10): 32.768 kHz always-on domain + gated 5 MHz domain.
 DESIGN_NAME: bmi_fe
 VERILOG_FILES:

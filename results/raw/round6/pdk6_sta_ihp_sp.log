@@ -1,0 +1,20 @@
+0 physical-only cell types stubbed: []
+==== ihp sp pdk5_ihp_sp_md0_full re-annotated (02:50:56)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_md0_full/power_vcd.rpt:Total                3.550499e-04 1.874350e-04 5.952054e-05 6.020054e-04 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_md0_full/sta.log:WORST_SETUP_SLACK 1.913775946604801e-7
+==== ihp sp pdk5_ihp_sp_md0_full at slow_1p08V_125C re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_md0_full_slow_1p08V_125C/power_vcd.rpt:Total                2.811766e-04 1.475843e-04 3.020034e-05 4.589612e-04 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_md0_full_slow_1p08V_125C/sta.log:WORST_SETUP_SLACK 1.8600498208343197e-7
+==== ihp sp pdk5_ihp_sp_md0_sdf re-annotated (02:51:18)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_md0_sdf/power_vcd.rpt:Total                3.724331e-04 2.127866e-04 5.952099e-05 6.447408e-04 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_md0_sdf/sta.log:WORST_SETUP_SLACK 1.913775946604801e-7
+==== ihp sp pdk5_ihp_sp_idle_full re-annotated (02:51:34)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_idle_full/power_vcd.rpt:Total                4.386021e-06 9.166606e-07 5.953489e-05 6.483757e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_idle_full/sta.log:WORST_SETUP_SLACK 1.913775946604801e-7
+==== ihp sp pdk5_ihp_sp_idle_full at slow_1p08V_125C re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_idle_full_slow_1p08V_125C/power_vcd.rpt:Total                3.449908e-06 7.056219e-07 3.068238e-05 3.483791e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_idle_full_slow_1p08V_125C/sta.log:WORST_SETUP_SLACK 1.8600498208343197e-7
+==== ihp sp pdk5_ihp_sp_sdf_w5000 re-annotated (02:52:16)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_sdf_w5000/power_vcd.rpt:Total                3.671989e-04 2.105410e-04 5.952136e-05 6.372613e-04 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_sdf_w5000/sta.log:WORST_SETUP_SLACK 1.913775946604801e-7
+==== ihp sp sta done (02:52:39)

@@ -19,12 +19,14 @@ case "$D" in
   bmi_snn_min32) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/h32"; VECSEL="vec_h32_indy_20160630_01" ;;
   bmi_snn_min16) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/h16"; VECSEL="vec_h16_indy_20160630_01" ;;
   bmi_snn_scmem) LOAD="-DLOAD_PORT -DDUMP_AFTER_LOAD -DHAS_WR_READY"; MACRO="none" ;;
-  bmi_snn_g128|bmi_snn_g128p25|bmi_snn_g128p125|bmi_snn_g64p50|bmi_snn_g64p125|bmi_snn_g32p50|bmi_snn_g32p25|bmi_snn_g16p50)   # round 5 (E2): training grid, hardwired 12-bit gated
+  bmi_snn_g128|bmi_snn_g128p25|bmi_snn_g128p125|bmi_snn_g64p50|bmi_snn_g64p125|bmi_snn_g32p50|bmi_snn_g32p25|bmi_snn_g16p50|bmi_snn_g48|bmi_snn_g48p50|bmi_snn_g48p25|bmi_snn_g32p125)   # round 5 (E2): training grid, hardwired 12-bit gated
                  LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/${D#bmi_snn_}"; VECSEL="vecfull_${D#bmi_snn_}_indy_20160630_01" ;;
   bmi_snn_sp_s622)    LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/sp_s622";  VECSEL="vecfull_sp_indy_20160622_01" ;;    # round 5 (E3): per-session netlists
   bmi_snn_sp_s131)    LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/sp_s131";  VECSEL="vecfull_sp_indy_20170131_02" ;;
   bmi_snn_min32_s622) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/h32_s622"; VECSEL="vecfull_h32_indy_20160622_01" ;;
   bmi_snn_min32_s131) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/h32_s131"; VECSEL="vecfull_h32_indy_20170131_02" ;;
+  bmi_snn_g32p50_s622) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/g32p50_s622"; VECSEL="vecfull_g32p50_s622_indy_20160622_01" ;;   # round 6 (E4a)
+  bmi_snn_g32p50_s131) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/g32p50_s131"; VECSEL="vecfull_g32p50_s131_indy_20170131_02" ;;
   bmi_snn_m12_s622)   LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/m12_s622"; VECSEL="vecfull_v12_indy_20160622_01" ;;
   bmi_snn_m12_s131)   LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/m12_s131"; VECSEL="vecfull_v12_indy_20170131_02" ;;
   *) echo "unknown design $D"; exit 2 ;;

@@ -440,10 +440,36 @@ module bmi_snn_lmem2 #(
       ffs64 = {a[0], ix[5:0]};
     end
   endfunction
-  wire [63:0] s_pad = {{(64-H){1'b0}}, s_r};
-  wire [6:0]  ffs   = ffs64(s_pad);
-  wire        any_spk = ffs[6];
-  wire [6:0]  j_sel   = {1'b0, ffs[5:0]};
+  // H > 64 (round-5 energy-accuracy grid, H = 128): the same tree one level deeper; the extra level is constant-folded away below 128
+  function [7:0] ffs128(input [127:0] s);  // {found, index[6:0]}
+    reg [127:0] a;
+    reg [895:0] ix;                        // 128 x 7-bit indices
+    integer     l, i;
+    begin
+      a = s;
+      for (i = 0; i < 128; i = i + 1) ix[7*i +: 7] = i[6:0];
+      for (l = 0; l < 7; l = l + 1)
+        for (i = 0; i < 64; i = i + 1)
+          if (i < (128 >> (l + 1))) begin
+            ix[7*i +: 7] = a[2*i] ? ix[7*(2*i) +: 7] : ix[7*(2*i+1) +: 7];
+            a[i]         = a[2*i] | a[2*i+1];
+          end
+      ffs128 = {a[0], ix[6:0]};
+    end
+  endfunction
+  wire        any_spk;
+  wire [6:0]  j_sel;
+  generate if (H > 64) begin : g_ffs_wide
+    wire [127:0] s_pad = {{(128-H){1'b0}}, s_r};
+    wire [7:0]   ffs   = ffs128(s_pad);
+    assign any_spk = ffs[7];
+    assign j_sel   = ffs[6:0];
+  end else begin : g_ffs
+    wire [63:0] s_pad = {{(64-H){1'b0}}, s_r};
+    wire [6:0]  ffs   = ffs64(s_pad);
+    assign any_spk = ffs[6];
+    assign j_sel   = {1'b0, ffs[5:0]};
+  end endgenerate
   wire signed [7:0] w2sel_0 = w2_0[8*j_sel +: 8];
   wire signed [7:0] w2sel_1 = w2_1[8*j_sel +: 8];
 `ifdef W2_PIPE

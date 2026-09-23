@@ -150,6 +150,7 @@
  },
  "sky130/bmi_fe": {
   "accepted": [
+   60,
    60
   ],
   "attempts": [
@@ -158,6 +159,13 @@
     "outcome": "ACCEPTED",
     "tag": "bmi_fe_5m_u60",
     "runtime_min": 6,
+    "reason": ""
+   },
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_fe_5m_u60",
+    "runtime_min": 10,
     "reason": ""
    }
   ]
@@ -403,7 +411,8 @@
  },
  "sky130/bmi_snn_g32p50": {
   "accepted": [
-   50
+   50,
+   40
   ],
   "attempts": [
    {
@@ -418,6 +427,20 @@
     "outcome": "ACCEPTED",
     "tag": "bmi_snn_g32p50_5m_u50",
     "runtime_min": 140,
+    "reason": ""
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED (1.28 V signoff)",
+    "tag": "bmi_snn_g32p50_5m_lv",
+    "runtime_min": 10,
+    "reason": ""
+   },
+   {
+    "util": 40,
+    "outcome": "ACCEPTED (1.28 V signoff)",
+    "tag": "bmi_snn_g32p50_5m_lv",
+    "runtime_min": 24,
     "reason": ""
    }
   ]
@@ -875,6 +898,188 @@
    }
   ]
  },
+ "gf180/bmi_snn_g32p50": {
+  "accepted": [
+   40
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_5m_u60",
+    "runtime_min": 5,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_5m_u50",
+    "runtime_min": 10,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 40,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g32p50_5m_u40",
+    "runtime_min": 10,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_g32p50_s622": {
+  "accepted": [
+   40
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_s622_5m_u60",
+    "runtime_min": 50,
+    "reason": "watchdog: drt 63087 violations after 3 iterations"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_s622_5m_u50",
+    "runtime_min": 100,
+    "reason": "watchdog: drt 57966 violations after 4 iterations"
+   },
+   {
+    "util": 40,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g32p50_s622_5m_u40",
+    "runtime_min": 10,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_g32p125": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g32p125_5m_u60",
+    "runtime_min": 10,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_g32p50_s131": {
+  "accepted": [
+   40
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_s131_5m_u60",
+    "runtime_min": 85,
+    "reason": "watchdog: drt 75925 violations after 4 iterations"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_s131_5m_u50",
+    "runtime_min": 75,
+    "reason": "watchdog: drt 48242 violations after 4 iterations"
+   },
+   {
+    "util": 40,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g32p50_s131_5m_u40",
+    "runtime_min": 10,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_g48p25": {
+  "accepted": [
+   50
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g48p25_5m_u60",
+    "runtime_min": 90,
+    "reason": "watchdog: drt 68586 violations after 4 iterations"
+   },
+   {
+    "util": 50,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g48p25_5m_u50",
+    "runtime_min": 10,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_g48": {
+  "accepted": [
+   30
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g48_5m_u60",
+    "runtime_min": 146,
+    "reason": "killed: drt 163964 violations after iteration 1, no iteration for 2 h; resumed at 40 30"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g48_5m_u40",
+    "runtime_min": 30,
+    "reason": "timing/hold failure"
+   },
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g48_5m_u30",
+    "runtime_min": 2,
+    "reason": "killed: stopped: 40 % failed hold only (-0.138 ns), rerun at 40 % with the 0.8 ns hold margin instead"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g48_5m_u40h",
+    "runtime_min": 35,
+    "reason": "watchdog: drt 56536 violations after 4 iterations"
+   },
+   {
+    "util": 30,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g48_5m_u30h",
+    "runtime_min": 10,
+    "reason": ""
+   }
+  ]
+ },
+ "sky130/bmi_snn_g48p50": {
+  "accepted": [
+   40
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g48p50_5m_u60",
+    "runtime_min": 146,
+    "reason": "killed: drt 132137 violations after iteration 1, no iteration for 2 h; resumed at 40 30"
+   },
+   {
+    "util": 40,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g48p50_5m_u40",
+    "runtime_min": 20,
+    "reason": ""
+   }
+  ]
+ },
  "nangate45/bmi_snn_sp": {
   "accepted": [
    60
@@ -1321,6 +1526,90 @@
     "tag": "bmi_snn_m12_5m_pad2_u20",
     "runtime_min": 28,
     "reason": "flow exit / route did not finish"
+   }
+  ]
+ },
+ "nangate45/bmi_snn_g32p50": {
+  "accepted": [
+   50
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_5m_u60",
+    "runtime_min": 1,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 50,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_5m_u50",
+    "runtime_min": 4,
+    "reason": "hold failure"
+   },
+   {
+    "util": 40,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_5m_u40",
+    "runtime_min": 4,
+    "reason": "hold failure"
+   },
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_5m_u60",
+    "runtime_min": 1,
+    "reason": "flow exit / route did not finish"
+   },
+   {
+    "util": 50,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g32p50_5m_u50",
+    "runtime_min": 5,
+    "reason": ""
+   }
+  ]
+ },
+ "asap7sram/bmi_snn_g32p50": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_5m_sram_u60",
+    "runtime_min": 5,
+    "reason": "hold failure"
+   },
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g32p50_5m_sram_u60",
+    "runtime_min": 6,
+    "reason": ""
+   }
+  ]
+ },
+ "asap7/bmi_snn_g32p50": {
+  "accepted": [
+   60
+  ],
+  "attempts": [
+   {
+    "util": 60,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_5m_u60",
+    "runtime_min": 5,
+    "reason": "hold failure"
+   },
+   {
+    "util": 60,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g32p50_5m_u60",
+    "runtime_min": 6,
+    "reason": ""
    }
   ]
  }

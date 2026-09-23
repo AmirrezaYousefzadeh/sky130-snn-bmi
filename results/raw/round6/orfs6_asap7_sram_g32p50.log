@@ -1,0 +1,3 @@
+==== asap7 sram bmi_snn_g32p50: utilization 60 % (nick bmi_snn_g32p50_5m_sram_u60, 02:00)
+   rc=0 drc=0 setup_ws_ns=119.887 hold_ws_ns=NA runtime=6min
+   -> accepted

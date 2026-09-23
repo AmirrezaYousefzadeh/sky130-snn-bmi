@@ -1,0 +1,12 @@
+{
+ "tsv": "/home/yousefzadeha/workspace/BCI_paper/power/out_soc_tuned_50m/idle/toggles.tsv",
+ "duration_s": 0.00016,
+ "period_s": 2e-08,
+ "cycles": 8000.000000000001,
+ "vars_pins": 0,
+ "vars_top": 17740,
+ "skipped": 0,
+ "time_min": 46250.0,
+ "time_max": 206250.0,
+ "timescale_s": 1e-09
+}

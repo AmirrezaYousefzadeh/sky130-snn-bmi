@@ -1,0 +1,17 @@
+8 physical-only cell types stubbed: ['DECAPx10_ASAP7_75t_R', 'DECAPx1_ASAP7_75t_R', 'DECAPx2_ASAP7_75t_R', 'DECAPx4_ASAP7_75t_R', 'DECAPx6_ASAP7_75t_R', 'FILLER_ASAP7_75t_R'] ...
+==== asap7 min16 pdk5_asap7_min16_md0_full re-annotated (02:43:16)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_min16_md0_full/power_vcd.rpt:Total                7.511931e-06 5.578725e-06 1.046115e-06 1.413677e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_min16_md0_full/sta.log:WORST_SETUP_SLACK 1.9903629322470806e-7
+==== asap7 min16 pdk5_asap7_min16_md0_full at SS re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_min16_md0_full_SS/power_vcd.rpt:Total                5.975824e-06 4.282848e-06 1.430050e-05 2.455917e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_min16_md0_full_SS/sta.log:WORST_SETUP_SLACK 1.9870674350386253e-7
+==== asap7 min16 pdk5_asap7_min16_md0_sdf re-annotated (02:43:41)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_min16_md0_sdf/power_vcd.rpt:Total                8.925802e-06 6.607002e-06 1.041380e-06 1.657418e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_min16_md0_sdf/sta.log:WORST_SETUP_SLACK 1.9903629322470806e-7
+==== asap7 min16 pdk5_asap7_min16_idle_full re-annotated (02:43:52)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_min16_idle_full/power_vcd.rpt:Total                1.961998e-07 3.737194e-08 1.519908e-06 1.753480e-06 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_min16_idle_full/sta.log:WORST_SETUP_SLACK 1.9903629322470806e-7
+==== asap7 min16 pdk5_asap7_min16_idle_full at SS re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_min16_idle_full_SS/power_vcd.rpt:Total                1.533241e-07 2.837993e-08 2.112937e-05 2.131107e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_min16_idle_full_SS/sta.log:WORST_SETUP_SLACK 1.9870674350386253e-7
+==== asap7 min16 sta done (02:44:09)

@@ -11,6 +11,7 @@ case "$D" in
   bmi_snn_sp)    INC=$ROOT/rtl/sp;  VEC=$ROOT/sim/vec_sp_indy_20160630_01 ;;
   bmi_snn_m12)   INC=$ROOT/rtl;     VEC=$ROOT/sim/vec_v12_indy_20160630_01 ;;
   bmi_snn_min32) INC=$ROOT/rtl/h32; VEC=$ROOT/sim/vec_h32_indy_20160630_01 ;;
+  bmi_snn_g32p50) INC=$ROOT/rtl/g32p50; VEC=$ROOT/sim/vecfull_g32p50_indy_20160630_01 ;;   # round 6 (E4b): the H = 32 / 50 % grid core (first bins of its full-block vectors)
   *) echo "unknown $D"; exit 2 ;;
 esac
 SDF="$(find "$RUN/final/sdf/nom_ss_n40C_1v28" -name '*.sdf' 2>/dev/null | head -n 1)"

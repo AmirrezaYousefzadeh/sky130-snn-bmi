@@ -12,6 +12,7 @@ Prints the corrected group totals (Sequential, Combinational, Clock, Macro by ce
 import re, sys, json, argparse, collections
 ap = argparse.ArgumentParser(); ap.add_argument("netlist"); ap.add_argument("clock_port"); ap.add_argument("duty", type=float); ap.add_argument("rptA"); ap.add_argument("rptB")
 ap.add_argument("--icg", default="dlclkp,ICGx,icgt,lgcp,CLKGATE"); ap.add_argument("--buf", default="clkbuf,clkinv,buf,inv,BUF,INV,CKBUF,CKINV"); ap.add_argument("-o", default=None)
+ap.add_argument("--prefix", default="", help="instance-name prefix of the netlist inside the reports (round 6: the front end is u_fe/ inside bmi_sys)")
 a = ap.parse_args()
 nl = open(a.netlist, errors="ignore").read()
 inst = {}
@@ -43,7 +44,11 @@ def rpt(path):
     for line in open(path, errors="ignore"):
         f = line.split()
         if len(f) >= 5:
-            try: d[f[4].lstrip("\\")] = (float(f[0]), float(f[1]), float(f[2]), float(f[3]))
+            n = f[4].lstrip("\\")
+            if a.prefix:                                   # round 6: only the instances of the prefixed block, names as in its own netlist
+                if not n.startswith(a.prefix): continue
+                n = n[len(a.prefix):]
+            try: d[n] = (float(f[0]), float(f[1]), float(f[2]), float(f[3]))
             except ValueError: pass
     return d
 A = rpt(a.rptA); B = rpt(a.rptB)

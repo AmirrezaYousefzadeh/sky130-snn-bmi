@@ -1,0 +1,20 @@
+8 physical-only cell types stubbed: ['DECAPx10_ASAP7_75t_SRAM', 'DECAPx1_ASAP7_75t_SRAM', 'DECAPx2_ASAP7_75t_SRAM', 'DECAPx4_ASAP7_75t_SRAM', 'DECAPx6_ASAP7_75t_SRAM', 'FILLER_ASAP7_75t_SRAM'] ...
+==== asap7sram g32p50 pdk5_asap7sram_g32p50_md0_full re-annotated (03:00:43)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_g32p50_md0_full/power_vcd.rpt:Total                8.415965e-06 5.105262e-06 3.167083e-07 1.383793e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_g32p50_md0_full/sta.log:WORST_SETUP_SLACK 1.9876686963016255e-7
+==== asap7sram g32p50 pdk5_asap7sram_g32p50_md0_full at SS re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_g32p50_md0_full_SS/power_vcd.rpt:Total                6.540345e-06 3.936879e-06 4.092182e-06 1.456941e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_g32p50_md0_full_SS/sta.log:WORST_SETUP_SLACK 1.9807814055639028e-7
+==== asap7sram g32p50 pdk5_asap7sram_g32p50_md0_sdf re-annotated (03:01:06)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_g32p50_md0_sdf/power_vcd.rpt:Total                9.543504e-06 5.906116e-06 3.168609e-07 1.576648e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_g32p50_md0_sdf/sta.log:WORST_SETUP_SLACK 1.9876686963016255e-7
+==== asap7sram g32p50 pdk5_asap7sram_g32p50_idle_full re-annotated (03:01:18)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_g32p50_idle_full/power_vcd.rpt:Total                2.839444e-07 5.523325e-08 4.542596e-07 7.934373e-07 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_g32p50_idle_full/sta.log:WORST_SETUP_SLACK 1.9876686963016255e-7
+==== asap7sram g32p50 pdk5_asap7sram_g32p50_idle_full at SS re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_g32p50_idle_full_SS/power_vcd.rpt:Total                2.180812e-07 4.210597e-08 6.003785e-06 6.263972e-06 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_g32p50_idle_full_SS/sta.log:WORST_SETUP_SLACK 1.9807814055639028e-7
+==== asap7sram g32p50 pdk5_asap7sram_g32p50_sdf_w5000 re-annotated (03:01:48)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_g32p50_sdf_w5000/power_vcd.rpt:Total                9.428977e-06 5.829524e-06 3.169794e-07 1.557548e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_g32p50_sdf_w5000/sta.log:WORST_SETUP_SLACK 1.9876686963016255e-7
+==== asap7sram g32p50 sta done (03:02:02)

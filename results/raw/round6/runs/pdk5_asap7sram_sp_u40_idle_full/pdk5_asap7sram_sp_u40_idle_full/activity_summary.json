@@ -1,0 +1,12 @@
+{
+ "tsv": "/home/yousefzadeha/workspace/BCI_paper/sim/build_pdk5_asap7sram_sp_u40_idle_full/toggles.tsv",
+ "duration_s": 0.0800109,
+ "period_s": 2e-07,
+ "cycles": 400054.5,
+ "vars_pins": 103314,
+ "vars_top": 19596,
+ "skipped": 0,
+ "time_min": 0.0,
+ "time_max": 80010900000.0,
+ "timescale_s": 1e-12
+}

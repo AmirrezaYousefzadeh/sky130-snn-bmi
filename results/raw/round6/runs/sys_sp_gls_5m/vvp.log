@@ -1,0 +1,10 @@
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_sys.v:36: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vec_sp_indy_20160630_01/stream.hex): Not enough words in the file for the requested range [0:1399999].
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_sys.v:36: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vec_sp_indy_20160630_01/expect.hex): Too many words in the file for the requested range [0:999].
+VCD info: dumpfile /home/yousefzadeha/workspace/BCI_paper/sim/build_sys_sp_gls_5m/sys_sp_gls_5m.vcd opened for output.
+SUMMARY: bins=500 events=2934 recorded=2934 ticks=500 errors=0 out_bins=500 out_errors=0 clk5_cycles=305306 core_clk_cycles=9858 slow_cycles=65500 osc_on_cycles=305049
+PASS: 500 bins, every recorded channel serialized once and every core output bit-exact
+/home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_sys.v:95: $finish called at 1998984700000 (1ps)
+
+real	1m47.916s
+user	1m10.189s
+sys	0m0.407s

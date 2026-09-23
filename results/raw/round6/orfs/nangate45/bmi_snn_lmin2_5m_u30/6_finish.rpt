@@ -1,0 +1,1252 @@
+
+==========================================================================
+finish report_tns
+--------------------------------------------------------------------------
+tns 0.00
+
+==========================================================================
+finish report_wns
+--------------------------------------------------------------------------
+wns 0.00
+
+==========================================================================
+finish report_worst_slack
+--------------------------------------------------------------------------
+worst slack 0.00
+
+==========================================================================
+finish report_clock_skew
+--------------------------------------------------------------------------
+Clock clk
+   0.92 source latency stage[18]$_DFFE_PP_/CK ^
+  -1.68 target latency wmem_flat[3090]$_DLATCH_P_/G v
+   0.00 CRPR
+--------------
+  -0.75 setup skew
+
+
+==========================================================================
+finish report_checks -path_delay min
+--------------------------------------------------------------------------
+Startpoint: g_valid$_SDFF_PP0_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: w_row_r[247]$_SDFFE_PP0P_
+          (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                          0.00    0.00   clock clk (rise edge)
+                          0.00    0.00   clock source latency
+     1   63.53    0.00    0.00    0.00 ^ clk (in)
+                                         clk (net)
+                  0.01    0.01    0.01 ^ clkbuf_0_clk/A (CLKBUF_X3)
+     2   63.41    0.05    0.07    0.08 ^ clkbuf_0_clk/Z (CLKBUF_X3)
+                                         clknet_0_clk (net)
+                  0.05    0.01    0.09 ^ clkbuf_1_0_0_clk/A (CLKBUF_X3)
+     3   16.80    0.02    0.05    0.14 ^ clkbuf_1_0_0_clk/Z (CLKBUF_X3)
+                                         clknet_1_0_0_clk (net)
+                  0.02    0.00    0.14 ^ clkbuf_level_0_2_113_clk/A (CLKBUF_X3)
+     1   14.86    0.01    0.04    0.19 ^ clkbuf_level_0_2_113_clk/Z (CLKBUF_X3)
+                                         clknet_level_0_2_113_clk (net)
+                  0.01    0.00    0.19 ^ clkbuf_level_1_2_114_clk/A (CLKBUF_X3)
+     1   11.42    0.01    0.04    0.23 ^ clkbuf_level_1_2_114_clk/Z (CLKBUF_X3)
+                                         clknet_level_1_2_114_clk (net)
+                  0.01    0.00    0.23 ^ u_icg/CK (CLKGATE_X1)
+     1   50.67    0.11    0.14    0.37 ^ u_icg/GCK (CLKGATE_X1)
+                                         core_clk (net)
+                  0.11    0.02    0.38 ^ clkbuf_0_core_clk/A (CLKBUF_X3)
+     2   52.57    0.04    0.10    0.48 ^ clkbuf_0_core_clk/Z (CLKBUF_X3)
+                                         clknet_0_core_clk (net)
+                  0.04    0.00    0.48 ^ clkbuf_1_0_0_core_clk/A (CLKBUF_X3)
+     2   12.42    0.01    0.05    0.53 ^ clkbuf_1_0_0_core_clk/Z (CLKBUF_X3)
+                                         clknet_1_0_0_core_clk (net)
+                  0.01    0.00    0.53 ^ clkbuf_2_0__f_core_clk/A (CLKBUF_X3)
+     9   50.77    0.04    0.07    0.60 ^ clkbuf_2_0__f_core_clk/Z (CLKBUF_X3)
+                                         clknet_2_0__leaf_core_clk (net)
+                  0.04    0.00    0.61 ^ clkbuf_leaf_2_core_clk/A (CLKBUF_X3)
+     2   11.60    0.01    0.05    0.65 ^ clkbuf_leaf_2_core_clk/Z (CLKBUF_X3)
+                                         clknet_leaf_2_core_clk (net)
+                  0.01    0.00    0.65 ^ clkbuf_level_0_1_327_core_clk/A (CLKBUF_X3)
+     1    1.68    0.01    0.03    0.68 ^ clkbuf_level_0_1_327_core_clk/Z (CLKBUF_X3)
+                                         clknet_level_0_1_327_core_clk (net)
+                  0.01    0.00    0.68 ^ clkbuf_level_1_1_328_core_clk/A (CLKBUF_X3)
+     1    1.59    0.01    0.03    0.71 ^ clkbuf_level_1_1_328_core_clk/Z (CLKBUF_X3)
+                                         clknet_level_1_1_328_core_clk (net)
+                  0.01    0.00    0.71 ^ clkbuf_level_2_1_329_core_clk/A (CLKBUF_X3)
+     1    1.86    0.01    0.03    0.73 ^ clkbuf_level_2_1_329_core_clk/Z (CLKBUF_X3)
+                                         clknet_level_2_1_329_core_clk (net)
+                  0.01    0.00    0.73 ^ clkbuf_level_3_1_330_core_clk/A (CLKBUF_X3)
+     1    1.61    0.01    0.03    0.76 ^ clkbuf_level_3_1_330_core_clk/Z (CLKBUF_X3)
+                                         clknet_level_3_1_330_core_clk (net)
+                  0.01    0.00    0.76 ^ clkbuf_level_4_1_331_core_clk/A (CLKBUF_X3)
+     1    1.80    0.01    0.03    0.78 ^ clkbuf_level_4_1_331_core_clk/Z (CLKBUF_X3)
+                                         clknet_level_4_1_331_core_clk (net)
+                  0.01    0.00    0.78 ^ clkbuf_level_5_1_332_core_clk/A (CLKBUF_X3)
+     5   19.65    0.02    0.04    0.83 ^ clkbuf_level_5_1_332_core_clk/Z (CLKBUF_X3)
+                                         clknet_level_5_1_332_core_clk (net)
+                  0.02    0.00    0.83 ^ g_valid$_SDFF_PP0_/CK (DFF_X2)
+     4   14.07    0.01    0.11    0.93 v g_valid$_SDFF_PP0_/Q (DFF_X2)
+                                         g_valid (net)
+                  0.01    0.00    0.93 v hold304/A (CLKBUF_X1)
+     1    1.16    0.01    0.03    0.96 v hold304/Z (CLKBUF_X1)
+                                         net4039 (net)
+                  0.01    0.00    0.96 v hold300/A (CLKBUF_X1)
+     1    1.81    0.01    0.03    0.99 v hold300/Z (CLKBUF_X1)
+                                         net4035 (net)
+                  0.01    0.00    0.99 v hold305/A (CLKBUF_X1)
+     1    5.89    0.02    0.04    1.03 v hold305/Z (CLKBUF_X1)
+                                         net4040 (net)
+                  0.02    0.00    1.03 v hold283/A (BUF_X8)
+     1    4.22    0.00    0.03    1.06 v hold283/Z (BUF_X8)
+                                         net4018 (net)
+                  0.00    0.00    1.06 v hold306/A (CLKBUF_X1)
+     1    8.35    0.02    0.05    1.10 v hold306/Z (CLKBUF_X1)
+                                         net4041 (net)
+                  0.02    0.00    1.10 v hold301/A (BUF_X8)
+     6   54.91    0.01    0.04    1.14 v hold301/Z (BUF_X8)
+                                         net4036 (net)
+                  0.02    0.01    1.15 v wire3485/A (BUF_X8)
+    19  102.53    0.01    0.03    1.18 v wire3485/Z (BUF_X8)
+                                         net3485 (net)
+                  0.03    0.02    1.20 v _154515_/B1 (OAI21_X1)
+     1    1.71    0.02    0.03    1.23 ^ _154515_/ZN (OAI21_X1)
+                                         _009165_ (net)
+                  0.02    0.00    1.24 ^ _154656_/A (AOI21_X1)
+     1    1.18    0.01    0.01    1.25 v _154656_/ZN (AOI21_X1)
+                                         _001897_ (net)
+                  0.01    0.00    1.25 v w_row_r[247]$_SDFFE_PP0P_/D (DFF_X2)
+                                  1.25   data arrival time
+
+                          0.00    0.00   clock clk (rise edge)
+                          0.00    0.00   clock source latency
+     1   63.53    0.00    0.00    0.00 ^ clk (in)
+                                         clk (net)
+                  0.01    0.01    0.01 ^ clkbuf_0_clk/A (CLKBUF_X3)
+     2   63.41    0.05    0.07    0.08 ^ clkbuf_0_clk/Z (CLKBUF_X3)
+                                         clknet_0_clk (net)
+                  0.05    0.01    0.09 ^ clkbuf_1_0_0_clk/A (CLKBUF_X3)
+     3   16.80    0.02    0.05    0.14 ^ clkbuf_1_0_0_clk/Z (CLKBUF_X3)
+                                         clknet_1_0_0_clk (net)
+                  0.02    0.00    0.14 ^ clkbuf_level_0_2_113_clk/A (CLKBUF_X3)
+     1   14.86    0.01    0.04    0.19 ^ clkbuf_level_0_2_113_clk/Z (CLKBUF_X3)
+                                         clknet_level_0_2_113_clk (net)
+                  0.01    0.00    0.19 ^ clkbuf_level_1_2_114_clk/A (CLKBUF_X3)
+     1   11.42    0.01    0.04    0.23 ^ clkbuf_level_1_2_114_clk/Z (CLKBUF_X3)
+                                         clknet_level_1_2_114_clk (net)
+                  0.01    0.00    0.23 ^ u_icg/CK (CLKGATE_X1)
+     1   50.67    0.11    0.14    0.37 ^ u_icg/GCK (CLKGATE_X1)
+                                         core_clk (net)
+                  0.11    0.02    0.38 ^ clkbuf_0_core_clk/A (CLKBUF_X3)
+     2   52.57    0.04    0.10    0.48 ^ clkbuf_0_core_clk/Z (CLKBUF_X3)
+                                         clknet_0_core_clk (net)
+                  0.04    0.00    0.48 ^ clkbuf_1_0_0_core_clk/A (CLKBUF_X3)
+     2   12.42    0.01    0.05    0.53 ^ clkbuf_1_0_0_core_clk/Z (CLKBUF_X3)
+                                         clknet_1_0_0_core_clk (net)
+                  0.01    0.00    0.53 ^ clkbuf_2_0__f_core_clk/A (CLKBUF_X3)
+     9   50.77    0.04    0.07    0.60 ^ clkbuf_2_0__f_core_clk/Z (CLKBUF_X3)
+                                         clknet_2_0__leaf_core_clk (net)
+                  0.04    0.00    0.61 ^ clkbuf_leaf_2_core_clk/A (CLKBUF_X3)
+     2   11.60    0.01    0.05    0.65 ^ clkbuf_leaf_2_core_clk/Z (CLKBUF_X3)
+                                         clknet_leaf_2_core_clk (net)
+                  0.01    0.00    0.66 ^ u_icg_w/CK (CLKGATE_X1)
+     1   47.34    0.10    0.13    0.79 ^ u_icg_w/GCK (CLKGATE_X1)
+                                         w_clk (net)
+                  0.11    0.01    0.80 ^ clkbuf_0_w_clk/A (CLKBUF_X3)
+     2   47.09    0.04    0.09    0.89 ^ clkbuf_0_w_clk/Z (CLKBUF_X3)
+                                         clknet_0_w_clk (net)
+                  0.04    0.01    0.90 ^ clkbuf_1_0_0_w_clk/A (CLKBUF_X3)
+     2   45.26    0.04    0.07    0.97 ^ clkbuf_1_0_0_w_clk/Z (CLKBUF_X3)
+                                         clknet_1_0_0_w_clk (net)
+                  0.04    0.00    0.97 ^ clkbuf_2_0_0_w_clk/A (CLKBUF_X3)
+     4   51.34    0.04    0.08    1.05 ^ clkbuf_2_0_0_w_clk/Z (CLKBUF_X3)
+                                         clknet_2_0_0_w_clk (net)
+                  0.04    0.00    1.05 ^ clkbuf_4_0_0_w_clk/A (CLKBUF_X3)
+    16  136.08    0.10    0.14    1.20 ^ clkbuf_4_0_0_w_clk/Z (CLKBUF_X3)
+                                         clknet_4_0_0_w_clk (net)
+                  0.10    0.00    1.20 ^ clkbuf_leaf_209_w_clk/A (CLKBUF_X3)
+     3   14.68    0.02    0.06    1.27 ^ clkbuf_leaf_209_w_clk/Z (CLKBUF_X3)
+                                         clknet_leaf_209_w_clk (net)
+                  0.02    0.00    1.27 ^ w_row_r[247]$_SDFFE_PP0P_/CK (DFF_X2)
+                          0.00    1.27   clock reconvergence pessimism
+                          0.00    1.27   library hold time
+                                  1.27   data required time
+-----------------------------------------------------------------------------
+                                  1.27   data required time
+                                 -1.25   data arrival time
+-----------------------------------------------------------------------------
+                                 -0.02   slack (VIOLATED)
+
+
+
+==========================================================================
+finish report_checks -path_delay max
+--------------------------------------------------------------------------
+Startpoint: wr_data_q2[14]$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk)
+Endpoint: w2m1_flat[302]$_DLATCH_P_
+          (positive level-sensitive latch clocked by clk)
+Path Group: clk
+Path Type: max
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                          0.00    0.00   clock clk (rise edge)
+                          0.00    0.00   clock source latency
+     1   63.53    0.00    0.00    0.00 ^ clk (in)
+                                         clk (net)
+                  0.01    0.01    0.01 ^ clkbuf_0_clk/A (CLKBUF_X3)
+     2   63.41    0.05    0.07    0.08 ^ clkbuf_0_clk/Z (CLKBUF_X3)
+                                         clknet_0_clk (net)
+                  0.05    0.01    0.09 ^ clkbuf_1_1_0_clk/A (CLKBUF_X3)
+     2   44.08    0.03    0.08    0.16 ^ clkbuf_1_1_0_clk/Z (CLKBUF_X3)
+                                         clknet_1_1_0_clk (net)
+                  0.04    0.00    0.17 ^ u_icg_wr/CK (CLKGATE_X1)
+     1   62.32    0.13    0.16    0.33 ^ u_icg_wr/GCK (CLKGATE_X1)
+                                         wr_clk (net)
+                  0.14    0.04    0.36 ^ clkbuf_0_wr_clk/A (CLKBUF_X3)
+     2   46.91    0.04    0.09    0.46 ^ clkbuf_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_0_wr_clk (net)
+                  0.04    0.01    0.46 ^ clkbuf_1_0_0_wr_clk/A (CLKBUF_X3)
+     2   62.71    0.05    0.08    0.55 ^ clkbuf_1_0_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_1_0_0_wr_clk (net)
+                  0.05    0.01    0.55 ^ clkbuf_2_1_0_wr_clk/A (CLKBUF_X3)
+     4   63.75    0.05    0.09    0.64 ^ clkbuf_2_1_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_2_1_0_wr_clk (net)
+                  0.05    0.01    0.65 ^ clkbuf_4_5_0_wr_clk/A (CLKBUF_X3)
+     2    8.46    0.01    0.05    0.70 ^ clkbuf_4_5_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_4_5_0_wr_clk (net)
+                  0.01    0.00    0.70 ^ clkbuf_5_11__f_wr_clk/A (CLKBUF_X3)
+    14   55.90    0.04    0.07    0.77 ^ clkbuf_5_11__f_wr_clk/Z (CLKBUF_X3)
+                                         clknet_5_11__leaf_wr_clk (net)
+                  0.04    0.01    0.78 ^ clkbuf_leaf_193_wr_clk/A (CLKBUF_X3)
+     2    3.15    0.01    0.04    0.82 ^ clkbuf_leaf_193_wr_clk/Z (CLKBUF_X3)
+                                         clknet_leaf_193_wr_clk (net)
+                  0.01    0.00    0.82 ^ clkbuf_level_0_1_1851405_wr_clk/A (CLKBUF_X3)
+     1    1.74    0.01    0.03    0.84 ^ clkbuf_level_0_1_1851405_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_0_1_1851405_wr_clk (net)
+                  0.01    0.00    0.84 ^ clkbuf_level_1_1_1851406_wr_clk/A (CLKBUF_X3)
+     1    1.52    0.01    0.03    0.87 ^ clkbuf_level_1_1_1851406_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_1_1_1851406_wr_clk (net)
+                  0.01    0.00    0.87 ^ clkbuf_level_2_1_1851407_wr_clk/A (CLKBUF_X3)
+     1    1.89    0.01    0.03    0.89 ^ clkbuf_level_2_1_1851407_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_2_1_1851407_wr_clk (net)
+                  0.01    0.00    0.89 ^ clkbuf_level_3_1_1851408_wr_clk/A (CLKBUF_X3)
+     1    1.91    0.01    0.03    0.92 ^ clkbuf_level_3_1_1851408_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_3_1_1851408_wr_clk (net)
+                  0.01    0.00    0.92 ^ clkbuf_level_4_1_1851409_wr_clk/A (CLKBUF_X3)
+     1    1.68    0.01    0.03    0.95 ^ clkbuf_level_4_1_1851409_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_4_1_1851409_wr_clk (net)
+                  0.01    0.00    0.95 ^ clkbuf_level_5_1_1851410_wr_clk/A (CLKBUF_X3)
+     5    9.80    0.01    0.03    0.98 ^ clkbuf_level_5_1_1851410_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_5_1_1851410_wr_clk (net)
+                  0.01    0.00    0.98 ^ wr_data_q2[14]$_DFF_P_/CK (DFF_X2)
+    64   96.29    0.10    0.21    1.19 ^ wr_data_q2[14]$_DFF_P_/Q (DFF_X2)
+                                         wr_data_q2[14] (net)
+                  0.11    0.03    1.22 ^ w2m1_flat[302]$_DLATCH_P_/D (DLH_X1)
+                                  1.22   data arrival time
+
+                          0.00    0.00   clock clk (rise edge)
+                          0.00    0.00   clock source latency
+     1   63.53    0.00    0.00    0.00 ^ clk (in)
+                                         clk (net)
+                  0.01    0.01    0.01 ^ clkbuf_0_clk/A (CLKBUF_X3)
+     2   63.41    0.05    0.07    0.08 ^ clkbuf_0_clk/Z (CLKBUF_X3)
+                                         clknet_0_clk (net)
+                  0.05    0.01    0.09 ^ clkbuf_1_1_0_clk/A (CLKBUF_X3)
+     2   44.08    0.03    0.08    0.16 ^ clkbuf_1_1_0_clk/Z (CLKBUF_X3)
+                                         clknet_1_1_0_clk (net)
+                  0.04    0.00    0.17 ^ u_icg_wr/CK (CLKGATE_X1)
+     1   62.32    0.13    0.16    0.33 ^ u_icg_wr/GCK (CLKGATE_X1)
+                                         wr_clk (net)
+                  0.14    0.04    0.36 ^ clkbuf_0_wr_clk/A (CLKBUF_X3)
+     2   46.91    0.04    0.09    0.46 ^ clkbuf_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_0_wr_clk (net)
+                  0.04    0.01    0.46 ^ clkbuf_1_0_0_wr_clk/A (CLKBUF_X3)
+     2   62.71    0.05    0.08    0.55 ^ clkbuf_1_0_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_1_0_0_wr_clk (net)
+                  0.05    0.01    0.55 ^ clkbuf_2_1_0_wr_clk/A (CLKBUF_X3)
+     4   63.75    0.05    0.09    0.64 ^ clkbuf_2_1_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_2_1_0_wr_clk (net)
+                  0.05    0.01    0.65 ^ clkbuf_4_7_0_wr_clk/A (CLKBUF_X3)
+     2   15.86    0.02    0.05    0.70 ^ clkbuf_4_7_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_4_7_0_wr_clk (net)
+                  0.02    0.00    0.70 ^ clkbuf_5_15__f_wr_clk/A (CLKBUF_X3)
+     8   32.35    0.03    0.06    0.76 ^ clkbuf_5_15__f_wr_clk/Z (CLKBUF_X3)
+                                         clknet_5_15__leaf_wr_clk (net)
+                  0.03    0.00    0.76 ^ clkbuf_leaf_151_wr_clk/A (CLKBUF_X3)
+     2    3.43    0.01    0.04    0.80 ^ clkbuf_leaf_151_wr_clk/Z (CLKBUF_X3)
+                                         clknet_leaf_151_wr_clk (net)
+                  0.01    0.00    0.80 ^ clkbuf_level_0_2_1431102_wr_clk/A (CLKBUF_X3)
+     1    1.59    0.01    0.03    0.82 ^ clkbuf_level_0_2_1431102_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_0_2_1431102_wr_clk (net)
+                  0.01    0.00    0.82 ^ clkbuf_level_1_2_1431103_wr_clk/A (CLKBUF_X3)
+     1    1.55    0.01    0.03    0.85 ^ clkbuf_level_1_2_1431103_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_1_2_1431103_wr_clk (net)
+                  0.01    0.00    0.85 ^ clkbuf_level_2_2_1431104_wr_clk/A (CLKBUF_X3)
+     3    6.18    0.01    0.03    0.88 ^ clkbuf_level_2_2_1431104_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_2_2_1431104_wr_clk (net)
+                  0.01    0.00    0.88 ^ u_icg_j37/CK (CLKGATETST_X1)
+     1    4.75    0.01    0.03    0.91 ^ u_icg_j37/GCK (CLKGATETST_X1)
+                                         w2_gclk[37] (net)
+                  0.01    0.00    0.91 ^ clkbuf_0_w2_gclk[37]/A (CLKBUF_X3)
+     2    4.19    0.01    0.03    0.95 ^ clkbuf_0_w2_gclk[37]/Z (CLKBUF_X3)
+                                         clknet_0_w2_gclk[37] (net)
+                  0.01    0.00    0.95 ^ clkbuf_1_0__f_w2_gclk[37]/A (CLKBUF_X3)
+     8   13.75    0.01    0.04    0.98 ^ clkbuf_1_0__f_w2_gclk[37]/Z (CLKBUF_X3)
+                                         clknet_1_0__leaf_w2_gclk[37] (net)
+                  0.01    0.00    0.98 ^ w2m1_flat[302]$_DLATCH_P_/G (DLH_X1)
+                          0.00    0.98   clock reconvergence pessimism
+                          0.24    1.22   time borrowed from endpoint
+                                  1.22   data required time
+-----------------------------------------------------------------------------
+                                  1.22   data required time
+                                 -1.22   data arrival time
+-----------------------------------------------------------------------------
+                                  0.00   slack (MET)
+
+Time Borrowing Information
+--------------------------------------------
+clk nominal pulse width               100.00
+clock latency difference                0.08
+library setup time                     -0.03
+--------------------------------------------
+max time borrow                       100.05
+actual time borrow                      0.24
+--------------------------------------------
+
+
+
+==========================================================================
+finish report_checks -unconstrained
+--------------------------------------------------------------------------
+Startpoint: wr_data_q2[14]$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk)
+Endpoint: w2m1_flat[302]$_DLATCH_P_
+          (positive level-sensitive latch clocked by clk)
+Path Group: clk
+Path Type: max
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                          0.00    0.00   clock clk (rise edge)
+                          0.00    0.00   clock source latency
+     1   63.53    0.00    0.00    0.00 ^ clk (in)
+                                         clk (net)
+                  0.01    0.01    0.01 ^ clkbuf_0_clk/A (CLKBUF_X3)
+     2   63.41    0.05    0.07    0.08 ^ clkbuf_0_clk/Z (CLKBUF_X3)
+                                         clknet_0_clk (net)
+                  0.05    0.01    0.09 ^ clkbuf_1_1_0_clk/A (CLKBUF_X3)
+     2   44.08    0.03    0.08    0.16 ^ clkbuf_1_1_0_clk/Z (CLKBUF_X3)
+                                         clknet_1_1_0_clk (net)
+                  0.04    0.00    0.17 ^ u_icg_wr/CK (CLKGATE_X1)
+     1   62.32    0.13    0.16    0.33 ^ u_icg_wr/GCK (CLKGATE_X1)
+                                         wr_clk (net)
+                  0.14    0.04    0.36 ^ clkbuf_0_wr_clk/A (CLKBUF_X3)
+     2   46.91    0.04    0.09    0.46 ^ clkbuf_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_0_wr_clk (net)
+                  0.04    0.01    0.46 ^ clkbuf_1_0_0_wr_clk/A (CLKBUF_X3)
+     2   62.71    0.05    0.08    0.55 ^ clkbuf_1_0_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_1_0_0_wr_clk (net)
+                  0.05    0.01    0.55 ^ clkbuf_2_1_0_wr_clk/A (CLKBUF_X3)
+     4   63.75    0.05    0.09    0.64 ^ clkbuf_2_1_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_2_1_0_wr_clk (net)
+                  0.05    0.01    0.65 ^ clkbuf_4_5_0_wr_clk/A (CLKBUF_X3)
+     2    8.46    0.01    0.05    0.70 ^ clkbuf_4_5_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_4_5_0_wr_clk (net)
+                  0.01    0.00    0.70 ^ clkbuf_5_11__f_wr_clk/A (CLKBUF_X3)
+    14   55.90    0.04    0.07    0.77 ^ clkbuf_5_11__f_wr_clk/Z (CLKBUF_X3)
+                                         clknet_5_11__leaf_wr_clk (net)
+                  0.04    0.01    0.78 ^ clkbuf_leaf_193_wr_clk/A (CLKBUF_X3)
+     2    3.15    0.01    0.04    0.82 ^ clkbuf_leaf_193_wr_clk/Z (CLKBUF_X3)
+                                         clknet_leaf_193_wr_clk (net)
+                  0.01    0.00    0.82 ^ clkbuf_level_0_1_1851405_wr_clk/A (CLKBUF_X3)
+     1    1.74    0.01    0.03    0.84 ^ clkbuf_level_0_1_1851405_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_0_1_1851405_wr_clk (net)
+                  0.01    0.00    0.84 ^ clkbuf_level_1_1_1851406_wr_clk/A (CLKBUF_X3)
+     1    1.52    0.01    0.03    0.87 ^ clkbuf_level_1_1_1851406_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_1_1_1851406_wr_clk (net)
+                  0.01    0.00    0.87 ^ clkbuf_level_2_1_1851407_wr_clk/A (CLKBUF_X3)
+     1    1.89    0.01    0.03    0.89 ^ clkbuf_level_2_1_1851407_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_2_1_1851407_wr_clk (net)
+                  0.01    0.00    0.89 ^ clkbuf_level_3_1_1851408_wr_clk/A (CLKBUF_X3)
+     1    1.91    0.01    0.03    0.92 ^ clkbuf_level_3_1_1851408_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_3_1_1851408_wr_clk (net)
+                  0.01    0.00    0.92 ^ clkbuf_level_4_1_1851409_wr_clk/A (CLKBUF_X3)
+     1    1.68    0.01    0.03    0.95 ^ clkbuf_level_4_1_1851409_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_4_1_1851409_wr_clk (net)
+                  0.01    0.00    0.95 ^ clkbuf_level_5_1_1851410_wr_clk/A (CLKBUF_X3)
+     5    9.80    0.01    0.03    0.98 ^ clkbuf_level_5_1_1851410_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_5_1_1851410_wr_clk (net)
+                  0.01    0.00    0.98 ^ wr_data_q2[14]$_DFF_P_/CK (DFF_X2)
+    64   96.29    0.10    0.21    1.19 ^ wr_data_q2[14]$_DFF_P_/Q (DFF_X2)
+                                         wr_data_q2[14] (net)
+                  0.11    0.03    1.22 ^ w2m1_flat[302]$_DLATCH_P_/D (DLH_X1)
+                                  1.22   data arrival time
+
+                          0.00    0.00   clock clk (rise edge)
+                          0.00    0.00   clock source latency
+     1   63.53    0.00    0.00    0.00 ^ clk (in)
+                                         clk (net)
+                  0.01    0.01    0.01 ^ clkbuf_0_clk/A (CLKBUF_X3)
+     2   63.41    0.05    0.07    0.08 ^ clkbuf_0_clk/Z (CLKBUF_X3)
+                                         clknet_0_clk (net)
+                  0.05    0.01    0.09 ^ clkbuf_1_1_0_clk/A (CLKBUF_X3)
+     2   44.08    0.03    0.08    0.16 ^ clkbuf_1_1_0_clk/Z (CLKBUF_X3)
+                                         clknet_1_1_0_clk (net)
+                  0.04    0.00    0.17 ^ u_icg_wr/CK (CLKGATE_X1)
+     1   62.32    0.13    0.16    0.33 ^ u_icg_wr/GCK (CLKGATE_X1)
+                                         wr_clk (net)
+                  0.14    0.04    0.36 ^ clkbuf_0_wr_clk/A (CLKBUF_X3)
+     2   46.91    0.04    0.09    0.46 ^ clkbuf_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_0_wr_clk (net)
+                  0.04    0.01    0.46 ^ clkbuf_1_0_0_wr_clk/A (CLKBUF_X3)
+     2   62.71    0.05    0.08    0.55 ^ clkbuf_1_0_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_1_0_0_wr_clk (net)
+                  0.05    0.01    0.55 ^ clkbuf_2_1_0_wr_clk/A (CLKBUF_X3)
+     4   63.75    0.05    0.09    0.64 ^ clkbuf_2_1_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_2_1_0_wr_clk (net)
+                  0.05    0.01    0.65 ^ clkbuf_4_7_0_wr_clk/A (CLKBUF_X3)
+     2   15.86    0.02    0.05    0.70 ^ clkbuf_4_7_0_wr_clk/Z (CLKBUF_X3)
+                                         clknet_4_7_0_wr_clk (net)
+                  0.02    0.00    0.70 ^ clkbuf_5_15__f_wr_clk/A (CLKBUF_X3)
+     8   32.35    0.03    0.06    0.76 ^ clkbuf_5_15__f_wr_clk/Z (CLKBUF_X3)
+                                         clknet_5_15__leaf_wr_clk (net)
+                  0.03    0.00    0.76 ^ clkbuf_leaf_151_wr_clk/A (CLKBUF_X3)
+     2    3.43    0.01    0.04    0.80 ^ clkbuf_leaf_151_wr_clk/Z (CLKBUF_X3)
+                                         clknet_leaf_151_wr_clk (net)
+                  0.01    0.00    0.80 ^ clkbuf_level_0_2_1431102_wr_clk/A (CLKBUF_X3)
+     1    1.59    0.01    0.03    0.82 ^ clkbuf_level_0_2_1431102_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_0_2_1431102_wr_clk (net)
+                  0.01    0.00    0.82 ^ clkbuf_level_1_2_1431103_wr_clk/A (CLKBUF_X3)
+     1    1.55    0.01    0.03    0.85 ^ clkbuf_level_1_2_1431103_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_1_2_1431103_wr_clk (net)
+                  0.01    0.00    0.85 ^ clkbuf_level_2_2_1431104_wr_clk/A (CLKBUF_X3)
+     3    6.18    0.01    0.03    0.88 ^ clkbuf_level_2_2_1431104_wr_clk/Z (CLKBUF_X3)
+                                         clknet_level_2_2_1431104_wr_clk (net)
+                  0.01    0.00    0.88 ^ u_icg_j37/CK (CLKGATETST_X1)
+     1    4.75    0.01    0.03    0.91 ^ u_icg_j37/GCK (CLKGATETST_X1)
+                                         w2_gclk[37] (net)
+                  0.01    0.00    0.91 ^ clkbuf_0_w2_gclk[37]/A (CLKBUF_X3)
+     2    4.19    0.01    0.03    0.95 ^ clkbuf_0_w2_gclk[37]/Z (CLKBUF_X3)
+                                         clknet_0_w2_gclk[37] (net)
+                  0.01    0.00    0.95 ^ clkbuf_1_0__f_w2_gclk[37]/A (CLKBUF_X3)
+     8   13.75    0.01    0.04    0.98 ^ clkbuf_1_0__f_w2_gclk[37]/Z (CLKBUF_X3)
+                                         clknet_1_0__leaf_w2_gclk[37] (net)
+                  0.01    0.00    0.98 ^ w2m1_flat[302]$_DLATCH_P_/G (DLH_X1)
+                          0.00    0.98   clock reconvergence pessimism
+                          0.24    1.22   time borrowed from endpoint
+                                  1.22   data required time
+-----------------------------------------------------------------------------
+                                  1.22   data required time
+                                 -1.22   data arrival time
+-----------------------------------------------------------------------------
+                                  0.00   slack (MET)
+
+Time Borrowing Information
+--------------------------------------------
+clk nominal pulse width               100.00
+clock latency difference                0.08
+library setup time                     -0.03
+--------------------------------------------
+max time borrow                       100.05
+actual time borrow                      0.24
+--------------------------------------------
+
+
+
+==========================================================================
+finish report_check_types -max_slew -max_cap -max_fanout -violators
+--------------------------------------------------------------------------
+max capacitance
+
+Pin                                    Limit     Cap   Slack
+------------------------------------------------------------
+u_icg_r6/GCK                           60.73   83.05  -22.32 (VIOLATED)
+u_icg_r78/GCK                          60.73   82.50  -21.77 (VIOLATED)
+u_icg_r50/GCK                          60.73   81.77  -21.04 (VIOLATED)
+u_icg_r54/GCK                          60.73   81.47  -20.74 (VIOLATED)
+sel_r[59]$_SDFFE_PP0P_/Q              121.15  138.79  -17.64 (VIOLATED)
+sel_r[6]$_SDFFE_PP0P_/Q               121.15  138.79  -17.64 (VIOLATED)
+sel_r[10]$_SDFFE_PP0P_/Q              121.15  136.96  -15.81 (VIOLATED)
+u_icg_r22/GCK                          60.73   76.34  -15.61 (VIOLATED)
+u_icg_r18/GCK                          60.73   76.28  -15.55 (VIOLATED)
+_104388_/ZN                            63.32   78.48  -15.15 (VIOLATED)
+sel_r[67]$_SDFFE_PP0P_/Q              121.15  135.59  -14.43 (VIOLATED)
+u_icg_r46/GCK                          60.73   74.68  -13.95 (VIOLATED)
+sel_r[58]$_SDFFE_PP0P_/Q              121.15  134.96  -13.80 (VIOLATED)
+wr_data_q1[9]$_DFF_P_/Q               121.15  133.39  -12.23 (VIOLATED)
+u_icg_r70/GCK                          60.73   72.13  -11.40 (VIOLATED)
+wr_data_q1[17]$_DFF_P_/Q              121.15  132.06  -10.91 (VIOLATED)
+u_icg_r34/GCK                          60.73   71.11  -10.38 (VIOLATED)
+sel_r[8]$_SDFFE_PP0P_/Q               121.15  131.20  -10.05 (VIOLATED)
+stage[335]$_DFFE_PP_/Q                121.15  131.02   -9.87 (VIOLATED)
+sel_r[28]$_SDFFE_PP0P_/Q              121.15  130.99   -9.83 (VIOLATED)
+sel_r[46]$_SDFFE_PP0P_/Q              121.15  130.23   -9.08 (VIOLATED)
+stage[165]$_DFFE_PP_/Q                121.15  130.08   -8.93 (VIOLATED)
+stage[494]$_DFFE_PP_/Q                121.15  129.20   -8.04 (VIOLATED)
+stage[163]$_DFFE_PP_/Q                121.15  129.17   -8.02 (VIOLATED)
+stage[100]$_DFFE_PP_/Q                121.15  129.03   -7.88 (VIOLATED)
+stage[387]$_DFFE_PP_/Q                121.15  128.69   -7.54 (VIOLATED)
+sel_r[94]$_SDFFE_PP0P_/Q              121.15  128.23   -7.07 (VIOLATED)
+sel_r[68]$_SDFFE_PP0P_/Q              121.15  128.11   -6.96 (VIOLATED)
+sel_r[66]$_SDFFE_PP0P_/Q              121.15  128.04   -6.88 (VIOLATED)
+u_icg_r51/GCK                          60.73   67.32   -6.59 (VIOLATED)
+u_icg_r62/GCK                          60.73   66.96   -6.23 (VIOLATED)
+stage[255]$_DFFE_PP_/Q                121.15  127.05   -5.89 (VIOLATED)
+stage[88]$_DFFE_PP_/Q                 121.15  126.89   -5.74 (VIOLATED)
+stage[312]$_DFFE_PP_/Q                121.15  126.89   -5.74 (VIOLATED)
+stage[211]$_DFFE_PP_/Q                121.15  126.73   -5.58 (VIOLATED)
+stage[181]$_DFFE_PP_/Q                121.15  126.70   -5.55 (VIOLATED)
+stage[510]$_DFFE_PP_/Q                121.15  126.67   -5.52 (VIOLATED)
+stage[138]$_DFFE_PP_/Q                121.15  126.65   -5.50 (VIOLATED)
+stage[424]$_DFFE_PP_/Q                121.15  126.61   -5.46 (VIOLATED)
+stage[147]$_DFFE_PP_/Q                121.15  126.54   -5.39 (VIOLATED)
+sel_r[88]$_SDFFE_PP0P_/Q              121.15  126.53   -5.38 (VIOLATED)
+stage[49]$_DFFE_PP_/Q                 121.15  126.52   -5.36 (VIOLATED)
+stage[134]$_DFFE_PP_/Q                121.15  126.49   -5.33 (VIOLATED)
+stage[400]$_DFFE_PP_/Q                121.15  126.46   -5.31 (VIOLATED)
+stage[97]$_DFFE_PP_/Q                 121.15  126.45   -5.30 (VIOLATED)
+stage[448]$_DFFE_PP_/Q                121.15  126.39   -5.24 (VIOLATED)
+stage[409]$_DFFE_PP_/Q                121.15  126.36   -5.21 (VIOLATED)
+stage[239]$_DFFE_PP_/Q                121.15  126.36   -5.20 (VIOLATED)
+stage[511]$_DFFE_PP_/Q                121.15  126.32   -5.17 (VIOLATED)
+stage[462]$_DFFE_PP_/Q                121.15  126.30   -5.14 (VIOLATED)
+stage[223]$_DFFE_PP_/Q                121.15  126.28   -5.12 (VIOLATED)
+stage[358]$_DFFE_PP_/Q                121.15  126.28   -5.12 (VIOLATED)
+stage[177]$_DFFE_PP_/Q                121.15  126.26   -5.11 (VIOLATED)
+stage[231]$_DFFE_PP_/Q                121.15  126.25   -5.09 (VIOLATED)
+stage[344]$_DFFE_PP_/Q                121.15  126.19   -5.03 (VIOLATED)
+stage[420]$_DFFE_PP_/Q                121.15  126.05   -4.90 (VIOLATED)
+stage[22]$_DFFE_PP_/Q                 121.15  126.05   -4.89 (VIOLATED)
+stage[486]$_DFFE_PP_/Q                121.15  125.99   -4.83 (VIOLATED)
+stage[370]$_DFFE_PP_/Q                121.15  125.95   -4.80 (VIOLATED)
+stage[374]$_DFFE_PP_/Q                121.15  125.94   -4.79 (VIOLATED)
+stage[477]$_DFFE_PP_/Q                121.15  125.89   -4.74 (VIOLATED)
+stage[301]$_DFFE_PP_/Q                121.15  125.87   -4.71 (VIOLATED)
+stage[443]$_DFFE_PP_/Q                121.15  125.84   -4.68 (VIOLATED)
+stage[393]$_DFFE_PP_/Q                121.15  125.75   -4.60 (VIOLATED)
+stage[484]$_DFFE_PP_/Q                121.15  125.75   -4.60 (VIOLATED)
+stage[210]$_DFFE_PP_/Q                121.15  125.73   -4.58 (VIOLATED)
+stage[416]$_DFFE_PP_/Q                121.15  125.72   -4.56 (VIOLATED)
+stage[244]$_DFFE_PP_/Q                121.15  125.70   -4.55 (VIOLATED)
+stage[139]$_DFFE_PP_/Q                121.15  125.69   -4.53 (VIOLATED)
+stage[483]$_DFFE_PP_/Q                121.15  125.63   -4.48 (VIOLATED)
+stage[33]$_DFFE_PP_/Q                 121.15  125.57   -4.42 (VIOLATED)
+stage[81]$_DFFE_PP_/Q                 121.15  125.52   -4.37 (VIOLATED)
+stage[411]$_DFFE_PP_/Q                121.15  125.51   -4.35 (VIOLATED)
+stage[68]$_DFFE_PP_/Q                 121.15  125.50   -4.35 (VIOLATED)
+stage[438]$_DFFE_PP_/Q                121.15  125.47   -4.31 (VIOLATED)
+stage[423]$_DFFE_PP_/Q                121.15  125.46   -4.31 (VIOLATED)
+stage[166]$_DFFE_PP_/Q                121.15  125.45   -4.29 (VIOLATED)
+stage[38]$_DFFE_PP_/Q                 121.15  125.43   -4.28 (VIOLATED)
+stage[481]$_DFFE_PP_/Q                121.15  125.40   -4.24 (VIOLATED)
+stage[242]$_DFFE_PP_/Q                121.15  125.37   -4.21 (VIOLATED)
+stage[316]$_DFFE_PP_/Q                121.15  125.35   -4.19 (VIOLATED)
+stage[133]$_DFFE_PP_/Q                121.15  125.33   -4.18 (VIOLATED)
+stage[473]$_DFFE_PP_/Q                121.15  125.32   -4.17 (VIOLATED)
+stage[378]$_DFFE_PP_/Q                121.15  125.31   -4.16 (VIOLATED)
+stage[270]$_DFFE_PP_/Q                121.15  125.28   -4.12 (VIOLATED)
+stage[168]$_DFFE_PP_/Q                121.15  125.27   -4.12 (VIOLATED)
+stage[199]$_DFFE_PP_/Q                121.15  125.22   -4.07 (VIOLATED)
+stage[491]$_DFFE_PP_/Q                121.15  125.20   -4.05 (VIOLATED)
+stage[385]$_DFFE_PP_/Q                121.15  125.20   -4.05 (VIOLATED)
+stage[471]$_DFFE_PP_/Q                121.15  125.18   -4.02 (VIOLATED)
+stage[341]$_DFFE_PP_/Q                121.15  125.14   -3.99 (VIOLATED)
+stage[404]$_DFFE_PP_/Q                121.15  125.13   -3.98 (VIOLATED)
+stage[296]$_DFFE_PP_/Q                121.15  125.13   -3.97 (VIOLATED)
+stage[338]$_DFFE_PP_/Q                121.15  125.13   -3.97 (VIOLATED)
+stage[302]$_DFFE_PP_/Q                121.15  125.13   -3.97 (VIOLATED)
+stage[306]$_DFFE_PP_/Q                121.15  125.13   -3.97 (VIOLATED)
+stage[297]$_DFFE_PP_/Q                121.15  125.12   -3.97 (VIOLATED)
+stage[413]$_DFFE_PP_/Q                121.15  125.12   -3.96 (VIOLATED)
+stage[102]$_DFFE_PP_/Q                121.15  125.11   -3.96 (VIOLATED)
+stage[236]$_DFFE_PP_/Q                121.15  125.10   -3.94 (VIOLATED)
+stage[317]$_DFFE_PP_/Q                121.15  125.10   -3.94 (VIOLATED)
+stage[398]$_DFFE_PP_/Q                121.15  125.07   -3.91 (VIOLATED)
+stage[183]$_DFFE_PP_/Q                121.15  125.06   -3.91 (VIOLATED)
+stage[221]$_DFFE_PP_/Q                121.15  125.06   -3.91 (VIOLATED)
+stage[478]$_DFFE_PP_/Q                121.15  125.06   -3.90 (VIOLATED)
+stage[394]$_DFFE_PP_/Q                121.15  125.05   -3.89 (VIOLATED)
+stage[461]$_DFFE_PP_/Q                121.15  125.02   -3.86 (VIOLATED)
+stage[463]$_DFFE_PP_/Q                121.15  125.02   -3.86 (VIOLATED)
+stage[45]$_DFFE_PP_/Q                 121.15  125.00   -3.85 (VIOLATED)
+stage[34]$_DFFE_PP_/Q                 121.15  124.97   -3.82 (VIOLATED)
+stage[65]$_DFFE_PP_/Q                 121.15  124.97   -3.82 (VIOLATED)
+stage[381]$_DFFE_PP_/Q                121.15  124.95   -3.80 (VIOLATED)
+stage[355]$_DFFE_PP_/Q                121.15  124.95   -3.79 (VIOLATED)
+stage[201]$_DFFE_PP_/Q                121.15  124.95   -3.79 (VIOLATED)
+stage[340]$_DFFE_PP_/Q                121.15  124.94   -3.78 (VIOLATED)
+stage[476]$_DFFE_PP_/Q                121.15  124.92   -3.76 (VIOLATED)
+stage[382]$_DFFE_PP_/Q                121.15  124.86   -3.71 (VIOLATED)
+stage[480]$_DFFE_PP_/Q                121.15  124.86   -3.70 (VIOLATED)
+stage[37]$_DFFE_PP_/Q                 121.15  124.85   -3.70 (VIOLATED)
+stage[51]$_DFFE_PP_/Q                 121.15  124.85   -3.69 (VIOLATED)
+stage[465]$_DFFE_PP_/Q                121.15  124.84   -3.68 (VIOLATED)
+stage[216]$_DFFE_PP_/Q                121.15  124.83   -3.68 (VIOLATED)
+stage[363]$_DFFE_PP_/Q                121.15  124.83   -3.67 (VIOLATED)
+stage[91]$_DFFE_PP_/Q                 121.15  124.79   -3.63 (VIOLATED)
+stage[472]$_DFFE_PP_/Q                121.15  124.78   -3.63 (VIOLATED)
+stage[458]$_DFFE_PP_/Q                121.15  124.78   -3.62 (VIOLATED)
+stage[117]$_DFFE_PP_/Q                121.15  124.78   -3.62 (VIOLATED)
+u_icg_r66/GCK                          60.73   64.35   -3.62 (VIOLATED)
+stage[152]$_DFFE_PP_/Q                121.15  124.77   -3.61 (VIOLATED)
+stage[248]$_DFFE_PP_/Q                121.15  124.76   -3.61 (VIOLATED)
+stage[430]$_DFFE_PP_/Q                121.15  124.75   -3.60 (VIOLATED)
+stage[321]$_DFFE_PP_/Q                121.15  124.75   -3.60 (VIOLATED)
+stage[266]$_DFFE_PP_/Q                121.15  124.74   -3.59 (VIOLATED)
+stage[27]$_DFFE_PP_/Q                 121.15  124.71   -3.56 (VIOLATED)
+stage[315]$_DFFE_PP_/Q                121.15  124.71   -3.55 (VIOLATED)
+stage[60]$_DFFE_PP_/Q                 121.15  124.68   -3.53 (VIOLATED)
+stage[158]$_DFFE_PP_/Q                121.15  124.66   -3.51 (VIOLATED)
+stage[291]$_DFFE_PP_/Q                121.15  124.66   -3.50 (VIOLATED)
+stage[225]$_DFFE_PP_/Q                121.15  124.64   -3.49 (VIOLATED)
+stage[275]$_DFFE_PP_/Q                121.15  124.64   -3.48 (VIOLATED)
+stage[507]$_DFFE_PP_/Q                121.15  124.63   -3.47 (VIOLATED)
+stage[391]$_DFFE_PP_/Q                121.15  124.62   -3.46 (VIOLATED)
+stage[366]$_DFFE_PP_/Q                121.15  124.62   -3.46 (VIOLATED)
+stage[24]$_DFFE_PP_/Q                 121.15  124.61   -3.46 (VIOLATED)
+stage[61]$_DFFE_PP_/Q                 121.15  124.60   -3.45 (VIOLATED)
+stage[36]$_DFFE_PP_/Q                 121.15  124.59   -3.43 (VIOLATED)
+stage[129]$_DFFE_PP_/Q                121.15  124.58   -3.43 (VIOLATED)
+stage[251]$_DFFE_PP_/Q                121.15  124.58   -3.43 (VIOLATED)
+stage[264]$_DFFE_PP_/Q                121.15  124.58   -3.43 (VIOLATED)
+stage[184]$_DFFE_PP_/Q                121.15  124.57   -3.42 (VIOLATED)
+stage[305]$_DFFE_PP_/Q                121.15  124.57   -3.42 (VIOLATED)
+stage[140]$_DFFE_PP_/Q                121.15  124.56   -3.41 (VIOLATED)
+stage[367]$_DFFE_PP_/Q                121.15  124.55   -3.40 (VIOLATED)
+stage[78]$_DFFE_PP_/Q                 121.15  124.55   -3.39 (VIOLATED)
+stage[359]$_DFFE_PP_/Q                121.15  124.55   -3.39 (VIOLATED)
+stage[101]$_DFFE_PP_/Q                121.15  124.55   -3.39 (VIOLATED)
+stage[19]$_DFFE_PP_/Q                 121.15  124.53   -3.38 (VIOLATED)
+stage[31]$_DFFE_PP_/Q                 121.15  124.52   -3.36 (VIOLATED)
+stage[77]$_DFFE_PP_/Q                 121.15  124.51   -3.36 (VIOLATED)
+stage[313]$_DFFE_PP_/Q                121.15  124.50   -3.34 (VIOLATED)
+stage[262]$_DFFE_PP_/Q                121.15  124.49   -3.34 (VIOLATED)
+stage[412]$_DFFE_PP_/Q                121.15  124.49   -3.33 (VIOLATED)
+stage[277]$_DFFE_PP_/Q                121.15  124.49   -3.33 (VIOLATED)
+stage[407]$_DFFE_PP_/Q                121.15  124.49   -3.33 (VIOLATED)
+stage[450]$_DFFE_PP_/Q                121.15  124.48   -3.32 (VIOLATED)
+stage[397]$_DFFE_PP_/Q                121.15  124.47   -3.32 (VIOLATED)
+stage[153]$_DFFE_PP_/Q                121.15  124.47   -3.32 (VIOLATED)
+stage[405]$_DFFE_PP_/Q                121.15  124.47   -3.31 (VIOLATED)
+stage[89]$_DFFE_PP_/Q                 121.15  124.45   -3.30 (VIOLATED)
+stage[204]$_DFFE_PP_/Q                121.15  124.45   -3.29 (VIOLATED)
+stage[490]$_DFFE_PP_/Q                121.15  124.44   -3.29 (VIOLATED)
+stage[187]$_DFFE_PP_/Q                121.15  124.44   -3.28 (VIOLATED)
+stage[157]$_DFFE_PP_/Q                121.15  124.43   -3.27 (VIOLATED)
+stage[427]$_DFFE_PP_/Q                121.15  124.43   -3.27 (VIOLATED)
+wr_data_q1[23]$_DFF_P_/Q              121.15  124.42   -3.27 (VIOLATED)
+stage[103]$_DFFE_PP_/Q                121.15  124.42   -3.26 (VIOLATED)
+stage[295]$_DFFE_PP_/Q                121.15  124.40   -3.24 (VIOLATED)
+stage[105]$_DFFE_PP_/Q                121.15  124.36   -3.20 (VIOLATED)
+stage[148]$_DFFE_PP_/Q                121.15  124.36   -3.20 (VIOLATED)
+stage[118]$_DFFE_PP_/Q                121.15  124.35   -3.19 (VIOLATED)
+stage[90]$_DFFE_PP_/Q                 121.15  124.35   -3.19 (VIOLATED)
+stage[346]$_DFFE_PP_/Q                121.15  124.34   -3.19 (VIOLATED)
+stage[35]$_DFFE_PP_/Q                 121.15  124.34   -3.18 (VIOLATED)
+stage[508]$_DFFE_PP_/Q                121.15  124.34   -3.18 (VIOLATED)
+stage[454]$_DFFE_PP_/Q                121.15  124.32   -3.17 (VIOLATED)
+stage[167]$_DFFE_PP_/Q                121.15  124.31   -3.16 (VIOLATED)
+sel_r[30]$_SDFFE_PP0P_/Q              121.15  124.30   -3.15 (VIOLATED)
+stage[214]$_DFFE_PP_/Q                121.15  124.30   -3.15 (VIOLATED)
+stage[83]$_DFFE_PP_/Q                 121.15  124.29   -3.14 (VIOLATED)
+stage[62]$_DFFE_PP_/Q                 121.15  124.29   -3.13 (VIOLATED)
+stage[94]$_DFFE_PP_/Q                 121.15  124.29   -3.13 (VIOLATED)
+stage[495]$_DFFE_PP_/Q                121.15  124.29   -3.13 (VIOLATED)
+stage[203]$_DFFE_PP_/Q                121.15  124.27   -3.12 (VIOLATED)
+stage[435]$_DFFE_PP_/Q                121.15  124.25   -3.10 (VIOLATED)
+stage[432]$_DFFE_PP_/Q                121.15  124.25   -3.10 (VIOLATED)
+stage[179]$_DFFE_PP_/Q                121.15  124.24   -3.09 (VIOLATED)
+stage[501]$_DFFE_PP_/Q                121.15  124.24   -3.09 (VIOLATED)
+stage[229]$_DFFE_PP_/Q                121.15  124.24   -3.09 (VIOLATED)
+stage[361]$_DFFE_PP_/Q                121.15  124.23   -3.08 (VIOLATED)
+stage[26]$_DFFE_PP_/Q                 121.15  124.21   -3.05 (VIOLATED)
+stage[53]$_DFFE_PP_/Q                 121.15  124.20   -3.05 (VIOLATED)
+stage[126]$_DFFE_PP_/Q                121.15  124.19   -3.04 (VIOLATED)
+stage[43]$_DFFE_PP_/Q                 121.15  124.18   -3.03 (VIOLATED)
+stage[323]$_DFFE_PP_/Q                121.15  124.18   -3.02 (VIOLATED)
+stage[208]$_DFFE_PP_/Q                121.15  124.17   -3.01 (VIOLATED)
+stage[497]$_DFFE_PP_/Q                121.15  124.17   -3.01 (VIOLATED)
+stage[439]$_DFFE_PP_/Q                121.15  124.17   -3.01 (VIOLATED)
+stage[311]$_DFFE_PP_/Q                121.15  124.16   -3.00 (VIOLATED)
+stage[489]$_DFFE_PP_/Q                121.15  124.15   -3.00 (VIOLATED)
+stage[399]$_DFFE_PP_/Q                121.15  124.15   -3.00 (VIOLATED)
+stage[455]$_DFFE_PP_/Q                121.15  124.14   -2.99 (VIOLATED)
+stage[174]$_DFFE_PP_/Q                121.15  124.13   -2.98 (VIOLATED)
+stage[48]$_DFFE_PP_/Q                 121.15  124.13   -2.98 (VIOLATED)
+stage[436]$_DFFE_PP_/Q                121.15  124.13   -2.97 (VIOLATED)
+stage[70]$_DFFE_PP_/Q                 121.15  124.12   -2.96 (VIOLATED)
+stage[460]$_DFFE_PP_/Q                121.15  124.12   -2.96 (VIOLATED)
+u_icg_r30/GCK                          60.73   63.68   -2.95 (VIOLATED)
+stage[281]$_DFFE_PP_/Q                121.15  124.10   -2.95 (VIOLATED)
+stage[149]$_DFFE_PP_/Q                121.15  124.10   -2.95 (VIOLATED)
+stage[492]$_DFFE_PP_/Q                121.15  124.09   -2.94 (VIOLATED)
+stage[39]$_DFFE_PP_/Q                 121.15  124.09   -2.93 (VIOLATED)
+stage[175]$_DFFE_PP_/Q                121.15  124.09   -2.93 (VIOLATED)
+stage[146]$_DFFE_PP_/Q                121.15  124.08   -2.93 (VIOLATED)
+stage[154]$_DFFE_PP_/Q                121.15  124.08   -2.92 (VIOLATED)
+stage[252]$_DFFE_PP_/Q                121.15  124.08   -2.92 (VIOLATED)
+stage[58]$_DFFE_PP_/Q                 121.15  124.07   -2.92 (VIOLATED)
+stage[447]$_DFFE_PP_/Q                121.15  124.07   -2.92 (VIOLATED)
+stage[365]$_DFFE_PP_/Q                121.15  124.07   -2.92 (VIOLATED)
+stage[408]$_DFFE_PP_/Q                121.15  124.02   -2.86 (VIOLATED)
+stage[55]$_DFFE_PP_/Q                 121.15  124.01   -2.86 (VIOLATED)
+stage[456]$_DFFE_PP_/Q                121.15  124.00   -2.85 (VIOLATED)
+stage[360]$_DFFE_PP_/Q                121.15  123.97   -2.82 (VIOLATED)
+stage[28]$_DFFE_PP_/Q                 121.15  123.97   -2.82 (VIOLATED)
+stage[50]$_DFFE_PP_/Q                 121.15  123.96   -2.80 (VIOLATED)
+stage[145]$_DFFE_PP_/Q                121.15  123.95   -2.80 (VIOLATED)
+stage[288]$_DFFE_PP_/Q                121.15  123.95   -2.79 (VIOLATED)
+stage[121]$_DFFE_PP_/Q                121.15  123.95   -2.79 (VIOLATED)
+stage[190]$_DFFE_PP_/Q                121.15  123.94   -2.79 (VIOLATED)
+stage[188]$_DFFE_PP_/Q                121.15  123.94   -2.79 (VIOLATED)
+stage[257]$_DFFE_PP_/Q                121.15  123.94   -2.78 (VIOLATED)
+stage[164]$_DFFE_PP_/Q                121.15  123.90   -2.75 (VIOLATED)
+stage[108]$_DFFE_PP_/Q                121.15  123.89   -2.74 (VIOLATED)
+stage[509]$_DFFE_PP_/Q                121.15  123.88   -2.73 (VIOLATED)
+sel_r[55]$_SDFFE_PP0P_/Q              121.15  123.87   -2.72 (VIOLATED)
+stage[125]$_DFFE_PP_/Q                121.15  123.87   -2.72 (VIOLATED)
+stage[47]$_DFFE_PP_/Q                 121.15  123.87   -2.71 (VIOLATED)
+stage[241]$_DFFE_PP_/Q                121.15  123.87   -2.71 (VIOLATED)
+stage[457]$_DFFE_PP_/Q                121.15  123.86   -2.70 (VIOLATED)
+stage[441]$_DFFE_PP_/Q                121.15  123.85   -2.69 (VIOLATED)
+stage[376]$_DFFE_PP_/Q                121.15  123.84   -2.68 (VIOLATED)
+stage[197]$_DFFE_PP_/Q                121.15  123.82   -2.67 (VIOLATED)
+stage[446]$_DFFE_PP_/Q                121.15  123.82   -2.67 (VIOLATED)
+stage[182]$_DFFE_PP_/Q                121.15  123.82   -2.66 (VIOLATED)
+stage[46]$_DFFE_PP_/Q                 121.15  123.81   -2.65 (VIOLATED)
+stage[156]$_DFFE_PP_/Q                121.15  123.80   -2.65 (VIOLATED)
+stage[73]$_DFFE_PP_/Q                 121.15  123.80   -2.64 (VIOLATED)
+stage[224]$_DFFE_PP_/Q                121.15  123.76   -2.61 (VIOLATED)
+stage[468]$_DFFE_PP_/Q                121.15  123.75   -2.59 (VIOLATED)
+stage[104]$_DFFE_PP_/Q                121.15  123.75   -2.59 (VIOLATED)
+stage[488]$_DFFE_PP_/Q                121.15  123.73   -2.58 (VIOLATED)
+stage[444]$_DFFE_PP_/Q                121.15  123.73   -2.58 (VIOLATED)
+stage[234]$_DFFE_PP_/Q                121.15  123.73   -2.58 (VIOLATED)
+stage[466]$_DFFE_PP_/Q                121.15  123.72   -2.57 (VIOLATED)
+stage[189]$_DFFE_PP_/Q                121.15  123.71   -2.56 (VIOLATED)
+stage[217]$_DFFE_PP_/Q                121.15  123.71   -2.55 (VIOLATED)
+stage[298]$_DFFE_PP_/Q                121.15  123.68   -2.53 (VIOLATED)
+stage[59]$_DFFE_PP_/Q                 121.15  123.68   -2.53 (VIOLATED)
+stage[205]$_DFFE_PP_/Q                121.15  123.68   -2.53 (VIOLATED)
+stage[279]$_DFFE_PP_/Q                121.15  123.68   -2.52 (VIOLATED)
+stage[368]$_DFFE_PP_/Q                121.15  123.67   -2.52 (VIOLATED)
+stage[333]$_DFFE_PP_/Q                121.15  123.67   -2.51 (VIOLATED)
+stage[54]$_DFFE_PP_/Q                 121.15  123.67   -2.51 (VIOLATED)
+stage[186]$_DFFE_PP_/Q                121.15  123.67   -2.51 (VIOLATED)
+stage[64]$_DFFE_PP_/Q                 121.15  123.66   -2.51 (VIOLATED)
+stage[280]$_DFFE_PP_/Q                121.15  123.66   -2.50 (VIOLATED)
+stage[96]$_DFFE_PP_/Q                 121.15  123.65   -2.49 (VIOLATED)
+stage[132]$_DFFE_PP_/Q                121.15  123.64   -2.48 (VIOLATED)
+stage[388]$_DFFE_PP_/Q                121.15  123.64   -2.48 (VIOLATED)
+stage[474]$_DFFE_PP_/Q                121.15  123.61   -2.46 (VIOLATED)
+stage[417]$_DFFE_PP_/Q                121.15  123.60   -2.44 (VIOLATED)
+stage[9]$_DFFE_PP_/Q                  121.15  123.58   -2.43 (VIOLATED)
+stage[122]$_DFFE_PP_/Q                121.15  123.58   -2.43 (VIOLATED)
+stage[292]$_DFFE_PP_/Q                121.15  123.58   -2.43 (VIOLATED)
+stage[98]$_DFFE_PP_/Q                 121.15  123.58   -2.42 (VIOLATED)
+stage[504]$_DFFE_PP_/Q                121.15  123.57   -2.42 (VIOLATED)
+stage[176]$_DFFE_PP_/Q                121.15  123.57   -2.42 (VIOLATED)
+stage[467]$_DFFE_PP_/Q                121.15  123.57   -2.41 (VIOLATED)
+stage[433]$_DFFE_PP_/Q                121.15  123.56   -2.41 (VIOLATED)
+stage[209]$_DFFE_PP_/Q                121.15  123.55   -2.39 (VIOLATED)
+stage[0]$_DFFE_PP_/Q                  121.15  123.54   -2.39 (VIOLATED)
+stage[324]$_DFFE_PP_/Q                121.15  123.54   -2.38 (VIOLATED)
+stage[401]$_DFFE_PP_/Q                121.15  123.54   -2.38 (VIOLATED)
+stage[95]$_DFFE_PP_/Q                 121.15  123.53   -2.38 (VIOLATED)
+stage[502]$_DFFE_PP_/Q                121.15  123.53   -2.38 (VIOLATED)
+stage[347]$_DFFE_PP_/Q                121.15  123.52   -2.36 (VIOLATED)
+stage[485]$_DFFE_PP_/Q                121.15  123.50   -2.34 (VIOLATED)
+stage[120]$_DFFE_PP_/Q                121.15  123.49   -2.33 (VIOLATED)
+stage[419]$_DFFE_PP_/Q                121.15  123.48   -2.32 (VIOLATED)
+stage[232]$_DFFE_PP_/Q                121.15  123.47   -2.31 (VIOLATED)
+stage[5]$_DFFE_PP_/Q                  121.15  123.47   -2.31 (VIOLATED)
+stage[206]$_DFFE_PP_/Q                121.15  123.44   -2.29 (VIOLATED)
+stage[106]$_DFFE_PP_/Q                121.15  123.44   -2.29 (VIOLATED)
+stage[357]$_DFFE_PP_/Q                121.15  123.43   -2.27 (VIOLATED)
+stage[76]$_DFFE_PP_/Q                 121.15  123.43   -2.27 (VIOLATED)
+stage[249]$_DFFE_PP_/Q                121.15  123.42   -2.27 (VIOLATED)
+stage[119]$_DFFE_PP_/Q                121.15  123.42   -2.26 (VIOLATED)
+stage[69]$_DFFE_PP_/Q                 121.15  123.41   -2.26 (VIOLATED)
+stage[20]$_DFFE_PP_/Q                 121.15  123.41   -2.26 (VIOLATED)
+stage[185]$_DFFE_PP_/Q                121.15  123.40   -2.25 (VIOLATED)
+stage[403]$_DFFE_PP_/Q                121.15  123.39   -2.24 (VIOLATED)
+stage[143]$_DFFE_PP_/Q                121.15  123.38   -2.23 (VIOLATED)
+stage[87]$_DFFE_PP_/Q                 121.15  123.38   -2.23 (VIOLATED)
+stage[29]$_DFFE_PP_/Q                 121.15  123.38   -2.22 (VIOLATED)
+stage[325]$_DFFE_PP_/Q                121.15  123.38   -2.22 (VIOLATED)
+stage[496]$_DFFE_PP_/Q                121.15  123.37   -2.21 (VIOLATED)
+stage[150]$_DFFE_PP_/Q                121.15  123.37   -2.21 (VIOLATED)
+stage[57]$_DFFE_PP_/Q                 121.15  123.36   -2.21 (VIOLATED)
+stage[18]$_DFFE_PP_/Q                 121.15  123.36   -2.21 (VIOLATED)
+stage[135]$_DFFE_PP_/Q                121.15  123.35   -2.20 (VIOLATED)
+stage[384]$_DFFE_PP_/Q                121.15  123.35   -2.19 (VIOLATED)
+stage[130]$_DFFE_PP_/Q                121.15  123.34   -2.18 (VIOLATED)
+stage[451]$_DFFE_PP_/Q                121.15  123.34   -2.18 (VIOLATED)
+stage[142]$_DFFE_PP_/Q                121.15  123.33   -2.18 (VIOLATED)
+stage[278]$_DFFE_PP_/Q                121.15  123.31   -2.15 (VIOLATED)
+stage[459]$_DFFE_PP_/Q                121.15  123.31   -2.15 (VIOLATED)
+stage[259]$_DFFE_PP_/Q                121.15  123.31   -2.15 (VIOLATED)
+stage[240]$_DFFE_PP_/Q                121.15  123.29   -2.13 (VIOLATED)
+stage[215]$_DFFE_PP_/Q                121.15  123.29   -2.13 (VIOLATED)
+stage[85]$_DFFE_PP_/Q                 121.15  123.29   -2.13 (VIOLATED)
+stage[329]$_DFFE_PP_/Q                121.15  123.28   -2.13 (VIOLATED)
+stage[178]$_DFFE_PP_/Q                121.15  123.28   -2.13 (VIOLATED)
+stage[499]$_DFFE_PP_/Q                121.15  123.28   -2.13 (VIOLATED)
+stage[250]$_DFFE_PP_/Q                121.15  123.27   -2.12 (VIOLATED)
+stage[319]$_DFFE_PP_/Q                121.15  123.27   -2.11 (VIOLATED)
+stage[155]$_DFFE_PP_/Q                121.15  123.27   -2.11 (VIOLATED)
+stage[421]$_DFFE_PP_/Q                121.15  123.25   -2.09 (VIOLATED)
+stage[303]$_DFFE_PP_/Q                121.15  123.24   -2.09 (VIOLATED)
+stage[396]$_DFFE_PP_/Q                121.15  123.23   -2.07 (VIOLATED)
+stage[123]$_DFFE_PP_/Q                121.15  123.22   -2.07 (VIOLATED)
+stage[345]$_DFFE_PP_/Q                121.15  123.22   -2.07 (VIOLATED)
+stage[310]$_DFFE_PP_/Q                121.15  123.22   -2.06 (VIOLATED)
+stage[141]$_DFFE_PP_/Q                121.15  123.21   -2.06 (VIOLATED)
+stage[350]$_DFFE_PP_/Q                121.15  123.21   -2.06 (VIOLATED)
+stage[79]$_DFFE_PP_/Q                 121.15  123.21   -2.05 (VIOLATED)
+stage[144]$_DFFE_PP_/Q                121.15  123.21   -2.05 (VIOLATED)
+stage[219]$_DFFE_PP_/Q                121.15  123.19   -2.03 (VIOLATED)
+stage[352]$_DFFE_PP_/Q                121.15  123.18   -2.02 (VIOLATED)
+stage[243]$_DFFE_PP_/Q                121.15  123.17   -2.01 (VIOLATED)
+stage[11]$_DFFE_PP_/Q                 121.15  123.16   -2.01 (VIOLATED)
+stage[107]$_DFFE_PP_/Q                121.15  123.16   -2.00 (VIOLATED)
+stage[109]$_DFFE_PP_/Q                121.15  123.15   -2.00 (VIOLATED)
+stage[196]$_DFFE_PP_/Q                121.15  123.15   -2.00 (VIOLATED)
+stage[198]$_DFFE_PP_/Q                121.15  123.15   -2.00 (VIOLATED)
+stage[445]$_DFFE_PP_/Q                121.15  123.13   -1.98 (VIOLATED)
+stage[4]$_DFFE_PP_/Q                  121.15  123.13   -1.97 (VIOLATED)
+stage[276]$_DFFE_PP_/Q                121.15  123.10   -1.95 (VIOLATED)
+stage[362]$_DFFE_PP_/Q                121.15  123.09   -1.94 (VIOLATED)
+stage[287]$_DFFE_PP_/Q                121.15  123.06   -1.90 (VIOLATED)
+stage[331]$_DFFE_PP_/Q                121.15  123.04   -1.89 (VIOLATED)
+stage[162]$_DFFE_PP_/Q                121.15  123.03   -1.88 (VIOLATED)
+stage[15]$_DFFE_PP_/Q                 121.15  123.02   -1.87 (VIOLATED)
+stage[354]$_DFFE_PP_/Q                121.15  123.02   -1.87 (VIOLATED)
+stage[320]$_DFFE_PP_/Q                121.15  123.02   -1.86 (VIOLATED)
+stage[169]$_DFFE_PP_/Q                121.15  123.01   -1.85 (VIOLATED)
+stage[498]$_DFFE_PP_/Q                121.15  123.01   -1.85 (VIOLATED)
+stage[349]$_DFFE_PP_/Q                121.15  122.99   -1.84 (VIOLATED)
+stage[207]$_DFFE_PP_/Q                121.15  122.99   -1.83 (VIOLATED)
+stage[171]$_DFFE_PP_/Q                121.15  122.98   -1.83 (VIOLATED)
+stage[475]$_DFFE_PP_/Q                121.15  122.98   -1.82 (VIOLATED)
+stage[56]$_DFFE_PP_/Q                 121.15  122.98   -1.82 (VIOLATED)
+stage[410]$_DFFE_PP_/Q                121.15  122.97   -1.82 (VIOLATED)
+stage[80]$_DFFE_PP_/Q                 121.15  122.97   -1.81 (VIOLATED)
+stage[180]$_DFFE_PP_/Q                121.15  122.96   -1.80 (VIOLATED)
+stage[470]$_DFFE_PP_/Q                121.15  122.95   -1.79 (VIOLATED)
+stage[406]$_DFFE_PP_/Q                121.15  122.93   -1.78 (VIOLATED)
+stage[500]$_DFFE_PP_/Q                121.15  122.92   -1.77 (VIOLATED)
+stage[271]$_DFFE_PP_/Q                121.15  122.92   -1.76 (VIOLATED)
+stage[372]$_DFFE_PP_/Q                121.15  122.91   -1.75 (VIOLATED)
+stage[469]$_DFFE_PP_/Q                121.15  122.89   -1.74 (VIOLATED)
+u_icg_r82/GCK                          60.73   62.47   -1.74 (VIOLATED)
+stage[342]$_DFFE_PP_/Q                121.15  122.89   -1.73 (VIOLATED)
+stage[254]$_DFFE_PP_/Q                121.15  122.88   -1.72 (VIOLATED)
+stage[17]$_DFFE_PP_/Q                 121.15  122.87   -1.71 (VIOLATED)
+stage[274]$_DFFE_PP_/Q                121.15  122.87   -1.71 (VIOLATED)
+stage[429]$_DFFE_PP_/Q                121.15  122.86   -1.71 (VIOLATED)
+stage[440]$_DFFE_PP_/Q                121.15  122.85   -1.70 (VIOLATED)
+stage[285]$_DFFE_PP_/Q                121.15  122.83   -1.67 (VIOLATED)
+stage[506]$_DFFE_PP_/Q                121.15  122.79   -1.64 (VIOLATED)
+stage[245]$_DFFE_PP_/Q                121.15  122.77   -1.62 (VIOLATED)
+stage[356]$_DFFE_PP_/Q                121.15  122.77   -1.62 (VIOLATED)
+stage[112]$_DFFE_PP_/Q                121.15  122.77   -1.61 (VIOLATED)
+stage[13]$_DFFE_PP_/Q                 121.15  122.74   -1.59 (VIOLATED)
+u_icg_wr/GCK                           60.73   62.32   -1.59 (VIOLATED)
+stage[434]$_DFFE_PP_/Q                121.15  122.74   -1.59 (VIOLATED)
+stage[226]$_DFFE_PP_/Q                121.15  122.74   -1.58 (VIOLATED)
+stage[228]$_DFFE_PP_/Q                121.15  122.74   -1.58 (VIOLATED)
+stage[92]$_DFFE_PP_/Q                 121.15  122.74   -1.58 (VIOLATED)
+stage[265]$_DFFE_PP_/Q                121.15  122.73   -1.58 (VIOLATED)
+stage[282]$_DFFE_PP_/Q                121.15  122.73   -1.58 (VIOLATED)
+stage[173]$_DFFE_PP_/Q                121.15  122.72   -1.57 (VIOLATED)
+stage[290]$_DFFE_PP_/Q                121.15  122.72   -1.57 (VIOLATED)
+stage[314]$_DFFE_PP_/Q                121.15  122.71   -1.55 (VIOLATED)
+stage[426]$_DFFE_PP_/Q                121.15  122.69   -1.54 (VIOLATED)
+stage[75]$_DFFE_PP_/Q                 121.15  122.69   -1.54 (VIOLATED)
+stage[16]$_DFFE_PP_/Q                 121.15  122.69   -1.54 (VIOLATED)
+stage[390]$_DFFE_PP_/Q                121.15  122.69   -1.53 (VIOLATED)
+stage[289]$_DFFE_PP_/Q                121.15  122.68   -1.53 (VIOLATED)
+stage[307]$_DFFE_PP_/Q                121.15  122.67   -1.52 (VIOLATED)
+stage[193]$_DFFE_PP_/Q                121.15  122.67   -1.52 (VIOLATED)
+stage[326]$_DFFE_PP_/Q                121.15  122.67   -1.51 (VIOLATED)
+stage[233]$_DFFE_PP_/Q                121.15  122.65   -1.50 (VIOLATED)
+stage[505]$_DFFE_PP_/Q                121.15  122.64   -1.49 (VIOLATED)
+stage[256]$_DFFE_PP_/Q                121.15  122.64   -1.49 (VIOLATED)
+stage[23]$_DFFE_PP_/Q                 121.15  122.64   -1.48 (VIOLATED)
+stage[348]$_DFFE_PP_/Q                121.15  122.63   -1.48 (VIOLATED)
+stage[377]$_DFFE_PP_/Q                121.15  122.63   -1.47 (VIOLATED)
+stage[383]$_DFFE_PP_/Q                121.15  122.62   -1.46 (VIOLATED)
+stage[395]$_DFFE_PP_/Q                121.15  122.61   -1.46 (VIOLATED)
+stage[63]$_DFFE_PP_/Q                 121.15  122.61   -1.46 (VIOLATED)
+stage[67]$_DFFE_PP_/Q                 121.15  122.60   -1.45 (VIOLATED)
+stage[449]$_DFFE_PP_/Q                121.15  122.60   -1.44 (VIOLATED)
+stage[40]$_DFFE_PP_/Q                 121.15  122.58   -1.43 (VIOLATED)
+stage[369]$_DFFE_PP_/Q                121.15  122.58   -1.42 (VIOLATED)
+stage[293]$_DFFE_PP_/Q                121.15  122.58   -1.42 (VIOLATED)
+stage[195]$_DFFE_PP_/Q                121.15  122.57   -1.42 (VIOLATED)
+stage[124]$_DFFE_PP_/Q                121.15  122.56   -1.41 (VIOLATED)
+stage[235]$_DFFE_PP_/Q                121.15  122.55   -1.40 (VIOLATED)
+stage[437]$_DFFE_PP_/Q                121.15  122.54   -1.39 (VIOLATED)
+stage[1]$_DFFE_PP_/Q                  121.15  122.52   -1.37 (VIOLATED)
+stage[12]$_DFFE_PP_/Q                 121.15  122.51   -1.36 (VIOLATED)
+stage[425]$_DFFE_PP_/Q                121.15  122.51   -1.36 (VIOLATED)
+stage[192]$_DFFE_PP_/Q                121.15  122.51   -1.35 (VIOLATED)
+stage[160]$_DFFE_PP_/Q                121.15  122.49   -1.34 (VIOLATED)
+stage[402]$_DFFE_PP_/Q                121.15  122.49   -1.33 (VIOLATED)
+stage[127]$_DFFE_PP_/Q                121.15  122.48   -1.32 (VIOLATED)
+stage[392]$_DFFE_PP_/Q                121.15  122.48   -1.32 (VIOLATED)
+stage[386]$_DFFE_PP_/Q                121.15  122.47   -1.31 (VIOLATED)
+stage[137]$_DFFE_PP_/Q                121.15  122.46   -1.30 (VIOLATED)
+stage[503]$_DFFE_PP_/Q                121.15  122.45   -1.29 (VIOLATED)
+stage[284]$_DFFE_PP_/Q                121.15  122.44   -1.29 (VIOLATED)
+stage[200]$_DFFE_PP_/Q                121.15  122.42   -1.27 (VIOLATED)
+stage[247]$_DFFE_PP_/Q                121.15  122.41   -1.25 (VIOLATED)
+stage[487]$_DFFE_PP_/Q                121.15  122.39   -1.23 (VIOLATED)
+stage[304]$_DFFE_PP_/Q                121.15  122.38   -1.23 (VIOLATED)
+stage[253]$_DFFE_PP_/Q                121.15  122.38   -1.23 (VIOLATED)
+stage[309]$_DFFE_PP_/Q                121.15  122.38   -1.23 (VIOLATED)
+stage[452]$_DFFE_PP_/Q                121.15  122.36   -1.21 (VIOLATED)
+stage[373]$_DFFE_PP_/Q                121.15  122.34   -1.19 (VIOLATED)
+stage[479]$_DFFE_PP_/Q                121.15  122.33   -1.17 (VIOLATED)
+stage[84]$_DFFE_PP_/Q                 121.15  122.32   -1.17 (VIOLATED)
+stage[230]$_DFFE_PP_/Q                121.15  122.32   -1.17 (VIOLATED)
+stage[442]$_DFFE_PP_/Q                121.15  122.32   -1.16 (VIOLATED)
+stage[25]$_DFFE_PP_/Q                 121.15  122.32   -1.16 (VIOLATED)
+stage[113]$_DFFE_PP_/Q                121.15  122.31   -1.15 (VIOLATED)
+stage[453]$_DFFE_PP_/Q                121.15  122.30   -1.15 (VIOLATED)
+stage[93]$_DFFE_PP_/Q                 121.15  122.29   -1.14 (VIOLATED)
+stage[213]$_DFFE_PP_/Q                121.15  122.26   -1.10 (VIOLATED)
+stage[222]$_DFFE_PP_/Q                121.15  122.25   -1.09 (VIOLATED)
+stage[7]$_DFFE_PP_/Q                  121.15  122.24   -1.09 (VIOLATED)
+stage[389]$_DFFE_PP_/Q                121.15  122.24   -1.09 (VIOLATED)
+stage[299]$_DFFE_PP_/Q                121.15  122.24   -1.08 (VIOLATED)
+stage[71]$_DFFE_PP_/Q                 121.15  122.23   -1.08 (VIOLATED)
+stage[272]$_DFFE_PP_/Q                121.15  122.23   -1.07 (VIOLATED)
+stage[218]$_DFFE_PP_/Q                121.15  122.21   -1.05 (VIOLATED)
+stage[115]$_DFFE_PP_/Q                121.15  122.20   -1.05 (VIOLATED)
+stage[339]$_DFFE_PP_/Q                121.15  122.19   -1.04 (VIOLATED)
+_114241_/ZN                           104.07  105.10   -1.04 (VIOLATED)
+stage[343]$_DFFE_PP_/Q                121.15  122.18   -1.03 (VIOLATED)
+stage[273]$_DFFE_PP_/Q                121.15  122.18   -1.02 (VIOLATED)
+stage[151]$_DFFE_PP_/Q                121.15  122.17   -1.01 (VIOLATED)
+stage[220]$_DFFE_PP_/Q                121.15  122.14   -0.99 (VIOLATED)
+stage[246]$_DFFE_PP_/Q                121.15  122.12   -0.97 (VIOLATED)
+stage[21]$_DFFE_PP_/Q                 121.15  122.12   -0.96 (VIOLATED)
+stage[418]$_DFFE_PP_/Q                121.15  122.11   -0.96 (VIOLATED)
+stage[114]$_DFFE_PP_/Q                121.15  122.06   -0.91 (VIOLATED)
+stage[334]$_DFFE_PP_/Q                121.15  122.03   -0.87 (VIOLATED)
+stage[86]$_DFFE_PP_/Q                 121.15  122.01   -0.85 (VIOLATED)
+stage[300]$_DFFE_PP_/Q                121.15  122.00   -0.85 (VIOLATED)
+stage[161]$_DFFE_PP_/Q                121.15  122.00   -0.85 (VIOLATED)
+stage[375]$_DFFE_PP_/Q                121.15  121.99   -0.84 (VIOLATED)
+stage[327]$_DFFE_PP_/Q                121.15  121.99   -0.84 (VIOLATED)
+stage[364]$_DFFE_PP_/Q                121.15  121.96   -0.81 (VIOLATED)
+stage[42]$_DFFE_PP_/Q                 121.15  121.96   -0.81 (VIOLATED)
+stage[493]$_DFFE_PP_/Q                121.15  121.95   -0.80 (VIOLATED)
+stage[431]$_DFFE_PP_/Q                121.15  121.95   -0.79 (VIOLATED)
+stage[464]$_DFFE_PP_/Q                121.15  121.95   -0.79 (VIOLATED)
+stage[159]$_DFFE_PP_/Q                121.15  121.94   -0.79 (VIOLATED)
+stage[379]$_DFFE_PP_/Q                121.15  121.94   -0.79 (VIOLATED)
+stage[238]$_DFFE_PP_/Q                121.15  121.94   -0.79 (VIOLATED)
+stage[337]$_DFFE_PP_/Q                121.15  121.93   -0.78 (VIOLATED)
+stage[3]$_DFFE_PP_/Q                  121.15  121.90   -0.75 (VIOLATED)
+stage[227]$_DFFE_PP_/Q                121.15  121.89   -0.74 (VIOLATED)
+stage[116]$_DFFE_PP_/Q                121.15  121.89   -0.73 (VIOLATED)
+stage[269]$_DFFE_PP_/Q                121.15  121.87   -0.71 (VIOLATED)
+stage[99]$_DFFE_PP_/Q                 121.15  121.86   -0.70 (VIOLATED)
+stage[371]$_DFFE_PP_/Q                121.15  121.84   -0.69 (VIOLATED)
+stage[260]$_DFFE_PP_/Q                121.15  121.84   -0.68 (VIOLATED)
+sel_r[83]$_SDFFE_PP0P_/Q              121.15  121.82   -0.67 (VIOLATED)
+stage[72]$_DFFE_PP_/Q                 121.15  121.81   -0.65 (VIOLATED)
+stage[41]$_DFFE_PP_/Q                 121.15  121.77   -0.62 (VIOLATED)
+stage[286]$_DFFE_PP_/Q                121.15  121.76   -0.61 (VIOLATED)
+stage[308]$_DFFE_PP_/Q                121.15  121.71   -0.55 (VIOLATED)
+stage[136]$_DFFE_PP_/Q                121.15  121.68   -0.53 (VIOLATED)
+stage[380]$_DFFE_PP_/Q                121.15  121.68   -0.52 (VIOLATED)
+stage[283]$_DFFE_PP_/Q                121.15  121.67   -0.51 (VIOLATED)
+stage[336]$_DFFE_PP_/Q                121.15  121.67   -0.51 (VIOLATED)
+stage[128]$_DFFE_PP_/Q                121.15  121.66   -0.51 (VIOLATED)
+stage[237]$_DFFE_PP_/Q                121.15  121.63   -0.47 (VIOLATED)
+stage[66]$_DFFE_PP_/Q                 121.15  121.57   -0.42 (VIOLATED)
+stage[44]$_DFFE_PP_/Q                 121.15  121.57   -0.41 (VIOLATED)
+stage[110]$_DFFE_PP_/Q                121.15  121.53   -0.37 (VIOLATED)
+stage[322]$_DFFE_PP_/Q                121.15  121.51   -0.35 (VIOLATED)
+stage[261]$_DFFE_PP_/Q                121.15  121.49   -0.34 (VIOLATED)
+stage[202]$_DFFE_PP_/Q                121.15  121.48   -0.32 (VIOLATED)
+stage[428]$_DFFE_PP_/Q                121.15  121.41   -0.26 (VIOLATED)
+stage[482]$_DFFE_PP_/Q                121.15  121.41   -0.26 (VIOLATED)
+stage[170]$_DFFE_PP_/Q                121.15  121.40   -0.25 (VIOLATED)
+stage[131]$_DFFE_PP_/Q                121.15  121.36   -0.21 (VIOLATED)
+stage[8]$_DFFE_PP_/Q                  121.15  121.35   -0.20 (VIOLATED)
+stage[415]$_DFFE_PP_/Q                121.15  121.32   -0.17 (VIOLATED)
+stage[414]$_DFFE_PP_/Q                121.15  121.31   -0.16 (VIOLATED)
+sel_r[26]$_SDFFE_PP0P_/Q              121.15  121.28   -0.12 (VIOLATED)
+stage[294]$_DFFE_PP_/Q                121.15  121.27   -0.11 (VIOLATED)
+stage[351]$_DFFE_PP_/Q                121.15  121.25   -0.10 (VIOLATED)
+stage[328]$_DFFE_PP_/Q                121.15  121.20   -0.05 (VIOLATED)
+stage[10]$_DFFE_PP_/Q                 121.15  121.20   -0.04 (VIOLATED)
+stage[30]$_DFFE_PP_/Q                 121.15  121.18   -0.02 (VIOLATED)
+stage[82]$_DFFE_PP_/Q                 121.15  121.16   -0.01 (VIOLATED)
+stage[191]$_DFFE_PP_/Q                121.15  121.16   -0.01 (VIOLATED)
+
+
+==========================================================================
+finish max_slew_check_slack
+--------------------------------------------------------------------------
+0.01726219244301319
+
+==========================================================================
+finish max_slew_check_limit
+--------------------------------------------------------------------------
+0.1985349953174591
+
+==========================================================================
+finish max_slew_check_slack_limit
+--------------------------------------------------------------------------
+0.0869
+
+==========================================================================
+finish max_fanout_check_slack
+--------------------------------------------------------------------------
+1.0000000150474662e+30
+
+==========================================================================
+finish max_fanout_check_limit
+--------------------------------------------------------------------------
+1.0000000150474662e+30
+
+==========================================================================
+finish max_capacitance_check_slack
+--------------------------------------------------------------------------
+-22.3248348236084
+
+==========================================================================
+finish max_capacitance_check_limit
+--------------------------------------------------------------------------
+60.72999954223633
+
+==========================================================================
+finish max_capacitance_check_slack_limit
+--------------------------------------------------------------------------
+-0.3676
+
+==========================================================================
+finish max_slew_violation_count
+--------------------------------------------------------------------------
+max slew violation count 0
+
+==========================================================================
+finish max_fanout_violation_count
+--------------------------------------------------------------------------
+max fanout violation count 0
+
+==========================================================================
+finish max_cap_violation_count
+--------------------------------------------------------------------------
+max cap violation count 529
+
+==========================================================================
+finish setup_violation_count
+--------------------------------------------------------------------------
+setup violation count 0
+
+==========================================================================
+finish hold_violation_count
+--------------------------------------------------------------------------
+hold violation count 65
+
+==========================================================================
+finish report_checks -path_delay max reg to reg
+--------------------------------------------------------------------------
+Startpoint: wr_data_q2[14]$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk)
+Endpoint: w2m1_flat[302]$_DLATCH_P_
+          (positive level-sensitive latch clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock source latency
+   0.00    0.00 ^ clk (in)
+   0.08    0.08 ^ clkbuf_0_clk/Z (CLKBUF_X3)
+   0.08    0.16 ^ clkbuf_1_1_0_clk/Z (CLKBUF_X3)
+   0.17    0.33 ^ u_icg_wr/GCK (CLKGATE_X1)
+   0.13    0.46 ^ clkbuf_0_wr_clk/Z (CLKBUF_X3)
+   0.09    0.55 ^ clkbuf_1_0_0_wr_clk/Z (CLKBUF_X3)
+   0.09    0.64 ^ clkbuf_2_1_0_wr_clk/Z (CLKBUF_X3)
+   0.06    0.70 ^ clkbuf_4_5_0_wr_clk/Z (CLKBUF_X3)
+   0.07    0.77 ^ clkbuf_5_11__f_wr_clk/Z (CLKBUF_X3)
+   0.05    0.82 ^ clkbuf_leaf_193_wr_clk/Z (CLKBUF_X3)
+   0.03    0.84 ^ clkbuf_level_0_1_1851405_wr_clk/Z (CLKBUF_X3)
+   0.03    0.87 ^ clkbuf_level_1_1_1851406_wr_clk/Z (CLKBUF_X3)
+   0.03    0.89 ^ clkbuf_level_2_1_1851407_wr_clk/Z (CLKBUF_X3)
+   0.03    0.92 ^ clkbuf_level_3_1_1851408_wr_clk/Z (CLKBUF_X3)
+   0.03    0.95 ^ clkbuf_level_4_1_1851409_wr_clk/Z (CLKBUF_X3)
+   0.03    0.98 ^ clkbuf_level_5_1_1851410_wr_clk/Z (CLKBUF_X3)
+   0.00    0.98 ^ wr_data_q2[14]$_DFF_P_/CK (DFF_X2)
+   0.21    1.19 ^ wr_data_q2[14]$_DFF_P_/Q (DFF_X2)
+   0.03    1.22 ^ w2m1_flat[302]$_DLATCH_P_/D (DLH_X1)
+           1.22   data arrival time
+
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock source latency
+   0.00    0.00 ^ clk (in)
+   0.08    0.08 ^ clkbuf_0_clk/Z (CLKBUF_X3)
+   0.08    0.16 ^ clkbuf_1_1_0_clk/Z (CLKBUF_X3)
+   0.17    0.33 ^ u_icg_wr/GCK (CLKGATE_X1)
+   0.13    0.46 ^ clkbuf_0_wr_clk/Z (CLKBUF_X3)
+   0.09    0.55 ^ clkbuf_1_0_0_wr_clk/Z (CLKBUF_X3)
+   0.09    0.64 ^ clkbuf_2_1_0_wr_clk/Z (CLKBUF_X3)
+   0.06    0.70 ^ clkbuf_4_7_0_wr_clk/Z (CLKBUF_X3)
+   0.06    0.76 ^ clkbuf_5_15__f_wr_clk/Z (CLKBUF_X3)
+   0.04    0.80 ^ clkbuf_leaf_151_wr_clk/Z (CLKBUF_X3)
+   0.03    0.82 ^ clkbuf_level_0_2_1431102_wr_clk/Z (CLKBUF_X3)
+   0.03    0.85 ^ clkbuf_level_1_2_1431103_wr_clk/Z (CLKBUF_X3)
+   0.03    0.88 ^ clkbuf_level_2_2_1431104_wr_clk/Z (CLKBUF_X3)
+   0.03    0.91 ^ u_icg_j37/GCK (CLKGATETST_X1)
+   0.03    0.95 ^ clkbuf_0_w2_gclk[37]/Z (CLKBUF_X3)
+   0.04    0.98 ^ clkbuf_1_0__f_w2_gclk[37]/Z (CLKBUF_X3)
+   0.00    0.98 ^ w2m1_flat[302]$_DLATCH_P_/G (DLH_X1)
+   0.00    0.98   clock reconvergence pessimism
+   0.24    1.22   time borrowed from endpoint
+           1.22   data required time
+---------------------------------------------------------
+           1.22   data required time
+          -1.22   data arrival time
+---------------------------------------------------------
+           0.00   slack (MET)
+
+Time Borrowing Information
+--------------------------------------------
+clk nominal pulse width               100.00
+clock latency difference                0.08
+library setup time                     -0.03
+--------------------------------------------
+max time borrow                       100.05
+actual time borrow                      0.24
+--------------------------------------------
+
+
+
+==========================================================================
+finish report_checks -path_delay min reg to reg
+--------------------------------------------------------------------------
+Startpoint: g_valid$_SDFF_PP0_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: w_row_r[247]$_SDFFE_PP0P_
+          (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock source latency
+   0.00    0.00 ^ clk (in)
+   0.08    0.08 ^ clkbuf_0_clk/Z (CLKBUF_X3)
+   0.06    0.14 ^ clkbuf_1_0_0_clk/Z (CLKBUF_X3)
+   0.05    0.19 ^ clkbuf_level_0_2_113_clk/Z (CLKBUF_X3)
+   0.04    0.23 ^ clkbuf_level_1_2_114_clk/Z (CLKBUF_X3)
+   0.14    0.37 ^ u_icg/GCK (CLKGATE_X1)
+   0.12    0.48 ^ clkbuf_0_core_clk/Z (CLKBUF_X3)
+   0.05    0.53 ^ clkbuf_1_0_0_core_clk/Z (CLKBUF_X3)
+   0.07    0.60 ^ clkbuf_2_0__f_core_clk/Z (CLKBUF_X3)
+   0.05    0.65 ^ clkbuf_leaf_2_core_clk/Z (CLKBUF_X3)
+   0.03    0.68 ^ clkbuf_level_0_1_327_core_clk/Z (CLKBUF_X3)
+   0.03    0.71 ^ clkbuf_level_1_1_328_core_clk/Z (CLKBUF_X3)
+   0.03    0.73 ^ clkbuf_level_2_1_329_core_clk/Z (CLKBUF_X3)
+   0.03    0.76 ^ clkbuf_level_3_1_330_core_clk/Z (CLKBUF_X3)
+   0.03    0.78 ^ clkbuf_level_4_1_331_core_clk/Z (CLKBUF_X3)
+   0.04    0.83 ^ clkbuf_level_5_1_332_core_clk/Z (CLKBUF_X3)
+   0.00    0.83 ^ g_valid$_SDFF_PP0_/CK (DFF_X2)
+   0.11    0.93 v g_valid$_SDFF_PP0_/Q (DFF_X2)
+   0.03    0.96 v hold304/Z (CLKBUF_X1)
+   0.03    0.99 v hold300/Z (CLKBUF_X1)
+   0.04    1.03 v hold305/Z (CLKBUF_X1)
+   0.03    1.06 v hold283/Z (BUF_X8)
+   0.05    1.10 v hold306/Z (CLKBUF_X1)
+   0.04    1.14 v hold301/Z (BUF_X8)
+   0.04    1.18 v wire3485/Z (BUF_X8)
+   0.05    1.23 ^ _154515_/ZN (OAI21_X1)
+   0.01    1.25 v _154656_/ZN (AOI21_X1)
+   0.00    1.25 v w_row_r[247]$_SDFFE_PP0P_/D (DFF_X2)
+           1.25   data arrival time
+
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock source latency
+   0.00    0.00 ^ clk (in)
+   0.08    0.08 ^ clkbuf_0_clk/Z (CLKBUF_X3)
+   0.06    0.14 ^ clkbuf_1_0_0_clk/Z (CLKBUF_X3)
+   0.05    0.19 ^ clkbuf_level_0_2_113_clk/Z (CLKBUF_X3)
+   0.04    0.23 ^ clkbuf_level_1_2_114_clk/Z (CLKBUF_X3)
+   0.14    0.37 ^ u_icg/GCK (CLKGATE_X1)
+   0.12    0.48 ^ clkbuf_0_core_clk/Z (CLKBUF_X3)
+   0.05    0.53 ^ clkbuf_1_0_0_core_clk/Z (CLKBUF_X3)
+   0.07    0.60 ^ clkbuf_2_0__f_core_clk/Z (CLKBUF_X3)
+   0.05    0.65 ^ clkbuf_leaf_2_core_clk/Z (CLKBUF_X3)
+   0.13    0.79 ^ u_icg_w/GCK (CLKGATE_X1)
+   0.10    0.89 ^ clkbuf_0_w_clk/Z (CLKBUF_X3)
+   0.08    0.97 ^ clkbuf_1_0_0_w_clk/Z (CLKBUF_X3)
+   0.08    1.05 ^ clkbuf_2_0_0_w_clk/Z (CLKBUF_X3)
+   0.15    1.20 ^ clkbuf_4_0_0_w_clk/Z (CLKBUF_X3)
+   0.07    1.27 ^ clkbuf_leaf_209_w_clk/Z (CLKBUF_X3)
+   0.00    1.27 ^ w_row_r[247]$_SDFFE_PP0P_/CK (DFF_X2)
+   0.00    1.27   clock reconvergence pessimism
+   0.00    1.27   library hold time
+           1.27   data required time
+---------------------------------------------------------
+           1.27   data required time
+          -1.25   data arrival time
+---------------------------------------------------------
+          -0.02   slack (VIOLATED)
+
+
+
+==========================================================================
+finish critical path target clock latency max path
+--------------------------------------------------------------------------
+0.5207
+
+==========================================================================
+finish critical path target clock latency min path
+--------------------------------------------------------------------------
+1.0007
+
+==========================================================================
+finish critical path source clock latency min path
+--------------------------------------------------------------------------
+0.0000
+
+==========================================================================
+finish critical path delay
+--------------------------------------------------------------------------
+1.2188
+
+==========================================================================
+finish critical path slack
+--------------------------------------------------------------------------
+0.0000
+
+==========================================================================
+finish slack div critical path delay
+--------------------------------------------------------------------------
+0.000000
+
+==========================================================================
+finish report_power
+--------------------------------------------------------------------------
+Group                  Internal  Switching    Leakage      Total
+                          Power      Power      Power      Power (Watts)
+----------------------------------------------------------------
+Sequential             6.52e-04   3.11e-04   2.28e-03   3.24e-03  38.3%
+Combinational          1.65e-04   2.39e-04   3.56e-03   3.96e-03  46.8%
+Clock                  1.11e-04   7.47e-05   1.09e-03   1.28e-03  15.1%
+Macro                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+Pad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+----------------------------------------------------------------
+Total                  9.27e-04   6.25e-04   6.92e-03   8.47e-03 100.0%
+                          10.9%       7.4%      81.7%

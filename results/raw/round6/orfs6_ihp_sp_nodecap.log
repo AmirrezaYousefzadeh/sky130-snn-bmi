@@ -1,0 +1,116 @@
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+warning: In a derivation named 'neovim-unwrapped-0.9.5', 'structuredAttrs' disables the effect of the derivation attribute 'disallowedRequisites'; use 'outputChecks.<output>.disallowedRequisites' instead
+warning: Using 'builtins.derivation' to create a derivation named 'devshell-env.bash' that references the store path '/nix/store/i1aw9jjgxcvyd642s12kw3iasmarwd42-source' without a proper context. The resulting derivation will not have a correct store reference, so this is unreliable and may stop working in the future.
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+Running density_fill.tcl, stage 6_1_fill
+[INFO ORD-0030] Using 24 thread(s).
+exec cp ./results/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/5_route.odb ./results/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/6_1_fill.odb
+Elapsed time: 0:00.26[h:]min:sec. CPU time: user 0.19 sys 0.07 (100%). Peak memory: 192468KB.
+cp ./results/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/5_route.sdc ./results/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/6_1_fill.sdc
+cp ./results/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/5_route.sdc ./results/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/6_final.sdc
+Running final_report.tcl, stage 6_report
+[INFO ORD-0030] Using 24 thread(s).
+Deleted 0 routing obstructions
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file /media/pdk/OpenROAD-flow-scripts/flow/platforms/ihp-sg13g2/rcx_patterns.rules ...
+[INFO RCX-0436] RC segment generation bmi_snn_sp (max_merge_res 50.0) ...
+[INFO RCX-0040] Final 118555 rc segments
+[INFO RCX-0439] Coupling Cap extraction bmi_snn_sp ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 16% of 199849 wires extracted
+[INFO RCX-0442] 50% of 199849 wires extracted
+[INFO RCX-0442] 66% of 199849 wires extracted
+[INFO RCX-0442] 100% of 199849 wires extracted
+[INFO RCX-0045] Extract 24821 nets, 141901 rsegs, 141901 caps, 228523 ccs
+[INFO RCX-0443] 24821 nets finished
+[INFO PSM-0040] All shapes on net VDD are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VDD
+Corner           : default
+Supply voltage   : 1.20e+00 V
+Worstcase voltage: 1.20e+00 V
+Average voltage  : 1.20e+00 V
+Average IR drop  : 1.47e-05 V
+Worstcase IR drop: 3.95e-05 V
+Percentage drop  : 0.00 %
+######################################
+[INFO PSM-0040] All shapes on net VSS are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VSS
+Corner           : default
+Supply voltage   : 0.00e+00 V
+Worstcase voltage: 4.57e-05 V
+Average voltage  : 1.60e-05 V
+Average IR drop  : 1.60e-05 V
+Worstcase IR drop: 4.57e-05 V
+Percentage drop  : 0.00 %
+######################################
+Cell type report:                       Count       Area
+  Fill cell                             14514   38802.76
+  Antenna cell                           3046   16579.99
+  Other                                 73572  902885.36
+  Buffer                                   20     145.15
+  Clock buffer                            599   13876.53
+  Timing Repair Buffer                   1553   13517.28
+  Inverter                               2612   14593.22
+  Clock inverter                          125    1010.62
+  Clock gate cell                           3      81.65
+  Sequential cell                        1491   70337.03
+  Multi-Input combinational cell        17050  160995.34
+  Total                                114585 1232824.92
+Report metrics stage 6, finish...
+
+==========================================================================
+finish report_design_area
+--------------------------------------------------------------------------
+Design area 1194022 u^2 97% utilization.
+[WARNING GUI-0076] could not connect to display localhost:10.0
+[INFO GUI-0075] Could not load the Qt platform plugin "xcb" in "" even though it was found.
+[ERROR GUI-0077] This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+
+Available platform plugins are: wayland-egl, wayland, wayland-xcomposite-egl, wayland-xcomposite-glx, eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, xcb.
+
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  GUI-0077
+Signal 6 received
+Stack trace:
+ 0# 0x000055555607304F in /nix/store/zzypcxbrgw1qink1l7fwgwpbk7fvdwpg-openroad/bin/openroad
+ 1# 0x00007FFFF3C52F30 in /nix/store/k7zgvzp2r31zkg9xqgjim7mbknryv6bs-glibc-2.39-52/lib/libc.so.6
+ 2# 0x00007FFFF3CA2EFC in /nix/store/k7zgvzp2r31zkg9xqgjim7mbknryv6bs-glibc-2.39-52/lib/libc.so.6
+ 3# gsignal in /nix/store/k7zgvzp2r31zkg9xqgjim7mbknryv6bs-glibc-2.39-52/lib/libc.so.6
+ 4# abort in /nix/store/k7zgvzp2r31zkg9xqgjim7mbknryv6bs-glibc-2.39-52/lib/libc.so.6
+ 5# 0x00007FFFF3EACC0B in /nix/store/xvzz97yk73hw03v5dhhz3j47ggwf1yq1-gcc-13.2.0-lib/lib/libstdc++.so.6
+ 6# 0x00007FFFF3EBC21A in /nix/store/xvzz97yk73hw03v5dhhz3j47ggwf1yq1-gcc-13.2.0-lib/lib/libstdc++.so.6
+ 7# 0x00007FFFF3EBB299 in /nix/store/xvzz97yk73hw03v5dhhz3j47ggwf1yq1-gcc-13.2.0-lib/lib/libstdc++.so.6
+ 8# __gxx_personality_v0 in /nix/store/xvzz97yk73hw03v5dhhz3j47ggwf1yq1-gcc-13.2.0-lib/lib/libstdc++.so.6
+ 9# 0x00007FFFF55F59F9 in /nix/store/xvzz97yk73hw03v5dhhz3j47ggwf1yq1-gcc-13.2.0-lib/lib/libgcc_s.so.1
+10# _Unwind_Resume in /nix/store/xvzz97yk73hw03v5dhhz3j47ggwf1yq1-gcc-13.2.0-lib/lib/libgcc_s.so.1
+11# 0x00007FFFF509984B in /nix/store/qpk85xnnx7w7fc8zkiq6mav3n4jiiffr-qtbase-5.15.12/lib/libQt5Core.so.5
+12# QMessageLogger::fatal(char const*, ...) const in /nix/store/qpk85xnnx7w7fc8zkiq6mav3n4jiiffr-qtbase-5.15.12/lib/libQt5Core.so.5
+13# QGuiApplicationPrivate::createPlatformIntegration() in /nix/store/qpk85xnnx7w7fc8zkiq6mav3n4jiiffr-qtbase-5.15.12/lib/libQt5Gui.so.5
+14# QGuiApplicationPrivate::createEventDispatcher() in /nix/store/qpk85xnnx7w7fc8zkiq6mav3n4jiiffr-qtbase-5.15.12/lib/libQt5Gui.so.5
+15# QCoreApplicationPrivate::init() in /nix/store/qpk85xnnx7w7fc8zkiq6mav3n4jiiffr-qtbase-5.15.12/lib/libQt5Core.so.5
+16# QGuiApplicationPrivate::init() in /nix/store/qpk85xnnx7w7fc8zkiq6mav3n4jiiffr-qtbase-5.15.12/lib/libQt5Gui.so.5
+17# QApplicationPrivate::init() in /nix/store/qpk85xnnx7w7fc8zkiq6mav3n4jiiffr-qtbase-5.15.12/lib/libQt5Widgets.so.5
+18# gui::startGui(int&, char**, Tcl_Interp*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool) in /nix/store/zzypcxbrgw1qink1l7fwgwpbk7fvdwpg-openroad/bin/openroad
+19# show(char const*, bool) in /nix/store/zzypcxbrgw1qink1l7fwgwpbk7fvdwpg-openroad/bin/openroad
+20# 0x00005555567D6CE3 in /nix/store/zzypcxbrgw1qink1l7fwgwpbk7fvdwpg-openroad/bin/openroad
+21# TclNRRunCallbacks in /nix/store/p16s3zg96afj68mfp17m03svhwmdgcz8-tcl-8.6.13/lib/libtcl.so
+22# 0x00007FFFF7E3650D in /nix/store/p16s3zg96afj68mfp17m03svhwmdgcz8-tcl-8.6.13/lib/libtcl.so
+23# Tcl_EvalEx in /nix/store/p16s3zg96afj68mfp17m03svhwmdgcz8-tcl-8.6.13/lib/libtcl.so
+24# Tcl_Eval in /nix/store/p16s3zg96afj68mfp17m03svhwmdgcz8-tcl-8.6.13/lib/libtcl.so
+25# sta::sourceTclFile(char const*, bool, bool, Tcl_Interp*) in /nix/store/zzypcxbrgw1qink1l7fwgwpbk7fvdwpg-openroad/bin/openroad
+26# ord::tclAppInit(Tcl_Interp*) in /nix/store/zzypcxbrgw1qink1l7fwgwpbk7fvdwpg-openroad/bin/openroad
+27# Tcl_MainEx in /nix/store/p16s3zg96afj68mfp17m03svhwmdgcz8-tcl-8.6.13/lib/libtcl.so
+28# main in /nix/store/zzypcxbrgw1qink1l7fwgwpbk7fvdwpg-openroad/bin/openroad
+29# 0x00007FFFF3C3D10E in /nix/store/k7zgvzp2r31zkg9xqgjim7mbknryv6bs-glibc-2.39-52/lib/libc.so.6
+30# __libc_start_main in /nix/store/k7zgvzp2r31zkg9xqgjim7mbknryv6bs-glibc-2.39-52/lib/libc.so.6
+31# _start in /nix/store/zzypcxbrgw1qink1l7fwgwpbk7fvdwpg-openroad/bin/openroad
+Command terminated by signal 6
+Elapsed time: 0:53.55[h:]min:sec. CPU time: user 50.77 sys 0.75 (96%). Peak memory: 1236684KB.
+make: *** [Makefile:899: do-6_report] Error 134

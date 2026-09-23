@@ -1,0 +1,19 @@
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:140: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vecfull_v12_indy_20170131_02/stream.hex): Not enough words in the file for the requested range [0:1399999].
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:141: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vecfull_v12_indy_20170131_02/expect.hex): Too many words in the file for the requested range [0:9999].
+TB: mode_dense=0 n_bins=5000 idle_gap=0 clk=200 ns
+TB: weights loaded through the write port at cycle 1645
+VCD info: dumpfile /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_lmin2_5m_func_w5000_indy_20170131_02/bmi_snn_lmin2_5m_func_w5000_indy_20170131_02.vcd opened for output.
+WAVEFORM: dumping to /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_lmin2_5m_func_w5000_indy_20170131_02/bmi_snn_lmin2_5m_func_w5000_indy_20170131_02.vcd from cycle 1645
+GLS_PROGRESS cycle=20000 max=2000000000
+GLS_PROGRESS cycle=40000 max=2000000000
+GLS_PROGRESS cycle=60000 max=2000000000
+GLS_PROGRESS cycle=80000 max=2000000000
+GLS_PROGRESS cycle=100000 max=2000000000
+SUMMARY: bins=5000 events=19626 errors=0 cycles=103667 active_cycles=101587 avg_latency_cyc=9 max_latency_cyc=24
+MEASURED: cycles_from_dump_start=102022 active_cycles_from_dump_start=99950
+PASS: 5000 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:207: $finish called at 20733300000 (1ps)
+
+real	52m39.462s
+user	24m24.680s
+sys	0m8.405s

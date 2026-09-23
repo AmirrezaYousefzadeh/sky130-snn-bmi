@@ -1,0 +1,684 @@
+
+==========================================================================
+finish report_tns
+--------------------------------------------------------------------------
+tns 0.00
+
+==========================================================================
+finish report_wns
+--------------------------------------------------------------------------
+wns 0.00
+
+==========================================================================
+finish report_worst_slack
+--------------------------------------------------------------------------
+worst slack 119887.43
+
+==========================================================================
+finish report_clock_skew
+--------------------------------------------------------------------------
+Clock clk
+ 315.84 source latency v[13][9]$_SDFF_PP0_/CLK ^
+-188.41 target latency s_r[13]$_SDFFE_PP0P_/CLK ^
+  -5.14 CRPR
+--------------
+ 122.29 setup skew
+
+
+==========================================================================
+finish report_checks -path_delay min
+--------------------------------------------------------------------------
+Startpoint: f_valid$_SDFF_PP0_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: w_row_r[254]$_SDFFE_PP0P_
+          (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                          0.00    0.00   clock clk (rise edge)
+                          0.00    0.00   clock source latency
+     1    0.99    0.00    0.00    0.00 ^ clk (in)
+                                         clk (net)
+                  0.26    0.08    0.08 ^ clkbuf_0_clk/A (BUFx8_ASAP7_75t_SRAM)
+     2    2.08    7.75   16.45   16.53 ^ clkbuf_0_clk/Y (BUFx8_ASAP7_75t_SRAM)
+                                         clknet_0_clk (net)
+                  7.75    0.17   16.70 ^ clkbuf_1_1__f_clk/A (BUFx8_ASAP7_75t_SRAM)
+     2    2.09    7.74   19.34   36.04 ^ clkbuf_1_1__f_clk/Y (BUFx8_ASAP7_75t_SRAM)
+                                         clknet_1_1__leaf_clk (net)
+                  7.74    0.14   36.18 ^ u_icg/CLK (ICGx1_ASAP7_75t_SRAM)
+     1    3.14   24.64   19.70   55.88 ^ u_icg/GCLK (ICGx1_ASAP7_75t_SRAM)
+                                         core_clk (net)
+                 24.75    0.97   56.85 ^ clkbuf_0_core_clk/A (BUFx8_ASAP7_75t_SRAM)
+    16   35.08   41.44   37.39   94.24 ^ clkbuf_0_core_clk/Y (BUFx8_ASAP7_75t_SRAM)
+                                         clknet_0_core_clk (net)
+                 47.39    8.17  102.40 ^ clkbuf_4_3_0_core_clk/A (BUFx16f_ASAP7_75t_SRAM)
+     2    4.06    7.84   29.73  132.13 ^ clkbuf_4_3_0_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+                                         clknet_4_3_0_core_clk (net)
+                  7.85    0.27  132.40 ^ clkbuf_level_0_1_419_core_clk/A (BUFx16f_ASAP7_75t_SRAM)
+     1    1.79    5.52   15.76  148.15 ^ clkbuf_level_0_1_419_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+                                         clknet_level_0_1_419_core_clk (net)
+                  5.53    0.13  148.28 ^ clkbuf_level_1_1_420_core_clk/A (BUFx16f_ASAP7_75t_SRAM)
+     1    1.79    5.52   14.82  163.10 ^ clkbuf_level_1_1_420_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+                                         clknet_level_1_1_420_core_clk (net)
+                  5.52    0.13  163.23 ^ clkbuf_level_2_1_421_core_clk/A (BUFx16f_ASAP7_75t_SRAM)
+     1    1.78    5.52   14.82  178.05 ^ clkbuf_level_2_1_421_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+                                         clknet_level_2_1_421_core_clk (net)
+                  5.52    0.13  178.18 ^ clkbuf_level_3_1_422_core_clk/A (BUFx16f_ASAP7_75t_SRAM)
+    16    8.47    9.04   16.46  194.64 ^ clkbuf_level_3_1_422_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+                                         clknet_level_3_1_422_core_clk (net)
+                  9.09    0.37  195.01 ^ f_valid$_SDFF_PP0_/CLK (DFFHQNx2_ASAP7_75t_SRAM)
+     5    3.52   25.67   55.24  250.26 ^ f_valid$_SDFF_PP0_/QN (DFFHQNx2_ASAP7_75t_SRAM)
+                                         _00814_ (net)
+                 25.68    0.19  250.45 ^ _12772_/B (NOR2x2_ASAP7_75t_SRAM)
+    29   19.49   69.82   35.73  286.19 v _12772_/Y (NOR2x2_ASAP7_75t_SRAM)
+                                         _04901_ (net)
+                 72.39    7.36  293.55 v _23745_/B2 (AO22x1_ASAP7_75t_SRAM)
+     1    0.61    7.53   32.49  326.04 v _23745_/Y (AO22x1_ASAP7_75t_SRAM)
+                                         _01456_ (net)
+                  7.53    0.05  326.09 v w_row_r[254]$_SDFFE_PP0P_/D (DFFHQNx1_ASAP7_75t_SRAM)
+                                326.09   data arrival time
+
+                          0.00    0.00   clock clk (rise edge)
+                          0.00    0.00   clock source latency
+     1    1.19    0.00    0.00    0.00 ^ clk (in)
+                                         clk (net)
+                  0.33    0.10    0.10 ^ clkbuf_0_clk/A (BUFx8_ASAP7_75t_SRAM)
+     2    2.49    8.07   16.69   16.79 ^ clkbuf_0_clk/Y (BUFx8_ASAP7_75t_SRAM)
+                                         clknet_0_clk (net)
+                  8.09    0.20   17.00 ^ clkbuf_1_1__f_clk/A (BUFx8_ASAP7_75t_SRAM)
+     2    2.86    8.35   19.86   36.86 ^ clkbuf_1_1__f_clk/Y (BUFx8_ASAP7_75t_SRAM)
+                                         clknet_1_1__leaf_clk (net)
+                  8.37    0.20   37.07 ^ u_icg/CLK (ICGx1_ASAP7_75t_SRAM)
+     1    3.35   26.16   20.51   57.57 ^ u_icg/GCLK (ICGx1_ASAP7_75t_SRAM)
+                                         core_clk (net)
+                 26.28    1.07   58.64 ^ clkbuf_0_core_clk/A (BUFx8_ASAP7_75t_SRAM)
+    16   45.68   52.15   40.74   99.38 ^ clkbuf_0_core_clk/Y (BUFx8_ASAP7_75t_SRAM)
+                                         clknet_0_core_clk (net)
+                 53.02    3.93  103.31 ^ clkbuf_4_8_0_core_clk/A (BUFx16f_ASAP7_75t_SRAM)
+     2    6.74    9.43   31.59  134.90 ^ clkbuf_4_8_0_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+                                         clknet_4_8_0_core_clk (net)
+                 11.28    2.12  137.02 ^ u_icg_w/CLK (ICGx1_ASAP7_75t_SRAM)
+     1    4.94   37.95   25.78  162.79 ^ u_icg_w/GCLK (ICGx1_ASAP7_75t_SRAM)
+                                         w_clk (net)
+                 38.39    2.30  165.09 ^ clkbuf_0_w_clk/A (BUFx8_ASAP7_75t_SRAM)
+     2    4.90   10.83   32.61  197.71 ^ clkbuf_0_w_clk/Y (BUFx8_ASAP7_75t_SRAM)
+                                         clknet_0_w_clk (net)
+                 10.96    0.60  198.31 ^ clkbuf_1_0__f_w_clk/A (BUFx8_ASAP7_75t_SRAM)
+     8   29.77   35.96   25.49  223.80 ^ clkbuf_1_0__f_w_clk/Y (BUFx8_ASAP7_75t_SRAM)
+                                         clknet_1_0__leaf_w_clk (net)
+                 63.46   17.24  241.04 ^ clkbuf_leaf_1_w_clk/A (BUFx16f_ASAP7_75t_SRAM)
+    16   12.82   13.41   35.75  276.79 ^ clkbuf_leaf_1_w_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+                                         clknet_leaf_1_w_clk (net)
+                 14.16    1.65  278.43 ^ w_row_r[254]$_SDFFE_PP0P_/CLK (DFFHQNx1_ASAP7_75t_SRAM)
+                         -5.14  273.30   clock reconvergence pessimism
+                         14.97  288.27   library hold time
+                                288.27   data required time
+-----------------------------------------------------------------------------
+                                288.27   data required time
+                               -326.09   data arrival time
+-----------------------------------------------------------------------------
+                                 37.82   slack (MET)
+
+
+
+==========================================================================
+finish report_checks -path_delay max
+--------------------------------------------------------------------------
+Startpoint: wr_en (input port clocked by clk)
+Endpoint: tick_ready (output port clocked by clk)
+Path Group: clk
+Path Type: max
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                          0.00    0.00   clock clk (rise edge)
+                          0.00    0.00   clock network delay (propagated)
+                       40000.00 40000.00 v input external delay
+     1    1.06    0.00    0.00 40000.00 v wr_en (in)
+                                         wr_en (net)
+                  0.31    0.10 40000.10 v input11/A (BUFx2_ASAP7_75t_SRAM)
+     3    3.63   15.17   17.81 40017.91 v input11/Y (BUFx2_ASAP7_75t_SRAM)
+                                         net11 (net)
+                 15.38    0.98 40018.89 v _12767_/A (INVx1_ASAP7_75t_SRAM)
+     3    3.30   25.87   17.49 40036.38 ^ _12767_/Y (INVx1_ASAP7_75t_SRAM)
+                                         _04898_ (net)
+                 25.93    0.69 40037.07 ^ _12768_/B (AND3x1_ASAP7_75t_SRAM)
+     2    1.64   16.38   29.89 40066.96 ^ _12768_/Y (AND3x1_ASAP7_75t_SRAM)
+                                         net14 (net)
+                 16.39    0.23 40067.19 ^ _24638_/A (AND3x1_ASAP7_75t_SRAM)
+     1    1.63   16.40   26.80 40093.99 ^ _24638_/Y (AND3x1_ASAP7_75t_SRAM)
+                                         net16 (net)
+                 16.42    0.28 40094.27 ^ output16/A (BUFx2_ASAP7_75t_SRAM)
+     1    0.65    5.86   18.23 40112.50 ^ output16/Y (BUFx2_ASAP7_75t_SRAM)
+                                         tick_ready (net)
+                  5.86    0.08 40112.57 ^ tick_ready (out)
+                               40112.57   data arrival time
+
+                       200000.00 200000.00   clock clk (rise edge)
+                          0.00 200000.00   clock network delay (propagated)
+                          0.00 200000.00   clock reconvergence pessimism
+                       -40000.00 160000.00   output external delay
+                               160000.00   data required time
+-----------------------------------------------------------------------------
+                               160000.00   data required time
+                               -40112.57   data arrival time
+-----------------------------------------------------------------------------
+                               119887.43   slack (MET)
+
+
+
+==========================================================================
+finish report_checks -unconstrained
+--------------------------------------------------------------------------
+Startpoint: wr_en (input port clocked by clk)
+Endpoint: tick_ready (output port clocked by clk)
+Path Group: clk
+Path Type: max
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                          0.00    0.00   clock clk (rise edge)
+                          0.00    0.00   clock network delay (propagated)
+                       40000.00 40000.00 v input external delay
+     1    1.06    0.00    0.00 40000.00 v wr_en (in)
+                                         wr_en (net)
+                  0.31    0.10 40000.10 v input11/A (BUFx2_ASAP7_75t_SRAM)
+     3    3.63   15.17   17.81 40017.91 v input11/Y (BUFx2_ASAP7_75t_SRAM)
+                                         net11 (net)
+                 15.38    0.98 40018.89 v _12767_/A (INVx1_ASAP7_75t_SRAM)
+     3    3.30   25.87   17.49 40036.38 ^ _12767_/Y (INVx1_ASAP7_75t_SRAM)
+                                         _04898_ (net)
+                 25.93    0.69 40037.07 ^ _12768_/B (AND3x1_ASAP7_75t_SRAM)
+     2    1.64   16.38   29.89 40066.96 ^ _12768_/Y (AND3x1_ASAP7_75t_SRAM)
+                                         net14 (net)
+                 16.39    0.23 40067.19 ^ _24638_/A (AND3x1_ASAP7_75t_SRAM)
+     1    1.63   16.40   26.80 40093.99 ^ _24638_/Y (AND3x1_ASAP7_75t_SRAM)
+                                         net16 (net)
+                 16.42    0.28 40094.27 ^ output16/A (BUFx2_ASAP7_75t_SRAM)
+     1    0.65    5.86   18.23 40112.50 ^ output16/Y (BUFx2_ASAP7_75t_SRAM)
+                                         tick_ready (net)
+                  5.86    0.08 40112.57 ^ tick_ready (out)
+                               40112.57   data arrival time
+
+                       200000.00 200000.00   clock clk (rise edge)
+                          0.00 200000.00   clock network delay (propagated)
+                          0.00 200000.00   clock reconvergence pessimism
+                       -40000.00 160000.00   output external delay
+                               160000.00   data required time
+-----------------------------------------------------------------------------
+                               160000.00   data required time
+                               -40112.57   data arrival time
+-----------------------------------------------------------------------------
+                               119887.43   slack (MET)
+
+
+
+==========================================================================
+finish report_check_types -max_slew -max_cap -max_fanout -violators
+--------------------------------------------------------------------------
+max slew
+
+Pin                                    Limit    Slew   Slack
+------------------------------------------------------------
+_18000_/A2                            320.00  417.29  -97.29 (VIOLATED)
+_17976_/C                             320.00  417.25  -97.25 (VIOLATED)
+_17975_/A2                            320.00  417.14  -97.14 (VIOLATED)
+_17963_/A2                            320.00  416.89  -96.89 (VIOLATED)
+_17989_/C                             320.00  416.80  -96.80 (VIOLATED)
+_17990_/A2                            320.00  416.74  -96.74 (VIOLATED)
+_17970_/A2                            320.00  416.70  -96.70 (VIOLATED)
+_17969_/C                             320.00  416.68  -96.68 (VIOLATED)
+_17958_/C                             320.00  416.57  -96.57 (VIOLATED)
+_17964_/C                             320.00  416.43  -96.43 (VIOLATED)
+_17957_/A2                            320.00  416.07  -96.07 (VIOLATED)
+_19916_/C                             320.00  414.68  -94.68 (VIOLATED)
+_19447_/A2                            320.00  414.45  -94.45 (VIOLATED)
+_19470_/C                             320.00  414.35  -94.35 (VIOLATED)
+_19471_/A2                            320.00  414.32  -94.32 (VIOLATED)
+_19465_/A2                            320.00  414.14  -94.14 (VIOLATED)
+_19466_/C                             320.00  413.92  -93.92 (VIOLATED)
+_19478_/C                             320.00  413.69  -93.69 (VIOLATED)
+_19477_/A2                            320.00  413.53  -93.53 (VIOLATED)
+_19915_/A2                            320.00  413.45  -93.45 (VIOLATED)
+_19484_/C                             320.00  413.39  -93.39 (VIOLATED)
+_19459_/C                             320.00  413.00  -93.00 (VIOLATED)
+_19483_/A2                            320.00  412.93  -92.93 (VIOLATED)
+_19460_/A2                            320.00  412.53  -92.53 (VIOLATED)
+_20488_/A2                            320.00  412.24  -92.24 (VIOLATED)
+_20487_/C                             320.00  412.22  -92.22 (VIOLATED)
+_20500_/C                             320.00  411.90  -91.90 (VIOLATED)
+_20504_/A2                            320.00  411.86  -91.86 (VIOLATED)
+_20499_/A2                            320.00  411.74  -91.74 (VIOLATED)
+_20505_/C                             320.00  411.69  -91.69 (VIOLATED)
+_19899_/A2                            320.00  411.65  -91.65 (VIOLATED)
+_19898_/C                             320.00  411.64  -91.64 (VIOLATED)
+_19454_/A2                            320.00  411.51  -91.51 (VIOLATED)
+_19455_/C                             320.00  411.49  -91.49 (VIOLATED)
+_19909_/A2                            320.00  411.35  -91.35 (VIOLATED)
+_20494_/C                             320.00  411.22  -91.22 (VIOLATED)
+_19910_/C                             320.00  411.20  -91.20 (VIOLATED)
+_20493_/A2                            320.00  410.87  -90.87 (VIOLATED)
+_20510_/A2                            320.00  410.12  -90.12 (VIOLATED)
+_20509_/C                             320.00  409.96  -89.96 (VIOLATED)
+_19920_/C                             320.00  408.45  -88.45 (VIOLATED)
+_19921_/A2                            320.00  407.03  -87.03 (VIOLATED)
+_19904_/A2                            320.00  405.87  -85.87 (VIOLATED)
+_19905_/C                             320.00  405.69  -85.69 (VIOLATED)
+_20523_/A2                            320.00  405.28  -85.28 (VIOLATED)
+_21248_/A                             320.00  402.56  -82.56 (VIOLATED)
+_19979_/A2                            320.00  402.09  -82.09 (VIOLATED)
+_20565_/A2                            320.00  402.09  -82.09 (VIOLATED)
+_19935_/A2                            320.00  402.08  -82.08 (VIOLATED)
+_21235_/A                             320.00  401.93  -81.93 (VIOLATED)
+_19086_/A2                            320.00  401.71  -81.71 (VIOLATED)
+_19048_/A2                            320.00  401.48  -81.48 (VIOLATED)
+_21575_/A                             320.00  401.12  -81.12 (VIOLATED)
+_20063_/C                             320.00  399.65  -79.65 (VIOLATED)
+_21314_/B                             320.00  399.56  -79.56 (VIOLATED)
+_20064_/A2                            320.00  398.84  -78.84 (VIOLATED)
+_21528_/B                             320.00  398.28  -78.28 (VIOLATED)
+_19035_/A2                            320.00  397.04  -77.04 (VIOLATED)
+_21914_/A2                            320.00  396.67  -76.67 (VIOLATED)
+_19034_/C                             320.00  396.56  -76.56 (VIOLATED)
+_19018_/A2                            320.00  396.36  -76.36 (VIOLATED)
+_21241_/A2                            320.00  395.15  -75.15 (VIOLATED)
+_20055_/C                             320.00  395.11  -75.11 (VIOLATED)
+_19023_/A2                            320.00  393.88  -73.88 (VIOLATED)
+_22117_/B                             320.00  393.48  -73.48 (VIOLATED)
+_21320_/A                             320.00  393.28  -73.28 (VIOLATED)
+_20054_/A2                            320.00  393.02  -73.02 (VIOLATED)
+_21917_/A2                            320.00  392.88  -72.88 (VIOLATED)
+_21292_/B                             320.00  392.00  -72.00 (VIOLATED)
+_23218_/C                             320.00  391.26  -71.26 (VIOLATED)
+_22221_/B                             320.00  390.52  -70.52 (VIOLATED)
+_20083_/A2                            320.00  390.22  -70.22 (VIOLATED)
+_20051_/C                             320.00  389.67  -69.67 (VIOLATED)
+_19019_/C                             320.00  389.64  -69.64 (VIOLATED)
+_19024_/C                             320.00  389.61  -69.61 (VIOLATED)
+_22582_/C                             320.00  389.45  -69.45 (VIOLATED)
+_21907_/A                             320.00  389.29  -69.29 (VIOLATED)
+_19029_/A2                            320.00  389.08  -69.08 (VIOLATED)
+_19013_/A2                            320.00  389.02  -69.02 (VIOLATED)
+_19012_/C                             320.00  389.01  -69.01 (VIOLATED)
+_19030_/C                             320.00  388.85  -68.85 (VIOLATED)
+_21722_/B                             320.00  388.53  -68.53 (VIOLATED)
+_22060_/A2                            320.00  386.61  -66.61 (VIOLATED)
+_22615_/A                             320.00  386.28  -66.28 (VIOLATED)
+_20077_/A2                            320.00  385.65  -65.65 (VIOLATED)
+_20076_/C                             320.00  385.63  -65.63 (VIOLATED)
+_22267_/C                             320.00  385.38  -65.38 (VIOLATED)
+_22303_/A2                            320.00  384.78  -64.78 (VIOLATED)
+_16574_/C                             320.00  384.43  -64.43 (VIOLATED)
+_21866_/A2                            320.00  382.90  -62.90 (VIOLATED)
+_20059_/C                             320.00  382.77  -62.77 (VIOLATED)
+_20058_/A2                            320.00  382.75  -62.75 (VIOLATED)
+_16573_/A2                            320.00  381.82  -61.82 (VIOLATED)
+_16603_/C                             320.00  376.44  -56.44 (VIOLATED)
+_16604_/A2                            320.00  376.43  -56.43 (VIOLATED)
+_16581_/A2                            320.00  376.37  -56.37 (VIOLATED)
+_16582_/C                             320.00  376.36  -56.36 (VIOLATED)
+_21526_/A2                            320.00  375.50  -55.50 (VIOLATED)
+_21297_/A                             320.00  375.11  -55.11 (VIOLATED)
+_21484_/B                             320.00  375.04  -55.04 (VIOLATED)
+_21093_/A2                            320.00  374.86  -54.86 (VIOLATED)
+_21092_/C                             320.00  374.79  -54.79 (VIOLATED)
+_21111_/C                             320.00  374.66  -54.66 (VIOLATED)
+_21110_/A2                            320.00  374.57  -54.57 (VIOLATED)
+_21116_/A2                            320.00  374.31  -54.31 (VIOLATED)
+_21117_/C                             320.00  373.82  -53.82 (VIOLATED)
+_22806_/C                             320.00  373.79  -53.79 (VIOLATED)
+_16567_/C                             320.00  373.68  -53.68 (VIOLATED)
+_21879_/A                             320.00  372.93  -52.93 (VIOLATED)
+_21100_/C                             320.00  372.86  -52.86 (VIOLATED)
+_16566_/A2                            320.00  371.43  -51.43 (VIOLATED)
+_21099_/A2                            320.00  371.41  -51.41 (VIOLATED)
+_22273_/A                             320.00  371.08  -51.08 (VIOLATED)
+_16588_/C                             320.00  370.01  -50.01 (VIOLATED)
+_21261_/B                             320.00  369.07  -49.07 (VIOLATED)
+_16666_/A2                            320.00  368.28  -48.28 (VIOLATED)
+_16590_/A2                            320.00  368.25  -48.25 (VIOLATED)
+_16622_/A2                            320.00  368.16  -48.16 (VIOLATED)
+_21548_/A1                            320.00  367.01  -47.01 (VIOLATED)
+_21104_/C                             320.00  365.32  -45.32 (VIOLATED)
+_21275_/A                             320.00  364.62  -44.62 (VIOLATED)
+_21105_/A2                            320.00  362.81  -42.81 (VIOLATED)
+_21291_/A                             320.00  362.53  -42.53 (VIOLATED)
+_21634_/C                             320.00  362.20  -42.20 (VIOLATED)
+_21887_/A1                            320.00  360.92  -40.92 (VIOLATED)
+_21738_/B                             320.00  360.46  -40.46 (VIOLATED)
+_16908_/C                             320.00  356.06  -36.06 (VIOLATED)
+_21907_/C                             320.00  355.33  -35.33 (VIOLATED)
+_20642_/A2                            320.00  355.14  -35.14 (VIOLATED)
+_20661_/A2                            320.00  355.12  -35.12 (VIOLATED)
+_20662_/C                             320.00  354.77  -34.77 (VIOLATED)
+_20678_/A2                            320.00  354.66  -34.66 (VIOLATED)
+_21601_/A                             320.00  354.54  -34.54 (VIOLATED)
+_20667_/A2                            320.00  354.45  -34.45 (VIOLATED)
+_20673_/C                             320.00  354.41  -34.41 (VIOLATED)
+_20668_/C                             320.00  354.38  -34.38 (VIOLATED)
+_12785_/B2                            320.00  354.35  -34.35 (VIOLATED)
+_20677_/C                             320.00  354.31  -34.31 (VIOLATED)
+_20672_/A2                            320.00  354.11  -34.11 (VIOLATED)
+_21131_/A2                            320.00  353.88  -33.88 (VIOLATED)
+_16949_/C                             320.00  352.90  -32.90 (VIOLATED)
+_16950_/A2                            320.00  352.89  -32.89 (VIOLATED)
+_16907_/A2                            320.00  352.77  -32.77 (VIOLATED)
+_16932_/A2                            320.00  352.77  -32.77 (VIOLATED)
+_16904_/C                             320.00  352.63  -32.63 (VIOLATED)
+_20655_/C                             320.00  352.45  -32.45 (VIOLATED)
+_20656_/A2                            320.00  352.43  -32.43 (VIOLATED)
+_21440_/A                             320.00  348.03  -28.03 (VIOLATED)
+_16900_/C                             320.00  346.38  -26.38 (VIOLATED)
+_21297_/B                             320.00  346.29  -26.29 (VIOLATED)
+_21935_/B                             320.00  345.37  -25.37 (VIOLATED)
+_16910_/A2                            320.00  344.64  -24.64 (VIOLATED)
+_16895_/A2                            320.00  343.33  -23.33 (VIOLATED)
+_16894_/C                             320.00  343.26  -23.26 (VIOLATED)
+_19329_/C                             320.00  342.56  -22.56 (VIOLATED)
+_19330_/A2                            320.00  342.47  -22.47 (VIOLATED)
+_19314_/C                             320.00  342.39  -22.39 (VIOLATED)
+_19313_/A2                            320.00  342.20  -22.20 (VIOLATED)
+_19325_/C                             320.00  342.01  -22.01 (VIOLATED)
+_20723_/A2                            320.00  341.92  -21.92 (VIOLATED)
+_18423_/A2                            320.00  341.74  -21.74 (VIOLATED)
+_18434_/A2                            320.00  341.71  -21.71 (VIOLATED)
+_18424_/C                             320.00  341.62  -21.62 (VIOLATED)
+_19319_/A2                            320.00  341.47  -21.47 (VIOLATED)
+_18435_/C                             320.00  341.47  -21.47 (VIOLATED)
+_22649_/C                             320.00  341.45  -21.45 (VIOLATED)
+_18430_/C                             320.00  341.17  -21.17 (VIOLATED)
+_19320_/C                             320.00  340.82  -20.82 (VIOLATED)
+_18045_/B                             320.00  340.77  -20.77 (VIOLATED)
+_18429_/A2                            320.00  340.74  -20.74 (VIOLATED)
+_19324_/A2                            320.00  340.57  -20.57 (VIOLATED)
+_18097_/B                             320.00  340.50  -20.50 (VIOLATED)
+_19534_/A                             320.00  340.30  -20.30 (VIOLATED)
+_19586_/A2                            320.00  340.28  -20.28 (VIOLATED)
+_19527_/B                             320.00  339.93  -19.93 (VIOLATED)
+_19575_/B                             320.00  339.74  -19.74 (VIOLATED)
+_19580_/B                             320.00  339.73  -19.73 (VIOLATED)
+_19308_/A2                            320.00  339.66  -19.66 (VIOLATED)
+_19591_/B                             320.00  339.50  -19.50 (VIOLATED)
+_19307_/C                             320.00  339.34  -19.34 (VIOLATED)
+_18488_/A2                            320.00  338.49  -18.49 (VIOLATED)
+_18404_/A2                            320.00  338.37  -18.37 (VIOLATED)
+_18439_/C                             320.00  338.19  -18.19 (VIOLATED)
+_18440_/A2                            320.00  338.11  -18.11 (VIOLATED)
+_19570_/B                             320.00  337.73  -17.73 (VIOLATED)
+_19556_/A1                            320.00  337.32  -17.32 (VIOLATED)
+_21413_/A                             320.00  337.29  -17.29 (VIOLATED)
+_19554_/B                             320.00  336.75  -16.75 (VIOLATED)
+_19501_/B                             320.00  336.68  -16.68 (VIOLATED)
+_19563_/B                             320.00  336.66  -16.66 (VIOLATED)
+_19510_/B                             320.00  336.09  -16.09 (VIOLATED)
+_19546_/B                             320.00  336.02  -16.02 (VIOLATED)
+_18417_/C                             320.00  335.97  -15.97 (VIOLATED)
+_21429_/A                             320.00  335.67  -15.67 (VIOLATED)
+_21510_/C                             320.00  334.27  -14.27 (VIOLATED)
+_21645_/C                             320.00  333.78  -13.78 (VIOLATED)
+_21908_/B                             320.00  333.76  -13.76 (VIOLATED)
+_23372_/B                             320.00  333.72  -13.72 (VIOLATED)
+_22993_/A2                            320.00  332.58  -12.58 (VIOLATED)
+_20222_/A2                            320.00  331.94  -11.94 (VIOLATED)
+_20198_/C                             320.00  331.58  -11.58 (VIOLATED)
+_20199_/A2                            320.00  331.57  -11.57 (VIOLATED)
+_20218_/C                             320.00  331.56  -11.56 (VIOLATED)
+_21755_/B                             320.00  331.51  -11.51 (VIOLATED)
+_20217_/A2                            320.00  331.48  -11.48 (VIOLATED)
+_18418_/A2                            320.00  330.36  -10.36 (VIOLATED)
+_20594_/B                             320.00  329.98   -9.98 (VIOLATED)
+_20614_/B                             320.00  329.85   -9.85 (VIOLATED)
+_20622_/B                             320.00  329.82   -9.82 (VIOLATED)
+_20601_/A                             320.00  329.66   -9.66 (VIOLATED)
+_20609_/B                             320.00  329.61   -9.61 (VIOLATED)
+_20590_/A                             320.00  329.19   -9.19 (VIOLATED)
+_20577_/A                             320.00  329.13   -9.13 (VIOLATED)
+_20223_/C                             320.00  329.04   -9.04 (VIOLATED)
+_20587_/B                             320.00  329.00   -9.00 (VIOLATED)
+_20580_/B                             320.00  328.10   -8.10 (VIOLATED)
+_20597_/A                             320.00  328.08   -8.08 (VIOLATED)
+_21935_/C                             320.00  327.74   -7.74 (VIOLATED)
+_20573_/B                             320.00  327.37   -7.37 (VIOLATED)
+_22869_/A                             320.00  325.27   -5.27 (VIOLATED)
+_21342_/B                             320.00  324.06   -4.06 (VIOLATED)
+_22178_/B                             320.00  323.91   -3.91 (VIOLATED)
+_20583_/A                             320.00  323.15   -3.15 (VIOLATED)
+_20206_/C                             320.00  321.72   -1.72 (VIOLATED)
+_18022_/A                             320.00  321.64   -1.64 (VIOLATED)
+_18058_/B                             320.00  321.51   -1.51 (VIOLATED)
+
+
+==========================================================================
+finish max_slew_check_slack
+--------------------------------------------------------------------------
+-97.29022979736328
+
+==========================================================================
+finish max_slew_check_limit
+--------------------------------------------------------------------------
+320.0
+
+==========================================================================
+finish max_slew_check_slack_limit
+--------------------------------------------------------------------------
+-0.3040
+
+==========================================================================
+finish max_fanout_check_slack
+--------------------------------------------------------------------------
+1.0000000150474662e+30
+
+==========================================================================
+finish max_fanout_check_limit
+--------------------------------------------------------------------------
+1.0000000150474662e+30
+
+==========================================================================
+finish max_capacitance_check_slack
+--------------------------------------------------------------------------
+1.691853404045105
+
+==========================================================================
+finish max_capacitance_check_limit
+--------------------------------------------------------------------------
+23.040000915527344
+
+==========================================================================
+finish max_capacitance_check_slack_limit
+--------------------------------------------------------------------------
+0.0734
+
+==========================================================================
+finish max_slew_violation_count
+--------------------------------------------------------------------------
+max slew violation count 226
+
+==========================================================================
+finish max_fanout_violation_count
+--------------------------------------------------------------------------
+max fanout violation count 0
+
+==========================================================================
+finish max_cap_violation_count
+--------------------------------------------------------------------------
+max cap violation count 0
+
+==========================================================================
+finish setup_violation_count
+--------------------------------------------------------------------------
+setup violation count 0
+
+==========================================================================
+finish hold_violation_count
+--------------------------------------------------------------------------
+hold violation count 0
+
+==========================================================================
+finish report_checks -path_delay max reg to reg
+--------------------------------------------------------------------------
+Startpoint: a_gate$_SDFFE_PP0P_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: v[31][10]$_SDFF_PP0_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock source latency
+   0.00    0.00 ^ clk (in)
+  16.79   16.79 ^ clkbuf_0_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  20.07   36.86 ^ clkbuf_1_1__f_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  20.71   57.57 ^ u_icg/GCLK (ICGx1_ASAP7_75t_SRAM)
+  41.80   99.38 ^ clkbuf_0_core_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  35.52  134.90 ^ clkbuf_4_8_0_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+  18.23  153.13 ^ clkbuf_level_0_1_939_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+  15.89  169.01 ^ clkbuf_level_1_1_940_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+  15.87  184.88 ^ clkbuf_level_2_1_941_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+  16.58  201.46 ^ clkbuf_level_3_1_942_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+   1.19  202.65 ^ a_gate$_SDFFE_PP0P_/CLK (DFFHQNx2_ASAP7_75t_SRAM)
+ 102.76  305.42 v a_gate$_SDFFE_PP0P_/QN (DFFHQNx2_ASAP7_75t_SRAM)
+  59.60  365.01 v load_slew114/Y (BUFx16f_ASAP7_75t_SRAM)
+  68.80  433.81 v load_slew113/Y (BUFx16f_ASAP7_75t_SRAM)
+  50.56  484.37 v load_slew112/Y (BUFx16f_ASAP7_75t_SRAM)
+  43.93  528.30 ^ _12779_/Y (CKINVDCx20_ASAP7_75t_SRAM)
+  42.97  571.27 ^ load_slew92/Y (BUFx16f_ASAP7_75t_SRAM)
+ 108.26  679.53 ^ load_slew90/Y (BUFx16f_ASAP7_75t_SRAM)
+ 213.76  893.29 ^ _20063_/Y (AND3x2_ASAP7_75t_SRAM)
+  17.99  911.28 v _20066_/Y (NOR2x2_ASAP7_75t_SRAM)
+  21.05  932.33 v _20067_/Y (AND2x2_ASAP7_75t_SRAM)
+  14.51  946.84 v _20086_/Y (AND3x1_ASAP7_75t_SRAM)
+  22.38  969.21 ^ _20088_/Y (AOI221x1_ASAP7_75t_SRAM)
+  16.25  985.47 v _20089_/Y (NOR2x1_ASAP7_75t_SRAM)
+  25.11 1010.58 v _20093_/Y (AO21x1_ASAP7_75t_SRAM)
+  21.09 1031.67 v _20095_/Y (AND2x2_ASAP7_75t_SRAM)
+  23.50 1055.16 v _20098_/Y (AO21x1_ASAP7_75t_SRAM)
+  50.77 1105.93 v _20099_/Y (OR3x4_ASAP7_75t_SRAM)
+  23.88 1129.81 v _20120_/Y (AO21x1_ASAP7_75t_SRAM)
+  17.28 1147.09 v _20121_/Y (AND2x2_ASAP7_75t_SRAM)
+  21.14 1168.23 v _20124_/Y (OA21x2_ASAP7_75t_SRAM)
+   0.07 1168.30 v v[31][10]$_SDFF_PP0_/D (DFFHQNx2_ASAP7_75t_SRAM)
+        1168.30   data arrival time
+
+200000.00 200000.00   clock clk (rise edge)
+   0.00 200000.00   clock source latency
+   0.00 200000.00 ^ clk (in)
+  16.54 200016.55 ^ clkbuf_0_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  19.50 200036.05 ^ clkbuf_1_1__f_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  19.84 200055.88 ^ u_icg/GCLK (ICGx1_ASAP7_75t_SRAM)
+  38.36 200094.23 ^ clkbuf_0_core_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  37.90 200132.14 ^ clkbuf_4_3_0_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+  26.30 200158.44 ^ u_icg_v/GCLK (ICGx1_ASAP7_75t_SRAM)
+  36.82 200195.27 ^ clkbuf_0_v_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  35.04 200230.30 ^ clkbuf_1_0__f_v_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  38.44 200268.75 ^ clkbuf_leaf_21_v_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+   0.51 200269.25 ^ v[31][10]$_SDFF_PP0_/CLK (DFFHQNx2_ASAP7_75t_SRAM)
+   5.14 200274.41   clock reconvergence pessimism
+  -2.15 200272.25   library setup time
+        200272.25   data required time
+---------------------------------------------------------
+        200272.25   data required time
+        -1168.30   data arrival time
+---------------------------------------------------------
+        199103.97   slack (MET)
+
+
+
+==========================================================================
+finish report_checks -path_delay min reg to reg
+--------------------------------------------------------------------------
+Startpoint: f_valid$_SDFF_PP0_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: w_row_r[254]$_SDFFE_PP0P_
+          (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock source latency
+   0.00    0.00 ^ clk (in)
+  16.53   16.53 ^ clkbuf_0_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  19.50   36.04 ^ clkbuf_1_1__f_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  19.84   55.88 ^ u_icg/GCLK (ICGx1_ASAP7_75t_SRAM)
+  38.36   94.24 ^ clkbuf_0_core_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  37.89  132.13 ^ clkbuf_4_3_0_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+  16.02  148.15 ^ clkbuf_level_0_1_419_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+  14.95  163.10 ^ clkbuf_level_1_1_420_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+  14.95  178.05 ^ clkbuf_level_2_1_421_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+  16.59  194.64 ^ clkbuf_level_3_1_422_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+   0.37  195.01 ^ f_valid$_SDFF_PP0_/CLK (DFFHQNx2_ASAP7_75t_SRAM)
+  55.24  250.26 ^ f_valid$_SDFF_PP0_/QN (DFFHQNx2_ASAP7_75t_SRAM)
+  35.93  286.19 v _12772_/Y (NOR2x2_ASAP7_75t_SRAM)
+  39.85  326.04 v _23745_/Y (AO22x1_ASAP7_75t_SRAM)
+   0.05  326.09 v w_row_r[254]$_SDFFE_PP0P_/D (DFFHQNx1_ASAP7_75t_SRAM)
+         326.09   data arrival time
+
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock source latency
+   0.00    0.00 ^ clk (in)
+  16.79   16.79 ^ clkbuf_0_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  20.07   36.86 ^ clkbuf_1_1__f_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  20.71   57.57 ^ u_icg/GCLK (ICGx1_ASAP7_75t_SRAM)
+  41.80   99.38 ^ clkbuf_0_core_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  35.52  134.90 ^ clkbuf_4_8_0_core_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+  27.90  162.79 ^ u_icg_w/GCLK (ICGx1_ASAP7_75t_SRAM)
+  34.91  197.71 ^ clkbuf_0_w_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  26.09  223.80 ^ clkbuf_1_0__f_w_clk/Y (BUFx8_ASAP7_75t_SRAM)
+  52.99  276.79 ^ clkbuf_leaf_1_w_clk/Y (BUFx16f_ASAP7_75t_SRAM)
+   1.65  278.43 ^ w_row_r[254]$_SDFFE_PP0P_/CLK (DFFHQNx1_ASAP7_75t_SRAM)
+  -5.14  273.30   clock reconvergence pessimism
+  14.97  288.27   library hold time
+         288.27   data required time
+---------------------------------------------------------
+         288.27   data required time
+        -326.09   data arrival time
+---------------------------------------------------------
+          37.82   slack (MET)
+
+
+
+==========================================================================
+finish critical path target clock latency max path
+--------------------------------------------------------------------------
+194.8794
+
+==========================================================================
+finish critical path target clock latency min path
+--------------------------------------------------------------------------
+208.7176
+
+==========================================================================
+finish critical path source clock latency min path
+--------------------------------------------------------------------------
+0.0000
+
+==========================================================================
+finish critical path delay
+--------------------------------------------------------------------------
+40112.5742
+
+==========================================================================
+finish critical path slack
+--------------------------------------------------------------------------
+119887.4297
+
+==========================================================================
+finish slack div critical path delay
+--------------------------------------------------------------------------
+298.877427
+
+==========================================================================
+finish report_power
+--------------------------------------------------------------------------
+Group                  Internal  Switching    Leakage      Total
+                          Power      Power      Power      Power (Watts)
+----------------------------------------------------------------
+Sequential             5.14e-06   7.05e-07   7.07e-08   5.91e-06  13.5%
+Combinational          1.06e-05   1.93e-05   3.88e-07   3.03e-05  69.1%
+Clock                  5.16e-06   2.42e-06   1.61e-08   7.60e-06  17.4%
+Macro                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+Pad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+----------------------------------------------------------------
+Total                  2.09e-05   2.24e-05   4.75e-07   4.38e-05 100.0%
+                          47.8%      51.2%       1.1%

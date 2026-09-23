@@ -1,0 +1,14 @@
+SDF: annotated /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_top_5m_sdf_w100_indy_20160630_01/design.icarus.sdf onto u_dut
+VCD info: dumpfile /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_top_5m_sdf_w100_indy_20160630_01/bmi_snn_top_5m_sdf_w100_indy_20160630_01.vcd opened for output.
+WAVEFORM: dumping to /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_top_5m_sdf_w100_indy_20160630_01/bmi_snn_top_5m_sdf_w100_indy_20160630_01.vcd
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:140: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vecfull_indy_20160630_01/stream.hex): Not enough words in the file for the requested range [0:1399999].
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:141: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vecfull_indy_20160630_01/expect.hex): Too many words in the file for the requested range [0:199].
+TB: mode_dense=0 n_bins=100 idle_gap=0 clk=200 ns
+SUMMARY: bins=100 events=495 errors=0 cycles=16948 active_cycles=16936 avg_latency_cyc=83 max_latency_cyc=85
+MEASURED: cycles_from_dump_start=16924 active_cycles_from_dump_start=16916
+PASS: 100 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:207: $finish called at 3389500000 (1ps)
+
+real	14m23.652s
+user	7m30.413s
+sys	0m2.274s

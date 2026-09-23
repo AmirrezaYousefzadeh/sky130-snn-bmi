@@ -1,0 +1,8 @@
+0 physical-only cell types stubbed: []
+==== nangate45 sp pdk5_nangate45_sp_md0_full re-annotated (02:52:40)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_nangate45_sp_md0_full/power_vcd.rpt:Total                5.700480e-05 4.426440e-05 7.671751e-04 8.684443e-04 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_nangate45_sp_md0_full/sta.log:WORST_SETUP_SLACK 1.986917652629927e-7
+==== nangate45 sp pdk5_nangate45_sp_idle_full re-annotated (02:53:02)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_nangate45_sp_idle_full/power_vcd.rpt:Total                5.932956e-07 1.586463e-07 7.642373e-04 7.649892e-04 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_nangate45_sp_idle_full/sta.log:WORST_SETUP_SLACK 1.986917652629927e-7
+==== nangate45 sp sta done (02:53:24)

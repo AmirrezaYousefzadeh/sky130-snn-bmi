@@ -1,0 +1,12 @@
+{
+ "tsv": "/home/yousefzadeha/workspace/BCI_paper/sim/build_sys_sp_gls_5m/toggles.tsv",
+ "duration_s": 1.9989847,
+ "period_s": 2.0000000000000002e-07,
+ "cycles": 9994923.5,
+ "vars_pins": 20877,
+ "vars_top": 166,
+ "skipped": 144980,
+ "time_min": 0.0,
+ "time_max": 1998984700000.0,
+ "timescale_s": 1e-12
+}

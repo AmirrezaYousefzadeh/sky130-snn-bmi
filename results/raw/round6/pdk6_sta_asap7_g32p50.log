@@ -1,0 +1,18 @@
+8 physical-only cell types stubbed: ['DECAPx10_ASAP7_75t_R', 'DECAPx1_ASAP7_75t_R', 'DECAPx2_ASAP7_75t_R', 'DECAPx4_ASAP7_75t_R', 'DECAPx6_ASAP7_75t_R', 'FILLER_ASAP7_75t_R'] ...
+==== asap7 g32p50 pdk5_asap7_g32p50_md0_full re-annotated (02:53:25)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_g32p50_md0_full/power_vcd.rpt:Total                8.942663e-06 5.635316e-06 1.420751e-06 1.599873e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_g32p50_md0_full/sta.log:WORST_SETUP_SLACK 1.9917473537134356e-7
+==== asap7 g32p50 pdk5_asap7_g32p50_md0_full at SS re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_g32p50_md0_full_SS/power_vcd.rpt:Total                7.078324e-06 4.329114e-06 1.963619e-05 3.104363e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_g32p50_md0_full_SS/sta.log:WORST_SETUP_SLACK 1.9872328493875102e-7
+==== asap7 g32p50 pdk5_asap7_g32p50_md0_sdf re-annotated (02:53:58)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_g32p50_md0_sdf/power_vcd.rpt:Total                1.034056e-05 6.633442e-06 1.420806e-06 1.839481e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_g32p50_md0_sdf/sta.log:WORST_SETUP_SLACK 1.9917473537134356e-7
+==== asap7 g32p50 pdk5_asap7_g32p50_idle_full re-annotated (02:54:12)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_g32p50_idle_full/power_vcd.rpt:Total                2.993156e-07 5.684540e-08 2.058954e-06 2.415115e-06 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_g32p50_idle_full/sta.log:WORST_SETUP_SLACK 1.9917473537134356e-7
+==== asap7 g32p50 pdk5_asap7_g32p50_idle_full at SS re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_g32p50_idle_full_SS/power_vcd.rpt:Total                2.337564e-07 4.316231e-08 2.863725e-05 2.891417e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_g32p50_idle_full_SS/sta.log:WORST_SETUP_SLACK 1.9872328493875102e-7
+==== asap7 g32p50 pdk5_asap7_g32p50_sdf_w5000: toggle file younger than 5 min, skipped (still being measured)
+==== asap7 g32p50 sta done (02:54:41)

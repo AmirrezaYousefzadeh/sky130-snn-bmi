@@ -1,0 +1,1 @@
+manual: 190k -> 145k -> 143k -> 124k -> 114k violations after five iterations of about an hour each, no collapse (the accepted grid cores dropped by 5-10x between iterations 2 and 3); stopped so that the policy steps to 20 %

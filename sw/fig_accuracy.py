@@ -31,7 +31,6 @@ ax.bar(x - w, NB["ANN 2D (NeuroBench)"], w, label="NeuroBench ANN 2D (float, 96-
 ax.bar(x, NB["SNN3 (NeuroBench)"], w, label="NeuroBench SNN3 (float, three LIF layers 96-32-48-2, 200 ms window in 7 steps)", color="#bbbbbb", hatch="//", edgecolor="#666666", linewidth=0.4)
 ax.bar(x + w, NB["SNN2 streaming (NeuroBench)"], w, label="NeuroBench SNN2 (float, streaming, 96-50-2)", color="#7f9fbf", hatch="..", edgecolor="#3f5f7f", linewidth=0.4)
 ax.bar(x + 2 * w, r2, w, label="this work, integer streaming SNN 96-64-2 (bit-exact hardware)", color="#c0504d", edgecolor="#802020", linewidth=0.4)
-for i, v in enumerate(r2): ax.text(x[i] + 2 * w, v + 0.01, f"{v:.2f}", ha="center", fontsize=7)
 for xi, v in zip(x - 2 * w, _lin):                       # R2 above the bars of this work (linear baseline and SNN)
     if np.isfinite(v): ax.text(xi, v + 0.012, f"{v:.3f}", ha="center", va="bottom", fontsize=6.2, color="#5a4010")
 for xi, v in zip(x + 2 * w, r2):

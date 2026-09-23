@@ -1,0 +1,77 @@
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+warning: In a derivation named 'neovim-unwrapped-0.9.5', 'structuredAttrs' disables the effect of the derivation attribute 'disallowedRequisites'; use 'outputChecks.<output>.disallowedRequisites' instead
+warning: Using 'builtins.derivation' to create a derivation named 'devshell-env.bash' that references the store path '/nix/store/i1aw9jjgxcvyd642s12kw3iasmarwd42-source' without a proper context. The resulting derivation will not have a correct store reference, so this is unreliable and may stop working in the future.
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+Running density_fill.tcl, stage 6_1_fill
+[INFO ORD-0030] Using 24 thread(s).
+exec cp ./results/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/5_route.odb ./results/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/6_1_fill.odb
+Elapsed time: 0:00.94[h:]min:sec. CPU time: user 0.27 sys 0.13 (43%). Peak memory: 263680KB.
+cp ./results/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/5_route.sdc ./results/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/6_1_fill.sdc
+cp ./results/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/5_route.sdc ./results/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/6_final.sdc
+Running final_report.tcl, stage 6_report
+[INFO ORD-0030] Using 24 thread(s).
+Deleted 0 routing obstructions
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file /media/pdk/OpenROAD-flow-scripts/flow/platforms/ihp-sg13g2/rcx_patterns.rules ...
+[INFO RCX-0436] RC segment generation bmi_snn_sp (max_merge_res 50.0) ...
+[INFO RCX-0040] Final 118555 rc segments
+[INFO RCX-0439] Coupling Cap extraction bmi_snn_sp ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 16% of 199849 wires extracted
+[INFO RCX-0442] 50% of 199849 wires extracted
+[INFO RCX-0442] 66% of 199849 wires extracted
+[INFO RCX-0442] 100% of 199849 wires extracted
+[INFO RCX-0045] Extract 24821 nets, 141901 rsegs, 141901 caps, 228523 ccs
+[INFO RCX-0443] 24821 nets finished
+[INFO PSM-0040] All shapes on net VDD are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VDD
+Corner           : default
+Supply voltage   : 1.20e+00 V
+Worstcase voltage: 1.20e+00 V
+Average voltage  : 1.20e+00 V
+Average IR drop  : 1.68e-05 V
+Worstcase IR drop: 6.20e-05 V
+Percentage drop  : 0.01 %
+######################################
+[INFO PSM-0040] All shapes on net VSS are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VSS
+Corner           : default
+Supply voltage   : 0.00e+00 V
+Worstcase voltage: 6.99e-05 V
+Average voltage  : 1.89e-05 V
+Average IR drop  : 1.89e-05 V
+Worstcase IR drop: 6.99e-05 V
+Percentage drop  : 0.01 %
+######################################
+Cell type report:                       Count       Area
+  Fill cell                            263707  941688.12
+  Antenna cell                           3046   16579.99
+  Buffer                                   20     145.15
+  Clock buffer                            599   13876.53
+  Timing Repair Buffer                   1553   13517.28
+  Inverter                               2612   14593.22
+  Clock inverter                          125    1010.62
+  Clock gate cell                           3      81.65
+  Sequential cell                        1491   70337.03
+  Multi-Input combinational cell        17050  160995.34
+  Total                                290206 1232824.92
+Report metrics stage 6, finish...
+
+==========================================================================
+finish report_design_area
+--------------------------------------------------------------------------
+Design area 291137 u^2 24% utilization.
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/final_routing.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/final_placement.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/final_ir_drop.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/final_clocks.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/final_resizer.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/ihp-sg13g2/bmi_snn_sp_5m_nodecap/base/cts_clk.webp.png
+Elapsed time: 1:00.36[h:]min:sec. CPU time: user 46.14 sys 0.60 (77%). Peak memory: 1029932KB.

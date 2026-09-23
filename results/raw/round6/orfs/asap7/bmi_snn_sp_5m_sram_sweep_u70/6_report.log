@@ -1,0 +1,67 @@
+OpenROAD edf00dff99f6c40d67a30c0e22a8191c5d2ed9d6 
+Features included (+) or not (-): +Charts +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 24 thread(s).
+Deleted 0 routing obstructions
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/rcx_patterns.rules ...
+[INFO RCX-0436] RC segment generation bmi_snn_sp (max_merge_res 50.0) ...
+[INFO RCX-0040] Final 142357 rc segments
+[INFO RCX-0439] Coupling Cap extraction bmi_snn_sp ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 54% of 154824 wires extracted
+[INFO RCX-0442] 100% of 154824 wires extracted
+[INFO RCX-0045] Extract 19564 nets, 161877 rsegs, 161877 caps, 234536 ccs
+[INFO RCX-0443] 19564 nets finished
+[INFO PSM-0040] All shapes on net VDD are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VDD
+Corner           : default
+Supply voltage   : 7.70e-01 V
+Worstcase voltage: 7.70e-01 V
+Average voltage  : 7.70e-01 V
+Average IR drop  : 6.02e-06 V
+Worstcase IR drop: 7.79e-05 V
+Percentage drop  : 0.01 %
+######################################
+[INFO PSM-0040] All shapes on net VSS are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VSS
+Corner           : default
+Supply voltage   : 0.00e+00 V
+Worstcase voltage: 9.26e-05 V
+Average voltage  : 6.03e-06 V
+Average IR drop  : 6.03e-06 V
+Worstcase IR drop: 9.26e-05 V
+Percentage drop  : 0.01 %
+######################################
+Cell type report:                       Count       Area
+  Fill cell                              9694     198.84
+  Tap cell                                623      18.17
+  Other                                  4263     567.22
+  Buffer                                   20       1.46
+  Clock buffer                            165      50.45
+  Timing Repair Buffer                    156      34.44
+  Inverter                               3242     173.78
+  Clock inverter                           44       8.49
+  Clock gate cell                           3       0.79
+  Sequential cell                        1491     452.48
+  Multi-Input combinational cell        14459    1629.66
+  Total                                 34160    3135.76
+Report metrics stage 6, finish...
+
+==========================================================================
+finish report_design_area
+--------------------------------------------------------------------------
+Design area 2937 u^2 94% utilization.
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_sp_5m_sram_sweep_u70/base/final_routing.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_sp_5m_sram_sweep_u70/base/final_placement.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_sp_5m_sram_sweep_u70/base/final_ir_drop.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_sp_5m_sram_sweep_u70/base/final_clocks.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_sp_5m_sram_sweep_u70/base/final_resizer.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_sp_5m_sram_sweep_u70/base/cts_clk.webp.png
+Elapsed time: 0:36.20[h:]min:sec. CPU time: user 28.03 sys 0.35 (78%). Peak memory: 672148KB.

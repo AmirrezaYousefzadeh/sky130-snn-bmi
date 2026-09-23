@@ -1,5 +1,5 @@
 // Minimal digital front end for the event-driven decoder cores (round 5, E10), version 2: the 5 MHz oscillator is enabled only
-// from the bin tick until the core has produced its outputs.
+// from the bin tick until the core has produced its outputs. v3: tick held until the core's tick_ready handshake (round 6).
 // Always-on domain (clk32k, 32.768 kHz): a 96-bit activity register with set-on-first-event de-duplication, fed by one
 // threshold-crossing pulse per channel (one clk32k cycle wide, e.g. the registered comparator output of the analog front end);
 // a bin timer of BIN_CYCLES = 131 cycles (3.998 ms). At the bin boundary the activity register is copied to a snapshot
@@ -100,7 +100,10 @@ module bmi_fe #(
             else st <= S_TICK;
           end
         end
-        S_TICK: if (tick_ready) begin tick <= 1'b1; st <= S_WAIT; end
+        S_TICK: begin                        // v3 (round 6, E6): hold tick until the core takes it (tick & tick_ready in the same cycle);
+          tick <= 1'b1;                      // the core's own clock gate is closed when it is idle, so a one-cycle pulse that arrives
+          if (tick && tick_ready) begin tick <= 1'b0; st <= S_WAIT; end   // one cycle after tick_ready was sampled is lost (found in co-simulation)
+        end
         S_WAIT: if (out_valid) begin bin_done <= 1'b1; done_q <= 1'b1; dtg <= ~dtg; st <= S_IDLE; end
       endcase
     end

@@ -1,0 +1,12 @@
+{
+ "tsv": "/tmp/claude-1000/-home-yousefzadeha-workspace-BCI-paper/52d9d055-2d0f-4dc5-a38c-1508e051752c/scratchpad/core_flat_toggles.tsv",
+ "duration_s": 1.9989847,
+ "period_s": 2.0000000000000002e-07,
+ "cycles": 9994923.5,
+ "vars_pins": 132899,
+ "vars_top": 18951,
+ "skipped": 0,
+ "time_min": 0.0,
+ "time_max": 1998984700000.0,
+ "timescale_s": 1e-12
+}

@@ -19,10 +19,11 @@ case "$D" in
   bmi_snn_lmin|bmi_snn_lmin2) LOAD="-DLOAD_PORT -DDUMP_AFTER_LOAD -DHAS_WR_READY"; MACRO="none"; VP="v12_" ;;
   bmi_snn_min32) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/h32"; VP="h32_" ;;
   bmi_snn_min16) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/h16"; VP="h16_" ;;
-  bmi_snn_g128|bmi_snn_g128p25|bmi_snn_g128p125|bmi_snn_g64p50|bmi_snn_g64p125|bmi_snn_g32p50|bmi_snn_g32p25|bmi_snn_g16p50) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/${D#bmi_snn_}"; VP="${D#bmi_snn_}_" ;;   # E2 grid
+  bmi_snn_g128|bmi_snn_g128p25|bmi_snn_g128p125|bmi_snn_g64p50|bmi_snn_g64p125|bmi_snn_g32p50|bmi_snn_g32p25|bmi_snn_g16p50|bmi_snn_g48|bmi_snn_g48p50|bmi_snn_g48p25|bmi_snn_g32p125) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/${D#bmi_snn_}"; VP="${D#bmi_snn_}_" ;;   # E2 grid
   bmi_snn_sp_s622|bmi_snn_sp_s131)       LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/sp_${D##*_}";  VP="sp_" ;;    # E3 per-session netlists (own session vectors)
   bmi_snn_min32_s622|bmi_snn_min32_s131) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/h32_${D##*_}"; VP="h32_" ;;
   bmi_snn_m12_s622|bmi_snn_m12_s131)     LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/m12_${D##*_}"; VP="v12_" ;;
+  bmi_snn_g32p50_s622|bmi_snn_g32p50_s131) LOAD=""; MACRO="none"; export INCDIR="$ROOT/rtl/g32p50_${D##*_}"; VP="g32p50_${D##*_}_" ;;   # round 6 (E4a): own-session vectors sim/vecfull_g32p50_s<..>_<session>
   *) echo "unknown design $D"; exit 2 ;;
 esac
 VEC="${VEC:-$ROOT/sim/vecfull_${VP}${S}}"; [[ -d "$VEC" ]] || { echo "no vectors $VEC"; exit 2; }

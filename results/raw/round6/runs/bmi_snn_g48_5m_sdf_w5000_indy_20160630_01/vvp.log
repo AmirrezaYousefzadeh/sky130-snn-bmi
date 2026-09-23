@@ -1,0 +1,18 @@
+SDF: annotated /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_g48_5m_sdf_w5000_indy_20160630_01/design.icarus.sdf onto u_dut
+VCD info: dumpfile /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_g48_5m_sdf_w5000_indy_20160630_01/bmi_snn_g48_5m_sdf_w5000_indy_20160630_01.vcd opened for output.
+WAVEFORM: dumping to /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_g48_5m_sdf_w5000_indy_20160630_01/bmi_snn_g48_5m_sdf_w5000_indy_20160630_01.vcd
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:140: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vecfull_g48_indy_20160630_01/stream.hex): Not enough words in the file for the requested range [0:1399999].
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:141: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vecfull_g48_indy_20160630_01/expect.hex): Too many words in the file for the requested range [0:9999].
+TB: mode_dense=0 n_bins=5000 idle_gap=0 clk=200 ns
+GLS_PROGRESS cycle=20000 max=2000000000
+GLS_PROGRESS cycle=40000 max=2000000000
+GLS_PROGRESS cycle=60000 max=2000000000
+GLS_PROGRESS cycle=80000 max=2000000000
+SUMMARY: bins=5000 events=26317 errors=0 cycles=98329 active_cycles=94990 avg_latency_cyc=5 max_latency_cyc=18
+MEASURED: cycles_from_dump_start=98305 active_cycles_from_dump_start=94970
+PASS: 5000 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:207: $finish called at 19665700000 (1ps)
+
+real	30m30.372s
+user	30m24.062s
+sys	0m4.814s

@@ -1,0 +1,12 @@
+{
+ "tsv": "/home/yousefzadeha/workspace/BCI_paper/sim/build_pdk5_asap7sram_sp_md0_sdf/toggles.tsv",
+ "duration_s": 0.0008789,
+ "period_s": 2e-07,
+ "cycles": 4394.5,
+ "vars_pins": 94315,
+ "vars_top": 19588,
+ "skipped": 0,
+ "time_min": 0.0,
+ "time_max": 878900000.0,
+ "timescale_s": 1e-12
+}

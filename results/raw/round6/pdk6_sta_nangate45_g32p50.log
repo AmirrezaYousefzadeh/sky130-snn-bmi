@@ -1,0 +1,11 @@
+0 physical-only cell types stubbed: []
+==== nangate45 g32p50 pdk5_nangate45_g32p50_md0_full re-annotated (02:53:02)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_nangate45_g32p50_md0_full/power_vcd.rpt:Total                3.777669e-05 3.030053e-05 4.607384e-04 5.288156e-04 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_nangate45_g32p50_md0_full/sta.log:WORST_SETUP_SLACK 1.9892091529527534e-7
+==== nangate45 g32p50 pdk5_nangate45_g32p50_idle_full re-annotated (02:53:19)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_nangate45_g32p50_idle_full/power_vcd.rpt:Total                5.868148e-07 1.364265e-07 4.571247e-04 4.578479e-04 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_nangate45_g32p50_idle_full/sta.log:WORST_SETUP_SLACK 1.9892091529527534e-7
+==== nangate45 g32p50 pdk5_nangate45_g32p50_func_w5000 re-annotated (02:53:34)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_nangate45_g32p50_func_w5000/power_vcd.rpt:Total                3.732447e-05 2.992583e-05 4.604774e-04 5.277277e-04 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_nangate45_g32p50_func_w5000/sta.log:WORST_SETUP_SLACK 1.9892091529527534e-7
+==== nangate45 g32p50 sta done (02:53:55)

@@ -1,0 +1,40 @@
+==== sweep point 40 %: ok=1 (03:10:50)
+8 physical-only cell types stubbed: ['DECAPx10_ASAP7_75t_SRAM', 'DECAPx1_ASAP7_75t_SRAM', 'DECAPx2_ASAP7_75t_SRAM', 'DECAPx4_ASAP7_75t_SRAM', 'DECAPx6_ASAP7_75t_SRAM', 'FILLER_ASAP7_75t_SRAM'] ...
+==== asap7sram sp pdk5_asap7sram_sp_u40_md0_full (03:10:51)
+SUMMARY: bins=500 events=2934 errors=0 cycles=10442 active_cycles=10142 avg_latency_cyc=5 max_latency_cyc=13
+PASS: 500 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_sp_u40_md0_full/power_vcd.rpt:Total                1.176824e-05 6.764644e-06 5.195821e-07 1.905247e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_sp_u40_md0_full/sta.log:WORST_SETUP_SLACK 1.9859989208725892e-7
+==== asap7sram sp pdk5_asap7sram_sp_u40_idle_full (03:13:45)
+SUMMARY: bins=1 events=7 errors=0 cycles=400055 active_cycles=42 avg_latency_cyc=5 max_latency_cyc=5
+PASS: 1 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_sp_u40_idle_full/power_vcd.rpt:Total                4.844142e-07 6.669620e-08 7.228510e-07 1.273962e-06 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_sp_u40_idle_full/sta.log:WORST_SETUP_SLACK 1.9859989208725892e-7
+==== asap7sram sp func done (03:14:19)
+==== sweep point 50 %: ok=1 (03:14:19)
+8 physical-only cell types stubbed: ['DECAPx10_ASAP7_75t_SRAM', 'DECAPx1_ASAP7_75t_SRAM', 'DECAPx2_ASAP7_75t_SRAM', 'DECAPx4_ASAP7_75t_SRAM', 'DECAPx6_ASAP7_75t_SRAM', 'FILLER_ASAP7_75t_SRAM'] ...
+==== asap7sram sp pdk5_asap7sram_sp_u50_md0_full (03:14:19)
+SUMMARY: bins=500 events=2934 errors=0 cycles=10442 active_cycles=10142 avg_latency_cyc=5 max_latency_cyc=13
+PASS: 500 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_sp_u50_md0_full/power_vcd.rpt:Total                1.170092e-05 6.726301e-06 5.185374e-07 1.894576e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_sp_u50_md0_full/sta.log:WORST_SETUP_SLACK 1.986774691431492e-7
+==== asap7sram sp pdk5_asap7sram_sp_u50_idle_full (03:16:51)
+SUMMARY: bins=1 events=7 errors=0 cycles=400055 active_cycles=42 avg_latency_cyc=5 max_latency_cyc=5
+PASS: 1 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_sp_u50_idle_full/power_vcd.rpt:Total                4.844295e-07 6.724843e-08 7.211220e-07 1.272800e-06 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_sp_u50_idle_full/sta.log:WORST_SETUP_SLACK 1.986774691431492e-7
+==== asap7sram sp func done (03:17:06)
+==== sweep point 70 %: ok=1 (03:17:06)
+8 physical-only cell types stubbed: ['DECAPx10_ASAP7_75t_SRAM', 'DECAPx1_ASAP7_75t_SRAM', 'DECAPx2_ASAP7_75t_SRAM', 'DECAPx4_ASAP7_75t_SRAM', 'DECAPx6_ASAP7_75t_SRAM', 'FILLER_ASAP7_75t_SRAM'] ...
+==== asap7sram sp pdk5_asap7sram_sp_u70_md0_full (03:17:06)
+SUMMARY: bins=500 events=2934 errors=0 cycles=10442 active_cycles=10142 avg_latency_cyc=5 max_latency_cyc=13
+PASS: 500 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_sp_u70_md0_full/power_vcd.rpt:Total                1.012604e-05 6.606137e-06 5.063219e-07 1.723850e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_sp_u70_md0_full/sta.log:WORST_SETUP_SLACK 1.986931579267548e-7
+==== asap7sram sp pdk5_asap7sram_sp_u70_idle_full (03:19:19)
+SUMMARY: bins=1 events=7 errors=0 cycles=400055 active_cycles=42 avg_latency_cyc=5 max_latency_cyc=5
+PASS: 1 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_sp_u70_idle_full/power_vcd.rpt:Total                3.168248e-07 6.104709e-08 7.036370e-07 1.081509e-06 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_sp_u70_idle_full/sta.log:WORST_SETUP_SLACK 1.986931579267548e-7
+==== asap7sram sp func done (03:19:55)
+==== E8 sweep measurements done (03:19:55)

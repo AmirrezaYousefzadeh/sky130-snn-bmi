@@ -1,0 +1,62 @@
+nangate45 rvt bmi_snn_sp ACCEPTED util=60 nick=bmi_snn_sp_5m_u60 runtime=13min setup=119.802 hold=NA
+asap7 rvt bmi_snn_sp ACCEPTED util=60 nick=bmi_snn_sp_5m_u60 runtime=15min setup=119.914 hold=NA
+nangate45 rvt bmi_snn_m12 REJECTED util=60 nick=bmi_snn_m12_5m_u60 runtime=13min rc=2 drc=NA setup=NA hold=NA
+asap7 sram bmi_snn_sp ACCEPTED util=60 nick=bmi_snn_sp_5m_sram_u60 runtime=16min setup=119.911 hold=NA
+asap7 rvt bmi_snn_m12 REJECTED util=60 nick=bmi_snn_m12_5m_u60 runtime=19min rc=2 drc=NA setup=NA hold=NA
+nangate45 rvt bmi_snn_m12 REJECTED util=50 nick=bmi_snn_m12_5m_u50 runtime=10min rc=2 drc=NA setup=NA hold=NA
+asap7 sram bmi_snn_m12 REJECTED util=60 nick=bmi_snn_m12_5m_sram_u60 runtime=24min rc=2 drc=NA setup=NA hold=NA
+nangate45 rvt bmi_snn_m12 ACCEPTED util=40 nick=bmi_snn_m12_5m_u40 runtime=23min setup=119.809 hold=NA
+asap7 rvt bmi_snn_m12 ACCEPTED util=50 nick=bmi_snn_m12_5m_u50 runtime=30min setup=119.893 hold=NA
+nangate45 rvt bmi_snn_min32 ACCEPTED util=60 nick=bmi_snn_min32_5m_u60 runtime=16min setup=119.796 hold=NA
+asap7 sram bmi_snn_m12 ACCEPTED util=50 nick=bmi_snn_m12_5m_sram_u50 runtime=31min setup=119.906 hold=NA
+nangate45 rvt bmi_snn_min16 ACCEPTED util=60 nick=bmi_snn_min16_5m_u60 runtime=9min setup=119.838 hold=NA
+nangate45 rvt bmi_snn_lmin2 REJECTED util=60 nick=bmi_snn_lmin2_5m_u60 runtime=0min rc=2 drc=NA setup=NA hold=NA
+nangate45 rvt bmi_snn_lmin2 REJECTED util=50 nick=bmi_snn_lmin2_5m_u50 runtime=0min rc=2 drc=NA setup=NA hold=NA
+nangate45 rvt bmi_snn_lmin2 REJECTED util=40 nick=bmi_snn_lmin2_5m_u40 runtime=0min rc=2 drc=NA setup=NA hold=NA
+nangate45 rvt bmi_snn_lmin2 REJECTED util=30 nick=bmi_snn_lmin2_5m_u30 runtime=0min rc=2 drc=NA setup=NA hold=NA
+nangate45 rvt bmi_snn_lmin2 REJECTED util=20 nick=bmi_snn_lmin2_5m_u20 runtime=0min rc=2 drc=NA setup=NA hold=NA
+nangate45 rvt bmi_snn_lmin2: no utilization converged
+asap7 rvt bmi_snn_min32 ACCEPTED util=60 nick=bmi_snn_min32_5m_u60 runtime=23min setup=119.913 hold=NA
+asap7 rvt bmi_snn_min16 ACCEPTED util=60 nick=bmi_snn_min16_5m_u60 runtime=14min setup=119.912 hold=NA
+asap7 rvt bmi_snn_lmin2 REJECTED util=60 nick=bmi_snn_lmin2_5m_u60 runtime=0min rc=2 drc=NA setup=NA hold=NA
+asap7 rvt bmi_snn_lmin2 REJECTED util=50 nick=bmi_snn_lmin2_5m_u50 runtime=0min rc=2 drc=NA setup=NA hold=NA
+asap7 sram bmi_snn_min32 ACCEPTED util=60 nick=bmi_snn_min32_5m_sram_u60 runtime=19min setup=119.909 hold=NA
+asap7 rvt bmi_snn_lmin2 REJECTED util=40 nick=bmi_snn_lmin2_5m_u40 runtime=0min rc=2 drc=NA setup=NA hold=NA
+asap7 rvt bmi_snn_lmin2 REJECTED util=30 nick=bmi_snn_lmin2_5m_u30 runtime=0min rc=2 drc=NA setup=NA hold=NA
+asap7 rvt bmi_snn_lmin2 REJECTED util=20 nick=bmi_snn_lmin2_5m_u20 runtime=0min rc=2 drc=NA setup=NA hold=NA
+asap7 rvt bmi_snn_lmin2: no utilization converged
+asap7 sram bmi_snn_min16 ACCEPTED util=60 nick=bmi_snn_min16_5m_sram_u60 runtime=10min setup=119.910 hold=NA
+asap7 sram bmi_snn_lmin2 REJECTED util=60 nick=bmi_snn_lmin2_5m_sram_u60 runtime=0min rc=2 drc=NA setup=NA hold=NA
+asap7 sram bmi_snn_lmin2 REJECTED util=50 nick=bmi_snn_lmin2_5m_sram_u50 runtime=0min rc=2 drc=NA setup=NA hold=NA
+asap7 sram bmi_snn_lmin2 REJECTED util=40 nick=bmi_snn_lmin2_5m_sram_u40 runtime=0min rc=2 drc=NA setup=NA hold=NA
+asap7 sram bmi_snn_lmin2 REJECTED util=30 nick=bmi_snn_lmin2_5m_sram_u30 runtime=0min rc=2 drc=NA setup=NA hold=NA
+asap7 sram bmi_snn_lmin2 REJECTED util=20 nick=bmi_snn_lmin2_5m_sram_u20 runtime=0min rc=2 drc=NA setup=NA hold=NA
+asap7 sram bmi_snn_lmin2: no utilization converged
+ihp-sg13g2 rvt bmi_snn_sp REJECTED util=60 nick=bmi_snn_sp_5m_u60 runtime=490min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_sp REJECTED util=50 nick=bmi_snn_sp_5m_u50 runtime=52min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_sp REJECTED util=40 nick=bmi_snn_sp_5m_u40 runtime=46min rc=2 drc=NA setup=NA hold=NA
+asap7 rvt bmi_snn_lmin2 REJECTED util=30 nick=bmi_snn_lmin2_5m_u30 runtime=77min rc=2 drc=NA setup=NA hold=NA
+nangate45 rvt bmi_snn_lmin2 ACCEPTED util=30 nick=bmi_snn_lmin2_5m_u30 runtime=107min setup=0.000 hold=NA
+asap7 rvt bmi_snn_lmin2 REJECTED util=20 nick=bmi_snn_lmin2_5m_u20 runtime=61min rc=2 drc=NA setup=NA hold=NA
+asap7 rvt bmi_snn_lmin2: no utilization converged
+ihp-sg13g2 rvt bmi_snn_sp REJECTED util=30 nick=bmi_snn_sp_5m_u30 runtime=214min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_min16 ACCEPTED util=30 nick=bmi_snn_min16_5m_u30 runtime=115min setup=119.505 hold=NA
+ihp-sg13g2 rvt bmi_snn_sp ACCEPTED util=20 nick=bmi_snn_sp_5m_u20 runtime=1464min setup=119.454 hold=NA
+ihp-sg13g2 rvt bmi_snn_min32 REJECTED util=30 nick=bmi_snn_min32_5m_u30 runtime=493min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_m12 REJECTED util=30 nick=bmi_snn_m12_5m_u30 runtime=81min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_m12 REJECTED util=20 nick=bmi_snn_m12_5m_u20 runtime=90min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_m12: no utilization converged
+ihp-sg13g2 rvt bmi_snn_m12 REJECTED util=10 nick=bmi_snn_m12_5m_u10 runtime=30min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_m12: no utilization converged
+ihp-sg13g2 rvt bmi_snn_m12 REJECTED util=20 nick=bmi_snn_m12_5m_pad2_u20 runtime=28min rc=2 drc=NA setup=NA hold=NA
+ihp-sg13g2 rvt bmi_snn_m12: no utilization converged
+ihp-sg13g2 rvt bmi_snn_min32 ACCEPTED util=20 nick=bmi_snn_min32_5m_u20 runtime=884min setup=119.475 hold=NA
+nangate45 rvt bmi_snn_g32p50 REJECTED util=60 nick=bmi_snn_g32p50_5m_u60 runtime=1min rc=2 drc=NA setup=NA hold=NA
+asap7 sram bmi_snn_g32p50 REJECTED util=60 nick=bmi_snn_g32p50_5m_sram_u60 runtime=5min rc=2 drc=0 setup=NA hold=NA
+asap7 rvt bmi_snn_g32p50 REJECTED util=60 nick=bmi_snn_g32p50_5m_u60 runtime=5min rc=2 drc=0 setup=NA hold=NA
+nangate45 rvt bmi_snn_g32p50 REJECTED util=50 nick=bmi_snn_g32p50_5m_u50 runtime=4min rc=2 drc=0 setup=NA hold=NA
+nangate45 rvt bmi_snn_g32p50 REJECTED util=40 nick=bmi_snn_g32p50_5m_u40 runtime=4min rc=2 drc=0 setup=NA hold=NA
+nangate45 rvt bmi_snn_g32p50 REJECTED util=60 nick=bmi_snn_g32p50_5m_u60 runtime=1min rc=2 drc=NA setup=NA hold=NA
+nangate45 rvt bmi_snn_g32p50 ACCEPTED util=50 nick=bmi_snn_g32p50_5m_u50 runtime=5min setup=119.791 hold=NA
+asap7 sram bmi_snn_g32p50 ACCEPTED util=60 nick=bmi_snn_g32p50_5m_sram_u60 runtime=6min setup=119.887 hold=NA
+asap7 rvt bmi_snn_g32p50 ACCEPTED util=60 nick=bmi_snn_g32p50_5m_u60 runtime=6min setup=119.906 hold=NA

@@ -10,6 +10,7 @@ D = json.load(open(ROOT / "results/designs.json"))
 SESS = {"A": "indy_20160622_01", "B": "indy_20160630_01", "C": "indy_20170131_02"}
 CORES = {"sp": ("Sp", {"A": "bmi_snn_sp_s622", "B": "bmi_snn_sp", "C": "bmi_snn_sp_s131"}),
          "min32": ("MinH", {"A": "bmi_snn_min32_s622", "B": "bmi_snn_min32", "C": "bmi_snn_min32_s131"}),
+         "g32p50": ("GcHalf", {"A": "bmi_snn_g32p50_s622", "B": "bmi_snn_g32p50", "C": "bmi_snn_g32p50_s131"}),   # round 6 (E4a)
          "m12": ("MinT", {"A": "bmi_snn_m12_s622", "B": "bmi_snn_m12", "C": "bmi_snn_m12_s131"})}
 try: TR = json.load(open(ROOT / "results/explore/transfer.json"))      # transfer model of the previous rounds (if present)
 except Exception: TR = {}

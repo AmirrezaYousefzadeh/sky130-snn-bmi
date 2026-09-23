@@ -12,10 +12,12 @@ matplotlib.use("Agg"); import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 ROOT = Path(__file__).resolve().parent.parent
 R2_THRESHOLD, R2_SNN2 = 0.55, 0.593
-H_COL = {16: "#E69F00", 32: "#56B4E9", 64: "#009E73", 128: "#CC79A7"}          # Okabe-Ito, colourblind-safe
+H_COL = {16: "#E69F00", 32: "#56B4E9", 48: "#D55E00", 64: "#009E73", 128: "#CC79A7"}          # Okabe-Ito, colourblind-safe (48 added in round 6)
 SHAPE = {"constants": "o", "latches": "s", "SRAM block": "D", "software": "*"}
-LABEL_POS = {"bmi_snn_min": (0.5905, 13.5), "bmi_snn_ming": (0.5905, 8.2), "bmi_snn_m12": (0.5905, 5.0), "bmi_snn_lmin2_50MHz": (0.5905, 3.0),
-             "bmi_snn_lmin2": (0.5905, 3.0), "bmi_snn_min32": (0.5905, 1.85)}
+LABEL_POS = {   # crowded points (R2 0.57-0.585): one right-hand column at x = 0.5905, log-spaced so that 6-pt labels do not touch; round 6 adds the H = 48 points
+             "bmi_snn_min": (0.5905, 16.0), "bmi_snn_m12": (0.5905, 11.0), "bmi_snn_ming": (0.5905, 7.6), "bmi_snn_g48": (0.5905, 5.3),
+             "bmi_snn_lmin2_50MHz": (0.5905, 3.7), "bmi_snn_lmin2": (0.5905, 3.7), "bmi_snn_min32": (0.5905, 2.6), "bmi_snn_g48p50": (0.5905, 1.8),
+             "bmi_snn_sp": (0.5905, 1.25), "bmi_snn_g48p25": (0.5575, 3.3)}
 pts = []   # dicts: name, label, storage, H, density, r2, r2_min, r2_max, energy_nJ, energy_kind, note
 
 def e_ann(rec, mode="event"):
@@ -25,18 +27,24 @@ def e_ann(rec, mode="event"):
     return (s, "annotated") if s else (z, "zero-delay")
 
 # --- E2 grid (includes the E1 hardwired cores m12, sp, min32, min16 as grid members)
+D = json.load(open(ROOT / "results/designs.json"))
+def block_ann(name):
+    """round 6 (F1): the 5,000-bin annotated window of the test block (the energy of Table 3), None if not measured yet"""
+    fb = D.get(name, {}).get("full", {}).get("indy_20160630_01", {}).get("sdf")
+    return fb["energy_per_bin_nJ"] if fb else None
 for r in csv.DictReader(open(ROOT / "results/pareto.csv")):
     if not (r["r2_int_mean"] and (r["energy_per_bin_sdf_nJ"] or r["energy_per_bin_nJ"])): continue
-    e, kind = (float(r["energy_per_bin_sdf_nJ"]), "annotated") if r["energy_per_bin_sdf_nJ"] else (float(r["energy_per_bin_nJ"]), "zero-delay")
+    e, kind = (float(r["energy_per_bin_sdf_nJ"]), "annotated (200 bins)") if r["energy_per_bin_sdf_nJ"] else (float(r["energy_per_bin_nJ"]), "zero-delay")
+    if block_ann(r["core"]): e, kind = block_ann(r["core"]), "annotated (5,000 bins)"
     H, d = int(r["H"]), float(r["density"])
     pts.append(dict(name=r["core"], label=f"{H}, {d*100:g} %", storage="constants", H=H, density=d, r2=float(r["r2_int_mean"]),
                     r2_min=float(r["r2_int_min"] or r["r2_int_mean"]), r2_max=float(r["r2_int_max"] or r["r2_int_mean"]), energy_nJ=e, energy_kind=kind,
                     note=f"{r['n_seeds']} seeds x 3 sessions, 12-bit gated hardwired core"))
 # --- E1 cores that are not grid members
-D = json.load(open(ROOT / "results/designs.json"))
 def add_ref(name, label, storage, H, density, mode="event", note=""):
     if name not in D: return
     e, kind = e_ann(D[name], mode)
+    if mode == "event" and block_ann(name): e, kind = block_ann(name), "annotated (5,000 bins)" if D[name]["full"]["indy_20160630_01"]["sdf"]["tb"]["bins"] >= 5000 else f"annotated ({D[name]['full']['indy_20160630_01']['sdf']['tb']['bins']:,} bins)"
     if not e: return
     r2 = D[name]["r2"]
     pts.append(dict(name=name + ("" if mode == "event" else "_" + mode), label=label, storage=storage, H=H, density=density, r2=r2, r2_min=r2, r2_max=r2,
@@ -55,13 +63,19 @@ else:
     if e: pts.append(dict(name="bmi_snn_lmin2_50MHz", label="latch memory (50 MHz)", storage="latches", H=64, density=1.0, r2=R["r2"], r2_min=R["r2"], r2_max=R["r2"],
                           energy_nJ=e, energy_kind=kind, note="50 MHz netlist (rounds 1-4); the 5 MHz hardening did not close"))
 # --- hand-tuned software on the RISC-V SoC (E7, per-pin method, 5 MHz)
-m = re.search(r"\\newcommand\{\\eCpuTunedFive\}\{([\d,\.]+)\}", (ROOT / "paper/numbers_software5.tex").read_text())
-if m: pts.append(dict(name="soc_tuned_5MHz", label="software, hand-tuned", storage="software", H=64, density=1.0, r2=D["bmi_snn_top"]["r2"], r2_min=D["bmi_snn_top"]["r2"],
-                      r2_max=D["bmi_snn_top"]["r2"], energy_nJ=float(m.group(1).replace(",", "")), energy_kind="annotated", note="RISC-V SoC, decoding window, cell delays annotated"))
+sw6 = ROOT / "results/explore/software6.json"; sw_e = sw_note = None
+if sw6.exists():
+    j = json.load(open(sw6)).get("tuned_5m_100")
+    if j: sw_e, sw_note = j["energy_per_bin_nJ"], f"RISC-V SoC, hand-tuned, {j['n_bins']}-bin decoding window, cell delays annotated"
+if sw_e is None:
+    m = re.search(r"\\newcommand\{\\eCpuTunedFive\}\{([\d,\.]+)\}", (ROOT / "paper/numbers_software5.tex").read_text())
+    if m: sw_e, sw_note = float(m.group(1).replace(",", "")), "RISC-V SoC, hand-tuned, 16-bin decoding window, cell delays annotated"
+if sw_e: pts.append(dict(name="soc_tuned_5MHz", label="software, hand-tuned\n(" + sw_note.split(", ")[2] + ")", storage="software", H=64, density=1.0, r2=D["bmi_snn_top"]["r2"], r2_min=D["bmi_snn_top"]["r2"],
+                      r2_max=D["bmi_snn_top"]["r2"], energy_nJ=sw_e, energy_kind="annotated", note=sw_note))
 if not pts: sys.exit("no points")
 
 plt.rcParams.update({"font.size": 8, "font.family": "sans-serif", "axes.spines.top": False, "axes.spines.right": False})
-fig, ax = plt.subplots(figsize=(5.8, 3.5))
+fig, ax = plt.subplots(figsize=(5.8, 4.3))
 for p in pts:
     col = H_COL.get(p["H"], "k"); mk = SHAPE[p["storage"]]
     ax.errorbar(p["r2"], p["energy_nJ"], xerr=[[p["r2"] - p["r2_min"]], [p["r2_max"] - p["r2"]]], fmt=mk, ms=8 if mk == "*" else 5, color=col, mec="k", mew=0.4,
@@ -86,8 +100,8 @@ dense = sorted([p for p in grid if p["density"] == 1.0], key=lambda p: p["H"])
 if len(dense) > 1: ax.plot([p["r2"] for p in dense], [p["energy_nJ"] for p in dense], color="0.35", lw=0.8, ls="--", zorder=2)
 ax.axvline(R2_THRESHOLD, color="k", lw=0.6, ls="--"); ax.text(R2_THRESHOLD - 0.0015, 150, "comparison\nthreshold 0.55", fontsize=6, ha="right", va="center")
 ax.axvline(R2_SNN2, color="k", lw=0.6, ls="--"); ax.text(R2_SNN2 + 0.0015, 150, "NeuroBench SNN2\n(float) 0.593", fontsize=6, ha="left", va="center")
-ax.set_yscale("log"); ax.set_xlim(0.50, 0.62); ax.set_ylim(1, 3000)
-ax.set_xlabel("test $R^2$, three-session mean (integer reference)"); ax.set_ylabel("energy per 4 ms bin (nJ), cell delays annotated")
+ax.set_yscale("log"); ax.set_xlim(0.47, 0.62); ax.set_ylim(0.7, 3000)   # round 6: H = 32 at 12.5 % (R2 0.48) and its 0.97 nJ
+ax.set_xlabel("test $R^2$, three-session mean (integer reference)"); ax.set_ylabel("energy per 4 ms bin (nJ)\ncell delays annotated, 5,000-bin window")
 hH = [Line2D([], [], marker="o", color=c, ls="", mec="k", mew=0.4, label=f"H = {H}") for H, c in H_COL.items() if any(p["H"] == H for p in pts)]
 hS = [Line2D([], [], marker=mk, color="0.6", ls="", mec="k", mew=0.4, ms=8 if mk == "*" else 5, label=st) for st, mk in SHAPE.items() if any(p["storage"] == st for p in pts)]
 hL = [Line2D([], [], color="0.5", lw=0.8, label="equal H, density varied"), Line2D([], [], color="0.35", lw=0.8, ls="--", label="dense, H varied")]

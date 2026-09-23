@@ -1,0 +1,55 @@
+VCD info: dumpfile /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_min32_s131_5m_func_full_indy_20170131_02/bmi_snn_min32_s131_5m_func_full_indy_20170131_02.vcd opened for output.
+WAVEFORM: dumping to /home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_min32_s131_5m_func_full_indy_20170131_02/bmi_snn_min32_s131_5m_func_full_indy_20170131_02.vcd
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:140: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vecfull_h32_indy_20170131_02/stream.hex): Not enough words in the file for the requested range [0:1399999].
+TB: mode_dense=0 n_bins=52116 idle_gap=0 clk=200 ns
+GLS_PROGRESS cycle=20000 max=2000000000
+GLS_PROGRESS cycle=40000 max=2000000000
+GLS_PROGRESS cycle=60000 max=2000000000
+GLS_PROGRESS cycle=80000 max=2000000000
+GLS_PROGRESS cycle=100000 max=2000000000
+GLS_PROGRESS cycle=120000 max=2000000000
+GLS_PROGRESS cycle=140000 max=2000000000
+GLS_PROGRESS cycle=160000 max=2000000000
+GLS_PROGRESS cycle=180000 max=2000000000
+GLS_PROGRESS cycle=200000 max=2000000000
+GLS_PROGRESS cycle=220000 max=2000000000
+GLS_PROGRESS cycle=240000 max=2000000000
+GLS_PROGRESS cycle=260000 max=2000000000
+GLS_PROGRESS cycle=280000 max=2000000000
+GLS_PROGRESS cycle=300000 max=2000000000
+GLS_PROGRESS cycle=320000 max=2000000000
+GLS_PROGRESS cycle=340000 max=2000000000
+GLS_PROGRESS cycle=360000 max=2000000000
+GLS_PROGRESS cycle=380000 max=2000000000
+GLS_PROGRESS cycle=400000 max=2000000000
+GLS_PROGRESS cycle=420000 max=2000000000
+GLS_PROGRESS cycle=440000 max=2000000000
+GLS_PROGRESS cycle=460000 max=2000000000
+GLS_PROGRESS cycle=480000 max=2000000000
+GLS_PROGRESS cycle=500000 max=2000000000
+GLS_PROGRESS cycle=520000 max=2000000000
+GLS_PROGRESS cycle=540000 max=2000000000
+GLS_PROGRESS cycle=560000 max=2000000000
+GLS_PROGRESS cycle=580000 max=2000000000
+GLS_PROGRESS cycle=600000 max=2000000000
+GLS_PROGRESS cycle=620000 max=2000000000
+GLS_PROGRESS cycle=640000 max=2000000000
+GLS_PROGRESS cycle=660000 max=2000000000
+GLS_PROGRESS cycle=680000 max=2000000000
+GLS_PROGRESS cycle=700000 max=2000000000
+GLS_PROGRESS cycle=720000 max=2000000000
+GLS_PROGRESS cycle=740000 max=2000000000
+GLS_PROGRESS cycle=760000 max=2000000000
+GLS_PROGRESS cycle=780000 max=2000000000
+GLS_PROGRESS cycle=800000 max=2000000000
+GLS_PROGRESS cycle=820000 max=2000000000
+GLS_PROGRESS cycle=840000 max=2000000000
+GLS_PROGRESS cycle=860000 max=2000000000
+SUMMARY: bins=52116 events=193287 errors=0 cycles=863795 active_cycles=830867 avg_latency_cyc=5 max_latency_cyc=18
+MEASURED: cycles_from_dump_start=863771 active_cycles_from_dump_start=830847
+PASS: 52116 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_snn.v:207: $finish called at 172758900000 (1ps)
+
+real	297m34.896s
+user	103m0.612s
+sys	0m32.750s

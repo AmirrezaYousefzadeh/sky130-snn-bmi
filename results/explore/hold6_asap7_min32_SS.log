@@ -1,0 +1,26 @@
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13156, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13189, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13222, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13255, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13288, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13321, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13354, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 14748, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 14781, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 14814, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_min32_5m/base/6_final.v line 18376, module FILLERxp5_ASAP7_75t_R not found. Creating black box for FILLER_2_347.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_min32_5m/base/6_final.v line 18424, module DECAPx2_ASAP7_75t_R not found. Creating black box for FILLER_2_341.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_min32_5m/base/6_final.v line 18445, module DECAPx10_ASAP7_75t_R not found. Creating black box for FILLER_2_313.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_min32_5m/base/6_final.v line 18571, module FILLER_ASAP7_75t_R not found. Creating black box for FILLER_2_303.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_min32_5m/base/6_final.v line 18894, module DECAPx1_ASAP7_75t_R not found. Creating black box for FILLER_2_258.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_min32_5m/base/6_final.v line 19749, module DECAPx4_ASAP7_75t_R not found. Creating black box for FILLER_2_183.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_min32_5m/base/6_final.v line 19764, module DECAPx6_ASAP7_75t_R not found. Creating black box for FILLER_2_156.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_min32_5m/base/6_final.v line 37001, module TAPCELL_ASAP7_75t_R not found. Creating black box for TAP_TAPCELL_ROW_209_631.
+worst slack 78.98968
+worst slack 119832.94531
+Startpoint                           Endpoint                               Slack
+--------------------------------------------------------------------------------
+w_row_r[252]$_SDFFE_PP0P_/QN (DFFHQNx2_ASAP7_75t_R) w_row_r[252]$_SDFFE_PP0P_/D (DFFHQNx2_ASAP7_75t_R)   78.99
+w_row_r[45]$_SDFFE_PP0P_/QN (DFFHQNx2_ASAP7_75t_R) w_row_r[45]$_SDFFE_PP0P_/D (DFFHQNx2_ASAP7_75t_R)   79.33
+w_row_r[46]$_SDFFE_PP0P_/QN (DFFHQNx2_ASAP7_75t_R) w_row_r[46]$_SDFFE_PP0P_/D (DFFHQNx2_ASAP7_75t_R)   79.79
+

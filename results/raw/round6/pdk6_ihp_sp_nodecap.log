@@ -1,0 +1,12 @@
+0 physical-only cell types stubbed: []
+==== ihp sp pdk5_ihp_sp_nodecap_md0_full (01:58:02)
+SUMMARY: bins=500 events=2934 errors=0 cycles=10442 active_cycles=10142 avg_latency_cyc=5 max_latency_cyc=13
+PASS: 500 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_nodecap_md0_full/power_vcd.rpt:Total                3.099584e-04 7.643524e-05 3.655718e-06 3.900493e-04 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_nodecap_md0_full/sta.log:WORST_SETUP_SLACK 1.9914743631943566e-7
+==== ihp sp pdk5_ihp_sp_nodecap_idle_full (02:00:50)
+SUMMARY: bins=1 events=7 errors=0 cycles=400055 active_cycles=42 avg_latency_cyc=5 max_latency_cyc=5
+PASS: 1 bins bit-exact
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_nodecap_idle_full/power_vcd.rpt:Total                4.383430e-06 9.101269e-07 3.671457e-06 8.965014e-06 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_sp_nodecap_idle_full/sta.log:WORST_SETUP_SLACK 1.9914743631943566e-7
+==== ihp sp func done (02:01:08)

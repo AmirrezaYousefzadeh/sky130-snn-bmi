@@ -1,0 +1,6 @@
+==== bmi_fe: clock 200 ns, utilization 60 % (density 70 %), run tag bmi_fe_5m_u60 (02:08)
+     setup slack (WNS)   : +57.7691 ns  (aggregate)  → MET
+     hold slack (WNS)    : +0.3093 ns  (aggregate)  → MET
+   RESULT: PASS — clock setup/hold constraints MET
+   drc_errors=0 timing_pass=1 runtime=10min
+   -> accepted: runs/bmi_fe_5m -> bmi_fe_5m_u60

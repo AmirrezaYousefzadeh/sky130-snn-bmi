@@ -7,9 +7,11 @@ if {[info exists ::env(LIB_SRAM)] && [file exists $::env(LIB_SRAM)]} { read_libe
 # NETLIST / SPEF may be preset (multi-PDK study: OpenROAD-flow-scripts result directories)
 set nl [expr {[info exists ::env(NETLIST)] ? $::env(NETLIST) : "$RUN/final/nl/$TOP.nl.v"}]
 set spef [expr {[info exists ::env(SPEF)] ? $::env(SPEF) : "$RUN/final/spef/nom/$TOP.nom.spef"}]
-read_verilog $nl
+foreach f $nl { read_verilog $f }                  ;# round 6 (E6): several netlists (blocks of a system plus the structural wrapper) may be listed
 link_design $TOP
-read_spef $spef
+foreach sp $spef {                                 ;# a SPEF entry "inst:path" annotates the block instance inst (read_spef -path), a plain path the top
+  if {[regexp {^([^:]+):(.+)$} $sp -> inst path]} { read_spef -path $inst $path; puts "SPEF $path -> $inst" } else { read_spef $sp }
+}
 set period $::env(PERIOD_NS); set half [expr {$period / 2.0}]
 set clkport [expr {[info exists ::env(CLK_PORT)] ? $::env(CLK_PORT) : "clk"}]      ;# round 5: designs whose clock port is not "clk" (front end: clk5)
 create_clock -name clk -period $period -waveform [list 0.0 $half] [get_ports $clkport]

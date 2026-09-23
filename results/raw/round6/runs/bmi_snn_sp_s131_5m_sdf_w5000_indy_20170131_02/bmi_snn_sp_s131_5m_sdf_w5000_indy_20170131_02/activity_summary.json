@@ -1,0 +1,12 @@
+{
+ "tsv": "/home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_sp_s131_5m_sdf_w5000_indy_20170131_02/toggles.tsv",
+ "duration_s": 0.0170581,
+ "period_s": 2.0000000000000002e-07,
+ "cycles": 85290.49999999999,
+ "vars_pins": 413447,
+ "vars_top": 17767,
+ "skipped": 0,
+ "time_min": 0.0,
+ "time_max": 17058100000.0,
+ "timescale_s": 1e-12
+}

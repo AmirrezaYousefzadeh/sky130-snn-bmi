@@ -1,0 +1,100 @@
+{
+ "window_events": {
+  "16": 63,
+  "100": 495,
+  "500": 2934,
+  "5000": 26317
+ },
+ "o2_5m_16": {
+  "firmware": "o2",
+  "n_bins": 16,
+  "cycles_per_bin": 9021.5,
+  "events": 63,
+  "events_per_bin": 3.9375,
+  "power_window_mW": 1.951915,
+  "energy_per_bin_nJ": 3521.8402345000004,
+  "leakage_uW": 4.674042,
+  "idle_power_uW": 11.86118,
+  "avg_power_uW_250Hz_clkstopped": 885.1341006250001
+ },
+ "o2_5m_100": {
+  "firmware": "o2",
+  "n_bins": 100,
+  "cycles_per_bin": 10587.44,
+  "events": 495,
+  "events_per_bin": 4.95,
+  "power_window_mW": 1.9670260000000002,
+  "energy_per_bin_nJ": 4165.153950688001,
+  "leakage_uW": 4.674042,
+  "idle_power_uW": 11.86118,
+  "avg_power_uW_250Hz_clkstopped": 1045.9625296720003
+ },
+ "tuned_5m_16": {
+  "firmware": "tuned",
+  "n_bins": 16,
+  "cycles_per_bin": 4795.375,
+  "events": 63,
+  "events_per_bin": 3.9375,
+  "power_window_mW": 2.088725,
+  "energy_per_bin_nJ": 2003.2439293750003,
+  "leakage_uW": 4.673948,
+  "idle_power_uW": 11.86118,
+  "avg_power_uW_250Hz_clkstopped": 505.4849303437501
+ },
+ "tuned_5m_100": {
+  "firmware": "tuned",
+  "n_bins": 100,
+  "cycles_per_bin": 5401.4,
+  "events": 495,
+  "events_per_bin": 4.95,
+  "power_window_mW": 2.107261,
+  "energy_per_bin_nJ": 2276.4319130800004,
+  "leakage_uW": 4.673938,
+  "idle_power_uW": 11.86118,
+  "avg_power_uW_250Hz_clkstopped": 573.7819162700001
+ },
+ "cores": {
+  "bmi_snn_sp": {
+   "100": {
+    "sdf": 2.67969492,
+    "func": 2.3780937960000004
+   },
+   "500": {
+    "sdf": 3.0046116244000003,
+    "func": 2.67350966544
+   },
+   "5000": {
+    "sdf": 2.8020202843199997,
+    "func": 2.3648075831398687
+   }
+  },
+  "bmi_snn_m12": {
+   "100": {
+    "sdf": 5.698538328000001,
+    "func": 4.5472595280000006
+   },
+   "500": {
+    "sdf": 6.511666809599999,
+    "func": 5.2014469248
+   },
+   "5000": {
+    "sdf": 6.0353887164,
+    "func": 4.536197074390381
+   }
+  },
+  "bmi_snn_top": {
+   "100": {
+    "sdf": 37.346495432000005,
+    "func": 32.511724962399995
+   },
+   "500": {
+    "sdf": 41.3279940772,
+    "func": 35.862035477560006
+   },
+   "5000": {
+    "sdf": 40.0802331092,
+    "func": 33.884790403492055
+   }
+  }
+ }
+}

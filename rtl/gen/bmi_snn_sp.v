@@ -12,6 +12,9 @@
 //                     `LATCH_MEM   : the same array in level-sensitive latches written row by row through one integrated
 //                                    clock gate per row (see below): ~25 % less storage area, no hold multiplexers, no
 //                                    clock tree to the array.
+// `W2_PIPE : the output accumulation of a hidden spike is pipelined (find first spike -> read its W2 bytes -> add) so that
+//            a 64-to-1 read from a weight memory, the first-spike finder and the saturating add do not share one cycle
+//            (needed for the standard-cell weight memories at the slow corner; constants fold away in the hardwired cores).
 // `GATE_DP : the weight-row register (w_clk) and the membrane bank (v_clk) get their own integrated clock gates and are
 //            clocked only in the cycles in which they are written (fetch stage / add stage or tick scan); the control
 //            state machine and output accumulators stay on core_clk.
@@ -274,12 +277,44 @@ module bmi_snn_sp #(
       ffs64 = {a[0], ix[5:0]};
     end
   endfunction
-  wire [63:0] s_pad = {{(64-H){1'b0}}, s_r};
-  wire [6:0]  ffs   = ffs64(s_pad);
-  wire        any_spk = ffs[6];
-  wire [6:0]  j_sel   = {1'b0, ffs[5:0]};
+  // H > 64 (round-5 energy-accuracy grid, H = 128): the same tree one level deeper; the extra level is constant-folded away below 128
+  function [7:0] ffs128(input [127:0] s);  // {found, index[6:0]}
+    reg [127:0] a;
+    reg [895:0] ix;                        // 128 x 7-bit indices
+    integer     l, i;
+    begin
+      a = s;
+      for (i = 0; i < 128; i = i + 1) ix[7*i +: 7] = i[6:0];
+      for (l = 0; l < 7; l = l + 1)
+        for (i = 0; i < 64; i = i + 1)
+          if (i < (128 >> (l + 1))) begin
+            ix[7*i +: 7] = a[2*i] ? ix[7*(2*i) +: 7] : ix[7*(2*i+1) +: 7];
+            a[i]         = a[2*i] | a[2*i+1];
+          end
+      ffs128 = {a[0], ix[6:0]};
+    end
+  endfunction
+  wire        any_spk;
+  wire [6:0]  j_sel;
+  generate if (H > 64) begin : g_ffs_wide
+    wire [127:0] s_pad = {{(128-H){1'b0}}, s_r};
+    wire [7:0]   ffs   = ffs128(s_pad);
+    assign any_spk = ffs[7];
+    assign j_sel   = ffs[6:0];
+  end else begin : g_ffs
+    wire [63:0] s_pad = {{(64-H){1'b0}}, s_r};
+    wire [6:0]  ffs   = ffs64(s_pad);
+    assign any_spk = ffs[6];
+    assign j_sel   = {1'b0, ffs[5:0]};
+  end endgenerate
   wire signed [7:0] w2sel_0 = w2_0[8*j_sel +: 8];
   wire signed [7:0] w2sel_1 = w2_1[8*j_sel +: 8];
+`ifdef W2_PIPE
+  reg               p1_valid, p2_valid;      // stage 1: index of the spiking neuron; stage 2: its W2 bytes
+  reg  [6:0]        p1_j;
+  reg  signed [7:0] p2_w0, p2_w1;
+  wire              w2_busy = p1_valid | p2_valid;
+`endif
 
   // ---- weight-row pipeline registers (w_clk domain)
   always @(posedge w_clk) begin
@@ -324,6 +359,9 @@ module bmi_snn_sp #(
       g_valid <= 1'b0; g_gate <= 1'b0;
       row_cnt <= 7'd0; x <= 96'd0; s_r <= {H{1'b0}};
       out_valid <= 1'b0; o0 <= {O_BITS{1'b0}}; o1 <= {O_BITS{1'b0}};
+`ifdef W2_PIPE
+      p1_valid <= 1'b0; p2_valid <= 1'b0; p1_j <= 7'd0; p2_w0 <= 8'sd0; p2_w1 <= 8'sd0;
+`endif
     end else begin
       out_valid <= 1'b0;
       // ---- row pipeline valids, independent of the state machine (data registers: see the w_clk / v_clk blocks)
@@ -337,6 +375,13 @@ module bmi_snn_sp #(
         a_valid <= g_valid;
         if (g_valid) a_gate <= g_gate;
       end
+`ifdef W2_PIPE
+      // ---- output-accumulation pipeline (stage 1 index -> stage 2 W2 bytes -> add), fed by S_OUT one spike per cycle
+      p1_valid <= (state == S_OUT) & any_spk;
+      p2_valid <= p1_valid;
+      if (p1_valid) begin p2_w0 <= w2_0[8*p1_j +: 8]; p2_w1 <= w2_1[8*p1_j +: 8]; end
+      if (p2_valid) begin o0 <= sat_add24w(o0, p2_w0); o1 <= sat_add24w(o1, p2_w1); end
+`endif
       // ---- control
       case (state)
         S_IDLE: begin
@@ -365,6 +410,10 @@ module bmi_snn_sp #(
           state <= S_OUT;
         end
         S_OUT: begin                     // accumulate W2 of the spiking neurons, one per cycle
+`ifdef W2_PIPE
+          if (any_spk) begin p1_j <= {1'b0, ffs[5:0]}; s_r[j_sel] <= 1'b0; end
+          else if (!w2_busy) begin out_valid <= 1'b1; x <= 96'd0; state <= S_IDLE; end
+`else
           if (any_spk) begin
             o0 <= sat_add24w(o0, w2sel_0);
             o1 <= sat_add24w(o1, w2sel_1);
@@ -372,6 +421,7 @@ module bmi_snn_sp #(
           end else begin
             out_valid <= 1'b1; x <= 96'd0; state <= S_IDLE;
           end
+`endif
         end
         default: state <= S_IDLE;
       endcase

@@ -1,0 +1,7 @@
+==== asap7 sram bmi_snn_sp: utilization 40 % (nick bmi_snn_sp_5m_sram_sweep_u40, 02:48)
+   rc=0 drc=0 setup_ws_ns=119.910 hold_ws_ns=NA runtime=9min
+==== asap7 sram bmi_snn_sp: utilization 50 % (nick bmi_snn_sp_5m_sram_sweep_u50, 02:57)
+   rc=0 drc=0 setup_ws_ns=119.907 hold_ws_ns=NA runtime=9min
+==== asap7 sram bmi_snn_sp: utilization 70 % (nick bmi_snn_sp_5m_sram_sweep_u70, 03:06)
+   rc=0 drc=0 setup_ws_ns=119.897 hold_ws_ns=NA runtime=9min
+asap7 sram bmi_snn_sp: sweep done

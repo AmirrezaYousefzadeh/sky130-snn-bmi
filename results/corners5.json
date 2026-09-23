@@ -157,5 +157,58 @@
    "leak_1v28_uW": 0.1219879,
    "pavg_250Hz_uW": 0.7141387614250002
   }
+ },
+ "bmi_snn_g32p50": {
+  "label": "hardwired 12-bit, gated, $H{=}32$, 50\\,\\% synapses",
+  "tt": {
+   "cells": 13775,
+   "area_um2": 101022,
+   "setup_ws_ns": 117.18107704737066,
+   "hold_ws_ns": 0.19677171560215334,
+   "e_tt": {
+    "energy_per_bin_nJ": 2.2089128733000005,
+    "power_uW": 507.4461,
+    "leakage_uW": 0.10901369999999999,
+    "bins": 200,
+    "cycles": 4353
+   },
+   "e_lowv": {
+    "energy_per_bin_nJ": 0.9569064956999999,
+    "power_uW": 219.8269,
+    "leakage_uW": 0.03359089,
+    "bins": 200,
+    "cycles": 4353,
+    "setup_ws_ns": 136.13723126582045,
+    "hold_ws_ns": 3.4118494696144808,
+    "fmax_MHz": 15.658575721362311
+   }
+  },
+  "lv": {
+   "cells": 19218,
+   "area_um2": 119258,
+   "setup_ws_ns": 112.40904347733408,
+   "hold_ws_ns": 0.15899326749636597,
+   "setup_ws_1v28_ns": 112.74196828559023,
+   "hold_ws_1v28_ns": 2.357712314338786,
+   "setup_ws_tt_ns": 118.5793257149087,
+   "drc": 0,
+   "util_pct": 40,
+   "e_sdf_1v28": {
+    "energy_per_bin_nJ": 1.0373181588000002,
+    "power_uW": 238.2996,
+    "leakage_uW": 0.04328637,
+    "bins": 200,
+    "cycles": 4353
+   },
+   "e_func_1v28": {
+    "energy_per_bin_nJ": 0.8068118784,
+    "power_uW": 194.244,
+    "leakage_uW": 0.04329454,
+    "bins": 500,
+    "cycles": 10384
+   },
+   "leak_1v28_uW": 0.04346015,
+   "pavg_250Hz_uW": 0.3027896897000001
+  }
  }
 }

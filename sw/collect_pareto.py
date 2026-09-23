@@ -17,6 +17,9 @@ GRID = [  # tag, H, density, hardened core (12-bit gated hardwired), macro suffi
     ("H32_th256_k44_drop", 32, 1.0, "bmi_snn_min32", "MinH"), ("H32_th256_k44_drop_p0.5", 32, 0.5, "bmi_snn_g32p50", "GcHalf"),
     ("H32_th256_k44_drop_p0.25", 32, 0.25, "bmi_snn_g32p25", "GcQuarter"),
     ("H16_th256_k44_drop", 16, 1.0, "bmi_snn_min16", "MinS"), ("H16_th256_k44_drop_p0.5", 16, 0.5, "bmi_snn_g16p50", "GdHalf"),
+    # round 6 (E4d): four more grid points
+    ("H48_th256_k44_drop", 48, 1.0, "bmi_snn_g48", "GeDense"), ("H48_th256_k44_drop_p0.5", 48, 0.5, "bmi_snn_g48p50", "GeHalf"),
+    ("H48_th256_k44_drop_p0.25", 48, 0.25, "bmi_snn_g48p25", "GeQuarter"), ("H32_th256_k44_drop_p0.125", 32, 0.125, "bmi_snn_g32p125", "GcEighth"),
 ]
 D = json.load(open(ROOT / "results/designs.json"))
 def r2_int(sess, tag, seed):

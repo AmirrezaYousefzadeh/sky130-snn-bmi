@@ -1,0 +1,9 @@
+WARNING: /home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_fe.v:36: $readmemh(/home/yousefzadeha/workspace/BCI_paper/sim/vecfull_indy_20160630_01/stream.hex): Not enough words in the file for the requested range [0:1399999].
+VCD info: dumpfile /home/yousefzadeha/workspace/BCI_paper/sim/build_fe_gls/fe_gls.vcd opened for output.
+SUMMARY: bins=500 events=2934 recorded=2934 ticks=500 errors=0 clk5_cycles=305332 core_clk_cycles=22858 slow_cycles=65500 osc_on_cycles=305075
+PASS: 500 bins, front end serialized every recorded channel exactly once
+/home/yousefzadeha/workspace/BCI_paper/sim/tb_bmi_fe.v:94: $finish called at 1998989900000 (1ps)
+
+real	0m15.903s
+user	0m10.617s
+sys	0m0.152s

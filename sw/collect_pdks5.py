@@ -14,7 +14,8 @@ from collect_results import parse_metrics, RATE, parse_group_table
 ROOT = Path(__file__).resolve().parent.parent
 TCLK = 200.0
 CORES = {"sp": ("Sp", "hardwired 12-bit gated, 25 % synapses"), "m12": ("MinT", "hardwired 12-bit gated"), "min32": ("MinH", "hardwired 16-bit, $H{=}32$"),
-         "min16": ("MinS", "hardwired 16-bit, $H{=}16$"), "lmin2": ("LmMinP", "latch memory, 12-bit gated, pipelined")}
+         "min16": ("MinS", "hardwired 16-bit, $H{=}16$"), "lmin2": ("LmMinP", "latch memory, 12-bit gated, pipelined"),
+         "g32p50": ("GcHalf", "hardwired 12-bit gated, $H{=}32$, 50 % synapses")}   # round 6 (E4c): the H = 32 / 50 % grid core on every kit
 PLAT = {"ihp": "ihp-sg13g2", "nangate45": "nangate45", "asap7": "asap7", "asap7sram": "asap7"}
 LIBD_GF = "/media/pdk/gf180mcuD/libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib"
 VOLT_LIBS = {   # low-voltage re-evaluations of sim/measure_pdk5.sh: corner -> liberty (list) for the voltage
@@ -37,6 +38,10 @@ def slack_of(d):
         x = float(x); return x * 1e9 if abs(x) < 1e-3 else x
     return ns("setup_ws", "setup_ws_ns"), ns("hold_ws", "hold_ws_ns")
 D5 = json.load(open(ROOT / "results/designs.json"))
+def _load(p):
+    try: return json.load(open(ROOT / p))
+    except Exception: return {}
+HOLD6 = _load("results/hold6.json"); LEAK6 = _load("results/leak_split6.json")     # round 6: E7 hold slacks, E3a leakage classes
 out = {}
 for kit, cfg in PDKS.items():
     for core, (csh, clabel) in CORES.items():
@@ -90,10 +95,31 @@ for kit, cfg in PDKS.items():
                                      energy_dyn_per_bin_nJ=(P - g["Total"]["leakage"]) * T / d["event"]["tb"]["bins"] * 1e9,     # dynamic part: the low-voltage liberty is characterized at another temperature
                                      setup_ws_ns=ws, hold_ws_ns=wh, fmax_MHz=(1e3 / (TCLK - ws)) if (ws is not None and ws < TCLK) else None, timing_met=(ws or 0) >= 0)
             d["volt"][corner]["avg_power_uW_250Hz_clkstopped"] = d["volt"][corner]["energy_per_bin_nJ"] * RATE * 1e-3 + d["volt"][corner]["leakage_uW"]
+        # ---- round 6 additions
+        if kit == "sky130":
+            fb = (D5.get(D) or {}).get("full", {}).get("indy_20160630_01", {})
+            if fb.get("sdf"): d["event_sdf_w5000"] = fb["sdf"]              # E2: the 5,000-bin annotated window of Table 3
+            if fb.get("func"): d["event_func_full"] = fb["func"]
+        else:
+            ew = run_energy(f"pdk5_{kit}_{core}_sdf_w5000", TCLK, None) or (run_energy(f"pdk5_{kit}_{core}_func_w5000", TCLK, None) if kit == "nangate45" else None)
+            if ew: d["event_sdf_w5000"] = ew; d["event_sdf_w5000"]["zero_delay"] = (kit == "nangate45")
+        h6 = HOLD6.get(f"{kit}/{core}")
+        if h6:                                                                # E7: worst hold over the checked corners (OpenSTA, SPEF, propagated clock)
+            d["hold6"] = h6
+            if d.get("pnr") is not None and d["pnr"].get("hold_ws_ns") is None: d["pnr"]["hold_ws_ns"] = h6["worst_hold_ws_ns"]; d["pnr"]["hold_source"] = "opensta_round6"
+        lc = LEAK6.get(f"{kit}/{core}")
+        if lc: d["leak_classes"] = lc                                          # E3a: fill / decap / tap / diode / endcap leakage
+        nd = ROOT / (f"power/out_vcd_{D}_5m_nodecap_idle_full/power_vcd.rpt" if kit == "sky130" else f"power/out_vcd_pdk5_{kit}_{core}_nodecap_idle_full/power_vcd.rpt")
+        if nd.exists(): d["leak_nodecap_uW"] = parse_group_table(nd)["Total"]["leakage"] * 1e6   # E3b: fill without decap cells
         if d.get("event") and d.get("idle"):
             d["avg_power_uW_250Hz_clkstopped"] = d["event"]["energy_per_bin_nJ"] * RATE * 1e-3 + d["idle"]["leakage_uW"]
+            if d.get("leak_nodecap_uW") is not None: d["avg_power_uW_250Hz_clkstopped_nodecap"] = d["event"]["energy_per_bin_nJ"] * RATE * 1e-3 + d["leak_nodecap_uW"]
             d["energy_dyn_per_bin_nJ"] = (d["event"]["power_avg_uW"] - d["idle"]["leakage_uW"]) * 1e-6 * d["event"]["cycles_per_bin"] * TCLK * 1e-9 * 1e9
             if d.get("leak_split"): d["avg_power_uW_250Hz_clkstopped_logic"] = d["event"]["energy_per_bin_nJ"] * RATE * 1e-3 + d["leak_split"]["leak_logic_uW"]
+        if d.get("event_sdf_w5000") and d.get("idle"):
+            d["avg_power_uW_250Hz_clkstopped_sdfw"] = d["event_sdf_w5000"]["energy_per_bin_nJ"] * RATE * 1e-3 + d["idle"]["leakage_uW"]
+            ew = d["event_sdf_w5000"]
+            if ew.get("power_avg_uW") and ew.get("cycles_per_bin"): d["energy_dyn_per_bin_nJ_sdfw"] = (ew["power_avg_uW"] - d["idle"]["leakage_uW"]) * 1e-6 * ew["cycles_per_bin"] * TCLK * 1e-9 * 1e9
         if d.get("event_sdf") and d.get("idle"): d["avg_power_uW_250Hz_clkstopped_sdf"] = d["event_sdf"]["energy_per_bin_nJ"] * RATE * 1e-3 + d["idle"]["leakage_uW"]
         out[f"{kit}/{core}"] = d
 json.dump(out, open(ROOT / "results/pdks5.json", "w"), indent=1, default=float)
@@ -105,8 +131,13 @@ def macs(d, suf):
     area = pnr.get("instance_area_um2"); items = [("area", area / 1e6 if area else None), ("e", e.get("energy_per_bin_nJ")), ("eSdf", (d.get("event_sdf") or {}).get("energy_per_bin_nJ")),
         ("eDyn", d.get("energy_dyn_per_bin_nJ")), ("leak", i.get("leakage_uW")), ("pavg", d.get("avg_power_uW_250Hz_clkstopped")), ("pavgSdf", d.get("avg_power_uW_250Hz_clkstopped_sdf")),
         ("slack", pnr.get("setup_ws_ns")), ("hold", pnr.get("hold_ws_ns")), ("volt", d.get("voltage")), ("cells", pnr.get("stdcells")), ("drc", pnr.get("drc_errors")),
+        ("eSdfW", (d.get("event_sdf_w5000") or {}).get("energy_per_bin_nJ")), ("pavgSdfW", d.get("avg_power_uW_250Hz_clkstopped_sdfw")),   # round 6, E2
+        ("leakFill", ((d.get("leak_classes") or {}).get("fill") or {}).get("leak_uW")), ("leakDecap", ((d.get("leak_classes") or {}).get("decap") or {}).get("leak_uW")),   # E3a
+        ("leakTap", ((d.get("leak_classes") or {}).get("tap") or {}).get("leak_uW")), ("leakDiode", ((d.get("leak_classes") or {}).get("diode") or {}).get("leak_uW")),
+        ("leakNoDecap", d.get("leak_nodecap_uW")), ("pavgNoDecap", d.get("avg_power_uW_250Hz_clkstopped_nodecap")),
         ("leakLogic", ls.get("leak_logic_uW")), ("leakPhys", ls.get("leak_phys_uW")), ("pavgLogic", d.get("avg_power_uW_250Hz_clkstopped_logic")), ("util", pnr.get("util_target_pct")),
-        ("leakEv", e.get("leakage_uW")), ("physcells", ls.get("n_phys")), ("cyc", e.get("cycles_per_bin")), ("lat", e.get("latency_us")), ("pdec", e.get("power_avg_uW"))]
+        ("leakEv", e.get("leakage_uW")), ("physcells", ls.get("n_phys")), ("cyc", e.get("cycles_per_bin")), ("lat", e.get("latency_us")), ("pdec", e.get("power_avg_uW")),
+        ("glitch", ((d.get("event_sdf") or {}).get("energy_per_bin_nJ") / e["energy_per_bin_nJ"]) if (e.get("energy_per_bin_nJ") and (d.get("event_sdf") or {}).get("energy_per_bin_nJ")) else None)]   # round 6: the table's glitch factor as a macro (the paper had it typed in)
     for k, v in items: M.append(f"\\newcommand{{\\pdk{k}{suf}}}{{{f(v, 4 if k in ('cells', 'physcells', 'slack') else 3)}}}")
     for corner, vd in (d.get("volt") or {}).items():
         cs = re.sub(r"[^A-Za-z]", "", corner.replace("0", "Zero").replace("1", "One").replace("2", "Two").replace("3", "Three").replace("4", "Four").replace("5", "Five").replace("6", "Six").replace("8", "Eight"))
@@ -154,8 +185,8 @@ for key, d in out.items():
 # ---- table: one row per kit and core (E5 columns: node, supply, utilization, area, cells, slack, E zero-delay, E annotated or n/a,
 # glitch factor, leakage logic, leakage total, P_avg at 250 bins/s from the annotated energy where available and the total leakage,
 # E_bin / leakage / f_max at the lowest characterized supply with its temperature)
-hdr = "Kit & Core & Node & $V$ & Util. & Area & Cells & Setup & $E_{\\mathrm{bin}}$ & $E_{\\mathrm{bin}}$ ann. & Glitch & Leak.\\ logic & Leak.\\ total & $P_{\\mathrm{avg}}$ & $V_{\\mathrm{low}}$ & $T$ & $E_{\\mathrm{bin}}$ & $E_{\\mathrm{dyn}}$ & Leak. & $f_{\\max}$ \\\\"
-units = " & & & V & \\% & mm$^2$ & & ns & nJ & nJ & & \\si{\\micro\\watt} & \\si{\\micro\\watt} & \\si{\\micro\\watt} & V & $^{\\circ}$C & nJ & nJ & \\si{\\micro\\watt} & MHz \\\\"
+hdr = "Kit & Core & Node & $V$ & Util. & Area & Cells & Setup & Hold & $E_{\\mathrm{bin}}$ & $E_{\\mathrm{bin}}$ ann. & $E_{\\mathrm{bin}}$ ann.\\ 5k & Glitch & Leak.\\ logic & Leak.\\ total & $P_{\\mathrm{avg}}$ & $V_{\\mathrm{low}}$ & $T$ & $E_{\\mathrm{bin}}$ & $E_{\\mathrm{dyn}}$ & Leak. & $f_{\\max}$ \\\\"
+units = " & & & V & \\% & mm$^2$ & & ns & ns & nJ & nJ & nJ & & \\si{\\micro\\watt} & \\si{\\micro\\watt} & \\si{\\micro\\watt} & V & $^{\\circ}$C & nJ & nJ & \\si{\\micro\\watt} & MHz \\\\"
 rows = []
 for key, d in out.items():
     pnr = d.get("pnr") or {}; e = d.get("event") or {}; es = d.get("event_sdf") or {}; i = d.get("idle") or {}; ls = d.get("leak_split") or {}
@@ -167,21 +198,26 @@ for key, d in out.items():
     pav = (ea if ea else ez); pav = (pav * RATE * 1e-3 + i["leakage_uW"]) if (pav and i.get("leakage_uW") is not None) else None
     ann = f(ea) if ea else ("n/a" if d["flow"] == "ORFS" and key.split("/")[0] in ("nangate45", "ihp") else "--")
     phys_note = "$^{\\S}$" if ls.get("phys_from_liberty") else ""
-    rows.append(f"{d['label']}{drcflag}{'' if d['fab'] else ' (pred.)'} & {d['core_sh']} & {d['node']} & {f(d['voltage'], 2)} & {f(pnr.get('util_target_pct'), 2)} & {f(area / 1e6 if area else None)} & {f(pnr.get('stdcells'), 4)} & {f(pnr.get('setup_ws_ns'), 4)}{flag} & "
-                f"{f(ez)} & {ann} & {f(glitch)} & {f(ls.get('leak_logic_uW'))} & {f(i.get('leakage_uW'))}{phys_note} & {f(pav)} & "
+    ew = (d.get("event_sdf_w5000") or {}).get("energy_per_bin_nJ")       # round 6 (E2): the annotated 5,000-bin window (zero-delay on NanGate45, marked)
+    annw = (f"{f(ew)}" + ("$^{\\P}$" if (d.get("event_sdf_w5000") or {}).get("zero_delay") else "")) if ew else "--"
+    hold = pnr.get("hold_ws_ns"); holds = f(hold, 3) + ("$^{\\ast}$" if pnr.get("hold_source") == "opensta_round6" else "") if hold is not None else "--"   # E7
+    if ann != "--" and ann != "n/a" and ew: pav = ew * RATE * 1e-3 + i["leakage_uW"]                                     # P_avg from the 5,000-bin window where it exists
+    rows.append(f"{d['label']}{drcflag}{'' if d['fab'] else ' (pred.)'} & {d['core_sh']} & {d['node']} & {f(d['voltage'], 2)} & {f(pnr.get('util_target_pct'), 2)} & {f(area / 1e6 if area else None)} & {f(pnr.get('stdcells'), 4)} & {f(pnr.get('setup_ws_ns'), 4)}{flag} & {holds} & "
+                f"{f(ez)} & {ann} & {annw} & {f(glitch)} & {f(ls.get('leak_logic_uW'))} & {f(i.get('leakage_uW'))}{phys_note} & {f(pav)} & "
                 + (f"{f(lv['voltage'], 2)} & {f(lv['temperature'], 3)} & {f(lv['energy_per_bin_nJ'])} & {f(lv['energy_dyn_per_bin_nJ'])} & {f(lv['leakage_uW'])} & {f(lv['fmax_MHz'])}" if lv else "-- & -- & -- & -- & -- & --") + " \\\\")
     d["glitch_factor"] = glitch; d["avg_power_uW_250Hz_clkstopped_best"] = pav; d["bit_exact_500"] = e.get("pass")
-(ROOT / "paper/pdks_table.tex").write_text("\\begin{tabular}{@{}lll cc rr r rr r rr r ccrrrr@{}}\n\\toprule\n" + hdr + "\n" + units + "\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}%\n"
-    "% $^{\\dagger}$ timing not met at 200 ns; $^{\\ddagger}$ route not DRC-clean; $^{\\S}$ physical-cell leakage from the liberty (the flow reports none for fillers); n/a: the kit ships no timed simulation models (zero-delay activity).\n")
+(ROOT / "paper/pdks_table.tex").write_text("\\begin{tabular}{@{}lll cc rr rr rrr r rr r ccrrrr@{}}\n\\toprule\n" + hdr + "\n" + units + "\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}%\n"
+    "% $^{\\dagger}$ timing not met at 200 ns; $^{\\ddagger}$ route not DRC-clean; $^{\\S}$ physical-cell leakage from the liberty (the flow reports none for fillers); n/a: the kit ships no timed simulation models (zero-delay activity);\n"
+    "% $^{\\P}$ zero-delay 5,000-bin window (no timed models); $^{\\ast}$ hold slack from an OpenSTA check on the routed netlist and parasitics (round 6, E7; the ORFS flow reports none).\n")
 json.dump(out, open(ROOT / "results/pdks5.json", "w"), indent=1, default=float)
 # ---- average power vs decode rate (clock stopped between bins): P = E_dyn * rate + leakage
 with open(ROOT / "results/pdks_pavg_vs_rate.csv", "w") as fh:
-    fh.write("kit,core,voltage_V,rate_bins_per_s,energy_dyn_per_bin_nJ,leakage_total_uW,leakage_logic_uW,p_avg_uW,p_avg_logic_leak_uW\n")
+    fh.write("kit,core,voltage_V,rate_bins_per_s,energy_dyn_per_bin_nJ,leakage_total_uW,leakage_logic_uW,p_avg_uW,p_avg_logic_leak_uW,energy_window\n")
     for key, d in out.items():
         if not (d.get("event") and d.get("idle")): continue
-        ed = d["energy_dyn_per_bin_nJ"]; lk = d["idle"]["leakage_uW"]; ll = (d.get("leak_split") or {}).get("leak_logic_uW")
+        ed = d.get("energy_dyn_per_bin_nJ_sdfw") or d["energy_dyn_per_bin_nJ"]; lk = d["idle"]["leakage_uW"]; ll = (d.get("leak_split") or {}).get("leak_logic_uW")   # round 6 (E2): 5,000-bin annotated window where measured
         for r in (1, 2, 5, 10, 20, 50, 100, 250, 500, 1000):
-            fh.write(f"{d['label']},{d['core']},{d['voltage']},{r},{ed:.5g},{lk:.5g},{'' if ll is None else f'{ll:.5g}'},{ed * r * 1e-3 + lk:.5g},{'' if ll is None else f'{ed * r * 1e-3 + ll:.5g}'}\n")
+            fh.write(f"{d['label']},{d['core']},{d['voltage']},{r},{ed:.5g},{lk:.5g},{'' if ll is None else f'{ll:.5g}'},{ed * r * 1e-3 + lk:.5g},{'' if ll is None else f'{ed * r * 1e-3 + ll:.5g}'},{'sdf_w5000' if d.get('energy_dyn_per_bin_nJ_sdfw') else 'func_200'}\n")
 # ---- markdown summary for the run log
 md = ["| kit | core | V | util % | area mm2 | cells | setup ns | E nJ | E ann. nJ | glitch | leak logic uW | leak total uW | P_avg uW | V_low (T) | E_low nJ | E_low dyn nJ | leak_low uW | f_max MHz | bit-exact 500 |", "|---" * 19 + "|"]
 for key, d in out.items():

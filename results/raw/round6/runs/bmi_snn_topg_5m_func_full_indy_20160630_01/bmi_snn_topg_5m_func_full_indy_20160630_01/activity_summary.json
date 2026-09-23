@@ -1,0 +1,12 @@
+{
+ "tsv": "/home/yousefzadeha/workspace/BCI_paper/sim/build_bmi_snn_topg_5m_func_full_indy_20160630_01/toggles.tsv",
+ "duration_s": 3.6088345,
+ "period_s": 2.0000000000000002e-07,
+ "cycles": 18044172.5,
+ "vars_pins": 139297,
+ "vars_top": 14885,
+ "skipped": 0,
+ "time_min": 0.0,
+ "time_max": 3608834500000.0,
+ "timescale_s": 1e-12
+}

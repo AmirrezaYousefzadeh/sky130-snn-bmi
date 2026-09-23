@@ -1,0 +1,26 @@
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz line 13178, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz line 13211, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz line 13244, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz line 13277, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz line 13310, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz line 13343, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz line 13376, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz line 14772, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz line 14805, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz line 14838, timing group from output port.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_sp_5m_sram/base/6_final.v line 19515, module DECAPx10_ASAP7_75t_SRAM not found. Creating black box for FILLER_1_346.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_sp_5m_sram/base/6_final.v line 19524, module DECAPx1_ASAP7_75t_SRAM not found. Creating black box for FILLER_1_286.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_sp_5m_sram/base/6_final.v line 19527, module DECAPx6_ASAP7_75t_SRAM not found. Creating black box for FILLER_1_272.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_sp_5m_sram/base/6_final.v line 19530, module FILLER_ASAP7_75t_SRAM not found. Creating black box for FILLER_1_258.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_sp_5m_sram/base/6_final.v line 19538, module FILLERxp5_ASAP7_75t_SRAM not found. Creating black box for FILLER_1_232.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_sp_5m_sram/base/6_final.v line 19543, module DECAPx4_ASAP7_75t_SRAM not found. Creating black box for FILLER_1_222.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_sp_5m_sram/base/6_final.v line 19636, module DECAPx2_ASAP7_75t_SRAM not found. Creating black box for FILLER_0_858.
+Warning: /media/pdk/OpenROAD-flow-scripts/flow/results/asap7/bmi_snn_sp_5m_sram/base/6_final.v line 37913, module TAPCELL_ASAP7_75t_SRAM not found. Creating black box for TAP_TAPCELL_ROW_223_673.
+worst slack 57.97127
+worst slack 119867.92188
+Startpoint                           Endpoint                               Slack
+--------------------------------------------------------------------------------
+state[2]$_SDFFE_PP0P_/QN (DFFHQNx2_ASAP7_75t_SRAM) v[24][7]$_SDFF_PP0_/D (DFFHQNx2_ASAP7_75t_SRAM)   57.97
+state[2]$_SDFFE_PP0P_/QN (DFFHQNx2_ASAP7_75t_SRAM) v[24][6]$_SDFF_PP0_/D (DFFHQNx2_ASAP7_75t_SRAM)   58.80
+state[0]$_SDFFE_PP0P_/QN (DFFHQNx2_ASAP7_75t_SRAM) v[11][6]$_SDFF_PP0_/D (DFFHQNx2_ASAP7_75t_SRAM)   62.34
+

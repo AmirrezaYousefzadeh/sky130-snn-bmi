@@ -1,0 +1,28 @@
+SoC simulations finished (10:03:18)
+sim/build_riscv_gls_5m_o2_100/vvp.log:CLK: period=200 ns  reset_cycles=64  sleep_cycles=10000
+sim/build_riscv_gls_5m_o2_100/vvp.log:PASS: digit=0  tohost=1  cycles~45  sram_clk_en=0
+sim/build_riscv_gls_5m_o2_100/vvp.log:/home/yousefzadeha/workspace/BCI_paper/../skywater/simulation/tb_fw_mnist.v:177: $finish called at 215916700000 (1ps)
+sim/build_riscv_gls_5m_tuned_100/vvp.log:CLK: period=200 ns  reset_cycles=64  sleep_cycles=10000
+sim/build_riscv_gls_5m_tuned_100/vvp.log:PASS: digit=0  tohost=1  cycles~53  sram_clk_en=0
+sim/build_riscv_gls_5m_tuned_100/vvp.log:/home/yousefzadeha/workspace/BCI_paper/../skywater/simulation/tb_fw_mnist.v:177: $finish called at 112303500000 (1ps)
+==== SoC window o2_5m_100: sim/build_riscv_gls_5m_o2_100/riscv_gls_5m_o2_100.vcd (10:03:18)
+window 2156500 213905102 1ns cycles 1058744 awake 1058741 cyc/bin 10587.44
+
+real	2m24.762s
+user	2m14.800s
+sys	0m6.400s
+-- pwr: Total                1.314636e-03 6.477154e-04 4.674042e-06 1.967026e-03 100.0%
+-- asgen: Total                1.336384e-03 6.477154e-04 4.674042e-06 1.988774e-03 100.0%
+-- idle (8,000 sleep cycles, clock running): Total                6.100606e-06 1.085969e-06 4.674600e-06 1.186118e-05 100.0%
+==== SoC window o2_5m_100 done (10:11:42)
+==== SoC window tuned_5m_100: sim/build_riscv_gls_5m_tuned_100/riscv_gls_5m_tuned_100.vcd (10:11:42)
+window 2262500 110290302 1ns cycles 540140 awake 540137 cyc/bin 5401.4
+
+real	1m18.367s
+user	1m14.740s
+sys	0m2.356s
+-- pwr: Total                1.398952e-03 7.036350e-04 4.673938e-06 2.107261e-03 100.0%
+-- asgen: Total                1.424166e-03 7.036350e-04 4.673938e-06 2.132475e-03 100.0%
+-- idle (8,000 sleep cycles, clock running): Total                6.100606e-06 1.085969e-06 4.674600e-06 1.186118e-05 100.0%
+==== SoC window tuned_5m_100 done (10:16:11)
+==== SoC windows done (10:16:11)

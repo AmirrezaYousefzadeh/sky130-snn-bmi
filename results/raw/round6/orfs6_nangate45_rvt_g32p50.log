@@ -1,0 +1,5 @@
+==== nangate45 rvt bmi_snn_g32p50: utilization 60 % (nick bmi_snn_g32p50_5m_u60, 02:00)
+   rc=2 drc=NA setup_ws_ns=NA hold_ws_ns=NA runtime=1min
+==== nangate45 rvt bmi_snn_g32p50: utilization 50 % (nick bmi_snn_g32p50_5m_u50, 02:01)
+   rc=0 drc=0 setup_ws_ns=119.791 hold_ws_ns=NA runtime=5min
+   -> accepted

@@ -1,0 +1,12 @@
+{
+ "tsv": "/home/yousefzadeha/workspace/BCI_paper/sim/build_pdk5_ihp_min16_sdf_w5000/toggles.tsv",
+ "duration_s": 0.0193609,
+ "period_s": 2.0000000000000002e-07,
+ "cycles": 96804.5,
+ "vars_pins": 48010,
+ "vars_top": 11978,
+ "skipped": 0,
+ "time_min": 0.0,
+ "time_max": 19360900000.0,
+ "timescale_s": 1e-12
+}

@@ -1,0 +1,17 @@
+8 physical-only cell types stubbed: ['DECAPx10_ASAP7_75t_SRAM', 'DECAPx1_ASAP7_75t_SRAM', 'DECAPx2_ASAP7_75t_SRAM', 'DECAPx4_ASAP7_75t_SRAM', 'DECAPx6_ASAP7_75t_SRAM', 'FILLER_ASAP7_75t_SRAM'] ...
+==== asap7sram m12 pdk5_asap7sram_m12_md0_full re-annotated (02:44:29)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_m12_md0_full/power_vcd.rpt:Total                1.484415e-05 1.315956e-05 5.722324e-07 2.857594e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_m12_md0_full/sta.log:WORST_SETUP_SLACK 1.9842296694605466e-7
+==== asap7sram m12 pdk5_asap7sram_m12_md0_full at SS re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_m12_md0_full_SS/power_vcd.rpt:Total                1.158340e-05 1.023798e-05 7.480904e-06 2.930228e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_m12_md0_full_SS/sta.log:WORST_SETUP_SLACK 1.9783082905178162e-7
+==== asap7sram m12 pdk5_asap7sram_m12_md0_sdf re-annotated (02:44:58)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_m12_md0_sdf/power_vcd.rpt:Total                1.798064e-05 1.600599e-05 5.727015e-07 3.455933e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_m12_md0_sdf/sta.log:WORST_SETUP_SLACK 1.9842296694605466e-7
+==== asap7sram m12 pdk5_asap7sram_m12_idle_full re-annotated (02:45:10)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_m12_idle_full/power_vcd.rpt:Total                4.846843e-07 6.959340e-08 8.426013e-07 1.396879e-06 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_m12_idle_full/sta.log:WORST_SETUP_SLACK 1.9842296694605466e-7
+==== asap7sram m12 pdk5_asap7sram_m12_idle_full at SS re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_m12_idle_full_SS/power_vcd.rpt:Total                3.726373e-07 5.307936e-08 1.120895e-05 1.163467e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7sram_m12_idle_full_SS/sta.log:WORST_SETUP_SLACK 1.9783082905178162e-7
+==== asap7sram m12 sta done (02:45:45)

@@ -1,0 +1,533 @@
+{
+ "nangate45/sp": {
+  "typical": {
+   "hold_ws_ns": 0.00098,
+   "setup_ws_ns": 119.80174,
+   "libs": [
+    "NangateOpenCellLibrary_typical.lib"
+   ]
+  },
+  "worst_hold_ws_ns": 0.00098,
+  "worst_hold_corner": "typical"
+ },
+ "nangate45/m12": {
+  "typical": {
+   "hold_ws_ns": -0.02457,
+   "setup_ws_ns": 119.80926,
+   "libs": [
+    "NangateOpenCellLibrary_typical.lib"
+   ]
+  },
+  "worst_hold_ws_ns": -0.02457,
+  "worst_hold_corner": "typical"
+ },
+ "nangate45/min32": {
+  "typical": {
+   "hold_ws_ns": 0.10557,
+   "setup_ws_ns": 119.7964,
+   "libs": [
+    "NangateOpenCellLibrary_typical.lib"
+   ]
+  },
+  "worst_hold_ws_ns": 0.10557,
+  "worst_hold_corner": "typical"
+ },
+ "nangate45/min16": {
+  "typical": {
+   "hold_ws_ns": 0.10556,
+   "setup_ws_ns": 119.83845,
+   "libs": [
+    "NangateOpenCellLibrary_typical.lib"
+   ]
+  },
+  "worst_hold_ws_ns": 0.10556,
+  "worst_hold_corner": "typical"
+ },
+ "nangate45/lmin2": {
+  "typical": {
+   "hold_ws_ns": -0.02445,
+   "setup_ws_ns": 0.0,
+   "libs": [
+    "NangateOpenCellLibrary_typical.lib"
+   ]
+  },
+  "worst_hold_ws_ns": -0.02445,
+  "worst_hold_corner": "typical"
+ },
+ "nangate45/g32p50": {
+  "typical": {
+   "hold_ws_ns": 0.03527,
+   "setup_ws_ns": 119.7914,
+   "libs": [
+    "NangateOpenCellLibrary_typical.lib"
+   ]
+  },
+  "worst_hold_ws_ns": 0.03527,
+  "worst_hold_corner": "typical"
+ },
+ "ihp/sp": {
+  "typ_1p20V_25C": {
+   "hold_ws_ns": 0.07255,
+   "setup_ws_ns": 119.45399,
+   "libs": [
+    "sg13g2_stdcell_typ_1p20V_25C.lib"
+   ]
+  },
+  "slow_1p08V_125C": {
+   "hold_ws_ns": 0.14419,
+   "setup_ws_ns": 119.12975,
+   "libs": [
+    "sg13g2_stdcell_slow_1p08V_125C.lib"
+   ]
+  },
+  "fast_1p32V_m40C": {
+   "hold_ws_ns": 0.06389,
+   "setup_ws_ns": 119.64038,
+   "libs": [
+    "sg13g2_stdcell_fast_1p32V_m40C.lib"
+   ]
+  },
+  "worst_hold_ws_ns": 0.06389,
+  "worst_hold_corner": "fast_1p32V_m40C"
+ },
+ "ihp/min32": {
+  "typ_1p20V_25C": {
+   "hold_ws_ns": 0.30208,
+   "setup_ws_ns": 119.47515,
+   "libs": [
+    "sg13g2_stdcell_typ_1p20V_25C.lib"
+   ]
+  },
+  "slow_1p08V_125C": {
+   "hold_ws_ns": 0.47902,
+   "setup_ws_ns": 119.16216,
+   "libs": [
+    "sg13g2_stdcell_slow_1p08V_125C.lib"
+   ]
+  },
+  "fast_1p32V_m40C": {
+   "hold_ws_ns": 0.20128,
+   "setup_ws_ns": 119.65147,
+   "libs": [
+    "sg13g2_stdcell_fast_1p32V_m40C.lib"
+   ]
+  },
+  "worst_hold_ws_ns": 0.20128,
+  "worst_hold_corner": "fast_1p32V_m40C"
+ },
+ "ihp/min16": {
+  "typ_1p20V_25C": {
+   "hold_ws_ns": 0.30811,
+   "setup_ws_ns": 119.50472,
+   "libs": [
+    "sg13g2_stdcell_typ_1p20V_25C.lib"
+   ]
+  },
+  "slow_1p08V_125C": {
+   "hold_ws_ns": 0.48804,
+   "setup_ws_ns": 119.2139,
+   "libs": [
+    "sg13g2_stdcell_slow_1p08V_125C.lib"
+   ]
+  },
+  "fast_1p32V_m40C": {
+   "hold_ws_ns": 0.20451,
+   "setup_ws_ns": 119.67272,
+   "libs": [
+    "sg13g2_stdcell_fast_1p32V_m40C.lib"
+   ]
+  },
+  "worst_hold_ws_ns": 0.20451,
+  "worst_hold_corner": "fast_1p32V_m40C"
+ },
+ "asap7/sp": {
+  "TT": {
+   "hold_ws_ns": 0.025418970000000003,
+   "setup_ws_ns": 119.89054688,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_DFFHQNH2V2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFFHQNV2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFFHQNV4X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFHV2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_INVBUF_RVT_TT_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_TT_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz"
+   ]
+  },
+  "SS": {
+   "hold_ws_ns": 0.045670520000000006,
+   "setup_ws_ns": 119.83525,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz"
+   ]
+  },
+  "FF": {
+   "hold_ws_ns": 0.011176140000000001,
+   "setup_ws_ns": 119.9140625,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_RVT_FF_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_FF_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_FF_nldm_211120.lib.gz"
+   ]
+  },
+  "worst_hold_ws_ns": 0.011176140000000001,
+  "worst_hold_corner": "FF"
+ },
+ "asap7/m12": {
+  "TT": {
+   "hold_ws_ns": -0.007144040000000001,
+   "setup_ws_ns": 119.86307812000001,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_DFFHQNH2V2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFFHQNV2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFFHQNV4X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFHV2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_INVBUF_RVT_TT_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_TT_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz"
+   ]
+  },
+  "SS": {
+   "hold_ws_ns": 1.17e-06,
+   "setup_ws_ns": 119.79344531,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz"
+   ]
+  },
+  "FF": {
+   "hold_ws_ns": -0.01180864,
+   "setup_ws_ns": 119.89332812,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_RVT_FF_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_FF_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_FF_nldm_211120.lib.gz"
+   ]
+  },
+  "worst_hold_ws_ns": -0.01180864,
+  "worst_hold_corner": "FF"
+ },
+ "asap7/min32": {
+  "TT": {
+   "hold_ws_ns": 0.05189466,
+   "setup_ws_ns": 119.88928125,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_DFFHQNH2V2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFFHQNV2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFFHQNV4X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFHV2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_INVBUF_RVT_TT_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_TT_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz"
+   ]
+  },
+  "SS": {
+   "hold_ws_ns": 0.07898968,
+   "setup_ws_ns": 119.83294531,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz"
+   ]
+  },
+  "FF": {
+   "hold_ws_ns": 0.03963048,
+   "setup_ws_ns": 119.91340625000001,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_RVT_FF_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_FF_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_FF_nldm_211120.lib.gz"
+   ]
+  },
+  "worst_hold_ws_ns": 0.03963048,
+  "worst_hold_corner": "FF"
+ },
+ "asap7/min16": {
+  "TT": {
+   "hold_ws_ns": 0.0524482,
+   "setup_ws_ns": 119.88742969,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_DFFHQNH2V2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFFHQNV2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFFHQNV4X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFHV2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_INVBUF_RVT_TT_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_TT_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz"
+   ]
+  },
+  "SS": {
+   "hold_ws_ns": 0.07983672,
+   "setup_ws_ns": 119.8314375,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz"
+   ]
+  },
+  "FF": {
+   "hold_ws_ns": 0.039845860000000004,
+   "setup_ws_ns": 119.91187500000001,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_RVT_FF_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_FF_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_FF_nldm_211120.lib.gz"
+   ]
+  },
+  "worst_hold_ws_ns": 0.039845860000000004,
+  "worst_hold_corner": "FF"
+ },
+ "asap7/g32p50": {
+  "TT": {
+   "hold_ws_ns": 0.01963083,
+   "setup_ws_ns": 119.87932812000001,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_DFFHQNH2V2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFFHQNV2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFFHQNV4X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_DFHV2X_RVT_TT_nldm_FAKE.lib",
+    "asap7sc7p5t_INVBUF_RVT_TT_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_TT_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz"
+   ]
+  },
+  "SS": {
+   "hold_ws_ns": 0.0235425,
+   "setup_ws_ns": 119.81784375000001,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz"
+   ]
+  },
+  "FF": {
+   "hold_ws_ns": 0.02045716,
+   "setup_ws_ns": 119.90641406,
+   "libs": [
+    "asap7sc7p5t_AO_RVT_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_RVT_FF_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_RVT_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_RVT_FF_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_RVT_FF_nldm_211120.lib.gz"
+   ]
+  },
+  "worst_hold_ws_ns": 0.01963083,
+  "worst_hold_corner": "TT"
+ },
+ "asap7sram/sp": {
+  "TT": {
+   "hold_ws_ns": 0.05797127,
+   "setup_ws_ns": 119.86792188,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_TT_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_TT_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz"
+   ]
+  },
+  "SS": {
+   "hold_ws_ns": 0.10749762,
+   "setup_ws_ns": 119.788625,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_SS_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_SS_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_SS_nldm_211120.lib.gz"
+   ]
+  },
+  "FF": {
+   "hold_ws_ns": 0.029450530000000003,
+   "setup_ws_ns": 119.91050781,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_FF_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_FF_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_FF_nldm_211120.lib.gz"
+   ]
+  },
+  "worst_hold_ws_ns": 0.029450530000000003,
+  "worst_hold_corner": "FF"
+ },
+ "asap7sram/m12": {
+  "TT": {
+   "hold_ws_ns": -0.00267203,
+   "setup_ws_ns": 119.86111719,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_TT_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_TT_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz"
+   ]
+  },
+  "SS": {
+   "hold_ws_ns": 0.014603600000000001,
+   "setup_ws_ns": 119.77746875,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_SS_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_SS_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_SS_nldm_211120.lib.gz"
+   ]
+  },
+  "FF": {
+   "hold_ws_ns": -0.01411751,
+   "setup_ws_ns": 119.90610156,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_FF_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_FF_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_FF_nldm_211120.lib.gz"
+   ]
+  },
+  "worst_hold_ws_ns": -0.01411751,
+  "worst_hold_corner": "FF"
+ },
+ "asap7sram/min32": {
+  "TT": {
+   "hold_ws_ns": 0.06975115,
+   "setup_ws_ns": 119.86582812,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_TT_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_TT_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz"
+   ]
+  },
+  "SS": {
+   "hold_ws_ns": 0.11115536000000001,
+   "setup_ws_ns": 119.78508594,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_SS_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_SS_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_SS_nldm_211120.lib.gz"
+   ]
+  },
+  "FF": {
+   "hold_ws_ns": 0.04726593,
+   "setup_ws_ns": 119.90946094,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_FF_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_FF_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_FF_nldm_211120.lib.gz"
+   ]
+  },
+  "worst_hold_ws_ns": 0.04726593,
+  "worst_hold_corner": "FF"
+ },
+ "asap7sram/min16": {
+  "TT": {
+   "hold_ws_ns": 0.0692765,
+   "setup_ws_ns": 119.86632812,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_TT_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_TT_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz"
+   ]
+  },
+  "SS": {
+   "hold_ws_ns": 0.11042686,
+   "setup_ws_ns": 119.78557031,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_SS_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_SS_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_SS_nldm_211120.lib.gz"
+   ]
+  },
+  "FF": {
+   "hold_ws_ns": 0.04636205,
+   "setup_ws_ns": 119.90989844,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_FF_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_FF_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_FF_nldm_211120.lib.gz"
+   ]
+  },
+  "worst_hold_ws_ns": 0.04636205,
+  "worst_hold_corner": "FF"
+ },
+ "asap7sram/g32p50": {
+  "TT": {
+   "hold_ws_ns": 0.05967804,
+   "setup_ws_ns": 119.83240625,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_TT_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_TT_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_TT_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_TT_nldm_211120.lib.gz"
+   ]
+  },
+  "SS": {
+   "hold_ws_ns": 0.08919832,
+   "setup_ws_ns": 119.73021875,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_SS_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_SS_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_SS_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_SS_nldm_211120.lib.gz"
+   ]
+  },
+  "FF": {
+   "hold_ws_ns": 0.03782141,
+   "setup_ws_ns": 119.88742969,
+   "libs": [
+    "asap7sc7p5t_AO_SRAM_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_INVBUF_SRAM_FF_nldm_220122.lib.gz",
+    "asap7sc7p5t_OA_SRAM_FF_nldm_211120.lib.gz",
+    "asap7sc7p5t_SEQ_SRAM_FF_nldm_220123.lib",
+    "asap7sc7p5t_SIMPLE_SRAM_FF_nldm_211120.lib.gz"
+   ]
+  },
+  "worst_hold_ws_ns": 0.03782141,
+  "worst_hold_corner": "FF"
+ }
+}

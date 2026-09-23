@@ -1,0 +1,35 @@
+03:27:09: 5 reports still with the clock-gate stop, 6 kit measurements running
+==== asap7 g32p50 pdk5_asap7_g32p50_sdf_w5000 re-annotated (03:27:09)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_g32p50_sdf_w5000/power_vcd.rpt:Total                1.021950e-05 6.548791e-06 1.422179
+==== asap7 g32p50 sta done (03:27:16)
+==== gf180 sp pdk5_gf180_sp_sdf_w5000 re-annotated (03:27:16)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_sp_sdf_w5000/power_vcd.rpt:Total                6.402837e-03 5.391054e-03 4.160286e-06
+==== gf180 sp sta done (03:27:31)
+==== ihp min32 pdk5_ihp_min32_sdf_w5000: toggle file younger than 5 min, skipped (still being measured)
+==== ihp min32 sta done (03:27:32)
+==== ihp sp sta done (03:27:32)
+03:37:32: 4 reports still with the clock-gate stop, 6 kit measurements running
+==== gf180 min32 pdk5_gf180_min32_sdf_w5000 re-annotated (03:37:33)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_sdf_w5000/power_vcd.rpt:Total                9.120198e-03 6.776798e-03 3.620719e
+==== gf180 min32 sta done (03:37:47)
+==== ihp min32 pdk5_ihp_min32_sdf_w5000 re-annotated (03:37:47)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_min32_sdf_w5000/power_vcd.rpt:Total                4.505852e-04 2.947045e-04 4.937458e-0
+==== ihp min32 sta done (03:38:03)
+==== ihp sp sta done (03:38:04)
+03:48:04: 2 reports still with the clock-gate stop, 6 kit measurements running
+==== ihp sp sta done (03:48:05)
+03:58:05: 2 reports still with the clock-gate stop, 6 kit measurements running
+==== ihp sp sta done (03:58:05)
+04:08:05: 0 reports still with the clock-gate stop, 6 kit measurements running
+04:18:06: 1 reports still with the clock-gate stop, 6 kit measurements running
+==== gf180 m12 pdk5_gf180_m12_sdf_w5000 re-annotated (04:18:06)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_m12_sdf_w5000/power_vcd.rpt:Total                9.980612e-03 1.069025e-02 6.223890e-0
+==== gf180 m12 sta done (04:18:22)
+04:28:23: 0 reports still with the clock-gate stop, 6 kit measurements running
+04:38:23: 0 reports still with the clock-gate stop, 6 kit measurements running
+04:48:23: 0 reports still with the clock-gate stop, 6 kit measurements running
+04:58:23: 0 reports still with the clock-gate stop, 4 kit measurements running
+05:08:24: 0 reports still with the clock-gate stop, 1 kit measurements running
+05:18:24: 0 reports still with the clock-gate stop, 1 kit measurements running
+05:28:24: 0 reports still with the clock-gate stop, 0 kit measurements running
+==== all kit reports clean (05:28:24)

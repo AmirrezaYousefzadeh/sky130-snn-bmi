@@ -1,0 +1,8 @@
+worst slack 0.00098
+worst slack 119.80174
+Startpoint                           Endpoint                               Slack
+--------------------------------------------------------------------------------
+state[1]$_SDFFE_PP0P_/Q (DFF_X2)     v[11][11]$_SDFF_PP0_/D (DFF_X2)         0.00
+state[1]$_SDFFE_PP0P_/Q (DFF_X2)     v[52][11]$_SDFF_PP0_/D (DFF_X2)         0.00
+state[1]$_SDFFE_PP0P_/Q (DFF_X2)     v[35][11]$_SDFF_PP0_/D (DFF_X2)         0.00
+

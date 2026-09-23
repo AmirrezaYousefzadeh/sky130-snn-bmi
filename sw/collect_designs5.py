@@ -54,12 +54,20 @@ DESIGNS5.update({
     "bmi_snn_min32_s131": D("32-neuron core, weights of indy\\_20170131\\_02", "MinHSC", "constants", "32 / 1", "16 / 16", "no", ("eval", "H32_th256_k44_drop"), "hw"),
     "bmi_snn_m12_s622":   D("12-bit gated core, weights of indy\\_20160622\\_01", "MinTSA", "constants", "64 / 1", "12 / 14", "no", ("vbits", "H64_th256_k44_drop", "v12_o14"), "hw"),
     "bmi_snn_m12_s131":   D("12-bit gated core, weights of indy\\_20170131\\_02", "MinTSC", "constants", "64 / 1", "12 / 14", "no", ("vbits", "H64_th256_k44_drop", "v12_o14"), "hw"),
+    # round 6 (E4d): four more grid points; (E4a): per-session netlists of the H = 32 / 50 % grid core
+    "bmi_snn_g48":      G("hardwired 12-bit, gated, $H{=}48$",                     "GeDense",   48,  "100 %",  "H48_th256_k44_drop"),
+    "bmi_snn_g48p50":   G("hardwired 12-bit, gated, $H{=}48$, 50\\,\\% synapses",  "GeHalf",    48,  "50 %",   "H48_th256_k44_drop_p0.5"),
+    "bmi_snn_g48p25":   G("hardwired 12-bit, gated, $H{=}48$, 25\\,\\% synapses",  "GeQuarter", 48,  "25 %",   "H48_th256_k44_drop_p0.25"),
+    "bmi_snn_g32p125":  G("hardwired 12-bit, gated, $H{=}32$, 12.5\\,\\% synapses", "GcEighth", 32,  "12.5 %", "H32_th256_k44_drop_p0.125"),
+    "bmi_snn_g32p50_s622": D("$H{=}32$ / 50\\,\\% core, weights of indy\\_20160622\\_01", "GcHalfSA", "constants (50 %)", "32 / 1", "12 / 14", "no", ("eval", "H32_th256_k44_drop_p0.5"), "hw"),
+    "bmi_snn_g32p50_s131": D("$H{=}32$ / 50\\,\\% core, weights of indy\\_20170131\\_02", "GcHalfSC", "constants (50 %)", "32 / 1", "12 / 14", "no", ("eval", "H32_th256_k44_drop_p0.5"), "hw"),
 })
 TL5 = {n: cfg["label"] for n, cfg in DESIGNS5.items()}
 SKY_LIB = "/media/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib"
 # per-session window runs (E4): vectors of the session's own weights for the hardwired cores
 SESSION_OF = {"bmi_snn_sp_s622": "indy_20160622_01", "bmi_snn_sp_s131": "indy_20170131_02", "bmi_snn_min32_s622": "indy_20160622_01", "bmi_snn_min32_s131": "indy_20170131_02",
-              "bmi_snn_m12_s622": "indy_20160622_01", "bmi_snn_m12_s131": "indy_20170131_02"}
+              "bmi_snn_m12_s622": "indy_20160622_01", "bmi_snn_m12_s131": "indy_20170131_02",
+              "bmi_snn_g32p50_s622": "indy_20160622_01", "bmi_snn_g32p50_s131": "indy_20170131_02"}   # round 6 (E4a)
 
 def perbin_stats(tag):
     """per-bin energy (nJ) from the testbench's per-bin active-cycle statistics and the run's average decoding power"""

@@ -1,0 +1,3 @@
+toggles_to_activity: annotated 51696 pins, 56 input ports and 15101 nets (driver pins)
+WORST_SETUP_SLACK 5.7774471429183905e-8
+WORST_HOLD_SLACK 1.0396849603466762e-8

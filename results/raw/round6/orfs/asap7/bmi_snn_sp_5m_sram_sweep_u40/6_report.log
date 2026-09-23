@@ -1,0 +1,69 @@
+OpenROAD edf00dff99f6c40d67a30c0e22a8191c5d2ed9d6 
+Features included (+) or not (-): +Charts +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 24 thread(s).
+Deleted 0 routing obstructions
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file /media/pdk/OpenROAD-flow-scripts/flow/platforms/asap7/rcx_patterns.rules ...
+[INFO RCX-0436] RC segment generation bmi_snn_sp (max_merge_res 50.0) ...
+[INFO RCX-0040] Final 143653 rc segments
+[INFO RCX-0439] Coupling Cap extraction bmi_snn_sp ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 29% of 149409 wires extracted
+[INFO RCX-0442] 55% of 149409 wires extracted
+[INFO RCX-0442] 75% of 149409 wires extracted
+[INFO RCX-0442] 100% of 149409 wires extracted
+[INFO RCX-0045] Extract 19595 nets, 163200 rsegs, 163200 caps, 208829 ccs
+[INFO RCX-0443] 19595 nets finished
+[INFO PSM-0040] All shapes on net VDD are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VDD
+Corner           : default
+Supply voltage   : 7.70e-01 V
+Worstcase voltage: 7.69e-01 V
+Average voltage  : 7.70e-01 V
+Average IR drop  : 2.30e-04 V
+Worstcase IR drop: 6.99e-04 V
+Percentage drop  : 0.09 %
+######################################
+[INFO PSM-0040] All shapes on net VSS are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VSS
+Corner           : default
+Supply voltage   : 0.00e+00 V
+Worstcase voltage: 7.08e-04 V
+Average voltage  : 2.32e-04 V
+Average IR drop  : 2.32e-04 V
+Worstcase IR drop: 7.08e-04 V
+Percentage drop  : 0.09 %
+######################################
+Cell type report:                       Count       Area
+  Fill cell                             12077     251.46
+  Tap cell                                824      24.03
+  Other                                 14822    2836.98
+  Buffer                                   20       1.46
+  Clock buffer                            186      72.61
+  Timing Repair Buffer                    173      39.54
+  Inverter                               3242     175.08
+  Clock inverter                           40       6.23
+  Clock gate cell                           3       0.79
+  Sequential cell                        1491     453.19
+  Multi-Input combinational cell        14459    1631.66
+  Total                                 47337    5493.02
+Report metrics stage 6, finish...
+
+==========================================================================
+finish report_design_area
+--------------------------------------------------------------------------
+Design area 5242 u^2 95% utilization.
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_sp_5m_sram_sweep_u40/base/final_routing.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_sp_5m_sram_sweep_u40/base/final_placement.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_sp_5m_sram_sweep_u40/base/final_ir_drop.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_sp_5m_sram_sweep_u40/base/final_clocks.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_sp_5m_sram_sweep_u40/base/final_resizer.webp.png
+[WARNING GUI-0010] File path does not end with a valid extension, new path is: ./reports/asap7/bmi_snn_sp_5m_sram_sweep_u40/base/cts_clk.webp.png
+Elapsed time: 0:57.07[h:]min:sec. CPU time: user 30.18 sys 0.41 (53%). Peak memory: 746396KB.

@@ -10,7 +10,7 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | SkyWater sky130 (OpenLane) | bmi_snn_m12 | 30h, 20 (1.28 V) | 60: x; 50: x; 40: x; 40: x; 30: x; 20: x; 30h: ok; 30 lv: x; 20 lv: x; 20 lv: ok | 24.0 |
 | GF180MCU (OpenLane) | bmi_snn_sp | 50 | 60: x; 50: ok | 1.3 |
 | SkyWater sky130 (OpenLane) | bmi_snn_min16 | 60 | 60: ok | 0.1 |
-| SkyWater sky130 (OpenLane) | bmi_fe | 60 | 60: ok | 0.1 |
+| SkyWater sky130 (OpenLane) | bmi_fe | 60, 60 | 60: ok; 60: ok | 0.3 |
 | GF180MCU (OpenLane) | bmi_snn_m12 | 30 | 60: x; 50: x; 40: x; 30: ok | 1.0 |
 | SkyWater sky130 (OpenLane) | bmi_snn_top | 60 | 60: ok | 1.1 |
 | SkyWater sky130 (OpenLane) | bmi_snn_topg | 40 | 60: x; 50: x; 40: ok | 0.6 |
@@ -19,7 +19,7 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | SkyWater sky130 (OpenLane) | bmi_snn_min32 | 50, 30 (1.28 V) | 60: x; 50: ok; 50 lv: x; 40 lv: x; 30 lv: x; 30 lv: ok | 21.2 |
 | SkyWater sky130 (OpenLane) | bmi_snn_ming | 30 | 60: x; 40: x; 30: ok | 11.5 |
 | SkyWater sky130 (OpenLane) | bmi_snn_lmin2 | 20h | 60: x; 30: x; 20: x; 20h: x; 20h: ok | 29.6 |
-| SkyWater sky130 (OpenLane) | bmi_snn_g32p50 | 50 | 60: x; 50: ok | 7.6 |
+| SkyWater sky130 (OpenLane) | bmi_snn_g32p50 | 50, 40 (1.28 V) | 60: x; 50: ok; 50 lv: x; 40 lv: ok | 8.2 |
 | SkyWater sky130 (OpenLane) | bmi_snn_sp_s622 | 40 | 60: x; 40: ok | 8.0 |
 | GF180MCU (OpenLane) | bmi_snn_min16 | 50 | 60: x; 50: ok | 5.9 |
 | GF180MCU (OpenLane) | bmi_snn_lmin2 | 30h | 30: x; 20: x; 30: x; 20: x; 30h: ok | 14.8 |
@@ -39,6 +39,13 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | SkyWater sky130 (OpenLane) | bmi_snn_scmem | 30 | 40: x; 30: ok | 7.8 |
 | SkyWater sky130 (OpenLane) | bmi_snn_g128 | 20 | 50: x; 30: x; 30: x; 20: x; 20h: x; 20: ok | 15.7 |
 | SkyWater sky130 (OpenLane) | bmi_snn_lmem2 | 30h | 30: x; 20: x; 30h: ok | 10.0 |
+| GF180MCU (OpenLane) | bmi_snn_g32p50 | 40 | 60: x; 50: x; 40: ok | 0.4 |
+| SkyWater sky130 (OpenLane) | bmi_snn_g32p50_s622 | 40 | 60: x; 50: x; 40: ok | 2.7 |
+| SkyWater sky130 (OpenLane) | bmi_snn_g32p125 | 60 | 60: ok | 0.2 |
+| SkyWater sky130 (OpenLane) | bmi_snn_g32p50_s131 | 40 | 60: x; 50: x; 40: ok | 2.8 |
+| SkyWater sky130 (OpenLane) | bmi_snn_g48p25 | 50 | 60: x; 50: ok | 1.7 |
+| SkyWater sky130 (OpenLane) | bmi_snn_g48 | 30h | 60: x; 40: x; 30: x; 40h: x; 30h: ok | 3.7 |
+| SkyWater sky130 (OpenLane) | bmi_snn_g48p50 | 40 | 60: x; 40: ok | 2.8 |
 | NanGate45 (ORFS) | bmi_snn_sp | 60 | 60: ok | 0.2 |
 | ASAP7 RVT (ORFS) | bmi_snn_sp | 60 | 60: ok | 0.2 |
 | NanGate45 (ORFS) | bmi_snn_m12 | 40 | 60: x; 50: x; 40: ok | 0.8 |
@@ -58,6 +65,9 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | IHP SG13G2 (ORFS) | bmi_snn_min16 | 30 | 30: ok | 1.9 |
 | IHP SG13G2 (ORFS) | bmi_snn_min32 | 20 | 30: x; 20: ok | 22.9 |
 | IHP SG13G2 (ORFS) | bmi_snn_m12 | none | 30: x; 20: x; 10: x; 20: x | 3.8 |
+| NanGate45 (ORFS) | bmi_snn_g32p50 | 50 | 60: x; 50: x; 40: x; 60: x; 50: ok | 0.2 |
+| ASAP7 SRAM-Vt (ORFS) | bmi_snn_g32p50 | 60 | 60: x; 60: ok | 0.2 |
+| ASAP7 RVT (ORFS) | bmi_snn_g32p50 | 60 | 60: x; 60: ok | 0.2 |
 
 ## Every attempt
 
@@ -81,6 +91,7 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | GF180MCU (OpenLane) | bmi_snn_sp | 50 | ACCEPTED | 73 |  | `bmi_snn_sp_5m_u50` |
 | SkyWater sky130 (OpenLane) | bmi_snn_min16 | 60 | ACCEPTED | 9 |  | `bmi_snn_min16_5m_u60` |
 | SkyWater sky130 (OpenLane) | bmi_fe | 60 | ACCEPTED | 6 |  | `bmi_fe_5m_u60` |
+| SkyWater sky130 (OpenLane) | bmi_fe | 60 | ACCEPTED | 10 |  | `bmi_fe_5m_u60` |
 | GF180MCU (OpenLane) | bmi_snn_m12 | 60 | REJECTED | 7 | timing/hold failure | `bmi_snn_m12_5m_u60` |
 | GF180MCU (OpenLane) | bmi_snn_m12 | 50 | REJECTED | 15 | timing/hold failure | `bmi_snn_m12_5m_u50` |
 | GF180MCU (OpenLane) | bmi_snn_m12 | 40 | REJECTED | 15 | timing/hold failure | `bmi_snn_m12_5m_u40` |
@@ -109,6 +120,8 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | SkyWater sky130 (OpenLane) | bmi_snn_lmin2 | 20 | ACCEPTED | 200 |  | `bmi_snn_lmin2_5m_u20h` |
 | SkyWater sky130 (OpenLane) | bmi_snn_g32p50 | 60 | REJECTED | 315 | killed: detailed routing hopeless: 58,769 violations after 3 iterations | `bmi_snn_g32p50_5m_u60` |
 | SkyWater sky130 (OpenLane) | bmi_snn_g32p50 | 50 | ACCEPTED | 140 |  | `bmi_snn_g32p50_5m_u50` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g32p50 | 50 | REJECTED (1.28 V signoff) | 10 |  | `bmi_snn_g32p50_5m_lv` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g32p50 | 40 | ACCEPTED (1.28 V signoff) | 24 |  | `bmi_snn_g32p50_5m_lv` |
 | SkyWater sky130 (OpenLane) | bmi_snn_sp_s622 | 60 | REJECTED | 455 | killed: detailed routing hopeless: 121,897 violations after 4 iterations | `bmi_snn_sp_s622_5m_u60` |
 | SkyWater sky130 (OpenLane) | bmi_snn_sp_s622 | 40 | ACCEPTED | 25 |  | `bmi_snn_sp_s622_5m_u40` |
 | GF180MCU (OpenLane) | bmi_snn_min16 | 60 | REJECTED | 350 | killed: detailed routing hopeless: 40,924 violations after 4 iterations | `bmi_snn_min16_5m_u60` |
@@ -155,6 +168,25 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | SkyWater sky130 (OpenLane) | bmi_snn_lmem2 | 30 | REJECTED | 310 | watchdog: drt 125966 violations after 3 iterations | `bmi_snn_lmem2_5m_u30` |
 | SkyWater sky130 (OpenLane) | bmi_snn_lmem2 | 20 | REJECTED | 1 | killed: aborted at start: the 30 % run was killed by the default watchdog on the same routing shape that converged for lmin2; relaunched at 30 % with hold margin 1.0 ns and relaxed watchdog | `bmi_snn_lmem2_5m_u20` |
 | SkyWater sky130 (OpenLane) | bmi_snn_lmem2 | 30 | ACCEPTED | 290 |  | `bmi_snn_lmem2_5m_u30h` |
+| GF180MCU (OpenLane) | bmi_snn_g32p50 | 60 | REJECTED | 5 | timing/hold failure | `bmi_snn_g32p50_5m_u60` |
+| GF180MCU (OpenLane) | bmi_snn_g32p50 | 50 | REJECTED | 10 | timing/hold failure | `bmi_snn_g32p50_5m_u50` |
+| GF180MCU (OpenLane) | bmi_snn_g32p50 | 40 | ACCEPTED | 10 |  | `bmi_snn_g32p50_5m_u40` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g32p50_s622 | 60 | REJECTED | 50 | watchdog: drt 63087 violations after 3 iterations | `bmi_snn_g32p50_s622_5m_u60` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g32p50_s622 | 50 | REJECTED | 100 | watchdog: drt 57966 violations after 4 iterations | `bmi_snn_g32p50_s622_5m_u50` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g32p50_s622 | 40 | ACCEPTED | 10 |  | `bmi_snn_g32p50_s622_5m_u40` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g32p125 | 60 | ACCEPTED | 10 |  | `bmi_snn_g32p125_5m_u60` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g32p50_s131 | 60 | REJECTED | 85 | watchdog: drt 75925 violations after 4 iterations | `bmi_snn_g32p50_s131_5m_u60` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g32p50_s131 | 50 | REJECTED | 75 | watchdog: drt 48242 violations after 4 iterations | `bmi_snn_g32p50_s131_5m_u50` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g32p50_s131 | 40 | ACCEPTED | 10 |  | `bmi_snn_g32p50_s131_5m_u40` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g48p25 | 60 | REJECTED | 90 | watchdog: drt 68586 violations after 4 iterations | `bmi_snn_g48p25_5m_u60` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g48p25 | 50 | ACCEPTED | 10 |  | `bmi_snn_g48p25_5m_u50` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g48 | 60 | REJECTED | 146 | killed: drt 163964 violations after iteration 1, no iteration for 2 h; resumed at 40 30 | `bmi_snn_g48_5m_u60` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g48 | 40 | REJECTED | 30 | timing/hold failure | `bmi_snn_g48_5m_u40` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g48 | 30 | REJECTED | 2 | killed: stopped: 40 % failed hold only (-0.138 ns), rerun at 40 % with the 0.8 ns hold margin instead | `bmi_snn_g48_5m_u30` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g48 | 40 | REJECTED | 35 | watchdog: drt 56536 violations after 4 iterations | `bmi_snn_g48_5m_u40h` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g48 | 30 | ACCEPTED | 10 |  | `bmi_snn_g48_5m_u30h` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g48p50 | 60 | REJECTED | 146 | killed: drt 132137 violations after iteration 1, no iteration for 2 h; resumed at 40 30 | `bmi_snn_g48p50_5m_u60` |
+| SkyWater sky130 (OpenLane) | bmi_snn_g48p50 | 40 | ACCEPTED | 20 |  | `bmi_snn_g48p50_5m_u40` |
 | NanGate45 (ORFS) | bmi_snn_sp | 60 | ACCEPTED | 13 |  | `bmi_snn_sp_5m_u60` |
 | ASAP7 RVT (ORFS) | bmi_snn_sp | 60 | ACCEPTED | 15 |  | `bmi_snn_sp_5m_u60` |
 | NanGate45 (ORFS) | bmi_snn_m12 | 60 | REJECTED | 13 | flow exit / route did not finish | `bmi_snn_m12_5m_u60` |
@@ -201,3 +233,12 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | IHP SG13G2 (ORFS) | bmi_snn_m12 | 20 | REJECTED | 90 | flow exit / route did not finish | `bmi_snn_m12_5m_u20` |
 | IHP SG13G2 (ORFS) | bmi_snn_m12 | 10 | REJECTED | 30 | flow exit / route did not finish | `bmi_snn_m12_5m_u10` |
 | IHP SG13G2 (ORFS) | bmi_snn_m12 | 20 | REJECTED | 28 | flow exit / route did not finish | `bmi_snn_m12_5m_pad2_u20` |
+| NanGate45 (ORFS) | bmi_snn_g32p50 | 60 | REJECTED | 1 | flow exit / route did not finish | `bmi_snn_g32p50_5m_u60` |
+| NanGate45 (ORFS) | bmi_snn_g32p50 | 50 | REJECTED | 4 | hold failure | `bmi_snn_g32p50_5m_u50` |
+| NanGate45 (ORFS) | bmi_snn_g32p50 | 40 | REJECTED | 4 | hold failure | `bmi_snn_g32p50_5m_u40` |
+| NanGate45 (ORFS) | bmi_snn_g32p50 | 60 | REJECTED | 1 | flow exit / route did not finish | `bmi_snn_g32p50_5m_u60` |
+| NanGate45 (ORFS) | bmi_snn_g32p50 | 50 | ACCEPTED | 5 |  | `bmi_snn_g32p50_5m_u50` |
+| ASAP7 SRAM-Vt (ORFS) | bmi_snn_g32p50 | 60 | REJECTED | 5 | hold failure | `bmi_snn_g32p50_5m_sram_u60` |
+| ASAP7 SRAM-Vt (ORFS) | bmi_snn_g32p50 | 60 | ACCEPTED | 6 |  | `bmi_snn_g32p50_5m_sram_u60` |
+| ASAP7 RVT (ORFS) | bmi_snn_g32p50 | 60 | REJECTED | 5 | hold failure | `bmi_snn_g32p50_5m_u60` |
+| ASAP7 RVT (ORFS) | bmi_snn_g32p50 | 60 | ACCEPTED | 6 |  | `bmi_snn_g32p50_5m_u60` |

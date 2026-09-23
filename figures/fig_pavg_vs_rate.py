@@ -35,9 +35,16 @@ for ax, (core, title) in zip(axs, CORES):
         d = P.get(f"{kit}/{core}")
         if not d or not d.get("event") or not d.get("idle"): continue
         ann = d.get("event_sdf"); e_nom = (ann or d["event"])["energy_per_bin_nJ"]; kind = "annotated" if ann else "zero-delay"
+        w5 = d.get("event_sdf_w5000")                                       # round 6 (E2): the 5,000-bin window, the same as Table 3
+        if w5: e_nom = w5["energy_per_bin_nJ"]; kind = ("zero-delay" if w5.get("zero_delay") else "annotated") + ", 5,000 bins"
         glitch = (ann["energy_per_bin_nJ"] / d["event"]["energy_per_bin_nJ"]) if ann else 1.0
         lk = d["idle"]["leakage_uW"]; V = d.get("voltage"); T = d.get("temperature", 25)
         curve(ax, e_nom, lk, col, "-", 1.3, label, core, kit, "nominal", V, T, kind)
+        if kit == "ihp":      # round 6 (E3): the IHP total leakage is dominated by the decap fill of the 20 % floorplan; show the logic-only floor too
+            ll = (d.get("leak_split") or {}).get("leak_logic_uW")
+            if ll: curve(ax, e_nom, ll, col, ":", 1.1, "IHP SG13G2, logic-cell leakage only", core, kit, "nominal, logic leakage only", V, T, kind)
+            nd = d.get("leak_nodecap_uW")
+            if nd: curve(ax, e_nom, nd, col, "-.", 1.1, "IHP SG13G2, fill without decap cells", core, kit, "nominal, decap-free fill", V, T, kind)
         if kit == "sky130":   # 37 C leakage, interpolated exponentially between the 25 C and 100 C idle evaluations
             f = ROOT / f"power/out_vcd_bmi_snn_{core}_5m_idle_full_tt_100C_1v80/power_vcd.rpt"
             if f.exists():
@@ -54,13 +61,15 @@ for ax, (core, title) in zip(axs, CORES):
             curve(ax, e_low, leak_low, col, "--", 1.1, lowlabel, core, kit, flav, v["voltage"], v["temperature"], kind_low)
     ax.axvline(RATE, color="k", lw=0.6, ls="--"); ax.text(RATE * 1.15, 0.012, "250 bins/s", fontsize=6, ha="left")
     ax.set_xscale("log"); ax.set_yscale("log"); ax.set_xlim(1, 1e4); ax.set_ylim(0.01, 1000); ax.set_xlabel("decode rate (bins/s)"); ax.set_title(title, fontsize=8, loc="left")
-axs[0].set_ylabel("average core power (µW), clock stopped between bins")
+axs[0].set_ylabel("average core power (µW)")   # "clock stopped between bins" is in the caption (round 6)
 seen = {r["kit"] + r["linestyle"] for r in rows}
 handles = []
 for kit, label, col, lowc, lowlabel in KITS:
     if kit + "-" in seen: handles.append(Line2D([], [], color=col, lw=1.3, label=label))
     if kit + ":" in seen: handles.append(Line2D([], [], color=col, lw=1.1, ls=":", label="sky130, 1.8 V, leakage at 37 °C"))
     if kit + "--" in seen: handles.append(Line2D([], [], color=col, lw=1.1, ls="--", label=lowlabel))
+    if kit == "ihp" and kit + ":" in seen: handles.append(Line2D([], [], color=col, lw=1.1, ls=":", label="IHP SG13G2, logic-cell leakage only"))
+    if kit == "ihp" and kit + "-." in seen: handles.append(Line2D([], [], color=col, lw=1.1, ls="-.", label="IHP SG13G2, fill without decap cells"))
 handles.append(Line2D([], [], marker="o", ms=3.2, color="0.4", mec="k", mew=0.4, ls="", label="value at 250 bins/s"))
 fig.legend(handles=handles, fontsize=6.5, loc="upper center", ncol=3, frameon=False, bbox_to_anchor=(0.5, 0.0), columnspacing=1.2, handlelength=2.2)
 fig.tight_layout(rect=(0, 0.02, 1, 1))

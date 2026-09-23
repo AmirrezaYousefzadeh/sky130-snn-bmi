@@ -1,0 +1,128 @@
+bmi_snn_sp REJECTED util=60 tag=bmi_snn_sp_5m_u60 runtime=5min drc=NA pass=0
+bmi_snn_m12 REJECTED util=60 tag=bmi_snn_m12_5m_u60 runtime=9min drc=NA pass=0
+bmi_snn_min16 ACCEPTED util=60 tag=bmi_snn_min16_5md_u60 (heuristic diodes on; kept as the diode reference) runtime=14min drc=0
+bmi_snn_m12 REJECTED util=50 tag=bmi_snn_m12_5m_u50 runtime=12min drc=NA pass=0
+bmi_fe(v1, free-running 5 MHz) ACCEPTED util=60 tag=bmi_fe_v1_5m_u60 runtime=3min drc=0
+pdk_gf180/bmi_snn_sp REJECTED util=60 tag=bmi_snn_sp_5m_u60 runtime=3min drc=NA pass=0
+bmi_snn_min16 ACCEPTED util=60 tag=bmi_snn_min16_5m_u60 runtime=9min drc=0
+bmi_fe ACCEPTED util=60 tag=bmi_fe_5m_u60 runtime=6min drc=0
+pdk_gf180/bmi_snn_m12 REJECTED util=60 tag=bmi_snn_m12_5m_u60 runtime=7min drc=NA pass=0
+pdk_gf180/bmi_snn_m12 REJECTED util=50 tag=bmi_snn_m12_5m_u50 runtime=15min drc=NA pass=0
+pdk_gf180/bmi_snn_sp ACCEPTED util=50 tag=bmi_snn_sp_5m_u50 runtime=73min drc=0
+pdk_gf180/bmi_snn_m12 REJECTED util=40 tag=bmi_snn_m12_5m_u40 runtime=15min drc=NA pass=0
+bmi_snn_top ACCEPTED util=60 tag=bmi_snn_top_5m_u60 runtime=64min drc=0 die=920x900
+pdk_gf180/bmi_snn_m12 ACCEPTED util=30 tag=bmi_snn_m12_5m_u30 runtime=24min drc=0
+bmi_snn_topg REJECTED util=60 tag=bmi_snn_topg_5m_u60 runtime=14min drc=NA pass=0 die=990x900
+pdk_gf180/bmi_snn_min32 REJECTED util=60 tag=bmi_snn_min32_5m_u60 runtime=6min drc=NA pass=0
+bmi_snn_topg REJECTED util=50 tag=bmi_snn_topg_5m_u50 runtime=6min drc=NA pass=0 die=1060x900
+pdk_gf180/bmi_snn_min32 REJECTED util=50 tag=bmi_snn_min32_5m_u50 runtime=6min drc=NA pass=0
+bmi_snn_topg ACCEPTED util=40 tag=bmi_snn_topg_5m_u40 runtime=15min drc=0 die=1170x900
+pdk_gf180/bmi_snn_min32 ACCEPTED util=40 tag=bmi_snn_min32_5m_u40 runtime=13min drc=0
+bmi_snn_g16p50 ACCEPTED util=60 tag=bmi_snn_g16p50_5m_u60 runtime=138min drc=0
+bmi_snn_sp REJECTED util=50 tag=bmi_snn_sp_5m_u50 runtime=500min drc=NA pass=0 killed="detailed routing hopeless: 4,872 violations after 4 iterations, no progress for 8 h"
+bmi_snn_m12 REJECTED util=40 tag=bmi_snn_m12_5m_u40 runtime=500min drc=NA pass=0 killed="GRT-0097 no global routing found; run stalled after CTS"
+bmi_snn_min32 REJECTED util=60 tag=bmi_snn_min32_5m_u60 runtime=470min drc=NA pass=0 killed="detailed routing hopeless: 100,462 violations after 3 iterations"
+bmi_snn_ming REJECTED util=60 tag=bmi_snn_ming_5m_u60 runtime=470min drc=NA pass=0 killed="detailed routing hopeless: 286,322 violations after 1 iteration"
+bmi_snn_lmin2 REJECTED util=60 tag=bmi_snn_lmin2_5m_u60 runtime=470min drc=NA pass=0 killed="detailed routing: no iteration completed in 3 h (400k instances)"
+bmi_snn_g32p50 REJECTED util=60 tag=bmi_snn_g32p50_5m_u60 runtime=315min drc=NA pass=0 killed="detailed routing hopeless: 58,769 violations after 3 iterations"
+bmi_snn_sp_s622 REJECTED util=60 tag=bmi_snn_sp_s622_5m_u60 runtime=455min drc=NA pass=0 killed="detailed routing hopeless: 121,897 violations after 4 iterations"
+pdk_gf180/bmi_snn_min16 REJECTED util=60 tag=bmi_snn_min16_5m_u60 runtime=350min drc=NA pass=0 killed="detailed routing hopeless: 40,924 violations after 4 iterations"
+pdk_gf180/bmi_snn_min16 ACCEPTED util=50 tag=bmi_snn_min16_5m_u50 runtime=5min drc=0
+pdk_gf180/bmi_snn_lmin2 REJECTED util=30 tag=bmi_snn_lmin2_5m_u30 runtime=5min drc=NA pass=0
+pdk_gf180/bmi_snn_lmin2 REJECTED util=20 tag=bmi_snn_lmin2_5m_u20 runtime=5min drc=NA pass=0
+pdk_gf180/bmi_snn_lmin2: no utilization in the policy list converged
+bmi_snn_sp_s622 ACCEPTED util=40 tag=bmi_snn_sp_s622_5m_u40 runtime=25min drc=0
+bmi_snn_sp ACCEPTED util=40 tag=bmi_snn_sp_5m_u40 runtime=25min drc=0
+bmi_snn_min32 ACCEPTED util=50 tag=bmi_snn_min32_5m_u50 runtime=45min drc=0
+bmi_snn_sp_s131 ACCEPTED util=40 tag=bmi_snn_sp_s131_5m_u40 runtime=20min drc=0
+bmi_snn_g32p50 ACCEPTED util=50 tag=bmi_snn_g32p50_5m_u50 runtime=140min drc=0
+bmi_snn_sp LOWV util=40 tag=bmi_snn_sp_5m_lv runtime=70min drc=0 pass=1
+bmi_snn_g32p25 ACCEPTED util=50 tag=bmi_snn_g32p25_5m_u50 runtime=25min drc=0
+bmi_snn_ming REJECTED util=40 tag=bmi_snn_ming_5m_u40 runtime=175min drc=NA pass=0 watchdog="drt 4211 violations after 8 iterations"
+bmi_snn_min REJECTED util=60 tag=bmi_snn_min_5m_u60 runtime=225min drc=NA pass=0 watchdog="drt 290,447 violations after 1 iteration (killed by hand ahead of the watchdog)"
+bmi_snn_m12 REJECTED util=40 tag=bmi_snn_m12_5m_u40 runtime=215min drc=NA pass=0 watchdog="drt no completed iteration for 3 h (at 0)"
+bmi_snn_g64p50 REJECTED util=50 tag=bmi_snn_g64p50_5m_u50 runtime=80min drc=NA pass=0 watchdog="drt 87987 violations after 3 iterations"
+bmi_snn_m12_s622 REJECTED util=40 tag=bmi_snn_m12_s622_5m_u40 runtime=215min drc=NA pass=0 watchdog="drt no completed iteration for 3 h (at 0)"
+bmi_snn_ming ACCEPTED util=30 tag=bmi_snn_ming_5m_u30 runtime=45min drc=0
+bmi_snn_m12 REJECTED util=30 tag=bmi_snn_m12_5m_u30 runtime=80min drc=0 pass=0
+0
+bmi_snn_m12 REJECTED util=20 tag=bmi_snn_m12_5m_u20 runtime=10min drc=NA pass=0 killed="hold failure at 30 % is not a utilization problem; rerun at 30 % with hold margin 0.8 ns"
+bmi_snn_min REJECTED util=50 tag=bmi_snn_min_5m_u50 runtime=100min drc=NA pass=0 watchdog="drt 77045 violations after 3 iterations"
+bmi_snn_min32 LOWV util=50 tag=bmi_snn_min32_5m_lv runtime=330min drc=NA pass=0 killed="detailed routing 58,294 -> 45,169 violations over 4 iterations with the 1.28 V repair; repeated at 40 %"
+pdk_gf180/bmi_snn_lmin2 REJECTED util=30 tag=bmi_snn_lmin2_5m_u30 runtime=395min drc=0 pass=0
+0
+bmi_snn_m12_s131 ACCEPTED util=30 tag=bmi_snn_m12_s131_5m_u30h runtime=90min drc=0
+pdk_gf180/bmi_snn_lmin2 REJECTED util=20 tag=bmi_snn_lmin2_5m_u20 runtime=5min drc=NA pass=0 killed="hold failure at 30 % (-0.127 ns at max_ff_n40C_5v50) is not a utilization problem; rerun at 30 % with hold margin 0.8 ns"
+bmi_snn_m12 ACCEPTED util=30 tag=bmi_snn_m12_5m_u30h runtime=105min drc=0
+bmi_snn_g64p50 REJECTED util=40 tag=bmi_snn_g64p50_5m_u40 runtime=220min drc=NA pass=0 watchdog="drt no completed iteration for 3 h (at 0)"
+bmi_snn_m12_s622 REJECTED util=30 tag=bmi_snn_m12_s622_5m_u30 runtime=240min drc=NA pass=0 watchdog="drt no completed iteration for 3 h (at 0)"
+bmi_snn_min32_s622 ACCEPTED util=50 tag=bmi_snn_min32_s622_5m_u50 runtime=95min drc=0
+bmi_snn_lmem REJECTED util=30 tag=bmi_snn_lmem_5m_u30 runtime=490min drc=NA pass=0 watchdog="drt 26272 violations after 4 iterations"
+bmi_snn_g64p50 ACCEPTED util=30 tag=bmi_snn_g64p50_5m_u30 runtime=55min drc=0
+bmi_snn_m12_s622 ACCEPTED util=20 tag=bmi_snn_m12_s622_5m_u20 runtime=40min drc=0
+bmi_snn_g64p125 ACCEPTED util=50 tag=bmi_snn_g64p125_5m_u50 runtime=25min drc=0
+bmi_snn_min32_s131 ACCEPTED util=50 tag=bmi_snn_min32_s131_5m_u50 runtime=80min drc=0
+bmi_snn_min ACCEPTED util=40 tag=bmi_snn_min_5m_u40 runtime=285min drc=0
+bmi_snn_g128p125 ACCEPTED util=50 tag=bmi_snn_g128p125_5m_u50 runtime=65min drc=0
+bmi_snn_lmin2 REJECTED util=30 tag=bmi_snn_lmin2_5m_u30 runtime=665min drc=NA pass=0 watchdog="drt 145347 violations after 3 iterations"
+bmi_snn_m12 LOWV util=30 tag=bmi_snn_m12_5m_lv runtime=300min drc=NA pass=0 killed="detailed routing wrote no iteration in 3.7 h (stalled start); repeated at 20 %"
+bmi_snn_min32 LOWV util=40 tag=bmi_snn_min32_5m_lv runtime=330min drc=NA pass=0 killed="detailed routing stalled at 9,520 violations after 5 iterations (no progress for 2.7 h); repeated at 30 %"
+bmi_snn_m12_s622 REJECTED util=30 tag=bmi_snn_m12_s622_5m_u30h runtime=250min drc=NA pass=0 watchdog="drt no completed iteration for 3 h (at 0)"
+bmi_snn_m12_s622 REJECTED util=20 tag=bmi_snn_m12_s622_5m_u20h runtime=5min drc=NA pass=0 killed="duplicate of the accepted 20 % run; the 30 % rerun with the 0.8 ns margin stalled like the original"
+bmi_snn_hw REJECTED util=60 tag=bmi_snn_hw_5m_u60 runtime=165min drc=NA pass=0 watchdog="drt 121933 violations after 3 iterations"
+bmi_snn_g128p25 REJECTED util=50 tag=bmi_snn_g128p25_5m_u50 runtime=165min drc=NA pass=0 watchdog="drt 44899 violations after 4 iterations"
+bmi_snn_min32 LOWV util=30 tag=bmi_snn_min32_5m_lv runtime=36min drc=0 pass=0
+0
+bmi_snn_lmem REJECTED util=20 tag=bmi_snn_lmem_5m_u20 runtime=270min drc=NA pass=0 watchdog="drt 92394 violations after 3 iterations"
+bmi_snn_lmem: no utilization in the policy list converged
+bmi_snn_m12 LOWV util=20 tag=bmi_snn_m12_5m_lv runtime=75min drc=0 pass=0
+0
+bmi_snn_min32 LOWV util=30 tag=bmi_snn_min32_5m_lv runtime=64min drc=0 pass=1
+pdk_gf180/bmi_snn_lmin2 ACCEPTED util=30 tag=bmi_snn_lmin2_5m_u30h runtime=480min drc=0
+bmi_snn_hw REJECTED util=50 tag=bmi_snn_hw_5m_u50 runtime=140min drc=NA pass=0 watchdog="drt 23294 violations after 4 iterations"
+bmi_snn_g128p25 REJECTED util=40 tag=bmi_snn_g128p25_5m_u40 runtime=150min drc=NA pass=0 watchdog="drt 20089 violations after 4 iterations"
+bmi_snn_lmin2 REJECTED util=20 tag=bmi_snn_lmin2_5m_u20 runtime=265min drc=0 pass=0
+0
+bmi_snn_lmin2: no utilization in the policy list converged
+bmi_snn_m12 LOWV util=20 tag=bmi_snn_m12_5m_lv runtime=135min drc=0 pass=1
+bmi_snn_g128p25 ACCEPTED util=30 tag=bmi_snn_g128p25_5m_u30 runtime=35min drc=0
+bmi_snn_scmem REJECTED util=40 tag=bmi_snn_scmem_5m_u40 runtime=250min drc=NA pass=0 watchdog="drt 93733 violations after 4 iterations"
+bmi_snn_lmin2 REJECTED util=20 tag=bmi_snn_lmin2_5m_u20h runtime=175min drc=NA pass=0 watchdog="drt 93343 violations after 4 iterations"
+bmi_snn_lmin2: no utilization in the policy list converged
+bmi_snn_hw ACCEPTED util=40 tag=bmi_snn_hw_5m_u40 runtime=290min drc=0
+bmi_snn_g128 REJECTED util=50 tag=bmi_snn_g128_5m_u50 runtime=215min drc=NA pass=0 killed="manual: drt 769k violations, no completed iteration for 2 h; relaunched with 30 20"
+bmi_snn_lmem2 REJECTED util=30 tag=bmi_snn_lmem2_5m_u30 runtime=310min drc=NA pass=0 watchdog="drt 125966 violations after 3 iterations"
+bmi_snn_lmem2 REJECTED util=20 tag=bmi_snn_lmem2_5m_u20 runtime=1min drc=NA pass=0 killed="aborted at start: the 30 % run was killed by the default watchdog on the same routing shape that converged for lmin2; relaunched at 30 % with hold margin 1.0 ns and relaxed watchdog"
+bmi_snn_scmem ACCEPTED util=30 tag=bmi_snn_scmem_5m_u30 runtime=215min drc=0
+bmi_snn_lmin2 ACCEPTED util=20 tag=bmi_snn_lmin2_5m_u20h runtime=200min drc=0
+bmi_snn_g128 REJECTED util=30 tag=bmi_snn_g128_5m_u30 runtime=120min drc=NA pass=0 killed="manual: 190k violations after iteration 1, relaunched at 30 20 with WD_VIOL3=400000 WD_VIOL8=60000"
+bmi_snn_lmem2 ACCEPTED util=30 tag=bmi_snn_lmem2_5m_u30h runtime=290min drc=0
+bmi_snn_g128 REJECTED util=30 tag=bmi_snn_g128_5m_u30 runtime=195min drc=NA pass=0 watchdog="manual: 190k -> 145k -> 143k -> 124k -> 114k violations after five iterations of about an hour each, no collapse (the accepted grid cores dropped by 5-10x between iterations 2 and 3); stopped so that the policy steps to 20 %"
+bmi_snn_g128 REJECTED util=20 tag=bmi_snn_g128_5m_u20 runtime=120min drc=0 pass=0
+bmi_snn_g128: no utilization in the policy list converged
+bmi_snn_g128 REJECTED util=20 tag=bmi_snn_g128_5m_u20h runtime=115min drc=0 pass=0
+bmi_snn_g128: no utilization in the policy list converged
+bmi_snn_g128 ACCEPTED util=20 tag=bmi_snn_g128_5m_u20h2 runtime=175min drc=0
+pdk_gf180/bmi_snn_g32p50 REJECTED util=60 tag=bmi_snn_g32p50_5m_u60 runtime=5min drc=NA pass=0
+bmi_snn_g32p50 LOWV util=50 tag=bmi_snn_g32p50_5m_lv runtime=10min drc=NA pass=0
+pdk_gf180/bmi_snn_g32p50 REJECTED util=50 tag=bmi_snn_g32p50_5m_u50 runtime=10min drc=NA pass=0
+pdk_gf180/bmi_snn_g32p50 ACCEPTED util=40 tag=bmi_snn_g32p50_5m_u40 runtime=10min drc=0
+bmi_fe ACCEPTED util=60 tag=bmi_fe_5m_u60 runtime=10min drc=0
+bmi_snn_g32p50 LOWV util=40 tag=bmi_snn_g32p50_5m_lv runtime=24min drc=0 pass=1
+bmi_snn_g32p50_s622 REJECTED util=60 tag=bmi_snn_g32p50_s622_5m_u60 runtime=50min drc=NA pass=0 watchdog="drt 63087 violations after 3 iterations"
+bmi_snn_g32p125 ACCEPTED util=60 tag=bmi_snn_g32p125_5m_u60 runtime=10min drc=0
+bmi_snn_g32p50_s131 REJECTED util=60 tag=bmi_snn_g32p50_s131_5m_u60 runtime=85min drc=NA pass=0 watchdog="drt 75925 violations after 4 iterations"
+bmi_snn_g48p25 REJECTED util=60 tag=bmi_snn_g48p25_5m_u60 runtime=90min drc=NA pass=0 watchdog="drt 68586 violations after 4 iterations"
+bmi_snn_g32p50_s622 REJECTED util=50 tag=bmi_snn_g32p50_s622_5m_u50 runtime=100min drc=NA pass=0 watchdog="drt 57966 violations after 4 iterations"
+bmi_snn_g48p25 ACCEPTED util=50 tag=bmi_snn_g48p25_5m_u50 runtime=10min drc=0
+bmi_snn_g32p50_s622 ACCEPTED util=40 tag=bmi_snn_g32p50_s622_5m_u40 runtime=10min drc=0
+bmi_snn_g32p50_s131 REJECTED util=50 tag=bmi_snn_g32p50_s131_5m_u50 runtime=75min drc=NA pass=0 watchdog="drt 48242 violations after 4 iterations"
+bmi_snn_g32p50_s131 ACCEPTED util=40 tag=bmi_snn_g32p50_s131_5m_u40 runtime=10min drc=0
+bmi_snn_g48 REJECTED util=60 tag=bmi_snn_g48_5m_u60 runtime=146min drc=NA pass=0 killed="drt 163964 violations after iteration 1, no iteration for 2 h; resumed at 40 30"
+bmi_snn_g48p50 REJECTED util=60 tag=bmi_snn_g48p50_5m_u60 runtime=146min drc=NA pass=0 killed="drt 132137 violations after iteration 1, no iteration for 2 h; resumed at 40 30"
+bmi_snn_g48p50 ACCEPTED util=40 tag=bmi_snn_g48p50_5m_u40 runtime=20min drc=0
+bmi_snn_g48 REJECTED util=40 tag=bmi_snn_g48_5m_u40 runtime=30min drc=0 pass=0
+bmi_snn_g48 REJECTED util=30 tag=bmi_snn_g48_5m_u30 runtime=2min drc=NA pass=0 killed="stopped: 40 % failed hold only (-0.138 ns), rerun at 40 % with the 0.8 ns hold margin instead"
+bmi_snn_g48 REJECTED util=40 tag=bmi_snn_g48_5m_u40h runtime=35min drc=NA pass=0 watchdog="drt 56536 violations after 4 iterations"
+bmi_snn_g48: no utilization in the policy list converged
+bmi_snn_g48 ACCEPTED util=30 tag=bmi_snn_g48_5m_u30h runtime=10min drc=0

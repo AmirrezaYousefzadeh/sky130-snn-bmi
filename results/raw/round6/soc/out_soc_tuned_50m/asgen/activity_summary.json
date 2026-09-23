@@ -1,0 +1,12 @@
+{
+ "tsv": "/home/yousefzadeha/workspace/BCI_paper/power/out_soc_tuned_50m/toggles.tsv",
+ "duration_s": 0.001534502,
+ "period_s": 2e-08,
+ "cycles": 76725.1,
+ "vars_pins": 0,
+ "vars_top": 17740,
+ "skipped": 0,
+ "time_min": 226250.0,
+ "time_max": 1760752.0,
+ "timescale_s": 1e-09
+}

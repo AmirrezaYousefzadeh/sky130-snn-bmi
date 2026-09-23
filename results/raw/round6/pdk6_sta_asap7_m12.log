@@ -1,0 +1,17 @@
+8 physical-only cell types stubbed: ['DECAPx10_ASAP7_75t_R', 'DECAPx1_ASAP7_75t_R', 'DECAPx2_ASAP7_75t_R', 'DECAPx4_ASAP7_75t_R', 'DECAPx6_ASAP7_75t_R', 'FILLER_ASAP7_75t_R'] ...
+==== asap7 m12 pdk5_asap7_m12_md0_full re-annotated (02:43:16)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_m12_md0_full/power_vcd.rpt:Total                1.607993e-05 1.401066e-05 2.567196e-06 3.265778e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_m12_md0_full/sta.log:WORST_SETUP_SLACK 1.9886982727257418e-7
+==== asap7 m12 pdk5_asap7_m12_md0_full at SS re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_m12_md0_full_SS/power_vcd.rpt:Total                1.277982e-05 1.085957e-05 3.556336e-05 5.920275e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_m12_md0_full_SS/sta.log:WORST_SETUP_SLACK 1.9840476284116448e-7
+==== asap7 m12 pdk5_asap7_m12_md0_sdf re-annotated (02:44:01)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_m12_md0_sdf/power_vcd.rpt:Total                1.961419e-05 1.714157e-05 2.569760e-06 3.932551e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_m12_md0_sdf/sta.log:WORST_SETUP_SLACK 1.9886982727257418e-7
+==== asap7 m12 pdk5_asap7_m12_idle_full re-annotated (02:44:15)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_m12_idle_full/power_vcd.rpt:Total                5.149004e-07 7.336161e-08 3.805838e-06 4.394100e-06 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_m12_idle_full/sta.log:WORST_SETUP_SLACK 1.9886982727257418e-7
+==== asap7 m12 pdk5_asap7_m12_idle_full at SS re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_m12_idle_full_SS/power_vcd.rpt:Total                4.045526e-07 5.577663e-08 5.298559e-05 5.344592e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_asap7_m12_idle_full_SS/sta.log:WORST_SETUP_SLACK 1.9840476284116448e-7
+==== asap7 m12 sta done (02:44:42)

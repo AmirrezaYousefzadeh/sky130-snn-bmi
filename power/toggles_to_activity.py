@@ -57,11 +57,11 @@ for name, tc, high, bit in rows:
         nm = comps[0] if sta_ready else v2sta(comps[0])
         L.append(f"__top_act {{{nm}}} {act:.6g} {duty:.6f}")
         n_port += 1
-    elif len(comps) == 2:                                 # cell or macro pin (or a hierarchical net)
-        nm = v2sta(comps[0]) + "/" + (comps[1] if sta_ready else v2sta(comps[1]))
+    else:                                                 # cell or macro pin (or a hierarchical net); round 6 (E6): deeper paths are the
+        # cell pins and nets inside a block of a hierarchical system (u_core/_123_/X, u_core/_456_) and are annotated the same way
+        nm = "/".join(v2sta(c) for c in comps[:-1]) + "/" + (comps[-1] if sta_ready else v2sta(comps[-1]))
         L.append(f"__pin_act {{{nm}}} {act:.6g} {duty:.6f}")
         n_pin += 1
-    else: n_skip += 1
 L.append('puts "toggles_to_activity: annotated $__n_pins pins, $__n_ports input ports and $__n_nets nets (driver pins)"')
 open(a.out, "w").write("\n".join(L) + "\n")
 summ = {"tsv": a.tsv, "duration_s": dur, "period_s": a.period_s, "cycles": dur / a.period_s, "vars_pins": n_pin, "vars_top": n_port, "skipped": n_skip,

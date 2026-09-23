@@ -1,0 +1,29 @@
+0 physical-only cell types stubbed: []
+==== gf180 min32 pdk5_gf180_min32_md0_full re-annotated (02:47:46)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_md0_full/power_vcd.rpt:Total                7.949895e-03 5.686970e-03 3.620715e-06 1.364049e-02 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_md0_full/sta.log:WORST_SETUP_SLACK 1.847679982347472e-7
+==== gf180 min32 pdk5_gf180_min32_md0_full at tt_025C_3v30 re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_md0_full_tt_025C_3v30/power_vcd.rpt:Total                3.072873e-03 2.448732e-03 1.577970e-06 5.523183e-03 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_md0_full_tt_025C_3v30/sta.log:WORST_SETUP_SLACK 1.7788627815207292e-7
+==== gf180 min32 pdk5_gf180_min32_md0_full at tt_025C_1v80 re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_md0_full_tt_025C_1v80/power_vcd.rpt:Total                8.085533e-04 6.933802e-04 4.710884e-07 1.502405e-03 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_md0_full_tt_025C_1v80/sta.log:WORST_SETUP_SLACK 1.4240762880035618e-7
+==== gf180 min32 pdk5_gf180_min32_md0_full at ss_125C_1v62 re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_md0_full_ss_125C_1v62/power_vcd.rpt:Total                5.920601e-04 5.625093e-04 6.952664e-06 1.161522e-03 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_md0_full_ss_125C_1v62/sta.log:WORST_SETUP_SLACK 5.7774471429183905e-8
+==== gf180 min32 pdk5_gf180_min32_md0_sdf re-annotated (02:48:36)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_md0_sdf/power_vcd.rpt:Total                9.223801e-03 6.918623e-03 3.621046e-06 1.614605e-02 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_md0_sdf/sta.log:WORST_SETUP_SLACK 1.847679982347472e-7
+==== gf180 min32 pdk5_gf180_min32_idle_full re-annotated (02:48:48)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_idle_full/power_vcd.rpt:Total                5.582159e-05 1.338520e-05 3.570733e-06 7.277753e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_idle_full/sta.log:WORST_SETUP_SLACK 1.847679982347472e-7
+==== gf180 min32 pdk5_gf180_min32_idle_full at tt_025C_3v30 re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_idle_full_tt_025C_3v30/power_vcd.rpt:Total                2.177223e-05 5.758079e-06 1.547938e-06 2.907824e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_idle_full_tt_025C_3v30/sta.log:WORST_SETUP_SLACK 1.7788627815207292e-7
+==== gf180 min32 pdk5_gf180_min32_idle_full at tt_025C_1v80 re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_idle_full_tt_025C_1v80/power_vcd.rpt:Total                5.769371e-06 1.623390e-06 4.583752e-07 7.851137e-06 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_idle_full_tt_025C_1v80/sta.log:WORST_SETUP_SLACK 1.4240762880035618e-7
+==== gf180 min32 pdk5_gf180_min32_idle_full at ss_125C_1v62 re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_idle_full_ss_125C_1v62/power_vcd.rpt:Total                4.679381e-06 1.314707e-06 6.938286e-06 1.293237e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_gf180_min32_idle_full_ss_125C_1v62/sta.log:WORST_SETUP_SLACK 5.7774471429183905e-8
+==== gf180 min32 sta done (02:49:38)

@@ -1,0 +1,11 @@
+==== SoC window tuned_5m_100: sim/build_riscv_gls_5m_tuned_100/riscv_gls_5m_tuned_100.vcd (09:13:05)
+window 2262500 110290302 1ns cycles 540140 awake 540137 cyc/bin 5401.4
+
+real	1m22.983s
+user	1m20.599s
+sys	0m2.381s
+-- pwr: Total                1.398952e-03 7.036350e-04 4.673938e-06 2.107261e-03 100.0%
+-- asgen: Total                1.424166e-03 7.036350e-04 4.673938e-06 2.132475e-03 100.0%
+-- idle (8,000 sleep cycles, clock running): Total                6.100606e-06 1.085969e-06 4.674600e-06 1.186118e-05 100.0%
+==== SoC window tuned_5m_100 done (09:17:48)
+==== SoC window tuned (200 ns) done (09:17:48)

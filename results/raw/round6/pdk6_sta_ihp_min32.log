@@ -1,0 +1,17 @@
+0 physical-only cell types stubbed: []
+==== ihp min32 pdk5_ihp_min32_md0_full re-annotated (02:50:14)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_min32_md0_full/power_vcd.rpt:Total                4.234444e-04 2.528997e-04 4.937550e-05 7.257196e-04 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_min32_md0_full/sta.log:WORST_SETUP_SLACK 1.9290078512312903e-7
+==== ihp min32 pdk5_ihp_min32_md0_full at slow_1p08V_125C re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_min32_md0_full_slow_1p08V_125C/power_vcd.rpt:Total                3.351843e-04 1.991055e-04 2.471530e-05 5.590052e-04 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_min32_md0_full_slow_1p08V_125C/sta.log:WORST_SETUP_SLACK 1.8860265527109732e-7
+==== ihp min32 pdk5_ihp_min32_md0_sdf re-annotated (02:50:40)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_min32_md0_sdf/power_vcd.rpt:Total                4.544214e-04 3.008175e-04 4.937673e-05 8.046156e-04 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_min32_md0_sdf/sta.log:WORST_SETUP_SLACK 1.9290078512312903e-7
+==== ihp min32 pdk5_ihp_min32_idle_full re-annotated (02:50:52)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_min32_idle_full/power_vcd.rpt:Total                2.928623e-06 5.669722e-07 4.940396e-05 5.289956e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_min32_idle_full/sta.log:WORST_SETUP_SLACK 1.9290078512312903e-7
+==== ihp min32 pdk5_ihp_min32_idle_full at slow_1p08V_125C re-annotated
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_min32_idle_full_slow_1p08V_125C/power_vcd.rpt:Total                2.297919e-06 4.352458e-07 2.525743e-05 2.799059e-05 100.0%
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_min32_idle_full_slow_1p08V_125C/sta.log:WORST_SETUP_SLACK 1.8860265527109732e-7
+==== ihp min32 sta done (02:51:13)
