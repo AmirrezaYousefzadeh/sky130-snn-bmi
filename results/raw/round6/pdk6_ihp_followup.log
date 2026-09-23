@@ -1,0 +1,15 @@
+IHP g32p50 policy finished (16:09:15)
+ihp-sg13g2 rvt bmi_snn_g32p50 REJECTED util=30 nick=bmi_snn_g32p50_5m_u30 runtime=806min rc=0 drc=1 setup=119.471 hold=NA
+ihp-sg13g2 rvt bmi_snn_g32p50 ACCEPTED util=20 nick=bmi_snn_g32p50_5m_u20 runtime=38min setup=119.479 hold=NA
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_g32p50_idle_full/power_vcd.rpt:Total                4.369635e-06 8.798273e-07 
+==== ihp g32p50 pdk5_ihp_g32p50_md0_sdf (16:09:42)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_g32p50_md0_sdf/power_vcd.rpt:Total                2.578751e-04 1.513402e-04 3.
+==== ihp g32p50 pdk5_ihp_g32p50_md0_full at slow_1p08V_125C
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_g32p50_md0_full_slow_1p08V_125C/power_vcd.rpt:Total                1.926503e-0
+==== ihp g32p50 pdk5_ihp_g32p50_idle_full at slow_1p08V_125C
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_g32p50_idle_full_slow_1p08V_125C/power_vcd.rpt:Total                3.437175e-
+==== ihp g32p50 all done (16:10:42)
+==== ihp g32p50 pdk5_ihp_g32p50_sdf_w5000 (16:10:42)
+/home/yousefzadeha/workspace/BCI_paper/power/out_vcd_pdk5_ihp_g32p50_sdf_w5000/power_vcd.rpt:Total                2.535806e-04 1.488119e-04 
+==== ihp g32p50 w5000 done (16:19:05)
+==== ihp g32p50 sta done (16:19:05)

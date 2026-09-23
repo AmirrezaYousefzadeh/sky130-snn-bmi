@@ -1612,5 +1612,26 @@
     "reason": ""
    }
   ]
+ },
+ "ihp/bmi_snn_g32p50": {
+  "accepted": [
+   20
+  ],
+  "attempts": [
+   {
+    "util": 30,
+    "outcome": "REJECTED",
+    "tag": "bmi_snn_g32p50_5m_u30",
+    "runtime_min": 806,
+    "reason": "DRC violations"
+   },
+   {
+    "util": 20,
+    "outcome": "ACCEPTED",
+    "tag": "bmi_snn_g32p50_5m_u20",
+    "runtime_min": 38,
+    "reason": ""
+   }
+  ]
  }
 }

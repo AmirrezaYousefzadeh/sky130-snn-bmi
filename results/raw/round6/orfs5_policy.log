@@ -60,3 +60,5 @@ nangate45 rvt bmi_snn_g32p50 REJECTED util=60 nick=bmi_snn_g32p50_5m_u60 runtime
 nangate45 rvt bmi_snn_g32p50 ACCEPTED util=50 nick=bmi_snn_g32p50_5m_u50 runtime=5min setup=119.791 hold=NA
 asap7 sram bmi_snn_g32p50 ACCEPTED util=60 nick=bmi_snn_g32p50_5m_sram_u60 runtime=6min setup=119.887 hold=NA
 asap7 rvt bmi_snn_g32p50 ACCEPTED util=60 nick=bmi_snn_g32p50_5m_u60 runtime=6min setup=119.906 hold=NA
+ihp-sg13g2 rvt bmi_snn_g32p50 REJECTED util=30 nick=bmi_snn_g32p50_5m_u30 runtime=806min rc=0 drc=1 setup=119.471 hold=NA
+ihp-sg13g2 rvt bmi_snn_g32p50 ACCEPTED util=20 nick=bmi_snn_g32p50_5m_u20 runtime=38min setup=119.479 hold=NA

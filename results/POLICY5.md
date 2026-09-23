@@ -68,6 +68,7 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | NanGate45 (ORFS) | bmi_snn_g32p50 | 50 | 60: x; 50: x; 40: x; 60: x; 50: ok | 0.2 |
 | ASAP7 SRAM-Vt (ORFS) | bmi_snn_g32p50 | 60 | 60: x; 60: ok | 0.2 |
 | ASAP7 RVT (ORFS) | bmi_snn_g32p50 | 60 | 60: x; 60: ok | 0.2 |
+| IHP SG13G2 (ORFS) | bmi_snn_g32p50 | 20 | 30: x; 20: ok | 14.1 |
 
 ## Every attempt
 
@@ -242,3 +243,5 @@ Policy: start at 60 % core utilization (placement density = utilization + 10 %),
 | ASAP7 SRAM-Vt (ORFS) | bmi_snn_g32p50 | 60 | ACCEPTED | 6 |  | `bmi_snn_g32p50_5m_sram_u60` |
 | ASAP7 RVT (ORFS) | bmi_snn_g32p50 | 60 | REJECTED | 5 | hold failure | `bmi_snn_g32p50_5m_u60` |
 | ASAP7 RVT (ORFS) | bmi_snn_g32p50 | 60 | ACCEPTED | 6 |  | `bmi_snn_g32p50_5m_u60` |
+| IHP SG13G2 (ORFS) | bmi_snn_g32p50 | 30 | REJECTED | 806 | DRC violations | `bmi_snn_g32p50_5m_u30` |
+| IHP SG13G2 (ORFS) | bmi_snn_g32p50 | 20 | ACCEPTED | 38 |  | `bmi_snn_g32p50_5m_u20` |

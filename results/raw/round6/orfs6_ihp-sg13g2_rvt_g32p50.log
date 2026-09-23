@@ -1,1 +1,5 @@
 ==== ihp-sg13g2 rvt bmi_snn_g32p50: utilization 30 % (nick bmi_snn_g32p50_5m_u30, 02:00)
+   rc=0 drc=1 setup_ws_ns=119.471 hold_ws_ns=NA runtime=806min
+==== ihp-sg13g2 rvt bmi_snn_g32p50: utilization 20 % (nick bmi_snn_g32p50_5m_u20, 15:26)
+   rc=0 drc=0 setup_ws_ns=119.479 hold_ws_ns=NA runtime=38min
+   -> accepted

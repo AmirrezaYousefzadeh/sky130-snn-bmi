@@ -1,0 +1,12 @@
+{
+ "tsv": "/home/yousefzadeha/workspace/BCI_paper/sim/build_pdk5_ihp_g32p50_md0_full/toggles.tsv",
+ "duration_s": 0.0020815,
+ "period_s": 2.0000000000000002e-07,
+ "cycles": 10407.5,
+ "vars_pins": 60209,
+ "vars_top": 15216,
+ "skipped": 0,
+ "time_min": 0.0,
+ "time_max": 2081500000.0,
+ "timescale_s": 1e-12
+}

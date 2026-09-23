@@ -140,6 +140,31 @@
   "worst_hold_ws_ns": 0.20451,
   "worst_hold_corner": "fast_1p32V_m40C"
  },
+ "ihp/g32p50": {
+  "typ_1p20V_25C": {
+   "hold_ws_ns": 0.23041,
+   "setup_ws_ns": 119.47934,
+   "libs": [
+    "sg13g2_stdcell_typ_1p20V_25C.lib"
+   ]
+  },
+  "slow_1p08V_125C": {
+   "hold_ws_ns": 0.38631,
+   "setup_ws_ns": 119.16868,
+   "libs": [
+    "sg13g2_stdcell_slow_1p08V_125C.lib"
+   ]
+  },
+  "fast_1p32V_m40C": {
+   "hold_ws_ns": 0.15039,
+   "setup_ws_ns": 119.65455,
+   "libs": [
+    "sg13g2_stdcell_fast_1p32V_m40C.lib"
+   ]
+  },
+  "worst_hold_ws_ns": 0.15039,
+  "worst_hold_corner": "fast_1p32V_m40C"
+ },
  "asap7/sp": {
   "TT": {
    "hold_ws_ns": 0.025418970000000003,

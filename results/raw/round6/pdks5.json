@@ -5440,6 +5440,310 @@
   "avg_power_uW_250Hz_clkstopped_best": 16.529802907426998,
   "bit_exact_500": true
  },
+ "ihp/g32p50": {
+  "label": "IHP SG13G2",
+  "node": "130 nm",
+  "lib": "sg13g2\\_stdcell",
+  "flow": "ORFS",
+  "sh": "Ihp",
+  "fab": true,
+  "core": "g32p50",
+  "core_sh": "GcHalf",
+  "core_label": "hardwired 12-bit gated, $H{=}32$, 50 % synapses",
+  "voltage": 1.2,
+  "temperature": 25.0,
+  "pnr": {
+   "drc_errors": 0,
+   "instance_area_um2": 164390.6124000034,
+   "stdcells": 14452,
+   "setup_ws_ns": 119.479,
+   "hold_ws_ns": 0.15039,
+   "clock_period": null,
+   "power_total_W": 0.00123475,
+   "timing_met": true,
+   "util_target_pct": 20,
+   "stdcells_netlist": 14452,
+   "instance_area_netlist_um2": 164390.6124000034,
+   "phys_cells": 54066,
+   "netlist": "/media/pdk/OpenROAD-flow-scripts/flow/results/ihp-sg13g2/bmi_snn_g32p50_5m/base/6_final.v",
+   "hold_source": "opensta_round6"
+  },
+  "event": {
+   "tag": "pdk5_ihp_g32p50_md0_full",
+   "tb": {
+    "bins": 500,
+    "events": 2934,
+    "errors": 0,
+    "cycles": 10408,
+    "active_cycles": 10100,
+    "avg_latency_cyc": 5,
+    "max_latency_cyc": 10,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.0001135026,
+     "switching": 4.563204e-06,
+     "leakage": 4.125939e-07,
+     "total": 0.0001184784
+    },
+    "Combinational": {
+     "internal": 3.025067e-05,
+     "switching": 7.876672e-05,
+     "leakage": 1.500899e-06,
+     "total": 0.0001105183
+    },
+    "Clock": {
+     "internal": 9.964617e-05,
+     "switching": 4.480279e-05,
+     "leakage": 3.362516e-05,
+     "total": 0.0001780741
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.0002433993,
+     "switching": 0.0001281326,
+     "leakage": 3.55388e-05,
+     "total": 0.0004070707
+    }
+   },
+   "power_avg_uW": 407.0707,
+   "cycles_meas": 10384,
+   "cycles_per_bin": 20.768,
+   "energy_per_bin_nJ": 1.6908088595200002,
+   "latency_us": 1.0,
+   "leakage_uW": 35.5388,
+   "pass": true
+  },
+  "idle": {
+   "tag": "pdk5_ihp_g32p50_idle_full",
+   "idle_power_uW": 40.7843101647217,
+   "leakage_uW": 35.55591,
+   "groups": {
+    "Sequential": {
+     "internal": 2.813873e-07,
+     "switching": 2.975048e-10,
+     "leakage": 4.056087e-07,
+     "total": 6.872936e-07
+    },
+    "Combinational": {
+     "internal": 1.868226e-09,
+     "switching": 4.881962e-09,
+     "leakage": 1.501817e-06,
+     "total": 1.508567e-06
+    },
+    "Clock": {
+     "internal": 4.086355e-06,
+     "switching": 8.746478e-07,
+     "leakage": 3.364917e-05,
+     "total": 3.861017e-05
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 4.369635e-06,
+     "switching": 8.798273e-07,
+     "leakage": 3.555591e-05,
+     "total": 4.080537e-05
+    }
+   },
+   "idle_raw_uW": 40.805369999999996,
+   "active_share": 5.749554409533261e-05
+  },
+  "event_sdf": {
+   "tag": "pdk5_ihp_g32p50_md0_sdf",
+   "tb": {
+    "bins": 200,
+    "events": 1262,
+    "errors": 0,
+    "cycles": 4377,
+    "active_cycles": 4247,
+    "avg_latency_cyc": 5,
+    "max_latency_cyc": 9,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.0001157256,
+     "switching": 4.552832e-06,
+     "leakage": 4.126871e-07,
+     "total": 0.0001206911
+    },
+    "Combinational": {
+     "internal": 4.201721e-05,
+     "switching": 0.0001016801,
+     "leakage": 1.50128e-06,
+     "total": 0.0001451985
+    },
+    "Clock": {
+     "internal": 0.0001001329,
+     "switching": 4.510779e-05,
+     "leakage": 3.362515e-05,
+     "total": 0.0001788659
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.0002578751,
+     "switching": 0.0001513402,
+     "leakage": 3.553956e-05,
+     "total": 0.0004447549
+    }
+   },
+   "power_avg_uW": 444.75489999999996,
+   "cycles_meas": 4353,
+   "cycles_per_bin": 21.765,
+   "energy_per_bin_nJ": 1.9360180797,
+   "latency_us": 1.0,
+   "leakage_uW": 35.53956,
+   "pass": true
+  },
+  "leak_split": {
+   "leak_logic_uW": 2.2382926679999007,
+   "leak_phys_uW": 33.32244017999908,
+   "n_logic": 14452,
+   "n_phys": 54066,
+   "n_unmatched": 0
+  },
+  "volt": {
+   "slow_1p08V_125C": {
+    "voltage": 1.08,
+    "temperature": 125.0,
+    "energy_per_bin_nJ": 1.2945483584,
+    "leakage_uW": 18.53441,
+    "energy_dyn_per_bin_nJ": 1.2187938385920003,
+    "setup_ws_ns": 189.97447170931991,
+    "hold_ws_ns": 0.38630609822121187,
+    "fmax_MHz": 99.745367127398,
+    "timing_met": true,
+    "avg_power_uW_250Hz_clkstopped": 18.8580470896
+   }
+  },
+  "event_sdf_w5000": {
+   "tag": "pdk5_ihp_g32p50_sdf_w5000",
+   "tb": {
+    "bins": 5000,
+    "events": 26317,
+    "errors": 0,
+    "cycles": 98052,
+    "active_cycles": 94934,
+    "avg_latency_cyc": 5,
+    "max_latency_cyc": 15,
+    "pass": true
+   },
+   "groups": {
+    "Sequential": {
+     "internal": 0.0001132,
+     "switching": 4.524272e-06,
+     "leakage": 4.126131e-07,
+     "total": 0.0001181368
+    },
+    "Combinational": {
+     "internal": 4.173529e-05,
+     "switching": 0.000100107,
+     "leakage": 1.500463e-06,
+     "total": 0.0001433427
+    },
+    "Clock": {
+     "internal": 9.864567e-05,
+     "switching": 4.418076e-05,
+     "leakage": 3.362556e-05,
+     "total": 0.000176452
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 0.0002535806,
+     "switching": 0.0001488119,
+     "leakage": 3.553884e-05,
+     "total": 0.0004379314
+    }
+   },
+   "power_avg_uW": 437.9314,
+   "cycles_meas": 98028,
+   "cycles_per_bin": 19.6056,
+   "energy_per_bin_nJ": 1.717181571168,
+   "latency_us": 1.0,
+   "leakage_uW": 35.53884,
+   "pass": true,
+   "zero_delay": false
+  },
+  "hold6": {
+   "typ_1p20V_25C": {
+    "hold_ws_ns": 0.23041,
+    "setup_ws_ns": 119.47934,
+    "libs": [
+     "sg13g2_stdcell_typ_1p20V_25C.lib"
+    ]
+   },
+   "slow_1p08V_125C": {
+    "hold_ws_ns": 0.38631,
+    "setup_ws_ns": 119.16868,
+    "libs": [
+     "sg13g2_stdcell_slow_1p08V_125C.lib"
+    ]
+   },
+   "fast_1p32V_m40C": {
+    "hold_ws_ns": 0.15039,
+    "setup_ws_ns": 119.65455,
+    "libs": [
+     "sg13g2_stdcell_fast_1p32V_m40C.lib"
+    ]
+   },
+   "worst_hold_ws_ns": 0.15039,
+   "worst_hold_corner": "fast_1p32V_m40C"
+  },
+  "avg_power_uW_250Hz_clkstopped": 35.978612214879995,
+  "energy_dyn_per_bin_nJ": 1.543123831744,
+  "avg_power_uW_250Hz_clkstopped_logic": 2.660994882879901,
+  "avg_power_uW_250Hz_clkstopped_sdfw": 35.985205392792,
+  "energy_dyn_per_bin_nJ_sdfw": 1.5777625813487999,
+  "avg_power_uW_250Hz_clkstopped_sdf": 36.039914519925,
+  "glitch_factor": 1.1450248020640321,
+  "avg_power_uW_250Hz_clkstopped_best": 35.985205392792,
+  "bit_exact_500": true
+ },
  "nangate45/sp": {
   "label": "NanGate45 / FreePDK45",
   "node": "45 nm",
