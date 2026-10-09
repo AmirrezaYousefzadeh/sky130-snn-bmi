@@ -238,6 +238,23 @@ numbers as the policy asks and the conditional-duty numbers next to them.
   corner; rerunning at 30 % with CTS buffers every 150 um on clock wires longer than 300 um, a 1.0 ns hold margin and the full
   hold-buffer budget (u30h2).
 
+- **Cell output-port variables left constant by the simulator (found 14:30 on the 12-bit latch core).** In the annotated
+  50-bin run of `bmi_snn_lmin2` the toggle file holds, for 657 of the 67,126 cell output pins, a port variable with zero
+  transitions (constant 1 or 0 over the whole window) while the net driven by that pin toggles normally (96 of the 158 buffers of
+  the write-clock tree among them). Icarus leaves these port variables unchanged under annotated interconnect delays; the
+  zero-delay run of the same netlist and every other annotated run of this round (SRAM core, hardwired cores, grid, kits,
+  register-file and 20-bit latch cores) show no such pin. The activity converter wrote the cell-pin commands after the net
+  commands, so for these 657 driver pins the constant port variable overrode the net's measured activity: the clock-tree leaves
+  of the write and membrane clocks and their flip-flop clock pins were charged with zero activity, 0.53 nJ per bin too little
+  (E_dyn 3.84 instead of about 4.4 nJ). The round-7 run of the same netlist (`bmi_snn_lmin2_5m_sdf_w50`) has the same artefact
+  on 367 pins, so its reference value (4.28 nJ) is low as well. Fix: `power/toggles_to_activity.py` now emits the net commands
+  after the pin commands (a net's measured activity is authoritative for its driver pin); `sw/pin_net_consistency10.py` reports
+  the inconsistent pins of a toggle file. Among the finished runs only the lmin2 annotated run was affected; it was re-evaluated
+  with the fix (its consistency row therefore shows a positive deviation, +2.5 % on E_dyn, against the low round-7 value). The
+  annotated run of the gated 20-bit latch core (`bmi_snn_lmem2g`, finished 14:27) carries the same artefact on 2,913 of its
+  83,497 output pins and was evaluated with the fixed converter from the start; the gated register-file annotated run
+  (finished 16:40, 382 min) has none of its 141,340 output pins affected.
+
 ## Generated tables (sw/runlog_tables10.py, sw/collect_round10.py)
 
 ### Consistency check: round-7 sum against the real-time P_total (every existing netlist)
@@ -257,11 +274,13 @@ numbers as the policy asks and the conditional-duty numbers next to them.
 | topg_event | sdf | 2000 | 9.734 | 10.13 | -3.9 % | 2.580 / 2.584 | 28.62 / 30.17 | -5.2 % | 10.10 (-0.3 %) | 30.07 (-0.3 %) | -- % |
 | scmem | sdf | 50 | 6.817 | 6.816 | +0.0 % | 4.856 / 4.861 | 7.844 / 7.818 | +0.3 % | 6.817 (+0.0 %) | 7.845 (+0.3 %) | -- % |
 | scmem | func | 5000 | 7.271 | 7.247 | +0.3 % | 4.858 / 4.861 | 9.651 / 9.543 | +1.1 % | -- (-- %) | -- (-- %) | -- % |
+| scmemg | sdf | 50 | 6.072 | -- | -- % | 4.818 / -- | 5.014 / -- | -- % | 6.072 (-- %) | 5.016 (-- %) | -- % |
 | scmemg | func | 5000 | 6.375 | -- | -- % | 4.819 / -- | 6.224 / -- | -- % | 6.375 (-- %) | 6.225 (-- %) | -- % |
 | lmem2 | sdf | 50 | 5.072 | 5.037 | +0.7 % | 2.948 / 2.954 | 8.496 / 8.334 | +1.9 % | 5.073 (+0.7 %) | 8.497 (+2.0 %) | -- % |
 | lmem2 | func | 5000 | 5.532 | 5.508 | +0.4 % | 2.948 / 2.954 | 10.34 / 10.22 | +1.2 % | -- (-- %) | -- (-- %) | -- % |
+| lmem2g | sdf | 50 | 4.219 | -- | -- % | 2.921 / -- | 5.193 / -- | -- % | 4.219 (-- %) | 5.194 (-- %) | -- % |
 | lmem2g | func | 5000 | 4.542 | -- | -- % | 2.920 / -- | 6.484 / -- | -- % | 4.542 (-- %) | 6.485 (-- %) | -- % |
-| lmin2 | sdf | 50 | 5.342 | 5.451 | -2.0 % | 4.381 / 4.382 | 3.842 / 4.277 | -10.2 % | 5.342 (-2.0 %) | 3.842 (-10.2 %) | -- % |
+| lmin2 | sdf | 50 | 5.477 | 5.451 | +0.5 % | 4.381 / 4.382 | 4.385 / 4.277 | +2.5 % | 5.477 (+0.5 %) | 4.385 (+2.5 %) | -- % |
 | lmin2 | func | 5000 | 5.806 | 5.811 | -0.1 % | 4.381 / 4.382 | 5.699 / 5.716 | -0.3 % | -- (-- %) | -- (-- %) | -- % |
 | hw | sdf | 5000 | 2.689 | 2.672 | +0.6 % | 0.4158 / 0.4174 | 9.092 / 9.019 | +0.8 % | -- (-- %) | -- (-- %) | -- % |
 | hwg | sdf | 5000 | 2.146 | -- | -- % | 0.5842 / -- | 6.248 / -- | -- % | 2.146 (-- %) | 6.246 (-- %) | -- % |
@@ -341,11 +360,13 @@ numbers as the policy asks and the conditional-duty numbers next to them.
 | bmi_snn_topg | sdf w2000 | 0 / 0 | 20914 / 20915 | 56089 -> 1222 | 2.580 | 2.402 | 2.398 / 0 / 0.1817 / 0 | 2.398 / 0 / 0.003959 / 0 | 7.154 / 7.154 | 38.94 / 38.22 |
 | bmi_snn_scmem | sdf w50 | 0 / 0 | 301258 / 301258 | 1183383 -> 1994 | 4.856 | 1.073 | 1.057 / 0 / 3.799 / 0 | 1.067 / 0 / 0.006462 / 0 | 1.961 / 1.961 | 27.27 / 12.14 |
 | bmi_snn_scmem | func w5000 | 0 / 0 | 301258 / 301258 | 1183383 -> 1994 | 4.858 | 1.076 | 1.059 / 0 / 3.799 / 0 | 1.069 / 0 / 0.006461 / 0 | 2.413 / 2.413 | 29.09 / 13.95 |
+| bmi_snn_scmemg | sdf w50 | 0 / 0 | 304003 / 304003 | 1164603 -> 1990 | 4.818 | 1.095 | 1.079 / 0 / 3.739 / 0 | 1.089 / 0 / 0.006448 / 0 | 1.254 / 1.254 | 24.29 / 9.396 |
 | bmi_snn_scmemg | func w5000 | 0 / 0 | 304003 / 304003 | 1164603 -> 1990 | 4.819 | 1.096 | 1.080 / 0 / 3.739 / 0 | 1.090 / 0 / 0.006448 / 0 | 1.556 / 1.556 | 25.50 / 10.61 |
 | bmi_snn_lmem2 | sdf w50 | 0 / 0 | 208689 / 208689 | 654936 -> 1548 | 2.948 | 0.8528 | 0.8417 / 0 / 2.107 / 0 | 0.8478 / 0 / 0.005015 / 0 | 2.124 / 2.124 | 20.29 / 11.91 |
 | bmi_snn_lmem2 | func w5000 | 0 / 0 | 208689 / 208689 | 654936 -> 1548 | 2.948 | 0.8526 | 0.8415 / 0 / 2.107 / 0 | 0.8476 / 0 / 0.005016 / 0 | 2.584 / 2.584 | 22.13 / 13.75 |
+| bmi_snn_lmem2g | sdf w50 | 0 / 0 | 221063 / 221063 | 626867 -> 1544 | 2.921 | 0.9149 | 0.9034 / 0 / 2.017 / 0 | 0.9099 / 0 / 0.005004 / 0 | 1.298 / 1.298 | 16.88 / 8.852 |
 | bmi_snn_lmem2g | func w5000 | 0 / 0 | 221063 / 221063 | 626867 -> 1544 | 2.920 | 0.9147 | 0.9033 / 0 / 2.017 / 0 | 0.9097 / 0 / 0.005004 / 0 | 1.621 / 1.621 | 18.17 / 10.14 |
-| bmi_snn_lmin2 | sdf w50 | 0 / 0 | 227127 / 227127 | 1105606 -> 1828 | 4.381 | 0.8516 | 0.8368 / 0 / 3.544 / 0 | 0.8457 / 0 / 0.005922 / 0 | 0.9604 / 0.9604 | 21.37 / 7.248 |
+| bmi_snn_lmin2 | sdf w50 | 0 / 0 | 227127 / 227127 | 1105606 -> 1828 | 4.381 | 0.8516 | 0.8368 / 0 / 3.544 / 0 | 0.8457 / 0 / 0.005922 / 0 | 1.096 / 1.096 | 21.91 / 7.791 |
 | bmi_snn_lmin2 | func w5000 | 0 / 0 | 227127 / 227127 | 1105606 -> 1828 | 4.381 | 0.8517 | 0.8369 / 0 / 3.544 / 0 | 0.8458 / 0 / 0.005922 / 0 | 1.425 / 1.425 | 23.22 / 9.106 |
 | bmi_snn_hw | sdf w5000 | 0 / 0 | 40562 / 40562 | 91236 -> 594 | 0.4158 | 0.1221 | 0.1202 / 0 / 0.2956 / 0 | 0.1202 / 0 / 0.001924 / 0 | 2.273 / 2.273 | 10.76 / 9.581 |
 | bmi_snn_hwg | sdf w5000 | 0 / 0 | 42800 / 42800 | 142504 -> 678 | 0.5842 | 0.1246 | 0.1224 / 0 / 0.4617 / 0 | 0.1224 / 0 / 0.002197 / 0 | 1.562 / 1.562 | 8.585 / 6.747 |
@@ -378,9 +399,11 @@ numbers as the policy asks and the conditional-duty numbers next to them.
 | rt_bmi_snn_topg_5m_sdf_md0_w2000_indy_20160630_01 | sdf | 2000 | 20914 | 370955 | 242 | 99.99 % |
 | rt_bmi_snn_scmem_5m_sdf_md0_w50_indy_20160630_01 | sdf | 50 | 301258 | 1110 | 458 | 100 % |
 | rt_bmi_snn_scmem_5m_func_md0_w5000_indy_20160630_01 | func | 5000 | 301258 | 132963 | 85.3 | 100 % |
+| rt_bmi_snn_scmemg_5m_sdf_md0_w50_indy_20160630_01 | sdf | 50 | 304003 | 1110 | 375 | 100 % |
 | rt_bmi_snn_scmemg_5m_func_md0_w5000_indy_20160630_01 | func | 5000 | 304003 | 132963 | 18.9 | 100 % |
 | rt_bmi_snn_lmem2_5m_sdf_md0_w50_indy_20160630_01 | sdf | 50 | 208689 | 1162 | 276 | 100 % |
 | rt_bmi_snn_lmem2_5m_func_md0_w5000_indy_20160630_01 | func | 5000 | 208689 | 139143 | 80.8 | 100 % |
+| rt_bmi_snn_lmem2g_5m_sdf_md0_w50_indy_20160630_01 | sdf | 50 | 221063 | 1162 | 178 | 100 % |
 | rt_bmi_snn_lmem2g_5m_func_md0_w5000_indy_20160630_01 | func | 5000 | 221063 | 139143 | 16.6 | 100 % |
 | rt_bmi_snn_lmin2_5m_sdf_md0_w50_indy_20160630_01 | sdf | 50 | 227127 | 1162 | 251 | 100 % |
 | rt_bmi_snn_lmin2_5m_func_md0_w5000_indy_20160630_01 | func | 5000 | 227127 | 139150 | 53.3 | 100 % |
@@ -416,8 +439,8 @@ numbers as the policy asks and the conditional-duty numbers next to them.
 | SoC / 12-bit hardwired | 307 | 301 | 307 |
 | SRAM core, event mode / pruned core | 10.7 | 10.3 | 10.7 |
 | SRAM core, dense / event | 8.04 | 7.76 | 7.97 |
-| register file / latch memory | -- | -- | -- |
-| latch 20-bit / latch 12-bit | -- | -- | -- |
+| register file / latch memory | -- | 1.44 | 1.44 |
+| latch 20-bit / latch 12-bit | -- | 0.770 | 0.770 |
 | hardwired 20-bit / 12-bit | -- | 1.15 | 1.15 |
 | 12-bit dense / pruned core | 1.98 | 1.98 | 1.98 |
 | H = 64 / H = 32 (12-bit, gated) | -- | 2.50 | 2.50 |

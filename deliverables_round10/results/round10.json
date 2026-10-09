@@ -2915,14 +2915,184 @@
    "dense": 0,
    "window_bins": 50,
    "role": "table",
-   "status": "pending",
+   "status": "ok",
    "util_pct": 30,
    "area_mm2": 2.72092,
    "cells": 304003,
    "setup_ws_ns": 76.31522652047545,
    "hold_ws_ns": 0.2927371761187912,
    "drc": 0,
-   "run": "bmi_snn_scmemg_5m_u30h"
+   "run": "bmi_snn_scmemg_5m_u30h",
+   "tag": "rt_bmi_snn_scmemg_5m_sdf_md0_w50_indy_20160630_01",
+   "p_total_unc_uW": 10.567390000000001,
+   "p_int_unc_uW": 4.326498,
+   "p_sw_unc_uW": 1.422903,
+   "p_leak_uW": 4.817992,
+   "groups_unc": {
+    "Sequential": {
+     "internal": 0.7746643,
+     "switching": 0.008328806999999999,
+     "leakage": 0.4284695,
+     "total": 1.211463
+    },
+    "Combinational": {
+     "internal": 0.3497221,
+     "switching": 0.3995622,
+     "leakage": 0.5862934,
+     "total": 1.335578
+    },
+    "Clock": {
+     "internal": 3.2021249999999997,
+     "switching": 1.015007,
+     "leakage": 3.797893,
+     "total": 8.015025
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 4.326498,
+     "switching": 1.422903,
+     "leakage": 4.817992,
+     "total": 10.567390000000001
+    }
+   },
+   "root_corrected": true,
+   "root_duty": 0.00111,
+   "root_cells": {
+    "buf": 4,
+    "flop": 4,
+    "icg": 2
+   },
+   "root_removed_uW": 4.49585617115013,
+   "p_total_bi_uW": 6.115760566913054,
+   "p_total_uW": 6.07153382884987,
+   "p_int_uW": 0.6649634427484715,
+   "p_sw_uW": 0.5885813861014001,
+   "groups_corr": {
+    "Clock": {
+     "internal": 0.1277056326548135,
+     "switching": 0.2321343871738029,
+     "leakage": 0.12224071337200602,
+     "total": 0.48208073320080036
+    },
+    "Sequential": {
+     "internal": 0.17406244459999984,
+     "switching": 0.008328809625000003,
+     "leakage": 0.4284849179001542,
+     "total": 0.6108761721251391
+    },
+    "Combinational": {
+     "internal": 0.3631924662132113,
+     "switching": 0.3481172256391567,
+     "leakage": 4.311493969748926,
+     "total": 5.022803661587115
+    },
+    "Total": {
+     "internal": 0.6649605434680246,
+     "switching": 0.5885804224379595,
+     "leakage": 4.862219601021086,
+     "total": 6.115760566913054
+    }
+   },
+   "groups_rep": {
+    "Clock": {
+     "internal": 3.188634226354816,
+     "switching": 1.0664560010723998,
+     "leakage": 0.12224071337200602,
+     "total": 4.377322068345947
+    },
+    "Sequential": {
+     "internal": 0.7746550459999988,
+     "switching": 0.008328809625000003,
+     "leakage": 0.4284849179001542,
+     "total": 1.211468285896805
+    },
+    "Combinational": {
+     "internal": 0.36320582836474125,
+     "switching": 0.3481172256391567,
+     "leakage": 4.311493969748926,
+     "total": 5.022817024602477
+    },
+    "Total": {
+     "internal": 4.326495100719557,
+     "switching": 1.4229020363365563,
+     "leakage": 4.862219601021086,
+     "total": 10.61160737884523
+    }
+   },
+   "p_dyn_uW": 1.2535448288498716,
+   "p_avg_uW": 6.07153382884987,
+   "e_bin_nJ": 24.28613531539948,
+   "e_dyn_nJ": 5.014167315399479,
+   "bins": 50,
+   "events": 156,
+   "errors": 0,
+   "events_per_bin": 3.12,
+   "clk_cycles": 1110,
+   "active_ns_mean": 4440,
+   "active_ns_max": 7200,
+   "overruns": 0,
+   "window_s": 0.2,
+   "cycles_per_bin": 22.2,
+   "sim_wallclock_min": 375.35,
+   "pass": true,
+   "p_dyn_cond_uW": 1.2538828288498696,
+   "p_leak_cond_uW": 4.82014,
+   "p_avg_cond_uW": 6.07187482884987,
+   "e_dyn_cond_nJ": 5.015531315399479,
+   "e_bin_cond_nJ": 24.28749931539948,
+   "cond_gate_var": "tb_bmi_snn/u_dut/core_clk_en",
+   "cond_gate_frac": 0.0008599647457001763,
+   "pins_annotated_frac": 1.0,
+   "old_kind": "sdf_short",
+   "e_old_nJ": null,
+   "p_old_uW": null,
+   "dev_pct": null,
+   "nd_p_total_unc_uW": 6.844871,
+   "nd_p_total_uW": 2.3490148288498696,
+   "nd_p_leak_uW": 1.09547,
+   "nd_p_dyn_uW": 1.2535448288498716,
+   "nd_p_avg_uW": 2.3490148288498696,
+   "nd_e_bin_nJ": 9.396059315399478,
+   "nd_e_dyn_nJ": 5.0141793153994785,
+   "nd_root_removed_uW": 4.49585617115013,
+   "nd_pins_annotated_frac": 1.0,
+   "leak_logic_uW": 1.0790007176691345,
+   "n_logic": 199761,
+   "leak_fill_uW": 0.0,
+   "n_fill": 135250,
+   "leak_decap_uW": 3.738990997477329,
+   "n_decap": 1164603,
+   "leak_tap_uW": 0.0,
+   "n_tap": 104186,
+   "leak_diode_uW": 2.848535370862478e-07,
+   "n_diode": 56,
+   "leak_class_scale": 0.9909038248595257,
+   "nd_leak_logic_uW": 1.0890214266337768,
+   "nd_n_logic": 199761,
+   "nd_leak_fill_uW": 0.0,
+   "nd_n_fill": 1891615,
+   "nd_leak_decap_uW": 0.0064482858672437115,
+   "nd_n_decap": 1990,
+   "nd_leak_tap_uW": 0.0,
+   "nd_n_tap": 104186,
+   "nd_leak_diode_uW": 2.8749897962020303e-07,
+   "nd_n_diode": 56,
+   "nd_leak_class_scale": 1.000106375588424,
+   "refill_drc": 0,
+   "refill_setup_ws_ns": 76.31522652047545,
+   "refill_hold_ws_ns": 0.2927371761187912,
+   "refill_cells": 304003
   },
   {
    "key": "scmemg",
@@ -3512,14 +3682,184 @@
    "dense": 0,
    "window_bins": 50,
    "role": "table",
-   "status": "pending",
+   "status": "ok",
    "util_pct": 30,
    "area_mm2": 1.89831,
    "cells": 221063,
    "setup_ws_ns": 0,
    "hold_ws_ns": 0.36113735246662143,
    "drc": 0,
-   "run": "bmi_snn_lmem2g_5m_u30h2"
+   "run": "bmi_snn_lmem2g_5m_u30h2",
+   "tag": "rt_bmi_snn_lmem2g_5m_sdf_md0_w50_indy_20160630_01",
+   "p_total_unc_uW": 8.966109,
+   "p_int_unc_uW": 4.2234110000000005,
+   "p_sw_unc_uW": 1.822079,
+   "p_leak_uW": 2.920619,
+   "groups_unc": {
+    "Sequential": {
+     "internal": 0.7790611999999999,
+     "switching": 0.006100066,
+     "leakage": 0.4291354,
+     "total": 1.2142970000000002
+    },
+    "Combinational": {
+     "internal": 0.3536518,
+     "switching": 0.4276911,
+     "leakage": 0.3125282,
+     "total": 1.093871
+    },
+    "Clock": {
+     "internal": 3.0907150000000003,
+     "switching": 1.3882830000000002,
+     "leakage": 2.179202,
+     "total": 6.6582
+    },
+    "Macro": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Pad": {
+     "internal": 0.0,
+     "switching": 0.0,
+     "leakage": 0.0,
+     "total": 0.0
+    },
+    "Total": {
+     "internal": 4.2234110000000005,
+     "switching": 1.822079,
+     "leakage": 2.920619,
+     "total": 8.966109
+    }
+   },
+   "root_corrected": true,
+   "root_duty": 0.001162,
+   "root_cells": {
+    "buf": 4,
+    "flop": 4,
+    "icg": 2
+   },
+   "root_removed_uW": 4.747264146639631,
+   "p_total_bi_uW": 4.238895037978148,
+   "p_total_uW": 4.21884485336037,
+   "p_int_uW": 0.6785795211341301,
+   "p_sw_uW": 0.6196463322262401,
+   "groups_corr": {
+    "Clock": {
+     "internal": 0.12813914812210966,
+     "switching": 0.2095158061943853,
+     "leakage": 0.18464332871002828,
+     "total": 0.522298283026974
+    },
+    "Sequential": {
+     "internal": 0.18124712862000003,
+     "switching": 0.006100069797000007,
+     "leakage": 0.4292233499000103,
+     "total": 0.6165705483180968
+    },
+    "Combinational": {
+     "internal": 0.3692063105739583,
+     "switching": 0.40402153208371144,
+     "leakage": 2.326798363997601,
+     "total": 3.100026206633078
+    },
+    "Total": {
+     "internal": 0.6785925873160681,
+     "switching": 0.6196374080750968,
+     "leakage": 2.9406650426076397,
+     "total": 4.238895037978148
+    }
+   },
+   "groups_rep": {
+    "Clock": {
+     "internal": 3.0751427461381105,
+     "switching": 1.4119484739681454,
+     "leakage": 0.18464332871002828,
+     "total": 4.671687115200451
+    },
+    "Sequential": {
+     "internal": 0.7790616599999992,
+     "switching": 0.006100069797000007,
+     "leakage": 0.4292233499000103,
+     "total": 1.2143811708983094
+    },
+    "Combinational": {
+     "internal": 0.3692196600438283,
+     "switching": 0.40402153208371144,
+     "leakage": 2.326798363997601,
+     "total": 3.100039857922975
+    },
+    "Total": {
+     "internal": 4.223424066181938,
+     "switching": 1.8220700758488566,
+     "leakage": 2.9406650426076397,
+     "total": 8.986108144021737
+    }
+   },
+   "p_dyn_uW": 1.2982258533603703,
+   "p_avg_uW": 4.21884485336037,
+   "e_bin_nJ": 16.87537941344148,
+   "e_dyn_nJ": 5.1929034134414795,
+   "bins": 50,
+   "events": 156,
+   "errors": 0,
+   "events_per_bin": 3.12,
+   "clk_cycles": 1162,
+   "active_ns_mean": 4648,
+   "active_ns_max": 7600,
+   "overruns": 0,
+   "window_s": 0.2,
+   "cycles_per_bin": 23.24,
+   "sim_wallclock_min": 178.21666666666667,
+   "pass": true,
+   "p_dyn_cond_uW": 1.298527853360369,
+   "p_leak_cond_uW": 2.922721,
+   "p_avg_cond_uW": 4.219146853360369,
+   "e_dyn_cond_nJ": 5.194111413441476,
+   "e_bin_cond_nJ": 16.876587413441477,
+   "cond_gate_var": "tb_bmi_snn/u_dut/core_clk_en",
+   "cond_gate_frac": 0.0009119707454401464,
+   "pins_annotated_frac": 1.0,
+   "old_kind": "sdf_short",
+   "e_old_nJ": null,
+   "p_old_uW": null,
+   "dev_pct": null,
+   "nd_p_total_unc_uW": 6.960350999999999,
+   "nd_p_total_uW": 2.213086853360369,
+   "nd_p_leak_uW": 0.9148612,
+   "nd_p_dyn_uW": 1.2982258533603703,
+   "nd_p_avg_uW": 2.213086853360369,
+   "nd_e_bin_nJ": 8.852347413441477,
+   "nd_e_dyn_nJ": 5.1929026134414755,
+   "nd_root_removed_uW": 4.747264146639631,
+   "nd_pins_annotated_frac": 1.0,
+   "leak_logic_uW": 0.9034149707944791,
+   "n_logic": 157926,
+   "leak_fill_uW": 0.0,
+   "n_fill": 93341,
+   "leak_decap_uW": 2.0172037436967467,
+   "n_decap": 626867,
+   "leak_tap_uW": 0.0,
+   "n_tap": 63081,
+   "leak_diode_uW": 2.855087739535169e-07,
+   "n_diode": 56,
+   "leak_class_scale": 0.9931831601439225,
+   "nd_leak_logic_uW": 0.909857025117241,
+   "nd_n_logic": 157926,
+   "nd_leak_fill_uW": 0.0,
+   "nd_n_fill": 1040277,
+   "nd_leak_decap_uW": 0.005003887338084601,
+   "nd_n_decap": 1544,
+   "nd_leak_tap_uW": 0.0,
+   "nd_n_tap": 63081,
+   "nd_leak_diode_uW": 2.875446744985524e-07,
+   "nd_n_diode": 56,
+   "nd_leak_class_scale": 1.0002653317670835,
+   "refill_drc": 0,
+   "refill_setup_ws_ns": 0,
+   "refill_hold_ws_ns": 0.36113735246662143,
+   "refill_cells": 221063
   },
   {
    "key": "lmem2g",
@@ -3733,9 +4073,9 @@
    "drc": 0,
    "run": "bmi_snn_lmin2_5m_u20h",
    "tag": "rt_bmi_snn_lmin2_5m_sdf_md0_w50_indy_20160630_01",
-   "p_total_unc_uW": 9.670854,
-   "p_int_unc_uW": 4.144089,
-   "p_sw_unc_uW": 1.1455380000000002,
+   "p_total_unc_uW": 9.806678999999999,
+   "p_int_unc_uW": 4.200157,
+   "p_sw_unc_uW": 1.225295,
    "p_leak_uW": 4.381227,
    "groups_unc": {
     "Sequential": {
@@ -3745,16 +4085,16 @@
      "total": 1.179925
     },
     "Combinational": {
-     "internal": 0.2845037,
-     "switching": 0.3626199,
+     "internal": 0.2855028,
+     "switching": 0.36340910000000004,
      "leakage": 0.2778423,
-     "total": 0.9249660000000001
+     "total": 0.9267543
     },
     "Clock": {
-     "internal": 3.108883,
-     "switching": 0.7784108000000001,
+     "internal": 3.1639630000000003,
+     "switching": 0.857378,
      "leakage": 3.678534,
-     "total": 7.565828000000001
+     "total": 7.6998750000000005
     },
     "Macro": {
      "internal": 0.0,
@@ -3769,10 +4109,10 @@
      "total": 0.0
     },
     "Total": {
-     "internal": 4.144089,
-     "switching": 1.1455380000000002,
+     "internal": 4.200157,
+     "switching": 1.225295,
      "leakage": 4.381227,
-     "total": 9.670854
+     "total": 9.806678999999999
     }
    },
    "root_corrected": true,
@@ -3783,16 +4123,16 @@
     "icg": 2
    },
    "root_removed_uW": 4.329214843055635,
-   "p_total_bi_uW": 5.388326153463746,
-   "p_total_uW": 5.341639156944365,
-   "p_int_uW": 0.49639920354456574,
-   "p_sw_uW": 0.4640129533998002,
+   "p_total_bi_uW": 5.524160640064503,
+   "p_total_uW": 5.4774641569443645,
+   "p_int_uW": 0.5524672035445659,
+   "p_sw_uW": 0.5437699533998002,
    "groups_corr": {
     "Clock": {
-     "internal": 0.06510529457063383,
-     "switching": 0.14014230947375123,
-     "leakage": 0.17090410319901697,
-     "total": 0.3761517072435627
+     "internal": 0.12018415457063367,
+     "switching": 0.21911009947375126,
+     "leakage": 0.17090410319901836,
+     "total": 0.5101983572437162
     },
     "Sequential": {
      "internal": 0.14948949442000012,
@@ -3801,24 +4141,24 @@
      "total": 0.578804178839088
     },
     "Combinational": {
-     "internal": 0.28180096686622347,
-     "switching": 0.31936700777410454,
-     "leakage": 3.832202292760403,
-     "total": 4.433370267381095
+     "internal": 0.2827995586598941,
+     "switching": 0.3201562525811048,
+     "leakage": 3.8322022927604094,
+     "total": 4.435158103981699
     },
     "Total": {
-     "internal": 0.49639575585685747,
-     "switching": 0.4640199631658558,
-     "leakage": 4.427910434459403,
-     "total": 5.388326153463746
+     "internal": 0.5524732076505279,
+     "switching": 0.5437769979728561,
+     "leakage": 4.427910434459411,
+     "total": 5.524160640064503
     }
    },
    "groups_rep": {
     "Clock": {
-     "internal": 3.1115711829506334,
-     "switching": 0.8216673560739525,
-     "leakage": 0.17090410319901697,
-     "total": 4.104094936250028
+     "internal": 3.1666500429506326,
+     "switching": 0.9006351460739528,
+     "leakage": 0.17090410319901836,
+     "total": 4.238141616849935
     },
     "Sequential": {
      "internal": 0.7507000750000017,
@@ -3827,22 +4167,22 @@
      "total": 1.1800129821983019
     },
     "Combinational": {
-     "internal": 0.2818142943616575,
-     "switching": 0.31936700777410454,
-     "leakage": 3.832202292760403,
-     "total": 4.433383519195602
+     "internal": 0.2828128861553281,
+     "switching": 0.3201562525811048,
+     "leakage": 3.8322022927604094,
+     "total": 4.435171352925527
     },
     "Total": {
-     "internal": 4.144085552312292,
-     "switching": 1.145545009766057,
-     "leakage": 4.427910434459403,
-     "total": 9.71749143764393
+     "internal": 4.2001630041059625,
+     "switching": 1.2253020445730576,
+     "leakage": 4.427910434459411,
+     "total": 9.853325951973764
     }
    },
-   "p_dyn_uW": 0.960412156944366,
-   "p_avg_uW": 5.341639156944365,
-   "e_bin_nJ": 21.36655662777746,
-   "e_dyn_nJ": 3.84164862777746,
+   "p_dyn_uW": 1.096237156944366,
+   "p_avg_uW": 5.4774641569443645,
+   "e_bin_nJ": 21.909856627777458,
+   "e_dyn_nJ": 4.384948627777458,
    "bins": 50,
    "events": 156,
    "errors": 0,
@@ -3855,55 +4195,55 @@
    "cycles_per_bin": 23.24,
    "sim_wallclock_min": 251.18333333333334,
    "pass": true,
-   "p_dyn_cond_uW": 0.9604381569443647,
+   "p_dyn_cond_uW": 1.0962561569443645,
    "p_leak_cond_uW": 4.383572,
-   "p_avg_cond_uW": 5.341665156944365,
-   "e_dyn_cond_nJ": 3.841752627777459,
-   "e_bin_cond_nJ": 21.36666062777746,
+   "p_avg_cond_uW": 5.4774831569443645,
+   "e_dyn_cond_nJ": 4.385024627777457,
+   "e_bin_cond_nJ": 21.90993262777746,
    "cond_gate_var": "tb_bmi_snn/u_dut/core_clk_en",
    "cond_gate_frac": 0.0009119849954400751,
    "pins_annotated_frac": 1.0,
    "old_kind": "sdf_short",
    "e_old_nJ": 4.276564576000001,
    "p_old_uW": 5.450765144000001,
-   "dev_pct": -2.0020306172200075,
-   "dev_cond_pct": -2.001553619967078,
+   "dev_pct": 0.48982137808217807,
+   "dev_cond_pct": 0.49016995299777655,
    "leak_old_uW": 4.381624,
    "e_dyn_old_nJ": 4.276564576000002,
    "dev_leak_pct": -0.009060567497354288,
-   "dev_dyn_pct": -10.169750520389243,
-   "dev_dyn_cond_pct": -10.167318661869373,
-   "nd_p_total_unc_uW": 6.141228,
-   "nd_p_total_uW": 1.8120131569443643,
+   "dev_dyn_pct": 2.534371920529521,
+   "dev_dyn_cond_pct": 2.5361490479094195,
+   "nd_p_total_unc_uW": 6.277054,
+   "nd_p_total_uW": 1.9478391569443643,
    "nd_p_leak_uW": 0.8516019,
-   "nd_p_dyn_uW": 0.960412156944366,
-   "nd_p_avg_uW": 1.8120131569443643,
-   "nd_e_bin_nJ": 7.248052627777457,
-   "nd_e_dyn_nJ": 3.841645027777457,
+   "nd_p_dyn_uW": 1.096237156944366,
+   "nd_p_avg_uW": 1.9478391569443643,
+   "nd_e_bin_nJ": 7.791356627777457,
+   "nd_e_dyn_nJ": 4.384949027777457,
    "nd_root_removed_uW": 4.329214843055635,
    "nd_pins_annotated_frac": 1.0,
-   "leak_logic_uW": 0.8368300076039338,
+   "leak_logic_uW": 0.8368300076039237,
    "n_logic": 139136,
    "leak_fill_uW": 0.0,
    "n_fill": 114741,
-   "leak_decap_uW": 3.5443967111949575,
+   "leak_decap_uW": 3.5443967111949672,
    "n_decap": 1105606,
    "leak_tap_uW": 0.0,
    "n_tap": 87936,
-   "leak_diode_uW": 2.8120110843023556e-07,
+   "leak_diode_uW": 2.8120110843023636e-07,
    "n_diode": 55,
-   "leak_class_scale": 0.9894570056947594,
-   "nd_leak_logic_uW": 0.8456793674242523,
+   "leak_class_scale": 0.9894570056947621,
+   "nd_leak_logic_uW": 0.8456793674242522,
    "nd_n_logic": 139136,
    "nd_leak_fill_uW": 0.0,
    "nd_n_fill": 1780019,
-   "nd_leak_decap_uW": 0.005922248400977068,
+   "nd_leak_decap_uW": 0.005922248400977155,
    "nd_n_decap": 1828,
    "nd_leak_tap_uW": 0.0,
    "nd_n_tap": 87936,
-   "nd_leak_diode_uW": 2.841747706648113e-07,
+   "nd_leak_diode_uW": 2.841747706648155e-07,
    "nd_n_diode": 55,
-   "nd_leak_class_scale": 0.9999203745875633,
+   "nd_leak_class_scale": 0.9999203745875781,
    "refill_drc": 0,
    "refill_setup_ws_ns": 0,
    "refill_hold_ws_ns": 0.422312419210456,
