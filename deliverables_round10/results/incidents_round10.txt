@@ -1,0 +1,2 @@
+scmem sdf 50 (run 23:28): vvp killed at 00:26 after 55 min (no output, OOM killer, same minute as the scmemg DRT kill); the chain hung on the never-opened waveform FIFO until 01:38; relaunched through the memory-aware queue
+g128p25 sdf 5000 (run 01:02): vvp killed at 01:26 after 23 min with no output (OOM killer, same minute as the scmemg GRT segfault); chain hung on the waveform FIFO until 09:35; relaunched

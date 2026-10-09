@@ -409,7 +409,7 @@ module bmi_snn_par #(
         end
         S_OUT: begin                     // accumulate W2 of the spiking neurons, one per cycle
 `ifdef W2_PIPE
-          if (any_spk) begin p1_j <= {1'b0, ffs[5:0]}; s_r[j_sel] <= 1'b0; end
+          if (any_spk) begin p1_j <= j_sel; s_r[j_sel] <= 1'b0; end   // round 10: j_sel is the module-level index ({1'b0, ffs[5:0]} for H <= 64); the generate-local ffs is not visible here under strict scoping (Icarus)
           else if (!w2_busy) begin out_valid <= 1'b1; x <= 96'd0; state <= S_IDLE; end
 `else
           if (any_spk) begin

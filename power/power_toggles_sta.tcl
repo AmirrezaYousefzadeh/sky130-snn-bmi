@@ -32,8 +32,13 @@ if {[info exists ::env(CLK_STOP_ICG)] && $::env(CLK_STOP_ICG) != 0} { set __icg 
       foreach p [get_pins -of_objects $c] { if {[get_property $p direction] eq "output"} { lappend __icg $p } } } }
   if {[llength $__icg]} { set_clock_sense -stop_propagation $__icg; puts "CLK_STOP_ICG: [llength $__icg] clock-gate outputs" } }
 file mkdir $OUT
+# Round 10: pins without an annotation must get zero activity, never the tool default (0.1 / 0.5 on unannotated input ports and
+# whatever propagates from them); UNANNOTATED_ZERO=1 sets the input-port default to 0 before the measured activities are applied
+if {[info exists ::env(UNANNOTATED_ZERO)] && $::env(UNANNOTATED_ZERO) != 0} { set_power_activity -input -activity 0.0 -duty 0.0; puts "UNANNOTATED_ZERO: input-port default activity 0" }
 puts "sourcing activities $::env(ACT_TCL)"
 source $::env(ACT_TCL)
+# Round 10: additional activity commands applied after the measured ones (macro state pins with duties conditioned on the macro clock)
+if {[info exists ::env(EXTRA_ACT_TCL)] && [file exists $::env(EXTRA_ACT_TCL)]} { source $::env(EXTRA_ACT_TCL); puts "EXTRA_ACT_TCL: $::env(EXTRA_ACT_TCL)" }
 # GLOBAL_ZERO=1 (round 5, clock correction): all data activities zero -> the report contains the clock-driven power only
 if {[info exists ::env(GLOBAL_ZERO)]} { set __gd [expr {[info exists ::env(GLOBAL_ZERO_DUTY)] ? $::env(GLOBAL_ZERO_DUTY) : 0.5}]; set_power_activity -global -activity 0 -duty $__gd; puts "GLOBAL_ZERO: data activities set to zero, duty $__gd" }
 report_power -digits 6 > $OUT/power_vcd.rpt

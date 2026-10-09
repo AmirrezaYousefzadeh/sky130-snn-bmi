@@ -18,7 +18,8 @@ else
 fi
 export OUT; rm -rf "$OUT"; mkdir -p "$OUT"
 PERIOD_S=$(python3 -c "print($PERIOD_NS * ${LIB_TIME_UNIT_S:-1e-9})")
-python3 "$ROOT/power/toggles_to_activity.py" "$TSV" --scope "$VCD_SCOPE" --period-s "$PERIOD_S" -o "$OUT/activity.tcl" --summary "$OUT/activity_summary.json" | tee "$OUT/toggles.log"
+GOPT=(); [[ -n "${GATED_TSV:-}" ]] && GOPT=(--gated "$GATED_TSV")     # round 10: duties conditioned on the clock enable (vcd_toggles -g file)
+python3 "$ROOT/power/toggles_to_activity.py" "$TSV" --scope "$VCD_SCOPE" --period-s "$PERIOD_S" -o "$OUT/activity.tcl" --summary "$OUT/activity_summary.json" "${GOPT[@]}" | tee "$OUT/toggles.log"
 export ACT_TCL="$OUT/activity.tcl"
 export PATH="/nix/var/nix/profiles/default/bin:$PATH"; source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh 2>/dev/null || true
 nix --extra-experimental-features "nix-command flakes" develop --accept-flake-config "$OL2" -c sta -no_splash -exit "$ROOT/power/power_toggles_sta.tcl" > "$OUT/sta.log" 2>&1 || { tail -20 "$OUT/sta.log"; exit 1; }

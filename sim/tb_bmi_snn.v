@@ -7,13 +7,26 @@
 // Defines: N_BINS, MODE_DENSE (0/1), IDLE_GAP (cycles of forced idle after each bin),
 //          DUMP_PATH/DUMP_LEVEL/DUMP_MODULE, SDF_ANNOTATE, GLS_PROGRESS, TIMEOUT_CYCLES, STAT_FILE.
 module tb_bmi_snn;
-  reg clk = 0;
   reg reset = 1;
 `ifndef CLK_PERIOD_NS
   `define CLK_PERIOD_NS 25.0
 `endif
   localparam real CLK_PERIOD_NS = `CLK_PERIOD_NS;
+`ifdef REALTIME
+  // Round 10: real-time presentation. The oscillator runs freely; the clock delivered to the core (clk = osc & clk_run) runs from
+  // the start of a bin until the core is idle again and is stopped (low) for the rest of the 4 ms bin, as the front end's oscillator
+  // enable does. clk_run changes only while osc is low, so the clock has no partial pulses.
+  `ifndef BIN_NS
+    `define BIN_NS 4000000
+  `endif
+  reg  osc = 0, clk_run = 1, rt_marker = 0;
+  always #(CLK_PERIOD_NS / 2.0) osc = ~osc;
+  wire clk = osc & clk_run;
+  integer rt_bin = 0, rt_overrun = 0; reg [63:0] t_start = 0, t_bin = 0, t_end = 0, t_act_sum = 0, t_act_max = 0, t_act0 = 0;
+`else
+  reg clk = 0;
   always #(CLK_PERIOD_NS / 2.0) clk = ~clk;
+`endif
 
 `ifndef N_BINS
   `define N_BINS 100
@@ -128,9 +141,11 @@ module tb_bmi_snn;
 `endif
 `ifdef DUMP_PATH
   `ifndef DUMP_AFTER_LOAD
+  `ifndef REALTIME
     $dumpfile(`DUMP_PATH);
     $dumpvars(`DUMP_LEVEL, `DUMP_MODULE);
     $display("WAVEFORM: dumping to %s", `DUMP_PATH);
+  `endif
   `endif
 `endif
 `ifdef STAT_FILE
@@ -167,15 +182,70 @@ module tb_bmi_snn;
 `endif
 `ifdef DUMP_PATH
   `ifdef DUMP_AFTER_LOAD
+  `ifndef REALTIME
     $dumpfile(`DUMP_PATH);
     $dumpvars(`DUMP_LEVEL, `DUMP_MODULE);
     $display("WAVEFORM: dumping to %s from cycle %0d", `DUMP_PATH, cyc);
   `endif
+  `endif
+`endif
+`ifdef REALTIME
+    // stop the clock after reset and weight load; the measured window starts at the next full clock period, T_start, and
+    // lasts N_BINS x BIN_NS; the marker toggles at both ends so that the waveform spans exactly the window
+    @(negedge osc); clk_run = 0;
+    t_start = (($time / 64'd200) + 64'd2) * 64'd200; if (CLK_PERIOD_NS != 200.0) t_start = (($time / 64'd1000) + 64'd1) * 64'd1000;
+    #(t_start - $time);
+    rt_marker = ~rt_marker;
+  `ifdef DUMP_PATH
+    $dumpfile(`DUMP_PATH);
+    $dumpvars(`DUMP_LEVEL, `DUMP_MODULE);
+    $dumpvars(0, rt_marker);
+    $display("WAVEFORM: dumping to %s from t=%0t (window start)", `DUMP_PATH, $time);
+  `endif
+    $display("RT: window start t=%0d ns, %0d bins of %0d ns, end t=%0d ns", t_start, `N_BINS, `BIN_NS, t_start + `N_BINS * `BIN_NS);
 `endif
     cyc_meas0 = cyc; active_meas0 = active_cyc;
     bin_cyc_start = cyc; active_at_bin_start = active_cyc;
 
     i = 0;
+`ifdef REALTIME
+    // bin k: at T_start + k x BIN_NS start the clock, present the events one at a time and the tick, wait for the output and for the
+    // core to be idle (clock enable low, not busy), then stop the clock until the next bin
+    while (stream[i] != 8'hFE && bin < `N_BINS) begin
+      t_bin = t_start + rt_bin * `BIN_NS;
+      if ($time > t_bin) begin rt_overrun = rt_overrun + 1; if (rt_overrun <= 5) $display("RT OVERRUN: bin %0d not idle at its slot start (t=%0t > %0d)", rt_bin, $time, t_bin); end
+      else #(t_bin - $time);
+      @(negedge osc); clk_run = 1; t_act0 = $time;
+      tok = stream[i];
+      while (tok != 8'hFF && tok != 8'hFE) begin
+        i = i + 1; ntok = ntok + 1; nev = nev + 1;
+        @(negedge clk); ev_valid = 1'b1; ev_ch = tok[6:0];
+        @(posedge clk); while (ev_ready !== 1'b1) @(posedge clk);
+        @(negedge clk); ev_valid = 1'b0;
+        tok = stream[i];
+      end
+      if (tok == 8'hFF) begin
+        i = i + 1; ntok = ntok + 1;
+        @(negedge clk); tick = 1'b1;
+        @(posedge clk); while (tick_ready !== 1'b1) @(posedge clk);
+        tick_cyc = cyc;
+        @(negedge clk); tick = 1'b0;
+        got_out = 0;
+        while (!got_out) @(posedge clk);
+        bin_cyc_start = cyc; active_at_bin_start = active_cyc;
+      end
+      @(posedge clk); while (!(core_clk_en === 1'b0 && busy === 1'b0)) @(posedge clk);
+      repeat (2) @(posedge clk);                 // the clock gate closes in the low phase after the enable fell
+      @(negedge osc); clk_run = 0;               // osc is low: clk stays low until the next bin
+      t_act_sum = t_act_sum + ($time - t_act0); if ($time - t_act0 > t_act_max) t_act_max = $time - t_act0;
+      rt_bin = rt_bin + 1;
+    end
+    t_end = t_start + `N_BINS * `BIN_NS;
+    if ($time < t_end) #(t_end - $time);
+    rt_marker = ~rt_marker;
+    #1;
+    $display("RT: bins=%0d clk_cycles_in_window=%0d active_ns_mean=%0d active_ns_max=%0d overruns=%0d window_ns=%0d", rt_bin, cyc - cyc_meas0, (rt_bin > 0) ? t_act_sum / rt_bin : 0, t_act_max, rt_overrun, t_end - t_start);
+`else
     while (stream[i] != 8'hFE && bin < `N_BINS) begin
       tok = stream[i]; i = i + 1; ntok = ntok + 1;
       if (tok == 8'hFF) begin
@@ -196,6 +266,7 @@ module tb_bmi_snn;
       end
     end
     repeat (8) @(posedge clk);
+`endif
 `ifdef STAT_FILE
     $fclose(f_stat);
 `endif

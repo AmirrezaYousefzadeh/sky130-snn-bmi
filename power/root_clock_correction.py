@@ -11,7 +11,7 @@ Usage: root_clock_correction.py <netlist.v> <clock_port> <duty> <by_instance_A.r
 Prints the corrected group totals (Sequential, Combinational, Clock, Macro by cell type; leakage unchanged)."""
 import re, sys, json, argparse, collections
 ap = argparse.ArgumentParser(); ap.add_argument("netlist"); ap.add_argument("clock_port"); ap.add_argument("duty", type=float); ap.add_argument("rptA"); ap.add_argument("rptB")
-ap.add_argument("--icg", default="dlclkp,ICGx,icgt,lgcp,CLKGATE"); ap.add_argument("--buf", default="clkbuf,clkinv,buf,inv,BUF,INV,CKBUF,CKINV"); ap.add_argument("-o", default=None)
+ap.add_argument("--icg", default="dlclkp,ICGx,icgt,lgcp,CLKGATE"); ap.add_argument("--buf", default="clkbuf,clkinv,buf,inv,BUF,INV,CKBUF,CKINV,HB1,HB2,HB3,HB4,dly,DLY"); ap.add_argument("-o", default=None)   # round 10: hold/delay buffers of the kits (ASAP7 HBx, sky130 dlygate) continue the walk
 ap.add_argument("--prefix", default="", help="instance-name prefix of the netlist inside the reports (round 6: the front end is u_fe/ inside bmi_sys)")
 a = ap.parse_args()
 nl = open(a.netlist, errors="ignore").read()
@@ -58,7 +58,7 @@ def group(t):
     if any(k in t for k in CLKC): return "Clock"
     if any(k in t for k in SEQ): return "Sequential"
     return "Combinational"
-tot = collections.defaultdict(lambda: [0.0, 0.0, 0.0, 0.0]); corr = collections.defaultdict(lambda: [0.0, 0.0, 0.0, 0.0]); nroot = collections.Counter(); removed = 0.0
+tot = collections.defaultdict(lambda: [0.0, 0.0, 0.0, 0.0]); corr = collections.defaultdict(lambda: [0.0, 0.0, 0.0, 0.0]); nroot = collections.Counter(); removed = 0.0; removed_i = 0.0; removed_s = 0.0
 for n, (i, s, l, t_) in A.items():
     t = inst.get(n, ("?",))[0]; g = group(t)
     for k, v in enumerate((i, s, l, t_)): tot[g][k] += v
@@ -67,15 +67,33 @@ for n, (i, s, l, t_) in A.items():
         nroot[root[n]] += 1; b = B.get(n)
         if b:
             di, ds = b[0], b[1]                                           # clock-driven dynamic power at the full clock rate
+            if root[n] == "flop":
+                # round 10: a register clocked from the root network (en_q, wr_en_q) toggles a few times per bin, so its internal power
+                # in the annotated run is the full-rate clock-pin energy itself; the zero-data run does not give it reliably (the global
+                # zero activity overrides the propagated clock activity at register clock pins in some libraries: 0 W for NanGate45,
+                # a state-dependent value for ASAP7), so the annotated internal power is scaled by the duty directly
+                di = i; ds = 0.0
             ci = i - (1 - a.duty) * min(di, i); cs = s - (1 - a.duty) * min(ds, s)
-            removed += (1 - a.duty) * (min(di, i) + min(ds, s))
+            removed += (1 - a.duty) * (min(di, i) + min(ds, s)); removed_i += (1 - a.duty) * min(di, i); removed_s += (1 - a.duty) * min(ds, s)
     for k, v in enumerate((ci, cs, l, ci + cs + l)): corr[g][k] += v
-res = {"duty": a.duty, "root_cells": dict(nroot), "removed_W": removed, "reported": {g: dict(zip(("internal", "switching", "leakage", "total"), v)) for g, v in tot.items()},
+res = {"duty": a.duty, "root_cells": dict(nroot), "removed_W": removed, "removed_internal_W": removed_i, "removed_switching_W": removed_s,
+       "reported": {g: dict(zip(("internal", "switching", "leakage", "total"), v)) for g, v in tot.items()},
        "corrected": {g: dict(zip(("internal", "switching", "leakage", "total"), v)) for g, v in corr.items()}}
 for k in ("reported", "corrected"):
     res[k]["Total"] = {q: sum(res[k][g][q] for g in res[k] if g != "Total") for q in ("internal", "switching", "leakage", "total")}
+# round 10: the OpenSTA group table (power_vcd.rpt next to the by-instance report) is the reference total; its per-instance sum
+# exceeds it by up to 1 % on the largest netlists, so the corrected total handed on is report total - removed
+import os
+rp = os.path.join(os.path.dirname(a.rptA), "power_vcd.rpt")
+if os.path.exists(rp):
+    for line in open(rp):
+        if line.startswith("Total"):
+            f = line.split(); gi, gs, gl, gt = (float(x) for x in f[1:5])
+            res["report"] = {"internal": gi, "switching": gs, "leakage": gl, "total": gt}
+            res["corrected_report"] = {"internal": gi - removed_i, "switching": gs - removed_s, "leakage": gl, "total": gt - removed}
 print(f"root network of {a.clock_port}: {dict(nroot)}; duty {a.duty:.4f}; removed {removed*1e6:.4f} uW")
 for g in ("Sequential", "Combinational", "Clock", "Total"):
     r = res["reported"].get(g, {}).get("total", 0); c = res["corrected"].get(g, {}).get("total", 0)
     print(f"  {g:14s} reported {r*1e6:10.4f} uW  corrected {c*1e6:10.4f} uW")
+if "corrected_report" in res: print(f"  report total {res['report']['total']*1e6:.4f} uW -> corrected {res['corrected_report']['total']*1e6:.4f} uW (leakage {res['report']['leakage']*1e6:.4f})")
 if a.o: json.dump(res, open(a.o, "w"), indent=1)
