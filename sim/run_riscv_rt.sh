@@ -28,7 +28,8 @@ iverilog -g2012 -gspecify -ginterconnect -Ttyp -o fw_gls.vvp -DGLS_RF_INIT -DGLS
   -DSDF_ANNOTATE="\"$OUT/soc.icarus.sdf\"" -DDUMP_PATH="\"$FIFO\"" -DDUMP_LEVEL=1 -DDUMP_MODULE=tb_fw_bmi_rt.u_soc \
   "$PDK_ROOT/sky130A/libs.ref/$LIB/verilog/primitives.v" "$PDK_ROOT/sky130A/libs.ref/$LIB/verilog/$LIB.v" \
   "$SKY/rtl/sram/sram22_2048x32m8w8.v" "$NETLIST" "$ROOT/sim/tb_fw_bmi_rt.v" 2> iverilog_warn.log || { tail -20 iverilog_warn.log; exit 1; }
-"$ROOT/tools/vcd_toggles" -o "$OUT/toggles.tsv" "$FIFO" 2> toggles.log & TPID=$!
+GATEOPT=(); [[ -n "${TOGGLE_GATE-tb_fw_bmi_rt/u_soc/sram_clk_en}" ]] && GATEOPT=(--gate "${TOGGLE_GATE-tb_fw_bmi_rt/u_soc/sram_clk_en}" -g "$OUT/toggles_gated.tsv")   # round 10: state duties of the awake cycles
+"$ROOT/tools/vcd_toggles" -o "$OUT/toggles.tsv" "${GATEOPT[@]}" "$FIFO" 2> toggles.log & TPID=$!
 echo "==> running GLS ($(date +%H:%M:%S)), toggles accumulated by pid $TPID"; ( time vvp -n fw_gls.vvp ) > vvp.log 2>&1 || true
 wait $TPID; rm -f "$FIFO"
 grep -E "PASS|FAIL|RT:|TB:|WARNING|SDF:|real" vvp.log | head -20; cat toggles.log

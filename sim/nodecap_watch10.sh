@@ -8,7 +8,7 @@ while true; do
   for b in sim/build_rt_bmi_snn_*/toggles.tsv; do          # runs whose chain was interrupted after the simulation (see sim/rt_finish.sh)
     bd=$(dirname "$b"); tag=${bd#sim/build_}; [[ -f power/out_$tag/root_clock_correction.json ]] && continue
     grep -q "^PASS" "$bd/vvp.log" 2>/dev/null || continue
-    pgrep -f "measure_rt(_g)?.sh .*" > /dev/null && { busy=0; for p in $(pgrep -f "measure_rt(_g)?.sh "); do [[ "$(tr '\0' ' ' < /proc/$p/cmdline 2>/dev/null)" == *" $(echo $tag | sed -E 's/^rt_(bmi_snn_[a-z0-9]+)_5m.*/\1/') "* ]] && busy=1; done; [[ $busy -eq 1 ]] && continue; }
+    pgrep -f "measure_rt.sh .*" > /dev/null && { busy=0; for p in $(pgrep -f "measure_rt.sh "); do [[ "$(tr '\0' ' ' < /proc/$p/cmdline 2>/dev/null)" == *" $(echo $tag | sed -E 's/^rt_(bmi_snn_[a-z0-9]+)_5m.*/\1/') "* ]] && busy=1; done; [[ $busy -eq 1 ]] && continue; }
     for p in $(pgrep -f "vvp -n gls.vvp"); do [[ "$(readlink /proc/$p/cwd 2>/dev/null)" == "$PWD/$bd" ]] && continue 2; done
     d=$(echo "$tag" | sed -E 's/^rt_(bmi_snn_[a-z0-9]+)_5m.*/\1/'); rt=$(echo "$tag" | sed -E 's/^rt_(bmi_snn_[a-z0-9]+_5m[a-z_]*?)_(sdf|func)_md.*/\1/')
     echo "$(date +%H:%M:%S) finish $tag" >> logs/rt10/nodecap_watch.log; ./sim/rt_finish.sh "$d" "$tag" "$rt" >> logs/rt10/nodecap_watch.log 2>&1 || echo "FAILED finish $tag" >> logs/rt10/nodecap_watch.log
@@ -31,7 +31,7 @@ while true; do
     echo "$(date +%H:%M:%S) nodecap IHP sp (round-6 refill)" >> logs/rt10/nodecap_watch.log; RUN_NICK=bmi_snn_sp_5m_nodecap TAG_SFX=_nodecap ./sim/measure_rt_pdk.sh ihp sp 5000 sta >> logs/rt10/nodecap_watch.log 2>&1 || echo "FAILED ihp nodecap" >> logs/rt10/nodecap_watch.log
   fi
   [[ -f power/out_rt_pdk_ihp_sp_sdf_w5000/root_clock_correction.json ]] || pending=1
-  running=$(ps -eo args | grep -cE "^bash ./sim/(measure_rt|measure_rt_g|measure_rt_pdk|run_riscv_rt|run_riscv_rt_g).sh")
+  running=$(ps -eo args | grep -cE "^bash ./sim/(measure_rt|measure_rt_pdk|run_riscv_rt).sh")
   [[ $pending -eq 0 && $running -eq 0 ]] && { echo "$(date +%H:%M:%S) nothing pending, exiting" >> logs/rt10/nodecap_watch.log; exit 0; }
   sleep 600
 done

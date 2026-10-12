@@ -77,7 +77,7 @@ if [[ $KIND == run ]]; then
   fi
   export TOGGLE_GATE="${TOGGLE_GATE-tb_bmi_snn/u_dut/core_clk_en}"
   PDK_VERILOG="$local_models" SDF_FUNCTIONAL="$sf" INCDIR=$INC DESIGN=$D DUT=$D LOAD="$LOAD" NETLIST=$NL RUN_DIR=$RUN SDF_SRC="$SDF_SRC" TAG=$(basename $BUILD | sed 's/^build_//') DUMP_LEVEL=0 CLK_NS=200 \
-    EXTRA_DEFS="-DREALTIME -DTIMEOUT_CYCLES=2000000000 -DMAX_TOKENS=1400000" timeout ${SIM_TIMEOUT:-40h} $ROOT/sim/run_gls_stream_g.sh $VEC $NB 0 0 $extra > $ROOT/logs/$(basename $BUILD | sed 's/^build_//').log 2>&1 || { tail -5 $ROOT/logs/$(basename $BUILD | sed 's/^build_//').log; exit 1; }
+    EXTRA_DEFS="-DREALTIME -DTIMEOUT_CYCLES=2000000000 -DMAX_TOKENS=1400000" timeout ${SIM_TIMEOUT:-40h} $ROOT/sim/run_gls_stream.sh $VEC $NB 0 0 $extra > $ROOT/logs/$(basename $BUILD | sed 's/^build_//').log 2>&1 || { tail -5 $ROOT/logs/$(basename $BUILD | sed 's/^build_//').log; exit 1; }
   grep -E "SUMMARY|PASS|FAIL|RT:|real|SDF:" $ROOT/logs/$(basename $BUILD | sed 's/^build_//').log
   echo "SIM_WALLCLOCK_S $(( $(date +%s) - T0 ))" >> $BUILD/vvp.log
   grep -q "^PASS" $BUILD/vvp.log || { echo "simulation did not pass"; exit 1; }

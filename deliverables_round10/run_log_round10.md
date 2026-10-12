@@ -169,6 +169,9 @@ window only (duties of the clocked cycles) and did not have this problem. Where 
   validation runs and `lmem2` sdf 50) were stopped and relaunched (01:23); one orphaned `vvp` of the stopped `lmem2` run (5 GB)
   was found and killed at 01:26. The runs that resumed after the repair completed normally (g48p25 01:26, dense 40-bin of the gated
   SRAM core 01:26, g64p125 01:19).
+  After the campaign (13 Oct) the three `_g` scripts were folded back into `sim/measure_rt.sh`, `sim/run_gls_stream.sh` and
+  `sim/run_riscv_rt.sh` (the gated toggle file is written only when `TOGGLE_GATE` is set, which `measure_rt.sh` and
+  `run_riscv_rt.sh` do by default), and the one-off launcher `sim/deferred_scmemg.sh` was removed.
 - **01:26, `bmi_snn_scmemg` at 30 % (second attempt, u30r) crashed:** OpenROAD received SIGSEGV in the global routing after
   diode insertion (the first global routing of the same run had completed), while the machine had 0 GB free and 10 GB available.
   The policy stepped to 20 % on its own; that run was stopped after its synthesis started (20 % is not wanted: the ungated

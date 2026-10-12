@@ -23,6 +23,7 @@ case "$D" in
   bmi_snn_sp) export INCDIR="$ROOT/rtl/sp"; VP="sp_" ;;
   bmi_snn_min32|bmi_snn_min32g) export INCDIR="$ROOT/rtl/h32"; VP="h32_" ;;
   bmi_snn_g32) export INCDIR="$ROOT/rtl/h32"; VP="g32_" ;;
+  bmi_snn_g16) export INCDIR="$ROOT/rtl/h16"; VP="g16_" ;;
   bmi_snn_min16) export INCDIR="$ROOT/rtl/h16"; VP="h16_" ;;
   bmi_snn_g128|bmi_snn_g128p25|bmi_snn_g128p125|bmi_snn_g64p50|bmi_snn_g64p125|bmi_snn_g32p50|bmi_snn_g32p25|bmi_snn_g16p50|bmi_snn_g48|bmi_snn_g48p50|bmi_snn_g48p25|bmi_snn_g32p125) export INCDIR="$ROOT/rtl/${D#bmi_snn_}"; VP="${D#bmi_snn_}_" ;;
   *) echo "unknown design $D"; exit 2 ;;
@@ -33,9 +34,9 @@ EXTRA=""; [[ "$KIND" == "func" ]] && EXTRA="--no-sdf"
 TAG="rt_${RUN_TAG}_${KIND}_md${MD}_w${NB}_${S}"
 echo "==== RT $D ($RUN_TAG) $KIND dense=$MD $S: $NB bins at 4 ms, clock $CLK_NS ns ($(date +%H:%M:%S))"
 T0=$(date +%s)
+export TOGGLE_GATE="${TOGGLE_GATE-tb_bmi_snn/u_dut/core_clk_en}"     # round 10: gated high times (state duties of the clocked cycles); TOGGLE_GATE= disables
 DESIGN=$D DUT=$D LOAD="$LOAD" DUMP_LEVEL=0 TAG=$TAG CLK_NS=$CLK_NS EXTRA_DEFS="-DREALTIME -DTIMEOUT_CYCLES=2000000000 -DMAX_TOKENS=1400000 ${EXTRA_DEFS:-}" \
   "$ROOT/sim/run_gls_stream.sh" "$VEC" $NB $MD 0 $EXTRA > "$ROOT/logs/$TAG.log" 2>&1 || { tail -5 "$ROOT/logs/$TAG.log"; exit 1; }
-# --------------------------------------------------------
 grep -E "SUMMARY|PASS|FAIL|RT:|real|vcd_toggles" "$ROOT/logs/$TAG.log"
 echo "SIM_WALLCLOCK_S $(( $(date +%s) - T0 ))" >> "$ROOT/sim/build_$TAG/vvp.log"
 grep -q "^PASS" "$ROOT/sim/build_$TAG/vvp.log" || { echo "simulation did not pass"; exit 1; }
@@ -53,4 +54,5 @@ PY
 NL="$RUN_DIR/final/nl/$D.nl.v"
 python3 "$ROOT/power/root_clock_correction.py" "$NL" clk "$DUTY" "$OUT/power_vcd_by_instance.rpt" "${OUT}_zero/power_vcd_by_instance.rpt" -o "$OUT/root_clock_correction.json" | tail -5
 grep -E "^Total" "$OUT/power_vcd.rpt"
+"$ROOT/sim/rt_post.sh" "$D" "$TAG" "$RUN_TAG" || echo "WARNING: rt_post failed for $TAG"      # macro state correction / conditional-duty evaluation
 echo "==== RT $TAG done ($(date +%H:%M:%S), $(( ($(date +%s) - T0) / 60 )) min)"

@@ -46,7 +46,8 @@ static Sig *find(uint64_t key, int create) {
   Sig *s = &sigs[nsig]; memset(s, 0, sizeof *s); s->key = key; s->first = 1; htab[h] = (uint32_t)nsig + 1; nsig++; return s;
 }
 static void alloc_bits(Sig *s, int width) {
-  if (s->width) return; s->width = width;
+  if (s->width) return;
+  s->width = width;
   s->prev = malloc(width); memset(s->prev, 0, width); s->prev_t = malloc(width * sizeof(long long));
   for (int i = 0; i < width; i++) s->prev_t[i] = -1;
   s->tc = calloc(width, sizeof(double)); s->high = calloc(width, sizeof(unsigned long long));
@@ -85,7 +86,7 @@ int main(int argc, char **argv) {
     else in = argv[i];
   }
   FILE *f = (!in || !strcmp(in, "-")) ? stdin : fopen(in, "r"); if (!f) { perror(in); return 1; }
-  static char buf[1 << 22]; setvbuf(f, NULL, _IOFBF, 1 << 22);
+  static char buf[1 << 22]; setvbuf(f, buf, _IOFBF, sizeof buf);
   char *line = NULL; size_t cap = 0; ssize_t len; int header = 1; size_t nvar = 0, nalias = 0;
   while ((len = getline(&line, &cap, f)) > 0) {
     while (len && (line[len - 1] == '\n' || line[len - 1] == '\r')) line[--len] = 0;
@@ -155,7 +156,8 @@ int main(int argc, char **argv) {
       }
     }
   }
-  if (o != stdout) fclose(o); if (og) fclose(og);
+  if (o != stdout) fclose(o);
+  if (og) fclose(og);
   if (gate_name) fprintf(stderr, "vcd_toggles: gate %s %s, gated high time %llu of %lld (%.4f)\n", gate_name, gate_sig ? "found" : "NOT FOUND", gend, tmax - (tmin < 0 ? 0 : tmin), (tmax > tmin && tmin >= 0) ? (double)gend / (double)(tmax - tmin) : 0.0);
   fprintf(stderr, "vcd_toggles: %zu ids, %zu vars (%zu aliases), time %lld..%lld x %g s\n", nsig, nvar, nalias, tmin, tmax, tscale);
   return 0;

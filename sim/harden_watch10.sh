@@ -13,7 +13,7 @@ while true; do
       echo "$(date +%H:%M:%S) $d accepted ($(readlink synthesis/$d/runs/${d}_5m)): launching real-time runs and the refill" >> $L
       touch logs/rt10/launched_$d
       IFS='|' read -ra runs <<< "${JOBS[$d]}"
-      for r in "${runs[@]}"; do set -- $r; nohup ./sim/measure_rt_g.sh $d $1 $2 > logs/rt10/${d}_$1_$2.log 2>&1 & sleep 2; done
+      for r in "${runs[@]}"; do set -- $r; nohup ./sim/measure_rt.sh $d $1 $2 > logs/rt10/${d}_$1_$2.log 2>&1 & sleep 2; done
       if [[ $d == bmi_snn_scmemg || $d == bmi_snn_lmem2g ]]; then echo "./synthesis/refill_nodecap.sh synthesis/$d ${d}_5m" >> logs/rt10/jobs_mem_queue2.txt
       else echo "./synthesis/refill_nodecap.sh synthesis/$d ${d}_5m" > logs/rt10/jobs_refill_$d.txt; nohup ./sim/rt_queue.sh 1 logs/rt10/jobs_refill_$d.txt > /dev/null 2>&1 & fi
       DONE[$d]=1

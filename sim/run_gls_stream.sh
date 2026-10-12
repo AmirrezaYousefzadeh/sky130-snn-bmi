@@ -33,7 +33,8 @@ if [[ -z "${PDK_VERILOG:-}" ]]; then
 fi
 SRCS+=("$NETLIST" "$SIM/tb_bmi_snn.v")
 echo "==> compiling GLS ($TAG, streamed)"; iverilog "${FLAGS[@]}" -I "${INCDIR:-$ROOT/rtl}" -o gls.vvp "${DEFS[@]}" "${SRCS[@]}" 2> iverilog_warn.log || { tail -20 iverilog_warn.log; exit 1; }
-"$ROOT/tools/vcd_toggles" -o "$OUT/toggles.tsv" "$FIFO" 2> toggles.log & TPID=$!
+GATEOPT=(); [[ -n "${TOGGLE_GATE:-}" ]] && GATEOPT=(--gate "$TOGGLE_GATE" -g "$OUT/toggles_gated.tsv")   # round 10: high times while the clock enable is 1 (state duties of the clocked cycles)
+"$ROOT/tools/vcd_toggles" -o "$OUT/toggles.tsv" "${GATEOPT[@]}" "$FIFO" 2> toggles.log & TPID=$!
 echo "==> running ($(date +%H:%M:%S)), toggles accumulated by pid $TPID"; ( time vvp -n gls.vvp ) > vvp.log 2>&1 || true
 wait $TPID; rm -f "$FIFO"
 grep -E "SUMMARY|PASS|FAIL|MISMATCH|SDF:" vvp.log | head -20; tail -3 vvp.log; cat toggles.log
